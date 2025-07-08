@@ -1,15 +1,15 @@
 import './App.css'
 import Layout from './components/Layout';
+import Home from './pages/Home';
+import Footer from './components/Footer';
 
 function App() {
 
   return (
     <div>
-      
-    <h1>Quantum wazaaaaaaaa</h1>
-    <Layout />
-    
-
+      <Layout />
+      <Home />
+      <Footer />
     </div>
   )
 }
