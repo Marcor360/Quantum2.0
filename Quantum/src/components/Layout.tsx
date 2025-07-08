@@ -19,15 +19,15 @@ const Layout = () => {
 
       {/* Desktop navigation con separadores */}
       <nav className="hidden md:flex items-center text-white uppercase font-semibold text-lg">
-        <Link to="/servicios" className="hover:underline">
+        <Link to="/servicio" className="hover:underline">
           Servicios
         </Link>
         <span className="mx-3">|</span>
-        <Link to="/proyectos" className="hover:underline">
+        <Link to="/proyecto" className="hover:underline">
           Proyectos
         </Link>
         <span className="mx-3">|</span>
-        <Link to="/quantum_360" className="hover:underline">
+        <Link to="/quantum" className="hover:underline">
           Quantum 360°
         </Link>
         <span className="mx-3">|</span>
@@ -96,13 +96,13 @@ const Layout = () => {
           `}
       >
         <nav className="flex flex-col mt-20 space-y-6 text-white uppercase font-semibold text-lg px-6">
-          <Link to="/servicios" onClick={() => setIsOpen(false)}>
+          <Link to="/servicio" onClick={() => setIsOpen(false)}>
             Servicios
           </Link>
-          <Link to="/proyectos" onClick={() => setIsOpen(false)}>
+          <Link to="/proyecto" onClick={() => setIsOpen(false)}>
             Proyectos
           </Link>
-          <Link to="/quantum_360" onClick={() => setIsOpen(false)}>
+          <Link to="/quantum360" onClick={() => setIsOpen(false)}>
             Quantum 360°
           </Link>
           <Link to="/contacto" onClick={() => setIsOpen(false)}>
