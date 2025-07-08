@@ -47,25 +47,26 @@ const slides: Slide[] = [
 ];
 
 export const Home: React.FC = () => {
+    // Textos del hero
     const firstText = 'Estrategia de Marketing & Ventas para el mundo REAL…';
     const secondText =
         'Exponenciamos tus ingresos TRANSFORMANDO la manera en que tu negocio hace negocio.';
 
+    // Máquina de escribir
     const [typed, setTyped] = useState('');
     const [showSecond, setShowSecond] = useState(false);
-    const [cursorVisible, setCursorVisible] = useState(true);
 
+    // Cursor parpadeante
+    const [cursorVisible, setCursorVisible] = useState(true);
     useEffect(() => {
         const blink = setInterval(() => setCursorVisible(v => !v), 500);
         return () => clearInterval(blink);
     }, []);
 
+    // Efecto typing
     useEffect(() => {
         if (typed.length < firstText.length) {
-            const to = setTimeout(
-                () => setTyped(firstText.slice(0, typed.length + 1)),
-                100
-            );
+            const to = setTimeout(() => setTyped(firstText.slice(0, typed.length + 1)), 100);
             return () => clearTimeout(to);
         } else {
             const to2 = setTimeout(() => setShowSecond(true), 300);
@@ -76,7 +77,7 @@ export const Home: React.FC = () => {
     return (
         <div className="flex flex-col w-full h-screen">
             {/* === HERO TEXT === */}
-            <section className="w-full py-16 flex flex-col items-center">
+            <section className="w-full py-16 flex flex-col items-center ">
                 <h1 className="text-3xl md:text-5xl font-bold text-white text-center">
                     {typed}
                     {typed.length < firstText.length && (
@@ -93,20 +94,17 @@ export const Home: React.FC = () => {
             </section>
 
             {/* === SLIDER PRINCIPAL === */}
-            <div className="overflow-auto pb-4 md:overflow-hidden md:h-2/3 md:pb-0">
+            <div className="overflow-auto pb-4 md:overflow-hidden md:h-full md:pb-0">
                 {/* MÓVIL / TABLET */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-4 p-4">
                     {slides.map((slide, idx) => (
-                        <div
-                            key={idx}
-                            className="relative rounded-lg overflow-hidden h-72 sm:h-80"
-                        >
+                        <div key={idx} className="relative rounded-lg overflow-hidden h-72 sm:h-80">
                             <img
                                 src={slide.imgUrl}
                                 alt={slide.title}
                                 className="absolute inset-0 w-full h-full object-cover object-center"
                             />
-                            <div className="absolute inset-0 bg-black bg-opacity-50 p-4 flex flex-col justify-between">
+                            <div className="absolute inset-0  bg-opacity-50 p-4 flex flex-col justify-between">
                                 <div>
                                     {slide.heading && (
                                         <h2 className="text-sm sm:text-base font-bold mb-2 leading-snug text-white">
@@ -128,34 +126,36 @@ export const Home: React.FC = () => {
                 </div>
 
                 {/* ESCRITORIO */}
-                <div className="hidden md:flex h-full overflow-hidden group">
+                <div className="hidden md:flex h-full w-full overflow-hidden group">
                     {slides.map((slide, idx) => (
                         <div
                             key={idx}
                             className="
-                relative flex-1 transition-all duration-500 ease-in-out
-                group-hover:flex-0 hover:flex-[5]
-                cursor-pointer overflow-hidden h-full
+                relative flex-1
+                transition-all duration-500 ease-in-out
+                 hover:flex-[5]
+                cursor-pointer overflow-hidden h-[100%]
               "
                         >
                             <img
                                 src={slide.imgUrl}
                                 alt={slide.title}
                                 className="
-                  absolute inset-0 w-full h-full object-cover object-right
-                  hover:object-contain
+                  absolute inset-0 w-full h-full
+                  object-cover object-[88%]
                   transition-all duration-500 ease-in-out
                 "
                             />
                             {(slide.heading || slide.text) && (
                                 <div className="
-                  absolute inset-0 p-8 flex flex-col justify-center text-white
+                  absolute inset-0
+                  p-8 flex flex-col justify-center text-white
                   opacity-0 hover:opacity-100
                   transition-opacity duration-300
                 ">
-                                    <div className="max-w-[50%]">
+                                    <div className="max-w-[35%]">
                                         {slide.heading && (
-                                            <h2 className="text-4xl font-bold mb-2 drop-shadow-lg text-justify">
+                                            <h2 className="text-5xl font-bold mb-2 drop-shadow-lg pt-50">
                                                 {slide.heading}
                                             </h2>
                                         )}
@@ -181,27 +181,17 @@ export const Home: React.FC = () => {
                     ))}
                 </div>
             </div>
-            {/* === QUANTUM 360 HERO === */}
-            <section
-                className={`
-          relative w-full h-[80vh] flex items-center justify-center overflow-hidden
-          bg-[linear-gradient(130deg,#abb800_0%,#01001b_100%)]
-        `}
-            >
+
+            {/* === GIF DE BIENVENIDA === */}
+            <div className="relative w-full h-1/3 md:h-1/2 lg:h-1/5 overflow-hidden">
                 <img
-                    src="/Quantum360.webp"
-                    alt="Quantum 360"
-                    className="relative z-10 max-w-[90%] h-auto"
+                    src={CompGif}
+                    alt="Animación de bienvenida"
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-center object-cover"
                 />
-                <button
-                    className="
-            absolute bottom-12 px-6 py-3 bg-black bg-opacity-60 text-white
-            rounded-lg uppercase tracking-widest hover:bg-opacity-80 transition
-          "
-                >
-                    Descubre cómo funciona
-                </button>
-            </section>
+            </div>
+
         </div>
     );
 };

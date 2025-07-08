@@ -27,7 +27,7 @@ const Layout = () => {
           Proyectos
         </Link>
         <span className="mx-3">|</span>
-        <Link to="/quantum" className="hover:underline">
+        <Link to="/Quantum" className="hover:underline">
           Quantum 360°
         </Link>
         <span className="mx-3">|</span>
