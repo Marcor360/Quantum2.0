@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import CompGif from '/Comp.gif';
-import serviciosImg from '/Branding_Web.webp';
+import serviciosImg from '/Servicios-Web.webp';
 import brandingImg from '/Branding_Web.webp';
 import campanasImg from '/Campañas_Web.webp';
 import ecommerceImg from '/Eomerce_Web.webp';
-import appsIaImg from '/Apps IA_Web.webp';
+import appsIaImg from '/Apps_IA_Web.webp';
+
 
 interface Slide {
     title: string;
