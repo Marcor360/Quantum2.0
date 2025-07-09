@@ -44,7 +44,7 @@ const Layout: React.FC = () => {
             Menú de escritorio (desktop)
             Visible en pantallas md+ (>=768px)
         ------------------------------- */}
-        <ul className="hidden md:flex space-x-8 items-center text-white text-base sm:text-lg md:text-xl">
+        <ul className="hidden md:flex space-x-8 items-center text-white text-base sm:text-lg md:text-xl font-subjectivity font-semibold tracking-wides">
           {links.map(({ to, label }) => (
             <li key={to}>
               <Link to={to} className="hover:underline hover:text-[#ffff00]">

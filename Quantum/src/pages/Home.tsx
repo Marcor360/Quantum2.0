@@ -13,7 +13,7 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: serviciosImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white font-morganite">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white font-subjectivity">
           ¿Quieres redefinir tu propuesta de valor?
         </h2>
         <p className="text-xs sm:text-sm md:text-lg text-white subjevtive font-subjectivity">
@@ -114,8 +114,8 @@ export const Home: React.FC = () => {
   return (
     <div className="flex flex-col w-full min-h-screen">
       {/* === HERO TEXT === */}
-      <section className="w-full py-16 flex flex-col items-center ">
-        <h1 className="text-3xl md:text-5xl font-bold text-white text-center font-subjectivity pb-6">
+      <section className="w-full py-16 flex flex-col items-center">
+        <h1 className="text-4xl md:text-5xl font-bold text-white text-center font-subjectivity pt-40">
           {typed}
           {typed.length < firstText.length && (
             <span className="inline-block ml-1">
@@ -124,7 +124,7 @@ export const Home: React.FC = () => {
           )}
         </h1>
         {showSecond && (
-          <p className="mt-4 text-lg md:text-2xl text-white text-center max-w-2xl font-subjectivity">
+          <p className="mt-4 text-lg md:text-2xl text-white text-center max-w-2xl font-subjectivity pt-10 pb-40">
             {secondText}
           </p>
         )}
