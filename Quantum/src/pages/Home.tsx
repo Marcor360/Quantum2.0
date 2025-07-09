@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import type { JSX } from "react";
-import bg from "/Font.webp"
 import CompGif from "/Comp.gif";
 import serviciosImg from "/Servicios_Web.webp";
 import brandingImg from "/Branding_Web.webp";
@@ -112,12 +111,7 @@ export const Home: React.FC = () => {
   }, [typed]);
 
   return (
-    <div className="flex flex-col w-full min-h-screen" style={{
-      backgroundImage: `url(${bg})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-    }}>
+    <div className="flex flex-col w-full min-h-screen">
       {/* === HERO TEXT === */}
       <section className="w-full py-16 flex flex-col items-center ">
         <h1 className="text-3xl md:text-5xl font-bold text-white text-center">

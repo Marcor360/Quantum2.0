@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Q360B from '/Q360.webp';
-
+import Q360MV from '/Q360-Mobile.webp';
 
 // Componente reutilizable para cada sección con título y contenido
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -19,13 +19,26 @@ const Quantum: React.FC = () => {
     'NUEVOS CANALES COMERCIALES',
   ];
 
+  // Estado para la imagen de fondo según ancho de pantalla
+  const [bgImage, setBgImage] = useState<string>(Q360B);
+
+  useEffect(() => {
+    const updateBg = () => {
+      // breakpoint md de Tailwind es 768px
+      setBgImage(window.innerWidth < 768 ? Q360MV : Q360B);
+    };
+    updateBg();
+    window.addEventListener('resize', updateBg);
+    return () => window.removeEventListener('resize', updateBg);
+  }, []);
+
   return (
     <main
       className="relative min-h-screen w-full flex items-center justify-center px-4 py-8 bg-cover bg-center"
-      style={{ backgroundImage: `url(${Q360B})` }} // Fondo con la imagen Q360B
+      style={{ backgroundImage: `url(${bgImage})` }}
     >
       {/* Capa semitransparente opcional para mejorar contraste */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/15" />
 
       <section className="relative z-10 max-w-3xl text-amber-50 space-y-8 p-6">
         <Section title="METODOLOGÍAS UNIVERSALES 360°">
@@ -79,7 +92,8 @@ const Quantum: React.FC = () => {
           <p>¿Deseas un diagnóstico sin costo de tu modelo actual? Contáctanos.</p>
           <a
             href="#contacto"
-            className="mt-4 inline-block bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
+            className="mt-4 inline-block bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded"
+          >
             Descubre cómo funciona
           </a>
         </Section>

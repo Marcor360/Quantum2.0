@@ -1,6 +1,12 @@
 @import 'tailwindcss';
 
-@font-face{
- font-family: "Subjective";
-  src:url('./assets/fonts/subjective/') format('truetype')
+@font-face {
+  font-family: "Subjective";
+  src: url('./assets/fonts/subjective/') format('truetype')
+}
+
+html {
+  background-image: url(Quantum\public\Font.webp);
+  background-repeat: no-repeat;
+  background-position: cover;
 }

@@ -23,9 +23,12 @@ const Layout: React.FC = () => {
           que el menú móvil
       ----------------------------------------- */}
       <nav className="
-          bg-gradient-to-r from-purple-800 to-pink-500 backdrop-blur-lg        
-          px-6 py-4 flex justify-between items-center 
-          relative z-50">
+    bg-white/5        /* blanco al 20% de opacidad */
+    backdrop-blur-lg   /* desenfoque grande */
+    px-6 py-4
+    flex justify-between items-center
+    relative z-50
+  ">
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link to="/">
