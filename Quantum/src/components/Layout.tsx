@@ -3,8 +3,10 @@ import { Outlet, Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 
 const Layout: React.FC = () => {
+  // Controla si el menú móvil está abierto
   const [isOpen, setIsOpen] = useState(false);
 
+  // Rutas y etiquetas del menú
   const links = [
     { to: "/", label: "Inicio" },
     { to: "/proyecto", label: "Proyectos" },
@@ -15,7 +17,17 @@ const Layout: React.FC = () => {
 
   return (
     <>
-      <nav className="bg-gradient-to-r from-purple-600 to-pink-400 px-6 py-4 flex justify-between items-center relative z-50">
+      {/* -----------------------------------------
+          Navbar con mismo estilo “bubblegum blur”
+          que el menú móvil
+      ----------------------------------------- */}
+      <nav className="
+          bg-pink-500/40         /* rosa tipo chicle semi-transparente */
+          backdrop-blur-lg       /* mismo efecto cristal borroso */
+          px-6 py-4 flex justify-between items-center 
+          relative z-50
+        ">
+        {/* Logo */}
         <div className="flex-shrink-0">
           <Link to="/">
             <img
@@ -26,6 +38,10 @@ const Layout: React.FC = () => {
           </Link>
         </div>
 
+        {/* -------------------------------
+            Menú de escritorio (desktop)
+            Visible en pantallas md+ (>=768px)
+        ------------------------------- */}
         <ul className="hidden md:flex space-x-8 items-center text-white text-base sm:text-lg md:text-xl">
           {links.map(({ to, label }) => (
             <li key={to}>
@@ -36,6 +52,10 @@ const Layout: React.FC = () => {
           ))}
         </ul>
 
+        {/* ---------------------------------
+            Botón hamburguesa (mobile)
+            Visible en <md (<768px)
+        --------------------------------- */}
         {!isOpen && (
           <button
             className="md:hidden focus:outline-none text-white"
@@ -47,15 +67,20 @@ const Layout: React.FC = () => {
         )}
       </nav>
 
+      {/* ---------------------------------
+          Panel móvil deslizante (desde la derecha)
+          Aparece al hacer clic en el botón hamburguesa
+      --------------------------------- */}
       <div
         className={`
           fixed inset-y-0 right-0 w-2/3 md:hidden
-          bg-pink-200/30 backdrop-blur-lg
+          bg-pink-500/40 backdrop-blur-lg
           transform transition-transform duration-700 ease-in-out
           ${isOpen ? "translate-x-0" : "translate-x-full"}
           z-50
         `}
       >
+        {/* Tache interno para cerrar */}
         <button
           className="absolute top-4 right-4 focus:outline-none text-white"
           onClick={() => setIsOpen(false)}
@@ -64,6 +89,7 @@ const Layout: React.FC = () => {
           <FiX size={28} />
         </button>
 
+        {/* Lista de enlaces móvil */}
         <ul className="h-full flex flex-col items-center justify-center space-y-8">
           {links.map(({ to, label }) => (
             <li key={to}>
@@ -79,6 +105,7 @@ const Layout: React.FC = () => {
         </ul>
       </div>
 
+      {/* Punto de renderizado de rutas hijas */}
       <Outlet />
     </>
   );
