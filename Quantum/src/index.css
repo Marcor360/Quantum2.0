@@ -1,12 +1,17 @@
-@import 'tailwindcss';
 
 @font-face {
-  font-family: "Subjective";
-  src: url('./assets/fonts/subjective/') format('truetype')
+    font-family: morganite;
+    src: url("./assets/fonts/morganite/Morganite-Book.ttf") format("truetype");
+}
+@theme {
+    --font-morganite: morganite, sans-serif;
 }
 
-html {
-  background-image: url(Quantum\public\Font.webp);
-  background-repeat: no-repeat;
-  background-position: cover;
+@font-face {
+    font-family: subjectivity;
+    src: url("./assets/fonts/subjective/Subjectivity-Regular.ttf") format("truetype");
 }
+@theme {
+    --font-subjectivity: subjectivity, sans-serif;
+}
+@import "tailwindcss";

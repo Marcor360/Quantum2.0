@@ -12,10 +12,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: serviciosImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white font-morganite">
           ¿Quieres redefinir tu propuesta de valor?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-white">
+        <p className="text-xs sm:text-sm md:text-lg text-white subjevtive font-subjectivity">
           Redefine tu propuesta de valor: te ayudamos a abrir nuevos canales de
           venta y a comunicar con segmentos inéditos.
         </p>
@@ -81,9 +81,9 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
 ];
 
 export const Home: React.FC = () => {
-  const firstText = "Estrategia de Marketing & Ventas para el mundo REAL…";
+  const firstText = "Estrategia de marketing y ventas para el mundo real";
   const secondText =
-    "Exponenciamos tus ingresos TRANSFORMANDO la manera en que tu negocio hace negocio.";
+    "Exponenciamos tus ingresos transformando la manera en que tu negocio hace negocio.";
 
   const [typed, setTyped] = useState("");
   const [showSecond, setShowSecond] = useState(false);
@@ -114,7 +114,7 @@ export const Home: React.FC = () => {
     <div className="flex flex-col w-full min-h-screen">
       {/* === HERO TEXT === */}
       <section className="w-full py-16 flex flex-col items-center ">
-        <h1 className="text-3xl md:text-5xl font-bold text-white text-center">
+        <h1 className="text-3xl md:text-5xl font-bold text-white text-center font-morganite tracking-widest">
           {typed}
           {typed.length < firstText.length && (
             <span className="inline-block ml-1">
@@ -123,7 +123,7 @@ export const Home: React.FC = () => {
           )}
         </h1>
         {showSecond && (
-          <p className="mt-4 text-lg md:text-2xl text-white text-center max-w-2xl">
+          <p className="mt-4 text-lg md:text-2xl text-white text-center max-w-2xl font-subjectivity">
             {secondText}
           </p>
         )}
