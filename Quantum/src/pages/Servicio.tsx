@@ -1,8 +1,8 @@
-export const Servicio = () => {
-    return (
 
-        <h1>Servicio</h1>
+import React from "react";
 
-    )
-}
-export default Servicio;
+const Servicio: React.FC = () => {
+  return <h1>Servicios </h1>;
+};
+
+export default  Servicio ;
