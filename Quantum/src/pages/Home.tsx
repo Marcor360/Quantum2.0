@@ -186,8 +186,14 @@ export const Home: React.FC = () => {
           className="w-full h-auto object-contain"
         />
       </div>
-      <section style={{ backgroundImage: `url(${QM360})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-      </section>
+      <div className="w-full overflow-hidden mt-4">
+        <img
+          src={QM360}
+          alt="Animación de bienvenida"
+          loading="lazy"
+          className="w-full h-auto object-contain"
+        />
+      </div>
     </div>
   );
 };
