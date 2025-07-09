@@ -12,10 +12,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: serviciosImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-red-400">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
           ¿Quieres redefinir tu propuesta de valor?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-red-200">
+        <p className="text-xs sm:text-sm md:text-lg text-white">
           Redefine tu propuesta de valor: te ayudamos a abrir nuevos canales de
           venta y a comunicar con segmentos inéditos.
         </p>
@@ -26,10 +26,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: brandingImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-green-400">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
           ¿Buscas una identidad poderosa?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-green-200">
+        <p className="text-xs sm:text-sm md:text-lg text-white">
           Creamos ADN estratégico para tu marca, elevamos reconocimiento y
           fidelizamos audiencias.
         </p>
@@ -40,10 +40,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: campanasImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-yellow-400">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
           ¿Ya tienes la estrategia?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-yellow-200">
+        <p className="text-xs sm:text-sm md:text-lg text-white">
           Ejecutamos desde el storytelling hasta la compra de medios y analítica
           para convertir audiencias en clientes.
         </p>
@@ -54,10 +54,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: ecommerceImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-indigo-400">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
           ¿Listo para vender en los principales marketplaces?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-indigo-200">
+        <p className="text-xs sm:text-sm md:text-lg text-white">
           Te llevamos a Amazon y Mercado Libre: estrategia, lanzamiento y
           operación integral.
         </p>
@@ -68,10 +68,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: appsIaImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-pink-400">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
           ¿Deseas optimizar tu operación con tecnología?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-pink-200">
+        <p className="text-xs sm:text-sm md:text-lg text-white">
           Automatizamos procesos y desarrollamos apps a la medida para
           transformar tu negocio.
         </p>
@@ -158,12 +158,12 @@ export const Home: React.FC = () => {
               onMouseEnter={() => setActiveIndex(idx)}
               onMouseLeave={() => setActiveIndex(0)}
               className="relative transition-all duration-500 ease-in-out cursor-pointer overflow-hidden h-full"
-              style={{ flex: activeIndex === idx ? 5 : 1 }}
+              style={{ flex: activeIndex === idx ? 9 : 3 }}
             >
               <img
                 src={slide.imgUrl}
                 alt=""
-                className="w-full h-full object-cover object-[88%] transition-all duration-500 ease-in-out"
+                className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out"
               />
               <div
                 className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${

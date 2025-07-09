@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 
-{  /* body {
-  @apply bg-gradient-to-r from-purple-600 to-black min-h-screen;
-}
- */
+@font-face{
+ font-family: "Subjective";
+  src:url('./assets/fonts/subjective/') format('truetype')
 }
