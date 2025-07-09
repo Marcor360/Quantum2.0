@@ -47,7 +47,7 @@ const Layout: React.FC = () => {
         <ul className="hidden md:flex space-x-8 items-center text-white text-base sm:text-lg md:text-xl">
           {links.map(({ to, label }) => (
             <li key={to}>
-              <Link to={to} className="hover:underline">
+              <Link to={to} className="hover:underline hover:text-[#ffff00]">
                 {label}
               </Link>
             </li>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { JSX } from "react";
 import CompGif from "/Comp.gif";
+import QM360 from "/Quantum-360.webp";
 import serviciosImg from "/Servicios_Web.webp";
 import brandingImg from "/Branding_Web.webp";
 import campanasImg from "/Campañas_Web.webp";
@@ -185,6 +186,8 @@ export const Home: React.FC = () => {
           className="w-full h-auto object-contain"
         />
       </div>
+      <section style={{ backgroundImage: `url(${QM360})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+      </section>
     </div>
   );
 };
