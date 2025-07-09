@@ -2,8 +2,9 @@ import React from "react";
 
 const Quantum: React.FC = () => {
   return (
-    <div className="   min-h-screen w-full bg-gradient-to-r  from-black to-purple-600 flex flex-col items-center justify-center    " >
+    <div className="min-h-screen w-full bg-gradient-to-r  from-black to-purple-600 flex flex-col items-center justify-center"> 
       <section className="ml-150 mr-30 text-amber-50 text-justify px-6 py-4 ">
+        
         <h2 className=" font-bold ">METODOLOGIAS UNIVERSALES 360°</h2>
       <p>Transformación Comercial Basada en Datos y Agilidad Estratégica</p>
       <br/>
@@ -17,7 +18,7 @@ const Quantum: React.FC = () => {
       <h2 className=" font-bold "> ¿Cómo lo resolvemos?</h2>
       <p>
         Con una metodología probada que convierte información en crecimiento
-        tangible mediante 4 pilares estratégicos interconectados: DATA-DRIVEN →
+        tangible mediante 4 pilares estratégicos interconectados: DATA-DRIVEN → 
         CENTRADO EN EL CLIENTE → TRANSFORMACIÓN OPERATIVA → NUEVOS CANALES
         COMERCIALES
       </p>
