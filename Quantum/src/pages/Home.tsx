@@ -191,11 +191,12 @@ export const Home: React.FC = () => {
     relative
     w-full
     mt-4
-    h-[80vh]
-    md:h-screen
+    h-[80vh]         /* mínimo 80vh en móviles */
+    md:h-screen      /* altura completa en pantallas ≥ md */
     overflow-hidden
   "
       >
+        {/* Fondo animado */}
         <img
           src={QM360}
           alt="Animación de bienvenida"
@@ -207,23 +208,40 @@ export const Home: React.FC = () => {
     "
         />
 
-        <div className="absolute inset-0 bg-black/20" />
+        {/* Capa de contraste */}
+        <div className="absolute inset-0" />
 
+        {/* Botón responsive */}
         <a
           href="#como-funciona"
           className="
       absolute
       left-1/2
-      top-[70%]              /* cambiado de 65% a 70% */
       transform -translate-x-1/2
-      px-4 sm:px-6
-      py-4
+
+      /* posición vertical según tamaño de pantalla */
+      bottom-6       /* móviles */
+      sm:bottom-8    /* ≥sm */
+      md:bottom-12   /* ≥md */
+      lg:bottom-16   /* ≥lg */
+
+      /* padding responsive */
+      px-3 py-2      /* móviles */
+      sm:px-4 sm:py-3
+      lg:px-6 lg:py-4
+
       bg-black/50
       border border-white
       rounded-full
-      text-xs sm:text-sm
+
+      /* tipografía responsive */
+      text-xs        /* móviles */
+      sm:text-sm
+      lg:text-base
+
       uppercase font-medium
       tracking-wide sm:tracking-wider
+
       text-white
       hover:bg-black/75
       transition duration-300
@@ -232,6 +250,7 @@ export const Home: React.FC = () => {
           Descubre como funciona
         </a>
       </section>
+
 
 
 
