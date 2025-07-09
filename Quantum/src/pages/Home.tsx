@@ -49,9 +49,9 @@ const slides: Slide[] = [
 
 export const Home: React.FC = () => {
     // Textos del hero
-    const firstText = 'Estrategia de Marketing & Ventas para el mundo REAL…';
+    const firstText = 'Estrategia de marketing y ventas para el mundo real';
     const secondText =
-        'Exponenciamos tus ingresos TRANSFORMANDO la manera en que tu negocio hace negocio.';
+        'Exponenciamos tus ingresos transformando la manera en que tu negocio hace negocio.';
 
     // Máquina de escribir
     const [typed, setTyped] = useState('');
@@ -78,7 +78,7 @@ export const Home: React.FC = () => {
     return (
         <div className="flex flex-col w-full h-screen">
             {/* === HERO TEXT === */}
-            <section className="w-full py-16 flex flex-col items-center ">
+            <section className="w-full p-60 flex flex-col items-center bg-gradient-to-r from-purple-600 to-pink-400 ">
                 <h1 className="text-3xl md:text-5xl font-bold text-white text-center">
                     {typed}
                     {typed.length < firstText.length && (
@@ -89,6 +89,7 @@ export const Home: React.FC = () => {
                 </h1>
                 {showSecond && (
                     <p className="mt-4 text-lg md:text-2xl text-white text-center max-w-2xl">
+
                         {secondText}
                     </p>
                 )}
