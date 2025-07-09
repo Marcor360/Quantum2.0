@@ -25,8 +25,7 @@ const Layout: React.FC = () => {
       <nav className="
           bg-gradient-to-r from-purple-800 to-pink-500 backdrop-blur-lg        
           px-6 py-4 flex justify-between items-center 
-          relative z-50
-        ">
+          relative z-50">
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link to="/">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import type { JSX } from "react";
+import bg from "/Font.webp"
 import CompGif from "/Comp.gif";
 import serviciosImg from "/Servicios_Web.webp";
 import brandingImg from "/Branding_Web.webp";
@@ -111,7 +112,12 @@ export const Home: React.FC = () => {
   }, [typed]);
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-gradient-to-r from-purple-600 to-pink-400">
+    <div className="flex flex-col w-full min-h-screen" style={{
+      backgroundImage: `url(${bg})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }}>
       {/* === HERO TEXT === */}
       <section className="w-full py-16 flex flex-col items-center ">
         <h1 className="text-3xl md:text-5xl font-bold text-white text-center">
@@ -166,9 +172,8 @@ export const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
-                  idx === activeIndex ? "opacity-100 justify-start" : "opacity-0"
-                }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex ? "opacity-100 justify-start" : "opacity-0"
+                  }`}
               >
                 <div className="max-w-[35%]">{slide.content}</div>
               </div>

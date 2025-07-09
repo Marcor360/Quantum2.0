@@ -77,9 +77,11 @@ const Quantum: React.FC = () => {
 
         <Section title="SIGUIENTE PASO">
           <p>¿Deseas un diagnóstico sin costo de tu modelo actual? Contáctanos.</p>
-          <button className="mt-4 bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
+          <a
+            href="#contacto"
+            className="mt-4 inline-block bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
             Descubre cómo funciona
-          </button>
+          </a>
         </Section>
       </section>
     </main>
