@@ -19,7 +19,6 @@ import Layout from './components/Layout';
 const App: React.FC = () => {
   return (
      <>
-    
       <Routes>
       <Route path="/" element={<Layout />} >
       <Route index element={<Home />} />
