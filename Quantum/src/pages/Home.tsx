@@ -115,7 +115,7 @@ export const Home: React.FC = () => {
     <div className="flex flex-col w-full min-h-screen">
       {/* === HERO TEXT === */}
       <section className="w-full py-16 flex flex-col items-center ">
-        <h1 className="text-3xl md:text-5xl font-bold text-white text-center font-morganite tracking-widest">
+        <h1 className="text-3xl md:text-5xl font-bold text-white text-center font-subjectivity pb-6">
           {typed}
           {typed.length < firstText.length && (
             <span className="inline-block ml-1">
