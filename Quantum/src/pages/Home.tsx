@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { JSX } from "react";
 import CompGif from "/Comp.gif";
-import serviciosImg from "/Servicios-Web.webp";
+import serviciosImg from "/Servicios_Web.webp";
 import brandingImg from "/Branding_Web.webp";
 import campanasImg from "/Campañas_Web.webp";
 import ecommerceImg from "/Eomerce_Web.webp";
@@ -81,7 +81,6 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
 ];
 
 export const Home: React.FC = () => {
-  /* ---------- lógica del hero ---------- */
   const firstText = "Estrategia de Marketing & Ventas para el mundo REAL…";
   const secondText =
     "Exponenciamos tus ingresos TRANSFORMANDO la manera en que tu negocio hace negocio.";
@@ -89,14 +88,15 @@ export const Home: React.FC = () => {
   const [typed, setTyped] = useState("");
   const [showSecond, setShowSecond] = useState(false);
   const [cursorVisible, setCursorVisible] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  /* cursor parpadeante */
+  // cursor parpadeante
   useEffect(() => {
     const blink = setInterval(() => setCursorVisible((v) => !v), 500);
     return () => clearInterval(blink);
   }, []);
 
-  /* efecto typing */
+  // efecto typing
   useEffect(() => {
     if (typed.length < firstText.length) {
       const to = setTimeout(
@@ -111,9 +111,9 @@ export const Home: React.FC = () => {
   }, [typed]);
 
   return (
-    <div className="flex flex-col w-full h-screen">
+    <div className="flex flex-col w-full min-h-screen bg-gradient-to-r from-purple-600 to-pink-400">
       {/* === HERO TEXT === */}
-      <section className="w-full py-16 flex flex-col items-center bg-gradient-to-r from-purple-600 to-pink-400">
+      <section className="w-full py-16 flex flex-col items-center ">
         <h1 className="text-3xl md:text-5xl font-bold text-white text-center">
           {typed}
           {typed.length < firstText.length && (
@@ -130,7 +130,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* === SLIDER PRINCIPAL === */}
-      <div className="overflow-auto pb-4 md:overflow-hidden md:h-full md:pb-0">
+      <div className="overflow-auto pb-4 md:overflow-hidden">
         {/* MÓVIL / TABLET */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-4 p-4">
           {slides.map((slide, idx) => (
@@ -141,7 +141,7 @@ export const Home: React.FC = () => {
               <img
                 src={slide.imgUrl}
                 alt=""
-                className="absolute inset-0 w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-center"
               />
               <div className="absolute inset-0 bg-black/50 p-4 flex flex-col justify-between">
                 {slide.content}
@@ -151,33 +151,24 @@ export const Home: React.FC = () => {
         </div>
 
         {/* ESCRITORIO */}
-        <div className="hidden md:flex h-full w-full overflow-hidden group">
+        <div className="hidden md:flex w-full overflow-hidden md:h-150">
           {slides.map((slide, idx) => (
             <div
               key={idx}
-              className="
-                relative flex-1
-                transition-all duration-500 ease-in-out
-                hover:flex-[5]
-                cursor-pointer overflow-hidden h-full
-              "
+              onMouseEnter={() => setActiveIndex(idx)}
+              onMouseLeave={() => setActiveIndex(0)}
+              className="relative transition-all duration-500 ease-in-out cursor-pointer overflow-hidden h-full"
+              style={{ flex: activeIndex === idx ? 5 : 1 }}
             >
               <img
                 src={slide.imgUrl}
                 alt=""
-                className="
-                  absolute inset-0 w-full h-full
-                  object-cover object-[88%]
-                  transition-all duration-500 ease-in-out
-                "
+                className="w-full h-full object-cover object-[88%] transition-all duration-500 ease-in-out"
               />
               <div
-                className="
-                  absolute inset-0
-                  p-8 flex flex-col justify-center
-                  opacity-0 hover:opacity-100
-                  transition-opacity duration-300
-                "
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
+                  idx === activeIndex ? "opacity-100 justify-start" : "opacity-0"
+                }`}
               >
                 <div className="max-w-[35%]">{slide.content}</div>
               </div>
@@ -187,12 +178,12 @@ export const Home: React.FC = () => {
       </div>
 
       {/* === GIF DE BIENVENIDA === */}
-      <div className=" w-full h-100 md:h-1/2 lg:h-1/5 overflow-hidden">
+      <div className="w-full overflow-hidden mt-4">
         <img
           src={CompGif}
           alt="Animación de bienvenida"
           loading="lazy"
-          className="inset-0 w-full h-full object-center object-cover"
+          className="w-full h-auto object-contain"
         />
       </div>
     </div>
