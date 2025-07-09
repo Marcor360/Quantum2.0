@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
+import Footer from "./Footer";
 
 const Layout: React.FC = () => {
   // Controla si el menú móvil está abierto
@@ -22,8 +23,7 @@ const Layout: React.FC = () => {
           que el menú móvil
       ----------------------------------------- */}
       <nav className="
-          bg-pink-500/40         /* rosa tipo chicle semi-transparente */
-          backdrop-blur-lg       /* mismo efecto cristal borroso */
+          bg-gradient-to-r from-purple-800 to-pink-500 backdrop-blur-lg        
           px-6 py-4 flex justify-between items-center 
           relative z-50
         ">
@@ -105,8 +105,10 @@ const Layout: React.FC = () => {
         </ul>
       </div>
 
+
       {/* Punto de renderizado de rutas hijas */}
       <Outlet />
+      <Footer />
     </>
   );
 };
