@@ -186,14 +186,55 @@ export const Home: React.FC = () => {
           className="w-full h-auto object-contain"
         />
       </div>
-      <div className="w-full overflow-hidden mt-4">
+      <section
+        className="
+    relative
+    w-full
+    mt-4
+    h-[80vh]
+    md:h-screen
+    overflow-hidden
+  "
+      >
         <img
           src={QM360}
           alt="Animación de bienvenida"
           loading="lazy"
-          className="w-full h-auto object-contain"
+          className="
+      absolute inset-0
+      w-full h-full
+      object-cover
+    "
         />
-      </div>
+
+        <div className="absolute inset-0 bg-black/20" />
+
+        <a
+          href="#como-funciona"
+          className="
+      absolute
+      left-1/2
+      top-[70%]              /* cambiado de 65% a 70% */
+      transform -translate-x-1/2
+      px-4 sm:px-6
+      py-4
+      bg-black/50
+      border border-white
+      rounded-full
+      text-xs sm:text-sm
+      uppercase font-medium
+      tracking-wide sm:tracking-wider
+      text-white
+      hover:bg-black/75
+      transition duration-300
+    "
+        >
+          Descubre como funciona
+        </a>
+      </section>
+
+
+
     </div>
   );
 };
