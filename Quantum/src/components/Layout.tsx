@@ -9,10 +9,9 @@ const Layout: React.FC = () => {
 
   // Rutas y etiquetas del menú
   const links = [
-    { to: "/", label: "Inicio" },
     { to: "/proyecto", label: "Proyectos" },
     { to: "/quantum", label: "Quantum360°" },
-    { to: "/servicio", label: "Servicios" },
+    { to: "#Servicios", label: "Servicios" },
     { to: "/contacto", label: "Contacto" },
   ];
 
@@ -23,7 +22,7 @@ const Layout: React.FC = () => {
           que el menú móvil
       ----------------------------------------- */}
       <nav className="
-    bg-white/5        /* blanco al 20% de opacidad */
+    bg-white/5        /* blanco al 5% de opacidad */
     backdrop-blur-lg   /* desenfoque grande */
     px-6 py-4
     flex justify-between items-center
@@ -35,7 +34,7 @@ const Layout: React.FC = () => {
             <img
               src="/Quantum-Logo.webp"
               alt="Logo Quantum"
-              className="h-12 sm:h-16 md:h-20 lg:h-24 w-auto"
+              className="h-16 sm:h-18 md:h-22 lg:h-24 w-auto"
             />
           </Link>
         </div>

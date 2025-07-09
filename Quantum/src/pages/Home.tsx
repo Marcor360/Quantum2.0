@@ -131,7 +131,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* === SLIDER PRINCIPAL === */}
-      <div className="overflow-auto pb-4 md:overflow-hidden">
+      <div id="#Servicios" className="overflow-auto pb-4 md:overflow-hidden">
         {/* MÓVIL / TABLET */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-4 p-4">
           {slides.map((slide, idx) => (
@@ -213,7 +213,7 @@ export const Home: React.FC = () => {
 
         {/* Botón responsive */}
         <a
-          href="#como-funciona"
+          href=".\Quantum.tsx"
           className="
       absolute
       left-1/2
