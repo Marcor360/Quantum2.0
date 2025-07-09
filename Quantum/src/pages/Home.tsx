@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import type { JSX } from "react";
 import CompGif from "/Comp.gif";
 import QM360 from "/Quantum-360.webp";
@@ -16,7 +16,7 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
         <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white font-subjectivity">
           ¿Quieres redefinir tu propuesta de valor?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-white subjevtive font-subjectivity">
+        <p className="text-xs sm:text-sm md:text-lg text-white font-subjectivity">
           Redefine tu propuesta de valor: te ayudamos a abrir nuevos canales de
           venta y a comunicar con segmentos inéditos.
         </p>
@@ -86,48 +86,18 @@ export const Home: React.FC = () => {
   const secondText =
     "Exponenciamos tus ingresos transformando la manera en que tu negocio hace negocio.";
 
-  const [typed, setTyped] = useState("");
-  const [showSecond, setShowSecond] = useState(false);
-  const [cursorVisible, setCursorVisible] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
-
-  // cursor parpadeante
-  useEffect(() => {
-    const blink = setInterval(() => setCursorVisible((v) => !v), 500);
-    return () => clearInterval(blink);
-  }, []);
-
-  // efecto typing
-  useEffect(() => {
-    if (typed.length < firstText.length) {
-      const to = setTimeout(
-        () => setTyped(firstText.slice(0, typed.length + 1)),
-        100
-      );
-      return () => clearTimeout(to);
-    } else {
-      const to2 = setTimeout(() => setShowSecond(true), 300);
-      return () => clearTimeout(to2);
-    }
-  }, [typed]);
 
   return (
     <div className="flex flex-col w-full min-h-screen">
-      {/* === HERO TEXT === */}
+      {/* === HERO TEXT ESTÁTICO === */}
       <section className="w-full py-16 flex flex-col items-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-white text-center font-subjectivity pt-40">
-          {typed}
-          {typed.length < firstText.length && (
-            <span className="inline-block ml-1">
-              {cursorVisible ? "|" : " "}
-            </span>
-          )}
+        <h1 className="text-4xl md:text-5xl font-bold text-white text-center font-subjectivity tracking-wider pt-40">
+          {firstText}
         </h1>
-        {showSecond && (
-          <p className="mt-4 text-lg md:text-2xl text-white text-center max-w-2xl font-subjectivity pt-10 pb-40">
-            {secondText}
-          </p>
-        )}
+        <p className="mt-4 text-lg md:text-2xl text-white text-center max-w-2xl font-subjectivity pt-10 pb-40">
+          {secondText}
+        </p>
       </section>
 
       {/* === SLIDER PRINCIPAL === */}
@@ -167,8 +137,9 @@ export const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex ? "opacity-100 justify-start" : "opacity-0"
-                  }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
+                  idx === activeIndex ? "opacity-100 justify-start" : "opacity-0"
+                }`}
               >
                 <div className="max-w-[35%]">{slide.content}</div>
               </div>
@@ -186,15 +157,16 @@ export const Home: React.FC = () => {
           className="w-full h-auto object-contain"
         />
       </div>
+
       <section
         className="
-    relative
-    w-full
-    mt-4
-    h-[80vh]         /* mínimo 80vh en móviles */
-    md:h-screen      /* altura completa en pantallas ≥ md */
-    overflow-hidden
-  "
+          relative
+          w-full
+          mt-4
+          h-[80vh]         /* mínimo 80vh en móviles */
+          md:h-screen      /* altura completa en pantallas ≥ md */
+          overflow-hidden
+        "
       >
         {/* Fondo animado */}
         <img
@@ -202,10 +174,10 @@ export const Home: React.FC = () => {
           alt="Animación de bienvenida"
           loading="lazy"
           className="
-      absolute inset-0
-      w-full h-full
-      object-cover
-    "
+            absolute inset-0
+            w-full h-full
+            object-cover
+          "
         />
 
         {/* Capa de contraste */}
@@ -215,45 +187,32 @@ export const Home: React.FC = () => {
         <a
           href="#como-funciona"
           className="
-      absolute
-      left-1/2
-      transform -translate-x-1/2
-
-      /* posición vertical según tamaño de pantalla */
-      bottom-6       /* móviles */
-      sm:bottom-8    /* ≥sm */
-      md:bottom-12   /* ≥md */
-      lg:bottom-16   /* ≥lg */
-
-      /* padding responsive */
-      px-3 py-2      /* móviles */
-      sm:px-4 sm:py-3
-      lg:px-6 lg:py-4
-
-      bg-black/50
-      border border-white
-      rounded-full
-
-      /* tipografía responsive */
-      text-xs        /* móviles */
-      sm:text-sm
-      lg:text-base
-
-      uppercase font-medium
-      tracking-wide sm:tracking-wider
-
-      text-white
-      hover:bg-black/75
-      transition duration-300
-    "
+            absolute
+            left-1/2
+            transform -translate-x-1/2
+            bottom-6
+            sm:bottom-8
+            md:bottom-12
+            lg:bottom-16
+            px-3 py-2
+            sm:px-4 sm:py-3
+            lg:px-6 lg:py-4
+            bg-black/50
+            border border-white
+            rounded-full
+            text-xs
+            sm:text-sm
+            lg:text-base
+            uppercase font-medium
+            tracking-wide sm:tracking-wider
+            text-white
+            hover:bg-black/75
+            transition duration-300
+          "
         >
           Descubre como funciona
         </a>
       </section>
-
-
-
-
     </div>
   );
 };
