@@ -11,7 +11,6 @@ const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 );
 
 const Quantum: React.FC = () => {
-  // Listado de pilares estratégicos para renderizar dinámicamente
   const pillars = [
     'DATA-DRIVEN',
     'CENTRADO EN EL CLIENTE',
@@ -19,12 +18,10 @@ const Quantum: React.FC = () => {
     'NUEVOS CANALES COMERCIALES',
   ];
 
-  // Estado para la imagen de fondo según ancho de pantalla
+  // Ajusta la imagen de fondo según ancho de pantalla
   const [bgImage, setBgImage] = useState<string>(Q360B);
-
   useEffect(() => {
     const updateBg = () => {
-      // breakpoint md de Tailwind es 768px
       setBgImage(window.innerWidth < 768 ? Q360MV : Q360B);
     };
     updateBg();
@@ -34,10 +31,18 @@ const Quantum: React.FC = () => {
 
   return (
     <main
-      className="relative min-h-screen w-full flex items-center justify-center px-4 py-8 bg-cover bg-center"
+      className="
+        relative min-h-screen w-full flex flex-col items-center
+        justify-end         /* móvil: empuja contenido al fondo */
+        md:justify-center   /* desktop: centra verticalmente */
+        px-4 pt-8
+        pb-40               /* móvil: mucho espacio bajo el texto */
+        md:py-8 md:pb-0     /* desktop: padding uniforme, sin extra abajo */
+        bg-cover bg-center
+      "
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      {/* Capa semitransparente opcional para mejorar contraste */}
+      {/* Capa semitransparente para contraste */}
       <div className="absolute inset-0 bg-black/15" />
 
       <section className="relative z-10 max-w-3xl text-amber-50 space-y-8 p-6">

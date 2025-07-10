@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import type { JSX } from "react";
 import CompGif from "/Comp.gif";
 import QM360 from "/Quantum-360.webp";
+import QM360_MV from "/Quantum-360-mobile.webp";
 import serviciosImg from "/Servicios_Web.webp";
 import brandingImg from "/Branding_Web.webp";
 import campanasImg from "/Campañas_Web.webp";
@@ -137,9 +138,8 @@ export const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
-                  idx === activeIndex ? "opacity-100 justify-start" : "opacity-0"
-                }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex ? "opacity-100 justify-start" : "opacity-0"
+                  }`}
               >
                 <div className="max-w-[35%]">{slide.content}</div>
               </div>
@@ -170,14 +170,16 @@ export const Home: React.FC = () => {
       >
         {/* Fondo animado */}
         <img
-          src={QM360}
-          alt="Animación de bienvenida"
+          src={QM360_MV}
+          alt="Animación Quantum 360 móvil"
           loading="lazy"
-          className="
-            absolute inset-0
-            w-full h-full
-            object-cover
-          "
+          className="absolute inset-0 w-full h-full object-cover md:hidden"
+        />
+        <img
+          src={QM360}
+          alt="Animación Quantum 360 escritorio"
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover hidden md:block"
         />
 
         {/* Capa de contraste */}
@@ -185,7 +187,7 @@ export const Home: React.FC = () => {
 
         {/* Botón responsive */}
         <a
-          href=".\Quantum.tsx"
+          href="\Quantum"
           className="
             absolute
             left-1/2
