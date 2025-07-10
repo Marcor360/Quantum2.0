@@ -11,7 +11,7 @@ const Layout: React.FC = () => {
   const links = [
     { to: "/proyecto", label: "Proyectos" },
     { to: "/quantum", label: "Quantum360°" },
-    { to: "#Servicios", label: "Servicios" },
+    { to: "/", label: "Servicios" },
     { to: "/contacto", label: "Contacto" },
   ];
 
