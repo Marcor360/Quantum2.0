@@ -8,6 +8,7 @@ import brandingImg from "/Branding_Web.webp";
 import campanasImg from "/Campañas_Web.webp";
 import ecommerceImg from "/Eomerce_Web.webp";
 import appsIaImg from "/Apps_IA_Web.webp";
+import MouseParticles from "../components/MouseParticles";
 
 const slides: { imgUrl: string; content: JSX.Element }[] = [
   {
@@ -42,10 +43,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: campanasImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-[#1F1F1F]">
           ¿Ya tienes la estrategia?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-white">
+        <p className="text-xs sm:text-sm md:text-lg text-[#1F1F1F]">
           Ejecutamos desde el storytelling hasta la compra de medios y analítica
           para convertir audiencias en clientes.
         </p>
@@ -56,10 +57,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: ecommerceImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-[#4B0082D9]">
           ¿Listo para vender en los principales marketplaces?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-white">
+        <p className="text-xs sm:text-sm md:text-lg text-[#4B0082D9;]">
           Te llevamos a Amazon y Mercado Libre: estrategia, lanzamiento y
           operación integral.
         </p>
@@ -93,6 +94,7 @@ export const Home: React.FC = () => {
     <div className="flex flex-col w-full min-h-screen">
       {/* === HERO TEXT ESTÁTICO === */}
       <section className="w-full py-16 flex flex-col items-center">
+        <MouseParticles />
         <h1 className="text-4xl md:text-5xl font-bold text-white text-center font-subjectivity tracking-wider pt-40">
           {firstText}
         </h1>
