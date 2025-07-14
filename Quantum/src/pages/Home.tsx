@@ -10,12 +10,13 @@ import ecommerceImg from "/Eomerce_Web.webp";
 import appsIaImg from "/Apps_IA_Web.webp";
 import MouseParticles from "../components/MouseParticles";
 
+/* === DATA DE SLIDES ====================================================== */
 const slides: { imgUrl: string; content: JSX.Element }[] = [
   {
     imgUrl: serviciosImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white font-subjectivity">
+        <h2 className="text-base sm:text-lg md:text-4xl font-bold mb-2 text-white font-subjectivity">
           ¿Quieres redefinir tu propuesta de valor?
         </h2>
         <p className="text-xs sm:text-sm md:text-lg text-white font-subjectivity">
@@ -29,10 +30,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: brandingImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white font-subjectivity">
           ¿Buscas una identidad poderosa?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-white">
+        <p className="text-xs sm:text-sm md:text-lg text-white font-subjectivity">
           Creamos ADN estratégico para tu marca, elevamos reconocimiento y
           fidelizamos audiencias.
         </p>
@@ -43,10 +44,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: campanasImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-[#1F1F1F]">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-[#4B0082D9] font-subjectivity">
           ¿Ya tienes la estrategia?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-[#1F1F1F]">
+        <p className="text-xs sm:text-sm md:text-lg text-[#1F1F1F] font-subjectivity">
           Ejecutamos desde el storytelling hasta la compra de medios y analítica
           para convertir audiencias en clientes.
         </p>
@@ -57,10 +58,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: ecommerceImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-[#4B0082D9]">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-[#4B0082D9] font-subjectivity">
           ¿Listo para vender en los principales marketplaces?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-[#4B0082D9;]">
+        <p className="text-xs sm:text-sm md:text-lg text-[#862bc7d9] font-subjectivity">
           Te llevamos a Amazon y Mercado Libre: estrategia, lanzamiento y
           operación integral.
         </p>
@@ -71,10 +72,10 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: appsIaImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-2 text-white font-subjectivity">
           ¿Deseas optimizar tu operación con tecnología?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-white">
+        <p className="text-xs sm:text-sm md:text-lg text-white font-subjectivity">
           Automatizamos procesos y desarrollamos apps a la medida para
           transformar tu negocio.
         </p>
@@ -83,32 +84,58 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
   },
 ];
 
+/* === COMPONENTE ========================================================== */
 export const Home: React.FC = () => {
   const firstText = "Estrategia de marketing y ventas para el mundo real";
   const secondText =
     "Exponenciamos tus ingresos transformando la manera en que tu negocio hace negocio.";
-
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="flex flex-col w-full min-h-screen">
-      {/* === HERO TEXT ESTÁTICO === */}
-      <section className="w-full py-16 flex flex-col items-center">
+    /* LANDMARK principal */
+    <main className="flex flex-col w-full min-h-screen">
+      {/* ================= HERO ================= */}
+      <header
+        id="hero"
+        aria-label="Mensaje principal"
+        className="
+          relative w-full
+          h-[calc(99vh_-_theme(spacing.20))]
+          flex flex-col items-center justify-center
+        "
+      >
         <MouseParticles />
-        <h1 className="text-4xl md:text-5xl font-bold text-white text-center font-subjectivity tracking-wider pt-40">
+
+        <h1
+          className="
+          text-4xl md:text-5xl font-bold text-white text-center
+          font-subjectivity tracking-wider
+          px-4
+        "
+        >
           {firstText}
         </h1>
-        <p className="mt-4 text-lg md:text-2xl text-white text-center max-w-2xl font-subjectivity pt-10 pb-40">
+
+        <p
+          className="
+          mt-20 text-lg md:text-4xl text-white text-center max-w-2xl
+          font-subjectivity px-4
+        "
+        >
           {secondText}
         </p>
-      </section>
+      </header>
 
-      {/* === SLIDER PRINCIPAL === */}
-      <div id="#Servicios" className="overflow-auto pb-4 md:overflow-hidden">
-        {/* MÓVIL / TABLET */}
+      {/* =============== SLIDER DE SERVICIOS =============== */}
+      <section
+        id="servicios"
+        aria-label="Nuestros servicios"
+        className="overflow-auto pb-4 md:overflow-hidden"
+      >
+        {/* Vista móvil / tablet */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-4 p-4">
           {slides.map((slide, idx) => (
-            <div
+            <article
               key={idx}
               className="relative rounded-lg overflow-hidden h-72 sm:h-80"
             >
@@ -120,14 +147,14 @@ export const Home: React.FC = () => {
               <div className="absolute inset-0 bg-black/50 p-4 flex flex-col justify-between">
                 {slide.content}
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
-        {/* ESCRITORIO */}
+        {/* Vista escritorio */}
         <div className="hidden md:flex w-full overflow-hidden md:h-150">
           {slides.map((slide, idx) => (
-            <div
+            <article
               key={idx}
               onMouseEnter={() => setActiveIndex(idx)}
               onMouseLeave={() => setActiveIndex(0)}
@@ -140,37 +167,41 @@ export const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex ? "opacity-100 justify-start" : "opacity-0"
-                  }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
+                  idx === activeIndex
+                    ? "justify-end"
+                    : "opacity-0"
+                }`}
               >
-                <div className="max-w-[35%]">{slide.content}</div>
+                <div className="max-w-[50%]">{slide.content}</div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* === GIF DE BIENVENIDA === */}
-      <div className="w-full overflow-hidden mt-4">
-        <img
-          src={CompGif}
-          alt="Animación de bienvenida"
-          loading="lazy"
-          className="w-full h-auto object-contain"
-        />
-      </div>
-
+      {/* =============== GIF DE BIENVENIDA =============== */}
       <section
-        className="
-          relative
-          w-full
-          mt-4
-          h-[80vh]         /* mínimo 80vh en móviles */
-          md:h-screen      /* altura completa en pantallas ≥ md */
-          overflow-hidden
-        "
+        id="bienvenida"
+        aria-label="Animación introductoria"
+        className="w-screen h-screen overflow-hidden"
       >
-        {/* Fondo animado */}
+        <video
+          src={CompGif}
+          className="w-full h-auto object-contain"
+          autoPlay
+          muted
+          loop
+        />
+      </section>
+
+      {/* =============== CTA QUANTUM 360 =============== */}
+      <section
+        id="quantum360"
+        aria-label="Descubre Quantum 360"
+        className="relative w-full mt-4 h-[80vh] md:h-screen overflow-hidden"
+      >
+        {/* Fondos: móvil y escritorio */}
         <img
           src={QM360_MV}
           alt="Animación Quantum 360 móvil"
@@ -187,37 +218,23 @@ export const Home: React.FC = () => {
         {/* Capa de contraste */}
         <div className="absolute inset-0" />
 
-        {/* Botón responsive */}
+        {/* Botón */}
         <a
-          href="\Quantum"
+          href="/Quantum"
           className="
-            absolute
-            left-1/2
-            transform -translate-x-1/2
-            bottom-6
-            sm:bottom-8
-            md:bottom-12
-            lg:bottom-16
-            px-3 py-2
-            sm:px-4 sm:py-3
-            lg:px-6 lg:py-4
-            bg-black/50
-            border border-white
-            rounded-full
-            text-xs
-            sm:text-sm
-            lg:text-base
-            uppercase font-medium
-            tracking-wide sm:tracking-wider
-            text-white
-            hover:bg-black/75
-            transition duration-300
+            absolute left-1/2 transform -translate-x-1/2
+            bottom-6 sm:bottom-8 md:bottom-12 lg:bottom-16
+            px-3 py-2 sm:px-4 sm:py-3 lg:px-6 lg:py-4
+            bg-black/50 border border-white rounded-full
+            text-xs sm:text-sm lg:text-base
+            uppercase font-medium tracking-wide sm:tracking-wider
+            text-white hover:bg-black/75 transition duration-300
           "
         >
-          Descubre como funciona
+          Descubre cómo funciona
         </a>
       </section>
-    </div>
+    </main>
   );
 };
 

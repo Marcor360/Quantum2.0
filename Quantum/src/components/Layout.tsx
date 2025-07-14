@@ -24,7 +24,7 @@ const Layout: React.FC = () => {
       <nav className="
     bg-white/5        /* blanco al 5% de opacidad */
     backdrop-blur-lg   /* desenfoque grande */
-    px-6 py-4
+    px-6
     flex justify-between items-center
     relative z-50
   ">
