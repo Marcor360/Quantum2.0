@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { JSX } from "react";
-import CompGif from "/Comp.gif";
+import CompGif from "/Comp.mp4";
 import QM360 from "/Quantum-360.webp";
 import QM360_MV from "/Quantum-360-mobile.webp";
 import serviciosImg from "/Servicios_Web.webp";
