@@ -6,7 +6,7 @@ import backg from '/Font.webp';
 import Contacto from './pages/Contacto';
 import Home from './pages/Home';
 import Proyecto from './pages/Proyecto';
-import Quantum from './pages/Quantum';
+//import Quantum from './pages/Quantum';
 import Servicio from './pages/Servicio';
 
 
@@ -25,7 +25,7 @@ const App: React.FC = () => {
             <Route index element={<Home />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/proyecto" element={<Proyecto />} />
-            <Route path="/quantum" element={<Quantum />} />
+            {/* <Route path="/quantum" element={<Quantum />} /> */}
             <Route path="/servicio" element={<Servicio />} />
           </Route>
         </Routes>
