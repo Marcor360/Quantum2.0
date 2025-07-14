@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Ruta del vídeo preparado para scrubbing (GOP=1)
-import CompVid from "/src/assets/video/Comp1.mp4";
+import CompVid from "/src/assets/video/Comp.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -64,14 +64,14 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: campanasImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#191514] font-subjectivity tracking-wide drop-shadow-lg px-4 py-2">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#fff] font-subjectivity tracking-wide drop-shadow-lg px-4 py-2">
           ¿Ya tienes la{" "}
           <span className="text-[#753bd0] drop-shadow-[0_0_10px_rgba(117,59,208,0.7)]">
             estrategia
           </span>
           ?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-[#191514] font-subjectivity leading-relaxed font-medium px-4 py-2 rounded-lg">
+        <p className="text-xs sm:text-sm md:text-lg text-[#fff] font-subjectivity leading-relaxed font-medium px-4 py-2 rounded-lg">
           Ejecutamos desde el{" "}
           <strong className="text-[#753bd0] font-extrabold">
             storytelling
@@ -86,16 +86,16 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: ecommerceImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#191514] font-subjectivity tracking-wide drop-shadow-lg px-4 py-2 ">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#753bd0] font-subjectivity tracking-wide drop-shadow-lg  py-2 ">
           ¿Listo para vender en los principales{" "}
           <span className="text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.7)]">
             marketplaces
           </span>
           ?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-[#191514] font-subjectivity leading-relaxed font-medium py-2">
+        <p className="text-xs sm:text-sm md:text-lg text-[#753bd0] font-subjectivity leading-relaxed font-medium py-2">
           Te llevamos a{" "}
-          <strong className="text-[#753bd0] font-extrabold">
+          <strong className="text-[#ff6ef3] font-extrabold">
             Amazon y Mercado Libre
           </strong>
           : estrategia, lanzamiento y operación integral.
@@ -233,7 +233,7 @@ export const Home: React.FC = () => {
               onMouseLeave={() => setActiveIndex(0)}
               className="relative transition-all duration-500 ease-in-out cursor-pointer overflow-hidden h-full group"
               style={{
-                flex: activeIndex === idx ? 9 : 3,
+                flex: activeIndex === idx ? 16 : 3,
                 borderTop:
                   activeIndex === idx
                     ? "4px solid #ffff00"
