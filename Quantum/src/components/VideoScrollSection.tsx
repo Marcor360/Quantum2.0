@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Ruta del vídeo preparado para scrubbing (GOP=1)
-import CompVid from "/src/assets/video/Comp.mp4";
+import CompVid from "/src/assets/video/Comp1.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,11 +13,11 @@ gsap.registerPlugin(ScrollTrigger);
  */
 const VideoScrollSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const videoRef   = useRef<HTMLVideoElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const video   = videoRef.current;
+    const video = videoRef.current;
     if (!section || !video) return;
 
     /**
