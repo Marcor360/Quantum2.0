@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import type { JSX } from "react";
-import CompGif from "/Comp.mp4";
 import QM360 from "/Quantum-360.webp";
 import QM360_MV from "/Quantum-360-mobile.webp";
 import serviciosImg from "/Servicios_Web.webp";
@@ -9,6 +8,8 @@ import campanasImg from "/Campañas_Web.webp";
 import ecommerceImg from "/Eomerce_Web.webp";
 import appsIaImg from "/Apps_IA_Web.webp";
 import MouseParticles from "../components/MouseParticles";
+import VideoScrollSection from "../components/VideoScrollSection";
+
 
 /* === DATA DE SLIDES ====================================================== */
 const slides: { imgUrl: string; content: JSX.Element }[] = [
@@ -130,7 +131,7 @@ export const Home: React.FC = () => {
       <section
         id="servicios"
         aria-label="Nuestros servicios"
-        className="overflow-auto pb-4 md:overflow-hidden"
+        className="overflow-auto md:overflow-hidden"
       >
         {/* Vista móvil / tablet */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-4 p-4">
@@ -180,20 +181,9 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* =============== GIF DE BIENVENIDA =============== */}
-      <section
-        id="bienvenida"
-        aria-label="Animación introductoria"
-        className="w-screen h-screen overflow-hidden"
-      >
-        <video
-          src={CompGif}
-          className="w-full h-auto object-contain"
-          autoPlay
-          muted
-          loop
-        />
-      </section>
+      {/* ===============VIDEO DE BIENVENIDA =============== */}
+    
+      <VideoScrollSection />
 
       {/* =============== CTA QUANTUM 360 =============== */}
       <section
