@@ -78,3 +78,6 @@ const VideoScrollSection: React.FC = () => {
 };
 
 export default VideoScrollSection;
+
+
+//El amor de Marco y Jordi llegó hasta Quantum, felices por siempre <3
