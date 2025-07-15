@@ -136,6 +136,7 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
 export const Home: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const circlesRef = useRef<HTMLUListElement | null>(null);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
   // Animar círculos con zoom al entrar y revertir al salir
   useEffect(() => {
@@ -153,6 +154,32 @@ export const Home: React.FC = () => {
         stagger: 0.2,
         scrollTrigger: {
           trigger: list,
+          start: "top 80%",
+          toggleActions: "play reverse play reverse",
+        },
+      }
+    );
+
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
+  // Animar barra de resultados cuando entra y revertir al salir
+  useEffect(() => {
+    const bar = resultsRef.current;
+    if (!bar) return;
+
+    const tween = gsap.fromTo(
+      bar,
+      { opacity: 0, scale: 0.5 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: bar,
           start: "top 80%",
           toggleActions: "play reverse play reverse",
         },
@@ -281,9 +308,8 @@ export const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out group-hover:scale-105"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
-                  idx === activeIndex ? "justify-end" : "opacity-0"
-                }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex ? "justify-end" : "opacity-0"
+                  }`}
               >
                 <div className="max-w-[50%] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   {slide.content}
@@ -291,9 +317,8 @@ export const Home: React.FC = () => {
               </div>
               {/* Indicador lateral activo */}
               <div
-                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${
-                  activeIndex === idx ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${activeIndex === idx ? "opacity-100" : "opacity-0"
+                  }`}
               ></div>
             </article>
           ))}
@@ -383,7 +408,7 @@ export const Home: React.FC = () => {
 
             {/* Bloque 4: Barra de resultados */}
             <div className="flex justify-center">
-              <div className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-35 text-sm sm:text-base md:text-lg">
+              <div ref={resultsRef} className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-35 text-sm sm:text-base md:text-lg">
                 Resultados medibles en ventas
               </div>
             </div>
