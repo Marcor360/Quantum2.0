@@ -137,6 +137,7 @@ export const Home: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const circlesRef = useRef<HTMLUListElement | null>(null);
 
+  // Animar círculos con zoom al entrar y revertir al salir
   useEffect(() => {
     const list = circlesRef.current;
     if (!list) return;
@@ -153,6 +154,7 @@ export const Home: React.FC = () => {
         scrollTrigger: {
           trigger: list,
           start: "top 80%",
+          toggleActions: "play reverse play reverse",
         },
       }
     );
