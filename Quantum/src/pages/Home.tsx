@@ -269,7 +269,7 @@ export const Home: React.FC = () => {
       <section
         id="quantum360"
         aria-label="Descubre Quantum 360"
-        className="relative w-screen h-screen mt-4 overflow-hidden group"
+        className="relative w-screen min-h-screen mt-4 overflow-hidden group"
       >
         {/* Fondos: móvil y escritorio */}
         <img
@@ -286,31 +286,44 @@ export const Home: React.FC = () => {
         />
 
         {/* —— Contenido superpuesto centrado con bloques —— */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="max-w-xl mx-auto px-6 md:px-0 grid gap-y-10 text-left text-white">
-
+        <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-6">
+          <div
+            className="
+        w-full max-w-lg md:max-w-xl
+        grid gap-y-6 sm:gap-y-8 md:gap-y-10
+        text-left text-white
+        bg-black/60 backdrop-blur-sm
+        sm:bg-transparent sm:backdrop-blur-0
+        p-4 sm:p-6 md:p-0
+        rounded-lg md:rounded-none
+      "
+          >
             {/* Bloque 1: Título y subtítulo */}
             <div>
-              <div className="uppercase text-lg font-semibold">
+              <div className="uppercase text-base sm:text-lg md:text-xl font-semibold">
                 Metodología Universal 360°
               </div>
-              <p className="mt-2 text-lg">
+              <p className="mt-1 text-sm sm:text-base md:text-lg">
                 Transformación Comercial Basada en Datos y Agilidad Estratégica
               </p>
             </div>
 
             {/* Bloque 2: ¿Qué resuelve? */}
             <div>
-              <h2 className="text-2xl font-bold mb-2">¿Qué resuelve?</h2>
-              <p className="text-lg">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">
+                ¿Qué resuelve?
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg">
                 El <span className="text-yellow-400 font-bold">89%</span> de las empresas fallan al adaptar sus modelos de valor a mercados volátiles por falta de integración sinérgica entre datos, cliente, agilidad y flexibilidad.
               </p>
             </div>
 
             {/* Bloque 3: ¿Cómo lo resolvemos? + círculos */}
             <div>
-              <h2 className="text-2xl font-bold mb-4">¿Cómo lo resolvemos?</h2>
-              <ul className="flex justify-between gap-4">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4">
+                ¿Cómo lo resolvemos?
+              </h2>
+              <ul className="flex flex-wrap justify-center sm:justify-between gap-4">
                 {[
                   "Data Driven",
                   "Centrado en el cliente",
@@ -319,7 +332,7 @@ export const Home: React.FC = () => {
                 ].map(label => (
                   <li
                     key={label}
-                    className="bg-pink-400 rounded-full w-24 h-24 flex items-center justify-center text-sm font-medium text-white text-center px-2"
+                    className="bg-pink-400 rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex items-center justify-center text-[0.6rem] sm:text-xs md:text-sm font-medium text-white text-center px-1"
                   >
                     {label}
                   </li>
@@ -328,31 +341,27 @@ export const Home: React.FC = () => {
             </div>
 
             {/* Bloque 4: Barra de resultados */}
-            <div>
-              <div className="bg-purple-600 rounded-full text-center font-bold py-3">
+            <div className="flex justify-center">
+              <div className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-8 text-sm sm:text-base md:text-lg">
                 Resultados medibles en ventas
               </div>
             </div>
 
             {/* Bloque 5: CTA final */}
-            <div>
-              <p className="text-xl font-bold mb-2">
+            <div className="text-center">
+              <p className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
                 Quantum es ciencia, no intuición...
               </p>
               <a
                 href="#contacto"
-                className="text-yellow-400 underline text-lg font-medium"
+                className="text-yellow-400 underline text-sm sm:text-base md:text-lg font-medium"
               >
                 ¿Desea un diagnóstico sin costo de tu modelo actual? Contáctanos
               </a>
             </div>
-
           </div>
         </div>
       </section>
-
-
-
 
       {/* ===============VIDEO DE BIENVENIDA =============== */}
 
