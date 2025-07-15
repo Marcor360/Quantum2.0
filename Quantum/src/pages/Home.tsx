@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import type { JSX } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import QM360 from "/Quantum-360.webp";
 import QM360_MV from "/Quantum-360-mobile.webp";
 import serviciosImg from "/Servicios_Web.webp";
@@ -9,6 +11,8 @@ import ecommerceImg from "/Eomerce_Web.webp";
 import appsIaImg from "/Apps_IA_Web.webp";
 import MouseParticles from "../components/MouseParticles";
 import CompVid from "../assets/video/Comp.mp4";
+
+gsap.registerPlugin(ScrollTrigger);//ScrollTrigger
 /* === PALETA DE COLORES ============================================= */
 // electrico1: #ffff00
 // uva:       #753bd0
@@ -131,6 +135,35 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
 /* === COMPONENTE ========================================================== */
 export const Home: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const circlesRef = useRef<HTMLUListElement | null>(null);
+
+  // Animar círculos con zoom al entrar y revertir al salir
+  useEffect(() => {
+    const list = circlesRef.current;
+    if (!list) return;
+
+    const tween = gsap.fromTo(
+      Array.from(list.children),
+      { scale: 0, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: list,
+          start: "top 80%",
+          toggleActions: "play reverse play reverse",
+        },
+      }
+    );
+
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
 
   return (
     /* LANDMARK principal */
@@ -248,9 +281,8 @@ export const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out group-hover:scale-105"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
-                  idx === activeIndex ? "justify-end" : "opacity-0"
-                }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex ? "justify-end" : "opacity-0"
+                  }`}
               >
                 <div className="max-w-[50%] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   {slide.content}
@@ -258,9 +290,8 @@ export const Home: React.FC = () => {
               </div>
               {/* Indicador lateral activo */}
               <div
-                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${
-                  activeIndex === idx ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${activeIndex === idx ? "opacity-100" : "opacity-0"
+                  }`}
               ></div>
             </article>
           ))}
@@ -328,7 +359,7 @@ export const Home: React.FC = () => {
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4">
                 ¿Cómo lo resolvemos?
               </h2>
-              <ul className="flex flex-wrap justify-center sm:justify-between gap-4">
+              <ul ref={circlesRef} className="flex flex-wrap justify-center sm:justify-between gap-4">
                 {[
                   "Data Driven",
                   "Centrado en el cliente",
