@@ -132,7 +132,7 @@ export const Home: React.FC = () => {
 
   return (
     /* LANDMARK principal */
-    <main className="flex flex-col w-full min-h-screen">
+    <main className="flex flex-col w-screen min-h-screen">
       {/* ================= HERO ================= */}
       <header
         id="hero"
@@ -267,14 +267,11 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ===============VIDEO DE BIENVENIDA =============== */}
-      <VideoScrollSection />
-
       {/* =============== CTA QUANTUM 360 =============== */}
       <section
         id="quantum360"
         aria-label="Descubre Quantum 360"
-        className="relative w-full mt-4 h-[80vh] md:h-screen overflow-hidden group"
+        className="relative w-screen h-screen mt-4 md:h-screen overflow-hidden group"
       >
         {/* Fondos: móvil y escritorio */}
         <img
@@ -313,6 +310,10 @@ export const Home: React.FC = () => {
           Descubre cómo funciona
         </a>
       </section>
+      {/* ===============VIDEO DE BIENVENIDA =============== */}
+      
+      <VideoScrollSection />
+
     </main>
   );
 };
