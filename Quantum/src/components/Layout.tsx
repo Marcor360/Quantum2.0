@@ -75,7 +75,7 @@ const Layout: React.FC = () => {
       <div
         className={`
           fixed inset-y-0 right-0 w-2/3 md:hidden
-          bg-pink-500/40 backdrop-blur-lg
+          bg-blue-900/40 backdrop-blur-lg
           transform transition-transform duration-700 ease-in-out
           ${isOpen ? "translate-x-0" : "translate-x-full"}
           z-50
