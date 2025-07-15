@@ -302,7 +302,7 @@ export const Home: React.FC = () => {
       <section
         id="quantum360"
         aria-label="Descubre Quantum 360"
-        className="relative w-screen min-h-screen mt-4 overflow-hidden group"
+        className="relative w-screen min-h-screen mt-4 overflow-hidden group font-subjectivity"
       >
         {/* Fondos: móvil y escritorio */}
         <img
@@ -325,7 +325,7 @@ export const Home: React.FC = () => {
         w-full max-w-lg md:max-w-xl
         grid gap-y-6 sm:gap-y-8 md:gap-y-10
         text-left text-white
-        bg-black/60 backdrop-blur-sm
+        bg-black/60
         sm:bg-transparent sm:backdrop-blur-0
         p-4 sm:p-6 md:p-0
         rounded-lg md:rounded-none
@@ -368,7 +368,7 @@ export const Home: React.FC = () => {
                 ].map((label) => (
                   <li
                     key={label}
-                    className="bg-pink-400 rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex items-center justify-center text-[0.6rem] sm:text-xs md:text-sm font-medium text-white text-center px-1"
+                    className="bg-pink-400 rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-30 md:h-30 flex items-center justify-center text-[0.6rem] sm:text-xs md:text-sm font-medium text-white text-center px-1"
                   >
                     {label}
                   </li>
@@ -378,7 +378,7 @@ export const Home: React.FC = () => {
 
             {/* Bloque 4: Barra de resultados */}
             <div className="flex justify-center">
-              <div className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-8 text-sm sm:text-base md:text-lg">
+              <div className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-35 text-sm sm:text-base md:text-lg">
                 Resultados medibles en ventas
               </div>
             </div>
