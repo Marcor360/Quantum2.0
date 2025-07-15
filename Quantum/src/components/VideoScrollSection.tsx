@@ -32,7 +32,7 @@ const VideoScrollSection: React.FC = () => {
         scrollTrigger: {
           trigger: section,          // sección completa (no solo el <video>)
           start: "top top",
-          end: `+=${dur * 1000}`,   // 1 000 px de scroll ≈ 1 s de vídeo
+          end: `+=${dur * 125}`,   // 1 000 px de scroll ≈ 1 s de vídeo
           scrub: true,
           pin: true,
           pinSpacing: true,

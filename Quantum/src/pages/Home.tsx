@@ -8,8 +8,7 @@ import campanasImg from "/Campañas_Web.webp";
 import ecommerceImg from "/Eomerce_Web.webp";
 import appsIaImg from "/Apps_IA_Web.webp";
 import MouseParticles from "../components/MouseParticles";
-import VideoScrollSection from "../components/VideoScrollSection";
-
+import CompVid from "../assets/video/Comp.mp4";
 /* === PALETA DE COLORES ============================================= */
 // electrico1: #ffff00
 // uva:       #753bd0
@@ -22,6 +21,9 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: serviciosImg,
     content: (
       <>
+        <h2 className="pb-45 text-6xl font-subjectivity text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.5)] font-bold">
+          Estrategia
+        </h2>
         <h2 className="text-base sm:text-lg md:text-4xl font-bold mb-4 text-white font-subjectivity tracking-wide drop-shadow-lg">
           ¿Quieres{" "}
           <span className="text-[#ffff00] drop-shadow-[0_0_10px_rgba(255,255,0,0.5)]">
@@ -50,7 +52,7 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
           </span>
           ?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-white/95 font-subjectivity leading-relaxed">
+        <p className="text-xs sm:text-sm md:text-lg text-white/95 font-subjectivity leading-relaxed pr-30">
           Creamos{" "}
           <strong className="text-[#ff6ef3] font-extrabold">
             ADN estratégico
@@ -86,14 +88,14 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: ecommerceImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#753bd0] font-subjectivity tracking-wide drop-shadow-lg py-2 ">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#753bd0] font-subjectivity tracking-wide drop-shadow-lg py-2 pr-10">
           ¿Listo para vender en los principales{" "}
           <span className="text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.7)]">
             marketplaces
           </span>
           ?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-[#753bd0] font-subjectivity leading-relaxed font-medium py-2">
+        <p className="text-xs sm:text-sm md:text-lg text-[#753bd0] font-subjectivity leading-relaxed font-medium py-2 pr-30">
           Te llevamos a{" "}
           <strong className="text-[#ff6ef3] font-extrabold">
             Amazon y Mercado Libre
@@ -246,10 +248,9 @@ export const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out group-hover:scale-105"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex
-                  ? "justify-end"
-                  : "opacity-0"
-                  }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
+                  idx === activeIndex ? "justify-end" : "opacity-0"
+                }`}
               >
                 <div className="max-w-[50%] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   {slide.content}
@@ -257,8 +258,9 @@ export const Home: React.FC = () => {
               </div>
               {/* Indicador lateral activo */}
               <div
-                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${activeIndex === idx ? "opacity-100" : "opacity-0"
-                  }`}
+                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${
+                  activeIndex === idx ? "opacity-100" : "opacity-0"
+                }`}
               ></div>
             </article>
           ))}
@@ -314,7 +316,10 @@ export const Home: React.FC = () => {
                 ¿Qué resuelve?
               </h2>
               <p className="text-sm sm:text-base md:text-lg">
-                El <span className="text-yellow-400 font-bold">89%</span> de las empresas fallan al adaptar sus modelos de valor a mercados volátiles por falta de integración sinérgica entre datos, cliente, agilidad y flexibilidad.
+                El <span className="text-yellow-400 font-bold">89%</span> de las
+                empresas fallan al adaptar sus modelos de valor a mercados
+                volátiles por falta de integración sinérgica entre datos,
+                cliente, agilidad y flexibilidad.
               </p>
             </div>
 
@@ -329,7 +334,7 @@ export const Home: React.FC = () => {
                   "Centrado en el cliente",
                   "Transformación operativa",
                   "Nuevos canales comerciales",
-                ].map(label => (
+                ].map((label) => (
                   <li
                     key={label}
                     className="bg-pink-400 rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex items-center justify-center text-[0.6rem] sm:text-xs md:text-sm font-medium text-white text-center px-1"
@@ -363,10 +368,21 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ===============VIDEO DE BIENVENIDA =============== */}
-
-      <VideoScrollSection />
-
+      {/* =============== VIDEO DE BIENVENIDA =============== */}
+      <section
+        id="bienvenida"
+        aria-label="Video de bienvenida"
+        className="relative w-screen h-[calc(100vh-theme(spacing.32))] overflow-hidden"
+      >
+        <video
+          src={CompVid}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-screen h-screen object-cover"
+        />
+      </section>
     </main>
   );
 };
