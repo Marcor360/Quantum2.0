@@ -246,11 +246,10 @@ export const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out group-hover:scale-105"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
-                  idx === activeIndex
-                    ? "justify-end"
-                    : "opacity-0"
-                }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex
+                  ? "justify-end"
+                  : "opacity-0"
+                  }`}
               >
                 <div className="max-w-[50%] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   {slide.content}
@@ -258,9 +257,8 @@ export const Home: React.FC = () => {
               </div>
               {/* Indicador lateral activo */}
               <div
-                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${
-                  activeIndex === idx ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${activeIndex === idx ? "opacity-100" : "opacity-0"
+                  }`}
               ></div>
             </article>
           ))}
@@ -286,32 +284,9 @@ export const Home: React.FC = () => {
           loading="lazy"
           className="absolute inset-0 w-full h-full object-cover hidden md:block transition-transform duration-700 group-hover:scale-105"
         />
-
-        {/* Botón mejorado con paleta */}
-        <a
-          href="/Quantum"
-          className="
-            absolute left-1/2 transform -translate-x-1/2
-            bottom-6 sm:bottom-8 md:bottom-12 lg:bottom-16
-            px-8 py-4 sm:px-10 sm:py-5 lg:px-12 lg:py-6
-            bg-gradient-to-r from-[#753bd0]/90 to-[#ff6ef3]/90
-            backdrop-blur-sm border-2 border-[#ffff00]/50 rounded-full
-            text-sm sm:text-base lg:text-lg
-            uppercase font-bold tracking-wide sm:tracking-wider
-            text-white hover:text-[#ffff00]
-            hover:from-[#753bd0] hover:to-[#ff6ef3]
-            hover:scale-105 hover:shadow-lg hover:shadow-[#ffff00]/25
-            hover:border-[#ffff00]/90
-            transition-all duration-300
-            group-hover:animate-pulse
-          "
-        >
-          <span className="inline-block mr-2 text-[#ffff00]"></span>
-          Descubre cómo funciona
-        </a>
       </section>
       {/* ===============VIDEO DE BIENVENIDA =============== */}
-      
+
       <VideoScrollSection />
 
     </main>
