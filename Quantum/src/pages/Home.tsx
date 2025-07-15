@@ -25,7 +25,7 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: serviciosImg,
     content: (
       <>
-        <h2 className="pb-45 text-6xl font-subjectivity text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.5)] font-bold">
+        <h2 className="pb-45 text-6xl font-subjectivity text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.5)] font-bold uppercase">
           Estrategia
         </h2>
         <h2 className="text-base sm:text-lg md:text-4xl font-bold mb-4 text-white font-subjectivity tracking-wide drop-shadow-lg">
@@ -49,9 +49,9 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: brandingImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-white font-subjectivity tracking-wide drop-shadow-lg">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-white font-subjectivity tracking-wide drop-shadow-lg uppercase">
           ¿Buscas una identidad{" "}
-          <span className="text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.5)]">
+          <span className="text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.5)] uppercase">
             poderosa
           </span>
           ?
@@ -70,7 +70,7 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: campanasImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#fff] font-subjectivity tracking-wide drop-shadow-lg py-2">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#fff] font-subjectivity tracking-wide drop-shadow-lg py-2 uppercase">
           ¿Ya tienes la{" "}
           <span className="text-[#753bd0] drop-shadow-[0_0_10px_rgba(117,59,208,0.7)]">
             estrategia
@@ -92,7 +92,7 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: ecommerceImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#753bd0] font-subjectivity tracking-wide drop-shadow-lg py-2 pr-10">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#753bd0] font-subjectivity tracking-wide drop-shadow-lg  pr-10 uppercase">
           ¿Listo para vender en los principales{" "}
           <span className="text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.7)]">
             marketplaces
@@ -113,7 +113,7 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: appsIaImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-white font-subjectivity tracking-wide drop-shadow-lg">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-white font-subjectivity tracking-wide drop-shadow-lg uppercase">
           ¿Deseas optimizar tu operación con{" "}
           <span className="text-[#ffff00] drop-shadow-[0_0_10px_rgba(255,255,0,0.5)]">
             tecnología
@@ -295,7 +295,7 @@ export const Home: React.FC = () => {
               onMouseLeave={() => setActiveIndex(0)}
               className="relative transition-all duration-500 ease-in-out cursor-pointer overflow-hidden h-full group"
               style={{
-                flex: activeIndex === idx ? 16 : 3,
+                flex: activeIndex === idx ? 17 : 3,
                 borderTop:
                   activeIndex === idx
                     ? "4px solid #ffff00"
@@ -329,7 +329,7 @@ export const Home: React.FC = () => {
       <section
         id="quantum360"
         aria-label="Descubre Quantum 360"
-        className="relative w-screen min-h-screen mt-4 overflow-hidden group"
+        className="relative w-screen min-h-screen mt-4 overflow-hidden group font-subjectivity"
       >
         {/* Fondos: móvil y escritorio */}
         <img
@@ -352,7 +352,7 @@ export const Home: React.FC = () => {
         w-full max-w-lg md:max-w-xl
         grid gap-y-6 sm:gap-y-8 md:gap-y-10
         text-left text-white
-        bg-black/60 backdrop-blur-sm
+        bg-black/60
         sm:bg-transparent sm:backdrop-blur-0
         p-4 sm:p-6 md:p-0
         rounded-lg md:rounded-none
@@ -395,7 +395,7 @@ export const Home: React.FC = () => {
                 ].map((label) => (
                   <li
                     key={label}
-                    className="bg-pink-400 rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex items-center justify-center text-[0.6rem] sm:text-xs md:text-sm font-medium text-white text-center px-1"
+                    className="bg-pink-400 rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-30 md:h-30 flex items-center justify-center text-[0.6rem] sm:text-xs md:text-sm font-medium text-white text-center px-1"
                   >
                     {label}
                   </li>
@@ -405,7 +405,11 @@ export const Home: React.FC = () => {
 
             {/* Bloque 4: Barra de resultados */}
             <div className="flex justify-center">
+<<<<<<< HEAD
               <div ref={resultsRef} className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-8 text-sm sm:text-base md:text-lg">
+=======
+              <div className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-35 text-sm sm:text-base md:text-lg">
+>>>>>>> 04961c4338ff037374a81ce8bad1328e8fcdd814
                 Resultados medibles en ventas
               </div>
             </div>
