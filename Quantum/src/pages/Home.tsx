@@ -308,8 +308,9 @@ export const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out group-hover:scale-105"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex ? "justify-end" : "opacity-0"
-                  }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
+                  idx === activeIndex ? "justify-end" : "opacity-0"
+                }`}
               >
                 <div className="max-w-[50%] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   {slide.content}
@@ -317,8 +318,9 @@ export const Home: React.FC = () => {
               </div>
               {/* Indicador lateral activo */}
               <div
-                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${activeIndex === idx ? "opacity-100" : "opacity-0"
-                  }`}
+                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${
+                  activeIndex === idx ? "opacity-100" : "opacity-0"
+                }`}
               ></div>
             </article>
           ))}
@@ -408,7 +410,10 @@ export const Home: React.FC = () => {
 
             {/* Bloque 4: Barra de resultados */}
             <div className="flex justify-center">
-              <div ref={resultsRef} className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-35 text-sm sm:text-base md:text-lg">
+              <div
+                ref={resultsRef}
+                className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-35 text-sm sm:text-base md:text-lg"
+              >
                 Resultados medibles en ventas
               </div>
             </div>
@@ -433,7 +438,7 @@ export const Home: React.FC = () => {
       <section
         id="bienvenida"
         aria-label="Video de bienvenida"
-        className="relative w-screen h-screen overflow-hidden bg-black"
+        className="relative w-screen h-[67vh] md:h-[83vh] overflow-hidden bg-black"
       >
         <video
           src={CompVid}
@@ -441,12 +446,18 @@ export const Home: React.FC = () => {
           loop
           muted
           playsInline
-          className="absolute md:relative top-1/2 md:top-0 left-1/2 md:left-0 w-full h-auto md:h-full md:w-full origin-center md:object-cover"
+          className="
+      absolute 
+      top-1/2 left-1/2 
+      w-full h-auto 
+      origin-center 
+      md:relative md:top-0 md:left-0 md:w-full md:h-full md:object-cover
+    "
           style={{
             transform:
               window.innerWidth < 768
                 ? "translate(-50%, -50%) scale(2.5)"
-                : "none",
+                : undefined,
           }}
         />
       </section>
