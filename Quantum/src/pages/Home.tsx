@@ -246,7 +246,7 @@ export const Home: React.FC = () => {
                 alt=""
                 className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#191514]/90 via-[#191514]/50 to-transparent p-4 flex flex-col justify-end">
+              <div className="absolute inset-0 bg-gradient-to-t p-4 flex flex-col justify-end">
                 <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                   {slide.content}
                 </div>
