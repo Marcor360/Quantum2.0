@@ -41,7 +41,7 @@ export const Footer: React.FC = () => (
                 <div className="flex space-x-3 sm:space-x-4">
                     {/* Facebook */}
                     <a
-                        href="https://www.facebook.com/tuPagina"
+                        href=""
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Facebook"
@@ -51,7 +51,7 @@ export const Footer: React.FC = () => (
                     </a>
                     {/* WhatsApp */}
                     <a
-                        href="https://wa.me/521234567890"
+                        href="https://wa.me/525520814083"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="WhatsApp"
@@ -61,7 +61,7 @@ export const Footer: React.FC = () => (
                     </a>
                     {/* Instagram */}
                     <a
-                        href="https://www.instagram.com/tuUsuario"
+                        href=""
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Instagram"
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => (
                     </a>
                     {/* Email */}
                     <a
-                        href="mailto:contacto@quantum.com.mx"
+                        href="mailto:jffonseca@quantumsales.mx"
                         aria-label="Email"
                         className="bg-white text-[#110f0e] rounded-full p-2 sm:p-3 hover:opacity-90 transition"
                     >

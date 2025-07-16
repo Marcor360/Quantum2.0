@@ -142,7 +142,7 @@ const Home: React.FC = () => {
       ),
     },
     {
-      imgUrl: isMobile ? appsIaImgMV: appsIaImg,
+      imgUrl: isMobile ? appsIaImgMV : appsIaImg,
       content: (
         <>
           <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-white font-subjectivity tracking-wide drop-shadow-lg uppercase">
@@ -329,18 +329,16 @@ const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out group-hover:scale-105"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
-                  idx === activeIndex ? "justify-end" : "opacity-0"
-                }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex ? "justify-end" : "opacity-0"
+                  }`}
               >
                 <div className="max-w-[50%] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   {slide.content}
                 </div>
               </div>
               <div
-                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${
-                  activeIndex === idx ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${activeIndex === idx ? "opacity-100" : "opacity-0"
+                  }`}
               />
             </article>
           ))}
@@ -479,7 +477,7 @@ const Home: React.FC = () => {
                 Quantum es ciencia, no intuición...
               </p>
               <a
-                href="#contacto"
+                href="https://wa.me/525520814083?text=Hola%20Quantum%2C%20me%20gustar%C3%ADa%20más%20info%20sobre%20Marketing%2C%20E-commerce%2C%20Desarrollo%20Web%20y%20Branding."
                 className="text-yellow-400 underline text-sm sm:text-base md:text-lg font-medium"
               >
                 ¿Desea un diagnóstico sin costo de tu modelo actual? Contáctanos
