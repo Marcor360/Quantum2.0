@@ -8,7 +8,7 @@ import InstagramIcon from '../assets/icons/instagram.svg?react';
 import MailIcon from '../assets/icons/mail.svg?react';
 
 export const Footer: React.FC = () => (
-    <footer className="bg-[#110f0e] text-white py-5">
+    <footer className="bg-[#110f0e] text-white py-5 font-subjectivity">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-y-8 md:gap-y-0 md:flex-row items-center md:items-start justify-between">
 
             {/* 1. Logo */}
