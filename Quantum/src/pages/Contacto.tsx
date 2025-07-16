@@ -1,6 +1,20 @@
 import React from "react";
 import MouseParticles from "../components/MouseParticles";
 
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const data = new FormData(e.currentTarget);
+  const name = data.get("name") || "";
+  const email = data.get("email") || "";
+  const message = data.get("message") || "";
+
+  const subject = encodeURIComponent("Mensaje de contacto");
+  const body = encodeURIComponent(
+    `Nombre: ${name}\nCorreo: ${email}\nMensaje: ${message}`
+  );
+  window.location.href = `mailto:marcorulfo100@gmail.com?subject=${subject}&body=${body}`;
+};
+
 const Contacto: React.FC = () => {
   return (
     <main className="relative min-h-screen flex items-center justify-center px-4 py-12">
@@ -13,7 +27,7 @@ const Contacto: React.FC = () => {
           un especialista se pondrá en contacto contigo.
         </p>
 
-        <form className="grid gap-4">
+        <form className="grid gap-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-1">
               Nombre
@@ -60,17 +74,6 @@ const Contacto: React.FC = () => {
             Enviar
           </button>
         </form>
-
-        <div className="mt-8 text-center text-sm leading-relaxed">
-          <p className="font-bold">Quantum Marketing &amp; Sales</p>
-          <p>Blvd. Palmas Hills 1, Valle de las Palmas</p>
-          <p>52787 Naucalpan de Juárez, Mex.</p>
-          <p className="mt-2">
-            <a href="mailto:contacto@quantum.com.mx" className="underline">
-              contacto@quantum.com.mx
-            </a>
-          </p>
-        </div>
       </section>
     </main>
   );
