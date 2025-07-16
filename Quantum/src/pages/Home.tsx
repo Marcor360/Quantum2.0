@@ -200,7 +200,7 @@ export const Home: React.FC = () => {
         id="hero"
         aria-label="Mensaje principal"
         className="
-          relative w-full
+          relative
           h-[calc(99vh_-_theme(spacing.20))]
           flex flex-col items-center justify-center
           px-4
@@ -331,7 +331,7 @@ export const Home: React.FC = () => {
       <section
         id="quantum360"
         aria-label="Descubre Quantum 360"
-        className="relative w-screen min-h-screen mt-4  overflow-hidden group font-subjectivity"
+        className="relative w-screen min-h-screen mt-4 overflow-hidden group font-subjectivity"
       >
         {/* Fondos: móvil y escritorio */}
         <img
@@ -347,8 +347,12 @@ export const Home: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover hidden md:block transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* —— Contenido superpuesto centrado con bloques —— */}
-        <div className="absolute inset-0 flex items-center justify-center px-7 sm:px-6">
+        {/* —— Contenido superpuesto alineado a la derecha —— */}
+        <div className="absolute inset-0 flex items-center justify-end pl-7 sm:pl-10 md:pl-16 lg:pl-24 
+        pr-32
+        sm:pr-40
+        md:pr-48
+        lg:pr-115">
           <div
             className="
         w-full max-w-lg md:max-w-xl
@@ -362,7 +366,7 @@ export const Home: React.FC = () => {
           >
             {/* Bloque 1: Título y subtítulo */}
             <div>
-              <div className="uppercase text-base sm:text-lg md:text-xl font-semibold">
+              <div className="uppercase text-[#ff6ef3] font-extrabold drop-shadow-[0_0_10px_rgba(255,110,243,0.5)] text-3xl">
                 Metodología Universal 360°
               </div>
               <p className="mt-1 text-sm sm:text-base md:text-lg">
@@ -372,10 +376,10 @@ export const Home: React.FC = () => {
 
             {/* Bloque 2: ¿Qué resuelve? */}
             <div>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">
+              <h2 className="text-[#ffff00] font-bold drop-shadow-[0_0_10px_rgba(255,255,0,0.5)] text-4xl">
                 ¿Qué resuelve?
               </h2>
-              <p className="text-sm sm:text-base md:text-lg">
+              <p className="text-sm sm:text-base md:text-lg pt-2.5">
                 El <span className="text-yellow-400 font-bold">89%</span> de las
                 empresas fallan al adaptar sus modelos de valor a mercados
                 volátiles por falta de integración sinérgica entre datos,
