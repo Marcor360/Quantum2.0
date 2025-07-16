@@ -135,14 +135,69 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
 /* === COMPONENTE ========================================================== */
 export const Home: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const circlesRef = useRef<HTMLUListElement | null>(null);
-  const resultsRef = useRef<HTMLDivElement | null>(null);
 
-  // Animar círculos con zoom al entrar y revertir al salir
+  // Refs para móvil
+  const circlesRefMobile = useRef<HTMLUListElement | null>(null);
+  const resultsRefMobile = useRef<HTMLDivElement | null>(null);
+  // Refs para escritorio
+  const circlesRefDesktop = useRef<HTMLUListElement | null>(null);
+  const resultsRefDesktop = useRef<HTMLDivElement | null>(null);
+
+  // Animar círculos en móvil
   useEffect(() => {
-    const list = circlesRef.current;
+    const list = circlesRefMobile.current;
     if (!list) return;
+    const tween = gsap.fromTo(
+      Array.from(list.children),
+      { scale: 0, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: list,
+          start: "top 90%", // más arriba para móviles
+          toggleActions: "play reverse play reverse",
+        },
+      }
+    );
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
 
+  // Animar barra en móvil
+  useEffect(() => {
+    const bar = resultsRefMobile.current;
+    if (!bar) return;
+    const tween = gsap.fromTo(
+      bar,
+      { opacity: 0, scale: 0.5 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: bar,
+          start: "top 90%",
+          toggleActions: "play reverse play reverse",
+        },
+      }
+    );
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
+
+  // Animar círculos en escritorio (tu código original)
+  useEffect(() => {
+    const list = circlesRefDesktop.current;
+    if (!list) return;
     const tween = gsap.fromTo(
       Array.from(list.children),
       { scale: 0, opacity: 0 },
@@ -159,17 +214,16 @@ export const Home: React.FC = () => {
         },
       }
     );
-
     return () => {
       tween.scrollTrigger?.kill();
       tween.kill();
     };
   }, []);
-  // Animar barra de resultados cuando entra y revertir al salir
-  useEffect(() => {
-    const bar = resultsRef.current;
-    if (!bar) return;
 
+  // Animar barra en escritorio
+  useEffect(() => {
+    const bar = resultsRefDesktop.current;
+    if (!bar) return;
     const tween = gsap.fromTo(
       bar,
       { opacity: 0, scale: 0.5 },
@@ -185,7 +239,6 @@ export const Home: React.FC = () => {
         },
       }
     );
-
     return () => {
       tween.scrollTrigger?.kill();
       tween.kill();
@@ -328,13 +381,13 @@ export const Home: React.FC = () => {
       </section>
 
       {/* =============== CTA QUANTUM 360 =============== */}
-      
+
       <section
         id="quantum360"
         aria-label="Descubre Quantum 360"
         className="relative w-screen min-h-screen mt-4 overflow-hidden group font-subjectivity"
       >
-        {/* Fondos: móvil y escritorio */}
+        {/* Fondos */}
         <img
           src={QM360_MV}
           alt="Animación Quantum 360 móvil"
@@ -348,83 +401,88 @@ export const Home: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover hidden md:block transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* ——— Overlay MÓVIL ——— */}
+        {/* Overlay MÓVIL */}
         <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-black/60 md:hidden">
           <div className="w-full max-w-md grid gap-y-6 text-center text-white">
-            {/* Bloque 1: Título y subtítulo */}
+            {/* 1 */}
             <div>
               <div className="uppercase text-[#ff6ef3] font-extrabold drop-shadow-[0_0_10px_rgba(255,110,243,0.7)] text-2xl">
-                Metodología Universal 360°
+                Metodología Universal 360°
               </div>
               <p className="mt-1 text-sm">
                 Transformación Comercial Basada en Datos y Agilidad Estratégica
               </p>
             </div>
-
-            {/* Bloque 2: ¿Qué resuelve? */}
+            {/* 2 */}
             <div>
               <h2 className="text-[#ffff00] font-bold drop-shadow-[0_0_10px_rgba(255,255,0,0.7)] text-3xl">
                 ¿Qué resuelve?
               </h2>
               <p className="text-sm pt-2">
                 El <span className="text-yellow-400 font-bold">89%</span> de las
-                empresas fallan al adaptar sus modelos de valor a mercados
-                volátiles por falta de integración sinérgica entre datos,
-                cliente, agilidad y flexibilidad.
+                empresas fallan…
               </p>
             </div>
-
-            {/* Bloque 3: Círculos */}
-            <div className="flex flex-wrap justify-center gap-3">
-              {[
-                "Data Driven",
-                "Centrado en el cliente",
-                "Transformación operativa",
-                "Nuevos canales comerciales",
-              ].map((label) => (
-                <div
-                  key={label}
-                  className="bg-pink-400 rounded-full w-20 h-20 flex items-center justify-center text-[0.6rem] font-medium text-white px-1"
-                >
-                  {label}
-                </div>
-              ))}
+            {/* 3: círculos móvil */}
+            <div>
+              <h2 className="text-xl font-bold mb-2">¿Cómo lo resolvemos?</h2>
+              <ul
+                ref={circlesRefMobile}
+                className="flex flex-wrap justify-center gap-3"
+              >
+                {[
+                  "Data Driven",
+                  "Centrado en el cliente",
+                  "Transformación operativa",
+                  "Nuevos canales comerciales",
+                ].map((label) => (
+                  <li
+                    key={label}
+                    className="bg-pink-400 rounded-full w-16 h-16 flex items-center justify-center text-[0.6rem] font-medium text-white px-1"
+                  >
+                    {label}
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            {/* Bloque 4: Barra de resultados */}
-            <div className="bg-purple-600 rounded-full text-center font-bold py-2 px-4 text-sm">
-              Resultados medibles en ventas
+            {/* 4: barra móvil */}
+            <div className="flex justify-center">
+              <div
+                ref={resultsRefMobile}
+                className="bg-purple-600 rounded-full text-center font-bold py-2 px-4 text-sm"
+              >
+                Resultados medibles en ventas
+              </div>
             </div>
-
-            {/* Bloque 5: CTA final */}
+            {/* 5: CTA móvil */}
             <div>
               <p className="text-lg font-bold mb-1">
                 Quantum es ciencia, no intuición...
               </p>
               <a
                 href="#contacto"
-                className="text-yellow-400 underline text-base font-medium"
+                className="inline-block bg-yellow-400 text-black font-medium py-2 px-4 rounded-lg hover:bg-yellow-300 transition"
               >
-                ¿Desea un diagnóstico sin costo de tu modelo actual? Contáctanos
+                Diagnóstico gratuito →
               </a>
             </div>
           </div>
         </div>
 
-        {/* ——— Overlay ESCRITORIO ——— */}
+        {/* Overlay ESCRITORIO */}
         <div className="hidden md:flex absolute inset-0 items-center justify-end pl-7 sm:pl-10 md:pl-16 lg:pl-24 pr-32 sm:pr-40 md:pr-48 lg:pr-115">
           <div
             className="
-        w-full max-w-lg md:max-w-xl
-        grid gap-y-6 sm:gap-y-8 md:gap-y-10
-        text-left text-white
-        bg-black/60
-        sm:bg-transparent sm:backdrop-blur-0
-        p-4 sm:p-6 md:p-0
-        rounded-lg md:rounded-none
-      "
+            w-full max-w-lg md:max-w-xl
+            grid gap-y-6 sm:gap-y-8 md:gap-y-10
+            text-left text-white
+            bg-black/60
+            sm:bg-transparent sm:backdrop-blur-0
+            p-4 sm:p-6 md:p-0
+            rounded-lg md:rounded-none
+          "
           >
-            {/* Bloque 1: Título y subtítulo */}
+            {/* 1 */}
             <div>
               <div className="uppercase text-[#ff6ef3] font-extrabold drop-shadow-[0_0_10px_rgba(255,110,243,0.5)] text-3xl">
                 Metodología Universal 360°
@@ -433,27 +491,23 @@ export const Home: React.FC = () => {
                 Transformación Comercial Basada en Datos y Agilidad Estratégica
               </p>
             </div>
-
-            {/* Bloque 2: ¿Qué resuelve? */}
+            {/* 2 */}
             <div>
               <h2 className="text-[#ffff00] font-bold drop-shadow-[0_0_10px_rgba(255,255,0,0.5)] text-4xl">
                 ¿Qué resuelve?
               </h2>
               <p className="text-sm sm:text-base md:text-lg pt-2.5">
                 El <span className="text-yellow-400 font-bold">89%</span> de las
-                empresas fallan al adaptar sus modelos de valor a mercados
-                volátiles por falta de integración sinérgica entre datos,
-                cliente, agilidad y flexibilidad.
+                empresas fallan…
               </p>
             </div>
-
-            {/* Bloque 3: ¿Cómo lo resolvemos? + círculos */}
+            {/* 3: círculos escritorio */}
             <div>
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4">
                 ¿Cómo lo resolvemos?
               </h2>
               <ul
-                ref={circlesRef}
+                ref={circlesRefDesktop}
                 className="flex flex-wrap justify-center sm:justify-between gap-4"
               >
                 {[
@@ -471,18 +525,16 @@ export const Home: React.FC = () => {
                 ))}
               </ul>
             </div>
-
-            {/* Bloque 4: Barra de resultados */}
+            {/* 4: barra escritorio */}
             <div className="flex justify-center">
               <div
-                ref={resultsRef}
+                ref={resultsRefDesktop}
                 className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-35 text-sm sm:text-base md:text-lg"
               >
                 Resultados medibles en ventas
               </div>
             </div>
-
-            {/* Bloque 5: CTA final */}
+            {/* 5: CTA escritorio */}
             <div className="text-center">
               <p className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
                 Quantum es ciencia, no intuición...
