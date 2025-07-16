@@ -72,7 +72,7 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
       <>
         <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#fff] font-subjectivity tracking-wide drop-shadow-lg py-2 uppercase">
           ¿Ya tienes la{" "}
-          <span className="text-[#753bd0] drop-shadow-[0_0_10px_rgba(117,59,208,10.9)]">
+          <span className="text-[#3b0394] drop-shadow-[0_0_10px_rgba(117,59,208,10.9)]">
             estrategia
           </span>
           ?
@@ -92,14 +92,14 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: ecommerceImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#753bd0] font-subjectivity tracking-wide drop-shadow-lg  pr-10 uppercase">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#ddd] font-subjectivity tracking-wide drop-shadow-lg  pr-10 uppercase">
           ¿Listo para vender en los principales{" "}
           <span className="text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.9)]">
             marketplaces
           </span>
           ?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-[#753bd0] font-subjectivity leading-relaxed font-medium py-2 pr-30">
+        <p className="text-xs sm:text-sm md:text-lg text-[#ddd] font-subjectivity leading-relaxed font-medium py-2 pr-30">
           Te llevamos a{" "}
           <strong className="text-[#ff6ef3] font-extrabold">
             Amazon y Mercado Libre
@@ -323,18 +323,41 @@ export const Home: React.FC = () => {
               key={idx}
               className="relative rounded-lg overflow-hidden h-72 sm:h-80 group border-2 border-[#753bd0]/30 hover:border-[#ffff00]/70 transition-all duration-300"
             >
+              {/* 1) Imagen de fondo */}
               <img
                 src={slide.imgUrl}
                 alt=""
-                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110 z-0"
               />
-              <div className="absolute inset-0 bg-gradient-to-t p-4 flex flex-col justify-end">
+
+              {/* 2) Overlay de brillo permanente en móvil */}
+              <div
+                className="
+          absolute inset-0
+          z-10
+          opacity-30
+          animate-pulse
+          bg-gradient-to-r
+            from-[#ffff00]/20
+            via-transparent
+            to-[#ff6ef3]/20
+        "
+              />
+
+              {/* 3) Gradiente para contraste y texto encima */}
+              <div
+                className="
+          absolute inset-0
+          p-4
+          flex flex-col justify-end
+          bg-gradient-to-t from-black/90 to-transparent
+          z-20
+        "
+              >
                 <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                   {slide.content}
                 </div>
               </div>
-              {/* Efecto de brillo en hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-[#ffff00]/10 via-transparent to-[#ff6ef3]/10"></div>
             </article>
           ))}
         </div>
@@ -561,7 +584,7 @@ export const Home: React.FC = () => {
       <section
         id="bienvenida"
         aria-label="Video de bienvenida"
-        className="relative w-screen h-[67vh] md:h-[83vh] overflow-hidden bg-black"
+        className="relative w-screen h-[67vh] md:h-[85vh] overflow-hidden bg-black"
       >
         <video
           src={CompVid}
