@@ -347,54 +347,49 @@ export const Home: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover hidden md:block transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* —— Contenido superpuesto alineado a la derecha —— */}
-        <div className="absolute inset-0 flex items-center justify-end pl-7 sm:pl-10 md:pl-16 lg:pl-24 
-        pr-32
-        sm:pr-40
-        md:pr-48
-        lg:pr-115">
+        {/* —— Overlay responsive —— */}
+        <div className="absolute inset-0 flex items-center justify-center md:justify-end px-4 sm:px-6 md:px-16">
           <div
             className="
-        w-full max-w-lg md:max-w-xl
-        grid gap-y-6 sm:gap-y-8 md:gap-y-10
-        text-left text-white
-        bg-black/60
-        sm:bg-transparent sm:backdrop-blur-0
-        p-4 sm:p-6 md:p-0
-        rounded-lg md:rounded-none
+        w-full max-w-sm sm:max-w-md
+        grid gap-y-4 sm:gap-y-6 md:gap-y-10
+        text-center md:text-left text-white
+        bg-black/80 md:bg-black/60
+        p-6 sm:p-8 md:p-0
+        rounded-xl md:rounded-none
       "
           >
             {/* Bloque 1: Título y subtítulo */}
             <div>
-              <div className="uppercase text-[#ff6ef3] font-extrabold drop-shadow-[0_0_10px_rgba(255,110,243,0.5)] text-3xl">
+              <div className="uppercase text-lg sm:text-xl md:text-2xl font-semibold text-[#ff6ef3] drop-shadow-[0_0_8px_rgba(255,110,243,0.5)]">
                 Metodología Universal 360°
               </div>
-              <p className="mt-1 text-sm sm:text-base md:text-lg">
+              <p className="mt-1 text-xs sm:text-sm md:text-lg leading-snug">
                 Transformación Comercial Basada en Datos y Agilidad Estratégica
               </p>
             </div>
 
             {/* Bloque 2: ¿Qué resuelve? */}
             <div>
-              <h2 className="text-[#ffff00] font-bold drop-shadow-[0_0_10px_rgba(255,255,0,0.5)] text-4xl">
+              <h2 className="text-[#ffff00] font-bold drop-shadow-[0_0_8px_rgba(255,255,0,0.5)] text-xl sm:text-2xl md:text-3xl">
                 ¿Qué resuelve?
               </h2>
-              <p className="text-sm sm:text-base md:text-lg pt-2.5">
-                El <span className="text-yellow-400 font-bold">89%</span> de las
-                empresas fallan al adaptar sus modelos de valor a mercados
-                volátiles por falta de integración sinérgica entre datos,
-                cliente, agilidad y flexibilidad.
+              <p className="text-xs sm:text-sm md:text-lg pt-1">
+                El <span className="font-bold">89%</span> de las empresas fallan
+                al adaptar sus modelos de valor a mercados volátiles por falta
+                de integración sinérgica entre datos, cliente, agilidad y
+                flexibilidad.
               </p>
             </div>
 
             {/* Bloque 3: ¿Cómo lo resolvemos? + círculos */}
             <div>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2">
                 ¿Cómo lo resolvemos?
               </h2>
               <ul
                 ref={circlesRef}
-                className="flex flex-wrap justify-center sm:justify-between gap-4"
+                className="flex flex-wrap justify-center gap-3 sm:gap-4"
               >
                 {[
                   "Data Driven",
@@ -404,7 +399,7 @@ export const Home: React.FC = () => {
                 ].map((label) => (
                   <li
                     key={label}
-                    className="bg-pink-400 rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-30 md:h-30 flex items-center justify-center text-[0.6rem] sm:text-xs md:text-sm font-medium text-white text-center px-1"
+                    className="bg-pink-400 rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center text-[0.55rem] sm:text-xs font-medium text-white px-1"
                   >
                     {label}
                   </li>
@@ -413,23 +408,23 @@ export const Home: React.FC = () => {
             </div>
 
             {/* Bloque 4: Barra de resultados */}
-            <div className="flex justify-center">
+            <div>
               <div
                 ref={resultsRef}
-                className="bg-purple-600 rounded-full text-center font-bold py-2 sm:py-3 px-4 sm:px-6 md:px-35 text-sm sm:text-base md:text-lg"
+                className="bg-purple-600 rounded-full text-center font-bold py-2 px-4 text-xs sm:text-sm md:text-base"
               >
                 Resultados medibles en ventas
               </div>
             </div>
 
             {/* Bloque 5: CTA final */}
-            <div className="text-center">
-              <p className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
+            <div>
+              <p className="text-base sm:text-lg md:text-xl font-bold mt-2">
                 Quantum es ciencia, no intuición...
               </p>
               <a
                 href="#contacto"
-                className="text-yellow-400 underline text-sm sm:text-base md:text-lg font-medium"
+                className="text-yellow-400 underline text-xs sm:text-sm md:text-base font-medium"
               >
                 ¿Desea un diagnóstico sin costo de tu modelo actual? Contáctanos
               </a>
