@@ -92,14 +92,14 @@ const slides: { imgUrl: string; content: JSX.Element }[] = [
     imgUrl: ecommerceImg,
     content: (
       <>
-        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#ddd] font-subjectivity tracking-wide drop-shadow-lg  pr-10 uppercase">
+        <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-[#fff] md:text-[#3b0394] font-subjectivity tracking-wide drop-shadow-lg  pr-10 uppercase">
           ¿Listo para vender en los principales{" "}
           <span className="text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.9)]">
             marketplaces
           </span>
           ?
         </h2>
-        <p className="text-xs sm:text-sm md:text-lg text-[#ddd] font-subjectivity leading-relaxed font-medium py-2 pr-30">
+        <p className="text-xs sm:text-sm md:text-lg text-[#fff] md:text-[#3b0394] font-subjectivity leading-relaxed font-medium py-2 pr-30">
           Te llevamos a{" "}
           <strong className="text-[#ff6ef3] font-extrabold">
             Amazon y Mercado Libre
@@ -425,7 +425,7 @@ export const Home: React.FC = () => {
 
         {/* ——— Overlay MÓVIL ajustado ——— */}
         <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center px-4 bg-black/60 md:hidden">
-          <div className="w-full max-w-md grid gap-y-6 text-center text-white">
+          <div className="w-full max-w-md grid gap-y-6 text-center text-white pt-30">
             {/* 1) Título */}
             <div>
               <div className="uppercase text-2xl font-extrabold text-[#ff6ef3] drop-shadow-[0_0_8px_rgba(255,110,243,0.9)]">
