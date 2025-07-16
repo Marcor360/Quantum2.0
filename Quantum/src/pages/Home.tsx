@@ -298,7 +298,7 @@ const Home: React.FC = () => {
               <img
                 src={slide.imgUrl}
                 alt=""
-                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110 z-0"
+                className="w-full h-full object-fill object-center transition-transform duration-500 group-hover:scale-110 z-0"
               />
               <div className="absolute inset-0 z-10 opacity-30 animate-pulse bg-gradient-to-r from-[#ffff00]/20 via-transparent to-[#ff6ef3]/20" />
               <div className="absolute inset-0 p-4 flex flex-col justify-end bg-gradient-to-t from-black/90 to-transparent z-20">
