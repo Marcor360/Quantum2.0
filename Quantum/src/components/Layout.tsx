@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import Footer from "./Footer";
+import WhatsAppButton from "./WhatsAppButton";
 
 const Layout: React.FC = () => {
   // Controla si el menú móvil está abierto
@@ -109,6 +110,7 @@ const Layout: React.FC = () => {
 
       {/* Punto de renderizado de rutas hijas */}
       <Outlet />
+      <WhatsAppButton />
       <Footer />
     </>
   );

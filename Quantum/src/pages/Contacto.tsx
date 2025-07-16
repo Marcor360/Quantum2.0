@@ -12,7 +12,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   const body = encodeURIComponent(
     `Nombre: ${name}\nCorreo: ${email}\nMensaje: ${message}`
   );
-  window.location.href = `mailto:marcorulfo100@gmail.com?subject=${subject}&body=${body}`;
+  window.location.href = `mailto:jffonseca@quantumsales.mx?subject=${subject}&body=${body}`;
 };
 
 const Contacto: React.FC = () => {
