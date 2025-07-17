@@ -395,7 +395,7 @@ const Home: React.FC = () => {
                 ].map((label) => (
                   <li
                     key={label}
-                    className="bg-pink-400 w-20 h-20 rounded-full flex items-center justify-center text-[0.6rem] font-bold text-white"
+                    className="bg-pink-400 w-25 h-25 rounded-full flex items-center justify-center text-[0.6rem] font-bold text-white"
                   >
                     {label}
                   </li>
