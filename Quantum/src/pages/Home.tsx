@@ -429,7 +429,7 @@ const Home: React.FC = () => {
           <div className="w-full max-w-lg md:max-w-xl grid gap-y-6 sm:gap-y-8 md:gap-y-10 text-left text-white bg-black/60 sm:bg-transparent sm:backdrop-blur-0 p-4 sm:p-6 md:p-0 rounded-lg md:rounded-none">
             <div>
               <div className="uppercase text-[#ff6ef3] font-extrabold drop-shadow-[0_0_10px_rgba(255,110,243,0.5)] text-3xl">
-                Metodología 360°
+                Metodología Universal 360°
               </div>
               <p className="mt-1 text-sm sm:text-base md:text-lg">
                 Transformación Comercial Basada en Datos y Agilidad Estratégica
