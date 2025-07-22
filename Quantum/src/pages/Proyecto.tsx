@@ -1,132 +1,121 @@
-// src/components/Proyectos.tsx
-import React from "react";
+import React, { useState } from "react";
 
-/* =========================================================================
-   TODO: Reemplaza las rutas de imágenes por las tuyas
-   ======================================================================= */
-import IMG_BRANDING_COVER from "/Proyectos/Hands-Holding-copy.webp";          // Libro cerrado morado
-import IMG_BRANDING_SPREAD from "/Proyectos/Hands-Holding-copy.webp";        // Doble página abierta
-import IMG_BRANDING_GUIDE  from "/Proyectos/Hands-Holding-copy.webp";         // Guía gráfica amarilla/púrimport
-import IMG_WEB_MAIN   from "/Proyectos/Hands-Holding-copy.webp";                   // Mockup principal (monitor / sitio)
-import IMG_WEB_LAYER1 from "/Proyectos/Hands-Holding-copy.webp";             // Pantalla 1
-import IMG_WEB_LAYER2 from "/Proyectos/Hands-Holding-copy.webp";             // Pantalla 2 (opcional)
+// Assets
+import IMG_BOTELLA from "/Proyectos/BotellaProyecto.webp";
+import IMG_CAMISA from "/Proyectos/CamisaProyect3.webp";
+import IMG_CAMPANAS from "/Proyectos/Campañas.webp";
+import IMG_CAMPANAS_DIG from "/Proyectos/CampañasDigitales.webp";
+import IMG_HANDS from "/Proyectos/Hands-Holding-copy.webp";
+const IMG_LIBRETAS = "/Proyectos/Libretas.webp";
+const IMG_GORRA = "/Proyectos/Gorra.webp";
+const IMG_DESARROLLO_WEB = "/Proyectos/Desarollo-web.webp"
 
-/* =========================================================================
-   Componente BrandingBlock
-   ======================================================================= */
-function BrandingBlock() {
-  return (
-    <div
-      id="branding-block"
-      className="relative w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-start"
-    >
-      {/* Collage de imágenes */}
-      <div className="relative md:col-span-7 h-[340px] sm:h-[420px] md:h-[480px] lg:h-[520px]">
-        {/* Libro cerrado */}
-        <img
-          src={IMG_BRANDING_COVER}
-          alt="Manual de marca cerrado"
-          loading="lazy"
-          className="absolute left-1/2 -translate-x-1/2 top-0 w-[55%] sm:w-[50%] md:w-[60%] max-w-xs md:max-w-sm lg:max-w-md drop-shadow-2xl rotate-[0.5deg]"
-        />
-
-        {/* Doble página abierta */}
-        <img
-          src={IMG_BRANDING_SPREAD}
-          alt="Manual de marca abierto"
-          loading="lazy"
-          className="absolute bottom-2 left-[10%] w-[48%] sm:w-[42%] md:w-[45%] max-w-sm drop-shadow-2xl -rotate-2"
-        />
-
-        {/* Guía gráfica / assets */}
-        <img
-          src={IMG_BRANDING_GUIDE}
-          alt="Guía gráfica de apoyo"
-          loading="lazy"
-          className="absolute bottom-[15%] right-[5%] w-[42%] sm:w-[38%] md:w-[40%] max-w-sm drop-shadow-2xl rotate-2"
-        />
-      </div>
-
-      {/* Texto */}
-      <div className="md:col-span-5 flex flex-col justify-start md:justify-center text-left px-2 md:px-0">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold uppercase text-white leading-tight">
-          Desarrollo <br className="hidden sm:block" /> de Marca
-        </h2>
-        <p className="mt-2 text-base sm:text-lg text-gray-300 font-light">
-          Las bases de un correcto proceso
-        </p>
-        <p className="mt-4 text-sm sm:text-base text-gray-400 max-w-prose">
-          Enfocamos el complejo desarrollo de una adecuada implementación en
-          todos los medios, diseñando un método de branding con todas las
-          especificaciones a un nivel competitivo.
-        </p>
-      </div>
-    </div>
-  );
+interface Slide {
+  img: string;
+  text: string;
+  bg: string;
 }
 
-/* =========================================================================
-   Componente WebBlock
-   ======================================================================= */
-function WebBlock() {
+const slides: Slide[] = [
+  { img: IMG_HANDS, text: "Tip 1: Crea contenido atractivo", bg: "bg-[#753bd0]" },
+  { img: IMG_CAMPANAS_DIG, text: "Tip 2: Mantén una línea gráfica", bg: "bg-white" },
+  { img: IMG_CAMISA, text: "Tip 3: Publica constantemente", bg: "bg-pink-100" },
+];
+
+const Carousel: React.FC = () => {
+  const [index, setIndex] = useState(0);
+  const prev = () => setIndex((index - 1 + slides.length) % slides.length);
+  const next = () => setIndex((index + 1) % slides.length);
+
   return (
-    <div
-      id="web-block"
-      className="relative w-full max-w-7xl mx-auto mt-24 md:mt-32"
-    >
-      {/* Collage */}
-      <div className="relative mx-auto w-full max-w-5xl h-[380px] sm:h-[460px] md:h-[520px] lg:h-[600px] flex items-center justify-center">
-        {/* Capa base (monitor / mockup grande) */}
-        <img
-          src={IMG_WEB_MAIN}
-          alt="Desarrollo web principal"
-          loading="lazy"
-          className="relative z-10 max-h-full max-w-full object-contain drop-shadow-2xl"
-        />
-
-        {/* Pantalla flotante izquierda */}
-        <img
-          src={IMG_WEB_LAYER1}
-          alt="Vista secundaria de sitio"
-          loading="lazy"
-          className="absolute z-20 -top-4 -left-2 sm:-top-6 sm:-left-6 w-[55%] sm:w-[50%] md:w-[48%] object-contain drop-shadow-2xl -rotate-2"
-        />
-
-        {/* Pantalla flotante derecha (opcional) */}
-        <img
-          src={IMG_WEB_LAYER2}
-          alt="Vista adicional de sitio"
-          loading="lazy"
-          className="absolute z-20 top-[18%] -right-2 sm:-right-6 w-[48%] sm:w-[44%] md:w-[42%] object-contain drop-shadow-2xl rotate-2"
-        />
+    <div className="relative w-full overflow-hidden">
+      <div
+        className="flex transition-transform duration-500"
+        style={{ transform: `translateX(-${index * 100}%)` }}
+      >
+        {slides.map((s) => (
+          <div key={s.text} className={`w-full flex-shrink-0 h-80 sm:h-96 ${s.bg} flex items-center justify-center relative`}>
+            <img src={s.img} alt={s.text} className="absolute inset-0 w-full h-full object-cover opacity-70" />
+            <p className="relative z-10 text-lg md:text-xl font-bold text-center text-black px-4">{s.text}</p>
+          </div>
+        ))}
       </div>
-
-      {/* Etiqueta inferior derecha */}
-      <div className="mt-6 md:mt-8 text-right pr-2 sm:pr-4">
-        <span className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase text-white tracking-wide">
-          Desarrollo Web
-        </span>
-      </div>
+      <button onClick={prev} className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2">&#8249;</button>
+      <button onClick={next} className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2">&#8250;</button>
     </div>
-  );
-}
-
-/* =========================================================================
-   Componente principal Proyectos
-   ======================================================================= */
-const Proyectos: React.FC = () => {
-  return (
-    <section
-      id="proyectos"
-      aria-label="Proyectos destacados"
-      className="relative w-full bg-black py-16 sm:py-20 md:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden"
-    >
-      <div className="space-y-24 md:space-y-40">
-        <BrandingBlock />
-        <WebBlock />
-      </div>
-    </section>
   );
 };
 
-export default Proyectos;
+const Proyecto: React.FC = () => {
+  return (
+    <main className="font-subjectivity text-white">
+      {/* Desarrollo de Marca */}
+      <section >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-right text-3xl sm:text-4xl font-bold uppercase">DESARROLLO DE MARCA</h2>
+          <p className="text-right text-sm sm:text-base mt-2">Las bases de un correcto proceso</p>
+          <p className="text-right text-sm sm:text-base mt-2">Enfocamos el complejo desarrollo de una adecuada implementación en todos los medios diseñando un modelo de brandbook con todas las especificaciones a un nivel competitivo.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            <img src={IMG_CAMPANAS} alt="Brochure" className="rounded-lg shadow-lg object-contain w-full h-64" />
+            <div className="space-y-6">
+              <img src={IMG_HANDS} alt="Fotografía" className="rounded-lg shadow-lg object-cover w-full h-64 mix-blend-multiply" />
+              <img src={IMG_GORRA} alt="Ilustración" className="rounded-lg shadow-lg object-cover w-full h-64" />
+            </div>
+            <img src={IMG_LIBRETAS} alt="Infografía" className="rounded-lg shadow-lg object-cover w-full h-64" />
+          </div>
+        </div>
+      </section>
+
+      {/* Desarrollo Web */}
+      <section className="text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold uppercase mb-8">DESARROLLO WEB</h2>
+          <div className="flex flex-col md:flex-row flex-wrap gap-6 items-center justify-center">
+            <img src={IMG_DESARROLLO_WEB} alt="Sitio 1" className="rounded-xl drop-shadow-2xl w-full md:w-1/3 object-contain" />
+          </div>
+        </div>
+      </section>
+
+      {/* Branding */}
+      <section>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold uppercase text-white">BRANDING</h2>
+          <p className="max-w-lg mx-auto mt-2 text-base text-white font-medium">Definimos la esencia, valores y promesa única de tu empresa, alineado a una propuesta de valor poderosa.</p>
+          <p className="max-w-lg mx-auto mt-2 text-sm text-white">La estrategia de la aplicación en materiales impresos y Branding es fundamental para un posicionamiento adecuado frente al consumidor. Nosotros facilitamos el enfoque.</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+            <img src={IMG_CAMISA} alt="Camisa" className="rounded-lg shadow-lg object-cover" />
+            <img src={IMG_BOTELLA} alt="Botella" className="rounded-lg shadow-lg object-cover" />
+            <img src={IMG_LIBRETAS} alt="Gafete" className="rounded-lg shadow-lg object-cover" />
+            <img src={IMG_GORRA} alt="Gorra" className="rounded-lg shadow-lg object-cover" />
+          </div>
+        </div>
+      </section>
+
+      {/* Redes Sociales */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-3xl font-bold uppercase text-white">REDES SOCIALES</h2>
+            <p className="text-sm leading-relaxed mt-4 text-white">La gestión estratégica de redes sociales es clave para lograr posicionar tu marca y generar leads calificados.</p>
+            <p className="text-sm leading-relaxed mt-4 text-white">En Quantum logramos activar la presencia en las principales redes mediante la gestión estratégica de estas, la correcta segmentación de audiencias y generación de contenido relevante. ¡Transforma seguidores en embajadores y datos en ventas!</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+              <img src={IMG_CAMPANAS} alt="campañas" />
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <img src={IMG_CAMPANAS_DIG} alt="Post" className="rounded-lg shadow-lg w-72" />
+          </div>
+        </div>
+      </section>
+
+      {/* Carrusel de Tips */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Carousel />
+        </div>
+      </section>
+    </main>
+  );
+};
+
+export default Proyecto;

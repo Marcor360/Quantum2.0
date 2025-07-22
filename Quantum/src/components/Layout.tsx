@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import Footer from "./Footer";
@@ -7,6 +7,25 @@ import WhatsAppButton from "./WhatsAppButton";
 const Layout: React.FC = () => {
   // Controla si el menú móvil está abierto
   const [isOpen, setIsOpen] = useState(false);
+
+  // Controla la visibilidad del menú al hacer scroll
+  const [showMenu, setShowMenu] = useState(true);
+
+  useEffect(() => {
+    let lastScroll = window.scrollY;
+    const handleScroll = () => {
+      const current = window.scrollY;
+      if (current > lastScroll && current > 50) {
+        setShowMenu(false);
+      } else {
+        setShowMenu(true);
+      }
+      lastScroll = current;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Rutas y etiquetas del menú
   const links = [
@@ -22,13 +41,8 @@ const Layout: React.FC = () => {
           Navbar con mismo estilo “bubblegum blur”
           que el menú móvil
       ----------------------------------------- */}
-      <nav className="
-    bg-white/5        /* blanco al 5% de opacidad */
-    backdrop-blur-lg   /* desenfoque grande */
-    px-6
-    flex justify-between items-center
-    relative z-50
-  ">
+      <nav className={`fixed top-0 w-full transition-transform duration-300 bg-white/5 backdrop-blur-lg px-6 flex justify-between items-center z-50
+    ${showMenu ? "translate-y-0" : "-translate-y-full"}`}>
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link to="/">
