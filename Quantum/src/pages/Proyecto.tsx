@@ -51,7 +51,7 @@ const Proyecto: React.FC = () => {
     <main className="font-subjectivity text-white">
       {/* Desarrollo de Marca */}
       <section >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-50">
           <h2 className="text-right text-3xl sm:text-4xl font-bold uppercase">DESARROLLO DE MARCA</h2>
           <p className="text-right text-sm sm:text-base mt-2">Las bases de un correcto proceso</p>
           <p className="text-right text-sm sm:text-base mt-2">Enfocamos el complejo desarrollo de una adecuada implementación en todos los medios diseñando un modelo de brandbook con todas las especificaciones a un nivel competitivo.</p>
@@ -66,47 +66,148 @@ const Proyecto: React.FC = () => {
         </div>
       </section>
 
-      {/* Desarrollo Web */}
-      <section className="text-white py-16">
+      {/* Sección “DESARROLLO WEB” totalmente responsive */}
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold uppercase mb-8">DESARROLLO WEB</h2>
-          <div className="flex flex-col md:flex-row flex-wrap gap-6 items-center justify-center">
-            <img src={IMG_DESARROLLO_WEB} alt="Sitio 1" className="rounded-xl drop-shadow-2xl w-full md:w-1/3 object-contain" />
+          {/* Uso de aspect-[16/9] para mantener la proporción en móvil/desktop */}
+          <div className="relative w-full aspect-[16/9]">
+            <img
+              src={IMG_DESARROLLO_WEB}
+              alt="Mockup Desarrollo Web"
+              className="absolute inset-0 w-full h-full object-contain rounded-xl drop-shadow-2xl"
+              loading="lazy"
+            />
+            <h2
+              className={`
+    absolute
+    bottom-2 right-2
+    md:bottom-4 md:right-4
+    text-sm               /* móvil */
+    sm:text-base          /* ≥640px */
+    md:text-lg            /* ≥768px */
+    lg:text-xl            /* ≥1024px */
+    xl:text-3xl           /* ≥1280px */
+    text-black
+    px-1.5 sm:px-2 md:px-4
+    py-0.5 sm:py-0.5 md:py-2
+    rounded
+  `}
+            >
+              <span className="block font-semibold leading-tight">
+                DESARROLLO
+              </span>
+              <span className={`
+    block
+    font-bold
+    text-xs                /* móvil */
+    sm:text-sm             /* ≥640px */
+    md:text-base           /* ≥768px */
+    lg:text-lg             /* ≥1024px */
+    xl:text-6xl             /* ≥1280px */
+  `}>
+                WEB
+              </span>
+            </h2>
+
           </div>
         </div>
       </section>
+
+
 
       {/* Branding */}
-      <section>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold uppercase text-white">BRANDING</h2>
-          <p className="max-w-lg mx-auto mt-2 text-base text-white font-medium">Definimos la esencia, valores y promesa única de tu empresa, alineado a una propuesta de valor poderosa.</p>
-          <p className="max-w-lg mx-auto mt-2 text-sm text-white">La estrategia de la aplicación en materiales impresos y Branding es fundamental para un posicionamiento adecuado frente al consumidor. Nosotros facilitamos el enfoque.</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
-            <img src={IMG_CAMISA} alt="Camisa" className="rounded-lg shadow-lg object-cover" />
-            <img src={IMG_BOTELLA} alt="Botella" className="rounded-lg shadow-lg object-cover" />
-            <img src={IMG_LIBRETAS} alt="Gafete" className="rounded-lg shadow-lg object-cover" />
-            <img src={IMG_GORRA} alt="Gorra" className="rounded-lg shadow-lg object-cover" />
+      {/* Sección “BRANDING” */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* — Fila superior: texto + gorra */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            {/* Texto */}
+            <div className="text-left">
+              <h2 className="text-3xl sm:text-4xl font-bold uppercase text-white">
+                BRANDING
+              </h2>
+              <p className="mt-4 text-lg text-gray-200 max-w-lg">
+                Definimos la esencia, valores y promesa única de tu empresa, alineado a una propuesta de valor poderosa.
+              </p>
+              <p className="mt-2 text-sm text-gray-200 max-w-lg">
+                La estrategia de la aplicación en materiales impresos y Branding es fundamental para un posicionamiento adecuado frente al consumidor. Nosotros facilitamos el enfoque.
+              </p>
+            </div>
+
+            {/* Gorra en la esquina superior derecha */}
+            <div className="w-full flex justify-end">
+              <img
+                src={IMG_GORRA}
+                alt="Gorra con branding Payrolling Tech"
+                className="max-w-xs sm:max-w-sm w-full object-contain rounded-lg shadow-lg"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          {/* — Fila inferior: camisetas y botella */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+            <img
+              src={IMG_CAMISA}
+              alt="Playera con branding Payrolling Tech"
+              className="w-full object-contain rounded-lg shadow-lg"
+              loading="lazy"
+            />
+            <img
+              src={IMG_BOTELLA}
+              alt="Botella con branding Payrolling Tech"
+              className="w-full object-contain rounded-lg shadow-lg"
+              loading="lazy"
+            />
           </div>
         </div>
       </section>
 
-      {/* Redes Sociales */}
+
+      {/* Sección “REDES SOCIALES” */}
       <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div>
-            <h2 className="text-3xl font-bold uppercase text-white">REDES SOCIALES</h2>
-            <p className="text-sm leading-relaxed mt-4 text-white">La gestión estratégica de redes sociales es clave para lograr posicionar tu marca y generar leads calificados.</p>
-            <p className="text-sm leading-relaxed mt-4 text-white">En Quantum logramos activar la presencia en las principales redes mediante la gestión estratégica de estas, la correcta segmentación de audiencias y generación de contenido relevante. ¡Transforma seguidores en embajadores y datos en ventas!</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              <img src={IMG_CAMPANAS} alt="campañas" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+          {/* 1) Fila: Mockup móvil + Texto */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            {/* Mockup móvil */}
+            <div className="flex justify-center md:justify-start">
+              <img
+                src={IMG_CAMPANAS}
+                alt="Mockup publicación de Instagram en móvil"
+                className="w-48 sm:w-60 md:w-full object-contain rounded-lg shadow-lg"
+                loading="lazy"
+              />
+            </div>
+            {/* Texto */}
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-bold uppercase text-white mb-4">
+                REDES SOCIALES
+              </h2>
+              <p className="text-lg text-gray-200 mb-2">
+                La gestión estratégica de redes sociales es clave para lograr posicionar tu marca y generar leads calificados.
+              </p>
+              <p className="text-base text-gray-200">
+                En Quantum logramos activar la presencia en las principales redes mediante la gestión estratégica de estas, la correcta segmentación de audiencias y generación de contenido relevante. ¡Transforma seguidores en embajadores y datos en ventas!
+              </p>
             </div>
           </div>
-          <div className="flex justify-center">
-            <img src={IMG_CAMPANAS_DIG} alt="Post" className="rounded-lg shadow-lg w-72" />
+
+          {/* 2) Banner completo (Facebook + Instagram) */}
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <img
+              src={IMG_CAMPANAS_DIG}
+              alt="Reporte mensual de redes sociales (Facebook e Instagram)"
+              className="w-full object-contain"
+              loading="lazy"
+            />
           </div>
+
         </div>
       </section>
+
+
 
       {/* Carrusel de Tips */}
       <section className="py-16">
