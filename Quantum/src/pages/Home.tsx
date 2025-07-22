@@ -415,7 +415,7 @@ const Home: React.FC = () => {
                 Quantum es ciencia, no intuición...
               </p>
               <a
-                href="#contacto"
+                href="https://wa.me/525520814083?text=Hola%20Quantum%2C%20me%20gustar%C3%ADa%20más%20info%20sobre%20Marketing%2C%20E-commerce%2C%20Desarrollo%20Web%20y%20Branding."
                 className="inline-block bg-yellow-400 text-black font-medium py-2 px-5 rounded-lg hover:bg-yellow-300 transition"
               >
                 Diagnóstico gratuito →
@@ -477,7 +477,7 @@ const Home: React.FC = () => {
                 Quantum es ciencia, no intuición...
               </p>
               <a
-                href="https://wa.me/525520814083?text=Hola%20Quantum%2C%20me%20gustar%C3%ADa%20más%20info%20sobre%20Marketing%2C%20E-commerce%2C%20Desarrollo%20Web%20y%20Branding."
+                href="https://wa.me/525520814083?text=Hola%20Quantum%2C%20me%20gustar%C3%ADa%20más%20info%20sobre%20Marketing%2C%20E-commerce%2C%20Desarrollo%20Web%20y%20Branding." target="_blank"
                 className="text-yellow-400 underline text-sm sm:text-base md:text-lg font-medium"
               >
                 ¿Desea un diagnóstico sin costo de tu modelo actual? Contáctanos
