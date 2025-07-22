@@ -254,7 +254,7 @@ const Home: React.FC = () => {
       <header
         id="hero"
         aria-label="Mensaje principal"
-        className="relative h-[calc(99vh_-_theme(spacing.20))] flex flex-col items-center justify-center px-4"
+        className="relative min-h-screen flex flex-col items-center justify-center px-4"
       >
         <MouseParticles />
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white text-center font-subjectivity tracking-wider leading-tight mb-8 drop-shadow-2xl">
