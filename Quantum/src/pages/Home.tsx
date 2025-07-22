@@ -515,10 +515,10 @@ const Home: React.FC = () => {
                 className="flex flex-wrap justify-end gap-9"
               >
                 {[
-                  "Data Driven",
-                  "Centrado en el cliente",
-                  "Transformación operativa",
-                  "Nuevos canales comerciales",
+                  "Data Driven",
+                  "Centrado en el cliente",
+                  "Transformación operativa",
+                  "Nuevos canales comerciales",
                 ].map((label) => (
                   <li
                     key={label}
