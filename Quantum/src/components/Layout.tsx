@@ -41,7 +41,7 @@ const Layout: React.FC = () => {
           Navbar con mismo estilo “bubblegum blur”
           que el menú móvil
       ----------------------------------------- */}
-      <nav className={`fixed top-0 w-full transition-transform duration-300 bg-white/5 backdrop-blur-lg px-6 flex justify-between items-center z-50
+      <nav className={`font-subjectivity fixed top-0 w-full transition-transform duration-300 bg-white/5 backdrop-blur-lg px-6 flex justify-between items-center z-50
     ${showMenu ? "translate-y-0" : "-translate-y-full"}`}>
         {/* Logo */}
         <div className="flex-shrink-0">
@@ -93,7 +93,7 @@ const Layout: React.FC = () => {
           bg-blue-900/40 backdrop-blur-lg
           transform transition-transform duration-700 ease-in-out
           ${isOpen ? "translate-x-0" : "translate-x-full"}
-          z-50
+          z-50 font-subjectivity
         `}
       >
         {/* Tache interno para cerrar */}

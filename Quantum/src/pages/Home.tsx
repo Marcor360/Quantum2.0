@@ -408,7 +408,7 @@ const Home: React.FC = () => {
                 ¿Qué resuelve?
               </h2>
               <p className="mt-1 text-sm text-white">
-                El <span className="font-bold text-yellow-400">89 %</span> de
+                El <span className="font-bold text-yellow-400">89%</span> de
                 las empresas fallan al adaptar sus modelos de valor…
               </p>
             </div>
@@ -500,7 +500,7 @@ const Home: React.FC = () => {
                 ¿Qué resuelve?
               </h2>
               <p className="pt-2.5 text-base md:text-lg">
-                El <span className="text-yellow-400 font-bold">89 %</span> de
+                El <span className="text-yellow-400 font-bold">89 %</span> de
                 las empresas fallan al adaptar sus modelos de valor…
               </p>
             </div>
