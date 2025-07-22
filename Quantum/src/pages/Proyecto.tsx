@@ -1,5 +1,6 @@
-import React, { useState } from "react";
 import useInView from "../components/useInView.tsx";
+import React, { useState, useCallback } from "react";
+
 
 // Assets
 import IMG_BOTELLA from "/Proyectos/BotellaProyecto.webp";
@@ -7,63 +8,81 @@ import IMG_CAMISA from "/Proyectos/CamisaProyect3.webp";
 import IMG_CAMPANAS from "/Proyectos/Campañas.webp";
 import IMG_CAMPANAS_DIG from "/Proyectos/CampañasDigitales.webp";
 import IMG_HANDS from "/Proyectos/Hands-Holding-copy.webp";
+import IMG_SL1PY from "/Proyectos/SliderPayrolling-1.webp";
+import IMG_SL2PY from "/Proyectos/SliderPayrolling-2.webp";
+import IMG_SL3PY from "/Proyectos/SliderPayrolling-3.webp";
 const IMG_LIBRETAS = "/Proyectos/Libretas.webp";
 const IMG_GORRA = "/Proyectos/Gorra.webp";
 const IMG_DESARROLLO_WEB = "/Proyectos/Desarollo-web.webp";
 
+
+
+// 1) Redefine la interfaz Slide
 interface Slide {
   img: string;
-  text: string;
-  bg: string;
 }
 
+// 2) Tu array de slides (sólo imagen)
 const slides: Slide[] = [
-  { img: IMG_HANDS, text: "Tip 1: Crea contenido atractivo", bg: "bg-[#753bd0]" },
-  { img: IMG_CAMPANAS_DIG, text: "Tip 2: Mantén una línea gráfica", bg: "bg-white" },
-  { img: IMG_CAMISA, text: "Tip 3: Publica constantemente", bg: "bg-pink-100" },
+  { img: IMG_SL1PY },
+  { img: IMG_SL2PY },
+  { img: IMG_SL3PY },
 ];
 
 const Carousel: React.FC = () => {
-  const [index, setIndex] = useState(0);
-  const prev = () => setIndex((index - 1 + slides.length) % slides.length);
-  const next = () => setIndex((index + 1) % slides.length);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const total = slides.length;
+
+  // Desplazamiento: -100% por cada índice
+  const translateX = -currentIndex * 100;
+
+  const prev = useCallback(() => {
+    setCurrentIndex(i => (i - 1 + total) % total);
+  }, [total]);
+
+  const next = useCallback(() => {
+    setCurrentIndex(i => (i + 1) % total);
+  }, [total]);
 
   return (
     <div className="relative w-full overflow-hidden">
-      <div className="relative h-80 sm:h-96">
+      {/* Contenedor flex para las imágenes */}
+      <div
+        className="flex transition-transform duration-500"
+        style={{ transform: `translateX(${translateX}%)` }}
+      >
         {slides.map((s, i) => (
-          <div
-            key={s.text}
-            className={`absolute inset-0 w-full h-full ${s.bg} flex items-center justify-center transition-opacity duration-500 ${index === i ? "opacity-100" : "opacity-0"
-              }`}
-          >
+          <div key={i} className="flex-none w-full">
             <img
               src={s.img}
-              alt={s.text}
-              className="absolute inset-0 w-full h-full object-cover opacity-70"
+              alt=""
+              className="w-full h-80 sm:h-96 object-cover"
               loading="lazy"
             />
-            <p className="relative z-10 text-lg md:text-xl font-bold text-center text-black px-4">
-              {s.text}
-            </p>
           </div>
         ))}
       </div>
+
+      {/* Botones de navegación */}
       <button
         onClick={prev}
-        className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2"
+        aria-label="Anterior"
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"
       >
         &#8249;
       </button>
       <button
         onClick={next}
-        className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2"
+        aria-label="Siguiente"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"
       >
         &#8250;
       </button>
     </div>
   );
 };
+
+
 
 const Proyecto: React.FC = () => {
   const { ref: marcaRef, inView: marcaInView } = useInView();
