@@ -49,22 +49,66 @@ const Carousel: React.FC = () => {
 const Proyecto: React.FC = () => {
   return (
     <main className="font-subjectivity text-white">
-      {/* Desarrollo de Marca */}
-      <section >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-50">
-          <h2 className="text-right text-3xl sm:text-4xl font-bold uppercase">DESARROLLO DE MARCA</h2>
-          <p className="text-right text-sm sm:text-base mt-2">Las bases de un correcto proceso</p>
-          <p className="text-right text-sm sm:text-base mt-2">Enfocamos el complejo desarrollo de una adecuada implementación en todos los medios diseñando un modelo de brandbook con todas las especificaciones a un nivel competitivo.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            <img src={IMG_CAMPANAS} alt="Brochure" className="rounded-lg shadow-lg object-contain w-full h-64" />
-            <div className="space-y-6">
-              <img src={IMG_HANDS} alt="Fotografía" className="rounded-lg shadow-lg object-cover w-full h-64 mix-blend-multiply" />
-              <img src={IMG_GORRA} alt="Ilustración" className="rounded-lg shadow-lg object-cover w-full h-64" />
-            </div>
-            <img src={IMG_LIBRETAS} alt="Infografía" className="rounded-lg shadow-lg object-cover w-full h-64" />
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-30">
+          <h2 className="text-right text-3xl sm:text-4xl font-bold uppercase text-white">
+            DESARROLLO DE MARCA
+          </h2>
+          <p className="text-right text-sm sm:text-base text-gray-200 mt-2">
+            Las bases de un correcto proceso
+          </p>
+          <p className="text-right text-sm sm:text-base text-gray-200 mt-2">
+            Enfocamos el complejo desarrollo de una adecuada implementación en todos los medios diseñando un modelo de brandbook con todas las especificaciones a un nivel competitivo.
+          </p>
+
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6">
+            {/* 1) Libreta: ocupa 2 filas en md+ */}
+            <img
+              src={IMG_LIBRETAS}
+              alt="Mockup Libreta Payrolling Tech"
+              className="
+          w-full
+          h-64 sm:h-80 lg:h-96
+          object-contain
+          rounded-lg shadow-lg
+          md:col-span-2 md:row-span-2
+        "
+              loading="lazy"
+            />
+
+            {/* 2) Brandbook abierto */}
+            <img
+              src={IMG_HANDS}
+              alt="Fotografía manos sujetando"
+              className="
+          w-full
+          h-48 sm:h-56 md:h-40 lg:h-48
+          object-cover
+          rounded-lg shadow-lg
+          md:col-start-3 md:row-start-1
+        "
+              loading="lazy"
+            />
+
+            {/* 3) Gorra */}
+            <img
+              src={IMG_GORRA}
+              alt="Mockup Gorra Payrolling Tech"
+              className="
+          w-full
+          h-48 sm:h-56 md:h-40 lg:h-48
+          object-cover
+          rounded-lg shadow-lg
+          md:col-start-3 md:row-start-2
+        "
+              loading="lazy"
+            />
           </div>
         </div>
       </section>
+
+
+
 
       {/* Sección “DESARROLLO WEB” totalmente responsive */}
       <section className="py-16">
@@ -176,7 +220,7 @@ const Proyecto: React.FC = () => {
               <img
                 src={IMG_CAMPANAS}
                 alt="Mockup publicación de Instagram en móvil"
-                className="w-48 sm:w-60 md:w-full object-contain rounded-lg shadow-lg"
+                className="w-full sm:w-60 md:w-full md:h-full object-contain rounded-lg shadow-lg"
                 loading="lazy"
               />
             </div>
