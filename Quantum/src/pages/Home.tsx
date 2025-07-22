@@ -263,7 +263,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <main className="flex flex-col w-screen min-h-screen">
+    <main className="flex flex-col w-full min-h-screen overflow-x-hidden">
       {/* =============== HERO =============== */}
       <header
         id="hero"
@@ -432,7 +432,7 @@ const Home: React.FC = () => {
                     key={label}
                     className="bg-pink-400 rounded-full flex items-center justify-center
                               w-24 h-24 sm:w-24 sm:h-24
-                              text-center text-[0.55rem] sm:text-[0.6rem]
+                              text-center text-[11px] sm:text-[0.6rem]
                               leading-tight whitespace-normal break-words px-1
                                text-white font-bold"
                   >
@@ -526,7 +526,7 @@ const Home: React.FC = () => {
                    w-28 h-28
                    text-center text-xs
                    leading-tight whitespace-normal break-words px-1
-                   text-white font-medium"
+                   text-white font-bold text-[13px]"
                   >
                     {label}
                   </li>
