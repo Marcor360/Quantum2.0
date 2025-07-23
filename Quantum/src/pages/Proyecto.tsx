@@ -35,20 +35,15 @@ interface Slide {
   img: string;
 }
 
-
 const Carousel: React.FC = () => {
   const isMobile = useIsMobile();
   const slides: Slide[] = isMobile
-    ? [
-      { img: IMG_SL1PY },
-      { img: IMG_SL2PY },
-      { img: IMG_SL3PY },
-    ]
+    ? [{ img: IMG_SL1PY }, { img: IMG_SL2PY }, { img: IMG_SL3PY }]
     : [
-      { img: IMG_SL1PY_desktop },
-      { img: IMG_SL2PY_desktop },
-      { img: IMG_SL3PY_desktop },
-    ];
+        { img: IMG_SL1PY_desktop },
+        { img: IMG_SL2PY_desktop },
+        { img: IMG_SL3PY_desktop },
+      ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = slides.length;
@@ -56,11 +51,11 @@ const Carousel: React.FC = () => {
   const translateX = -currentIndex * 100;
 
   const prev = useCallback(() => {
-    setCurrentIndex(i => (i - 1 + total) % total);
+    setCurrentIndex((i) => (i - 1 + total) % total);
   }, [total]);
 
   const next = useCallback(() => {
-    setCurrentIndex(i => (i + 1) % total);
+    setCurrentIndex((i) => (i + 1) % total);
   }, [total]);
 
   // Auto-play funcionalidad
@@ -70,22 +65,24 @@ const Carousel: React.FC = () => {
   }, [next]);
 
   return (
-    <div className="relative w-full overflow-hidden rounded-xl shadow-2xl bg-gray-900/20 backdrop-blur-sm">
+    <div className="relative w-full overflow-hidden ">
       {/* Contenedor flex para las imágenes */}
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(${translateX}%)` }}
       >
         {slides.map((s, i) => (
-          <div key={i} className="flex-none w-full relative">
+          <div
+            key={i}
+            className="flex-none w-full relative h-[28rem] sm:h-[34rem] md:h-[38rem] lg:h-[42rem] flex items-center justify-center"
+          >
             <img
               src={s.img}
               alt={`Slide ${i + 1}`}
-              className="w-full h-[28rem] sm:h-[34rem] md:h-[38rem] lg:h-[42rem] object-cover"
+              className="w-3/4 h-full object-fill"
               loading="lazy"
             />
-            {/* Overlay gradient para mejor legibilidad */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+            
           </div>
         ))}
       </div>
@@ -96,8 +93,18 @@ const Carousel: React.FC = () => {
         aria-label="Anterior"
         className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-md text-white p-3 rounded-full border border-white/20 transition-all duration-300 hover:bg-white/20 hover:scale-110 active:scale-95 group"
       >
-        <svg className="w-6 h-6 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        <svg
+          className="w-6 h-6 transition-transform group-hover:-translate-x-0.5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </button>
       <button
@@ -105,8 +112,18 @@ const Carousel: React.FC = () => {
         aria-label="Siguiente"
         className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-md text-white p-3 rounded-full border border-white/20 transition-all duration-300 hover:bg-white/20 hover:scale-110 active:scale-95 group"
       >
-        <svg className="w-6 h-6 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        <svg
+          className="w-6 h-6 transition-transform group-hover:translate-x-0.5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
         </svg>
       </button>
 
@@ -116,10 +133,11 @@ const Carousel: React.FC = () => {
           <button
             key={i}
             onClick={() => setCurrentIndex(i)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${i === currentIndex
-              ? "bg-white scale-125 shadow-lg"
-              : "bg-white/40 hover:bg-white/60 hover:scale-110"
-              }`}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              i === currentIndex
+                ? "bg-white scale-125 shadow-lg"
+                : "bg-white/40 hover:bg-white/60 hover:scale-110"
+            }`}
             aria-label={`Ir al slide ${i + 1}`}
           />
         ))}
@@ -131,22 +149,42 @@ const Carousel: React.FC = () => {
 const Proyecto: React.FC = () => {
   const { ref: marcaRef, inView: marcaInView } = useInView({ threshold: 0.1 });
   const { ref: webRef, inView: webInView } = useInView({ threshold: 0.2 });
-  const { ref: brandingRef, inView: brandingInView } = useInView({ threshold: 0.1 });
+  const { ref: brandingRef, inView: brandingInView } = useInView({
+    threshold: 0.1,
+  });
   const { ref: redesRef, inView: redesInView } = useInView({ threshold: 0.1 });
   const { ref: tipsRef, inView: tipsInView } = useInView({ threshold: 0.2 });
 
   // Nuevas referencias para animaciones adicionales
-  const { ref: titleMarcaRef, inView: titleMarcaInView } = useInView({ threshold: 0.3 });
-  const { ref: libretaRef, inView: libretaInView } = useInView({ threshold: 0.2 });
+  const { ref: titleMarcaRef, inView: titleMarcaInView } = useInView({
+    threshold: 0.3,
+  });
+  const { ref: libretaRef, inView: libretaInView } = useInView({
+    threshold: 0.2,
+  });
   const { ref: handsRef, inView: handsInView } = useInView({ threshold: 0.3 });
   const { ref: gorraRef, inView: gorraInView } = useInView({ threshold: 0.3 });
-  const { ref: webImageRef, inView: webImageInView } = useInView({ threshold: 0.2 });
-  const { ref: brandingTitleRef, inView: brandingTitleInView } = useInView({ threshold: 0.3 });
-  const { ref: camisaRef, inView: camisaInView } = useInView({ threshold: 0.3 });
-  const { ref: botellaRef, inView: botellaInView } = useInView({ threshold: 0.3 });
-  const { ref: socialTitleRef, inView: socialTitleInView } = useInView({ threshold: 0.3 });
-  const { ref: campaignRef, inView: campaignInView } = useInView({ threshold: 0.2 });
-  const { ref: reportRef, inView: reportInView } = useInView({ threshold: 0.2 });
+  const { ref: webImageRef, inView: webImageInView } = useInView({
+    threshold: 0.2,
+  });
+  const { ref: brandingTitleRef, inView: brandingTitleInView } = useInView({
+    threshold: 0.3,
+  });
+  const { ref: camisaRef, inView: camisaInView } = useInView({
+    threshold: 0.3,
+  });
+  const { ref: botellaRef, inView: botellaInView } = useInView({
+    threshold: 0.3,
+  });
+  const { ref: socialTitleRef, inView: socialTitleInView } = useInView({
+    threshold: 0.3,
+  });
+  const { ref: campaignRef, inView: campaignInView } = useInView({
+    threshold: 0.2,
+  });
+  const { ref: reportRef, inView: reportInView } = useInView({
+    threshold: 0.2,
+  });
 
   return (
     <>
@@ -215,16 +253,20 @@ const Proyecto: React.FC = () => {
         {/* Desarrollo de Marca */}
         <div
           ref={marcaRef}
-          className={`transition-all duration-700 ease-out ${marcaInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
+          className={`transition-all duration-700 ease-out ${
+            marcaInView
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-6"
+          }`}
         >
           <section className="py-6 md:py-20 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 backdrop-blur-3xl" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 relative z-10">
               <div
                 ref={titleMarcaRef}
-                className={`text-right mb-8 ${titleMarcaInView ? 'animate-slideInRight' : 'opacity-0'
-                  }`}
+                className={`text-right mb-8 ${
+                  titleMarcaInView ? "animate-slideInRight" : "opacity-0"
+                }`}
               >
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl uppercase text-[#ffff00] font-bold drop-shadow-[0_0_10px_rgba(255,255,0,0.5)] bg-clip-text">
                   DESARROLLO DE MARCA
@@ -233,7 +275,10 @@ const Proyecto: React.FC = () => {
                   Las bases de un correcto proceso
                 </p>
                 <p className="text-right text-sm sm:text-base text-gray-400 mt-4 max-w-3xl ml-auto leading-relaxed">
-                  Enfocamos el complejo desarrollo de una adecuada implementación en todos los medios diseñando un modelo de brandbook con todas las especificaciones a un nivel competitivo.
+                  Enfocamos el complejo desarrollo de una adecuada
+                  implementación en todos los medios diseñando un modelo de
+                  brandbook con todas las especificaciones a un nivel
+                  competitivo.
                 </p>
               </div>
 
@@ -241,8 +286,9 @@ const Proyecto: React.FC = () => {
                 {/* Libreta: ocupa 2 filas en md+ */}
                 <div
                   ref={libretaRef}
-                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-span-2 md:row-span-2 bg-white/5 backdrop-blur-sm border border-white/10 ${libretaInView ? 'animate-scaleIn' : 'opacity-0'
-                    }`}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-span-2 md:row-span-2 bg-white/5 backdrop-blur-sm border border-white/10 ${
+                    libretaInView ? "animate-scaleIn" : "opacity-0"
+                  }`}
                 >
                   <img
                     src={IMG_LIBRETAS}
@@ -255,8 +301,9 @@ const Proyecto: React.FC = () => {
                 {/* Brandbook abierto */}
                 <div
                   ref={handsRef}
-                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 md:col-start-3 md:row-start-1 bg-white/5 backdrop-blur-sm border border-white/10 ${handsInView ? 'animate-bounceIn delay-200' : 'opacity-0'
-                    }`}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 md:col-start-3 md:row-start-1 bg-white/5 backdrop-blur-sm border border-white/10 ${
+                    handsInView ? "animate-bounceIn delay-200" : "opacity-0"
+                  }`}
                 >
                   <img
                     src={IMG_HANDS}
@@ -269,8 +316,9 @@ const Proyecto: React.FC = () => {
                 {/* Gorra */}
                 <div
                   ref={gorraRef}
-                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-start-3 md:row-start-2 bg-white/5 backdrop-blur-sm border border-white/10 ${gorraInView ? 'animate-flipIn delay-400' : 'opacity-0'
-                    }`}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-start-3 md:row-start-2 bg-white/5 backdrop-blur-sm border border-white/10 ${
+                    gorraInView ? "animate-flipIn delay-400" : "opacity-0"
+                  }`}
                 >
                   <img
                     src={IMG_GORRA}
@@ -287,15 +335,17 @@ const Proyecto: React.FC = () => {
         {/* Desarrollo Web */}
         <div
           ref={webRef}
-          className={`transition-all duration-700 ease-out ${webInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
+          className={`transition-all duration-700 ease-out ${
+            webInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
         >
           <section className="py-16 relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div
                 ref={webImageRef}
-                className={`relative w-full aspect-[16/9] group ${webImageInView ? 'animate-zoomIn' : 'opacity-0'
-                  }`}
+                className={`relative w-full aspect-[16/9] group ${
+                  webImageInView ? "animate-zoomIn" : "opacity-0"
+                }`}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
                 <img
@@ -322,16 +372,20 @@ const Proyecto: React.FC = () => {
         {/* Branding */}
         <div
           ref={brandingRef}
-          className={`transition-all duration-700 ease-out ${brandingInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
+          className={`transition-all duration-700 ease-out ${
+            brandingInView
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-6"
+          }`}
         >
           <section className="py-16 relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                 <div
                   ref={brandingTitleRef}
-                  className={`space-y-6 ${brandingTitleInView ? 'animate-slideInLeft' : 'opacity-0'
-                    }`}
+                  className={`space-y-6 ${
+                    brandingTitleInView ? "animate-slideInLeft" : "opacity-0"
+                  }`}
                 >
                   <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
                     BRANDING
@@ -342,8 +396,8 @@ const Proyecto: React.FC = () => {
                   </p>
                   <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
                     La estrategia de la aplicación en materiales impresos y
-                    Branding es fundamental para un posicionamiento adecuado frente
-                    al consumidor. Nosotros facilitamos el enfoque.
+                    Branding es fundamental para un posicionamiento adecuado
+                    frente al consumidor. Nosotros facilitamos el enfoque.
                   </p>
                 </div>
                 <div className="flex justify-center lg:justify-end">
@@ -360,8 +414,9 @@ const Proyecto: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div
                   ref={camisaRef}
-                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${camisaInView ? 'animate-rotateIn delay-100' : 'opacity-0'
-                    }`}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${
+                    camisaInView ? "animate-rotateIn delay-100" : "opacity-0"
+                  }`}
                 >
                   <img
                     src={IMG_CAMISA}
@@ -372,8 +427,9 @@ const Proyecto: React.FC = () => {
                 </div>
                 <div
                   ref={botellaRef}
-                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${botellaInView ? 'animate-rotateIn delay-300' : 'opacity-0'
-                    }`}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${
+                    botellaInView ? "animate-rotateIn delay-300" : "opacity-0"
+                  }`}
                 >
                   <img
                     src={IMG_BOTELLA}
@@ -390,16 +446,20 @@ const Proyecto: React.FC = () => {
         {/* Redes Sociales */}
         <div
           ref={redesRef}
-          className={`transition-all duration-700 ease-out ${redesInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
+          className={`transition-all duration-700 ease-out ${
+            redesInView
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-6"
+          }`}
         >
           <section className="py-16 relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                 <div
                   ref={campaignRef}
-                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 flex justify-center md:justify-start  p-6 ${campaignInView ? 'animate-slideInLeft' : 'opacity-0'
-                    }`}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 flex justify-center md:justify-start  p-6 ${
+                    campaignInView ? "animate-slideInLeft" : "opacity-0"
+                  }`}
                 >
                   <img
                     src={IMG_CAMPANAS}
@@ -410,28 +470,31 @@ const Proyecto: React.FC = () => {
                 </div>
                 <div
                   ref={socialTitleRef}
-                  className={`space-y-6 md:pt-8 ${socialTitleInView ? 'animate-slideInRight' : 'opacity-0'
-                    }`}
+                  className={`space-y-6 md:pt-8 ${
+                    socialTitleInView ? "animate-slideInRight" : "opacity-0"
+                  }`}
                 >
                   <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-pink-400 to-red-400 bg-clip-text text-transparent">
                     REDES SOCIALES
                   </h2>
                   <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
-                    La gestión estratégica de redes sociales es clave para lograr
-                    posicionar tu marca y generar leads calificados.
+                    La gestión estratégica de redes sociales es clave para
+                    lograr posicionar tu marca y generar leads calificados.
                   </p>
                   <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
                     En Quantum logramos activar la presencia en las principales
                     redes mediante la gestión estratégica de estas, la correcta
-                    segmentación de audiencias y generación de contenido relevante.
-                    ¡Transforma seguidores en embajadores y datos en ventas!
+                    segmentación de audiencias y generación de contenido
+                    relevante. ¡Transforma seguidores en embajadores y datos en
+                    ventas!
                   </p>
                 </div>
               </div>
               <div
                 ref={reportRef}
-                className={` rounded-2xl shadow-2xl overflow-hidden  transform transition-all duration-500 hover:scale-105 ${reportInView ? 'animate-fadeInUp' : 'opacity-0'
-                  }`}
+                className={` rounded-2xl shadow-2xl overflow-hidden  transform transition-all duration-500 hover:scale-105 ${
+                  reportInView ? "animate-fadeInUp" : "opacity-0"
+                }`}
               >
                 <img
                   src={IMG_CAMPANAS_DIG}
@@ -447,14 +510,14 @@ const Proyecto: React.FC = () => {
         {/* Carrusel de Tips */}
         <div
           ref={tipsRef}
-          className={`transition-all duration-700 ease-out ${tipsInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
+          className={`transition-all duration-700 ease-out ${
+            tipsInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
         >
           <section className="py-20 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 backdrop-blur-3xl" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-              <div className="text-center mb-12">
-              </div>
+              <div className="text-center mb-12"></div>
               <Carousel />
             </div>
           </section>
