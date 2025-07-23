@@ -41,7 +41,7 @@ const Layout: React.FC = () => {
           Navbar con mismo estilo “bubblegum blur”
           que el menú móvil
       ----------------------------------------- */}
-      <nav className={`font-subjectivity fixed top-0 w-full transition-transform duration-300 bg-white/5 backdrop-blur-lg px-6 flex justify-between items-center z-50
+      <nav className={`font-subjectivity fixed top-0 w-full transition-transform duration-300 bg-black/25 backdrop-blur-lg px-6 flex justify-between items-center z-50
     ${showMenu ? "translate-y-0" : "-translate-y-full"}`}>
         {/* Logo */}
         <div className="flex-shrink-0">
