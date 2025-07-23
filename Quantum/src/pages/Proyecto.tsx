@@ -17,17 +17,39 @@ const IMG_LIBRETAS = "/Proyectos/Libretas.webp";
 const IMG_GORRA = "/Proyectos/Gorra.webp";
 const IMG_DESARROLLO_WEB = "/Proyectos/Desarollo-web.webp";
 
+// Hook para detectar dispositivos móviles
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < breakpoint);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [breakpoint]);
+
+  return isMobile;
+}
 interface Slide {
   img: string;
 }
 
-const slides: Slide[] = [
-  { img: IMG_SL1PY },
-  { img: IMG_SL2PY },
-  { img: IMG_SL3PY },
-];
 
 const Carousel: React.FC = () => {
+  const isMobile = useIsMobile();
+  const slides: Slide[] = isMobile
+    ? [
+      { img: IMG_SL1PY },
+      { img: IMG_SL2PY },
+      { img: IMG_SL3PY },
+    ]
+    : [
+      { img: IMG_SL1PY_desktop },
+      { img: IMG_SL2PY_desktop },
+      { img: IMG_SL3PY_desktop },
+    ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = slides.length;
 
