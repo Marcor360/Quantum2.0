@@ -56,7 +56,7 @@ const Carousel: React.FC = () => {
             <img
               src={s.img}
               alt=""
-              className="w-full h-80 sm:h-96 object-cover"
+              className="w-full h-[28rem] sm:h-[34rem] md:h-[38rem] "
               loading="lazy"
             />
           </div>
@@ -299,12 +299,11 @@ const Proyecto: React.FC = () => {
           }`}
       >
         <section className="py-16">
-          <div className="max-w-full mx-auto px-2 sm:px-6 lg:px-7">
+          <div className="max-w-7xl max-h- mx-auto px-4 sm:px-6 lg:px-8 md:h-full md:w-full">
             <Carousel />
           </div>
         </section>
       </div>
-
     </main>
   );
 };
