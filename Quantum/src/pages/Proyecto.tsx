@@ -120,11 +120,11 @@ const Proyecto: React.FC = () => {
           marcaInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
-        <section className="py-16 relative">
+        <section className="py-6 md:py-20 relative ">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 backdrop-blur-3xl" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 relative z-10">
             <div className="text-right mb-8">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl uppercase text-[#ffff00] font-bold drop-shadow-[0_0_10px_rgba(255,255,0,0.5)] bg-clip-text">
                 DESARROLLO DE MARCA
               </h2>
               <p className="text-right text-lg sm:text-xl text-gray-300 mt-4 font-medium">
@@ -316,12 +316,6 @@ const Proyecto: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 backdrop-blur-3xl" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent mb-4">
-                TIPS & CONTENIDO
-              </h2>
-              <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-                Descubre estrategias y consejos para potenciar tu marca
-              </p>
             </div>
             <Carousel />
           </div>
