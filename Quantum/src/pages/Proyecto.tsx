@@ -1,6 +1,5 @@
 import useInView from "../components/useInView.tsx";
-import React, { useState, useCallback } from "react";
-
+import React, { useState, useCallback, useEffect } from "react";
 
 // Assets
 import IMG_BOTELLA from "/Proyectos/BotellaProyecto.webp";
@@ -15,14 +14,10 @@ const IMG_LIBRETAS = "/Proyectos/Libretas.webp";
 const IMG_GORRA = "/Proyectos/Gorra.webp";
 const IMG_DESARROLLO_WEB = "/Proyectos/Desarollo-web.webp";
 
-
-
-// 1) Redefine la interfaz Slide
 interface Slide {
   img: string;
 }
 
-// 2) Tu array de slides (sólo imagen)
 const slides: Slide[] = [
   { img: IMG_SL1PY },
   { img: IMG_SL2PY },
@@ -33,7 +28,6 @@ const Carousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = slides.length;
 
-  // Desplazamiento: -100% por cada índice
   const translateX = -currentIndex * 100;
 
   const prev = useCallback(() => {
@@ -44,45 +38,71 @@ const Carousel: React.FC = () => {
     setCurrentIndex(i => (i + 1) % total);
   }, [total]);
 
+  // Auto-play funcionalidad
+  useEffect(() => {
+    const interval = setInterval(next, 5000);
+    return () => clearInterval(interval);
+  }, [next]);
+
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden rounded-xl shadow-2xl bg-gray-900/20 backdrop-blur-sm">
       {/* Contenedor flex para las imágenes */}
       <div
-        className="flex transition-transform duration-500"
+        className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(${translateX}%)` }}
       >
         {slides.map((s, i) => (
-          <div key={i} className="flex-none w-full">
+          <div key={i} className="flex-none w-full relative">
             <img
               src={s.img}
-              alt=""
-              className="w-full h-[28rem] sm:h-[34rem] md:h-[38rem] "
+              alt={`Slide ${i + 1}`}
+              className="w-full h-[28rem] sm:h-[34rem] md:h-[38rem] lg:h-[42rem] object-cover"
               loading="lazy"
             />
+            {/* Overlay gradient para mejor legibilidad */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
           </div>
         ))}
       </div>
 
-      {/* Botones de navegación */}
+      {/* Botones de navegación mejorados */}
       <button
         onClick={prev}
         aria-label="Anterior"
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-md text-white p-3 rounded-full border border-white/20 transition-all duration-300 hover:bg-white/20 hover:scale-110 active:scale-95 group"
       >
-        &#8249;
+        <svg className="w-6 h-6 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
       </button>
       <button
         onClick={next}
         aria-label="Siguiente"
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-md text-white p-3 rounded-full border border-white/20 transition-all duration-300 hover:bg-white/20 hover:scale-110 active:scale-95 group"
       >
-        &#8250;
+        <svg className="w-6 h-6 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
       </button>
+
+      {/* Indicadores de posición */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentIndex(i)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              i === currentIndex 
+                ? "bg-white scale-125 shadow-lg" 
+                : "bg-white/40 hover:bg-white/60 hover:scale-110"
+            }`}
+            aria-label={`Ir al slide ${i + 1}`}
+          />
+        ))}
+      </div>
     </div>
   );
 };
-
-
 
 const Proyecto: React.FC = () => {
   const { ref: marcaRef, inView: marcaInView } = useInView();
@@ -96,34 +116,38 @@ const Proyecto: React.FC = () => {
       {/* Desarrollo de Marca */}
       <div
         ref={marcaRef}
-        className={`transition-all duration-700 ease-out ${marcaInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6 "
-          }`}
+        className={`transition-all duration-700 ease-out ${
+          marcaInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        }`}
       >
-        <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-30">
-            <h2 className="text-right text-3xl sm:text-4xl font-bold uppercase">
-              DESARROLLO DE MARCA
-            </h2>
-            <p className="text-right text-sm sm:text-base text-gray-200 mt-2">
-              Las bases de un correcto proceso
-            </p>
-            <p className="text-right text-sm sm:text-base text-gray-200 mt-2">
-              Enfocamos el complejo desarrollo de una adecuada implementación en todos los medios diseñando un modelo de brandbook con todas las especificaciones a un nivel competitivo.
-            </p>
+        <section className="py-16 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 backdrop-blur-3xl" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 relative z-10">
+            <div className="text-right mb-8">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                DESARROLLO DE MARCA
+              </h2>
+              <p className="text-right text-lg sm:text-xl text-gray-300 mt-4 font-medium">
+                Las bases de un correcto proceso
+              </p>
+              <p className="text-right text-sm sm:text-base text-gray-400 mt-4 max-w-3xl ml-auto leading-relaxed">
+                Enfocamos el complejo desarrollo de una adecuada implementación en todos los medios diseñando un modelo de brandbook con todas las especificaciones a un nivel competitivo.
+              </p>
+            </div>
 
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-8">
               {/* Libreta: ocupa 2 filas en md+ */}
-              <div className="overflow-hidden rounded-lg shadow-lg transform transition duration-300 ease-out hover:scale-105 md:col-span-2 md:row-span-2">
+              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-span-2 md:row-span-2 bg-white/5 backdrop-blur-sm border border-white/10">
                 <img
                   src={IMG_LIBRETAS}
                   alt="Mockup Libreta Payrolling Tech"
-                  className="w-full h-64 sm:h-80 lg:h-96 object-contain"
+                  className="w-full h-64 sm:h-80 lg:h-96 object-contain p-4"
                   loading="lazy"
                 />
               </div>
 
               {/* Brandbook abierto */}
-              <div className="overflow-hidden rounded-lg shadow-lg transform transition duration-300 ease-out md:col-start-3 md:row-start-1">
+              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 md:col-start-3 md:row-start-1 bg-white/5 backdrop-blur-sm border border-white/10">
                 <img
                   src={IMG_HANDS}
                   alt="Fotografía manos sujetando"
@@ -133,7 +157,7 @@ const Proyecto: React.FC = () => {
               </div>
 
               {/* Gorra */}
-              <div className="overflow-hidden rounded-lg shadow-lg transform transition duration-300 ease-out md:col-start-3 md:row-start-2">
+              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-start-3 md:row-start-2 bg-white/5 backdrop-blur-sm border border-white/10">
                 <img
                   src={IMG_GORRA}
                   alt="Mockup Gorra Payrolling Tech"
@@ -149,41 +173,30 @@ const Proyecto: React.FC = () => {
       {/* Desarrollo Web */}
       <div
         ref={webRef}
-        className={`transition-all duration-700 ease-out ${webInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
+        className={`transition-all duration-700 ease-out ${
+          webInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        }`}
       >
-        <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="relative w-full aspect-[16/9]">
+        <section className="py-16 relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="relative w-full aspect-[16/9] group">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
               <img
                 src={IMG_DESARROLLO_WEB}
                 alt="Mockup Desarrollo Web"
-                className="absolute inset-0 w-full h-full object-contain rounded-xl drop-shadow-2xl"
+                className="relative w-full h-full object-contain rounded-2xl drop-shadow-2xl transform transition-all duration-500 group-hover:scale-105"
                 loading="lazy"
               />
-              <h2
-                className={`
-                  absolute bottom-2 right-2
-                  md:bottom-4 md:right-4
-                  text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl
-                  text-black
-                  px-1.5 sm:px-2 md:px-4
-                  py-0.5 sm:py-0.5 md:py-2
-                  rounded
-                `}
-              >
-                <span className="block font-semibold leading-tight">
-                  DESARROLLO
-                </span>
-                <span
-                  className={`
-                    block font-bold
-                    text-xs sm:text-sm md:text-base lg:text-lg xl:text-2xl
-                  `}
-                >
-                  WEB
-                </span>
-              </h2>
+              <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-white/10 backdrop-blur-md rounded-xl p-4 md:p-6 border border-white/20">
+                <h2 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl text-white">
+                  <span className="block font-semibold leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    DESARROLLO
+                  </span>
+                  <span className="block font-bold text-xs sm:text-sm md:text-base lg:text-lg xl:text-2xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    WEB
+                  </span>
+                </h2>
+              </div>
             </div>
           </div>
         </section>
@@ -192,30 +205,29 @@ const Proyecto: React.FC = () => {
       {/* Branding */}
       <div
         ref={brandingRef}
-        className={`transition-all duration-700 ease-out ${brandingInView
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-6"
-          }`}
+        className={`transition-all duration-700 ease-out ${
+          brandingInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        }`}
       >
-        <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              <div>
-                <h2 className="text-3xl sm:text-4xl font-bold uppercase">
+        <section className="py-16 relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+              <div className="space-y-6">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
                   BRANDING
                 </h2>
-                <p className="mt-4 text-lg text-gray-200 max-w-lg">
+                <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
                   Definimos la esencia, valores y promesa única de tu empresa,
                   alineado a una propuesta de valor poderosa.
                 </p>
-                <p className="mt-2 text-sm text-gray-200 max-w-lg">
+                <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
                   La estrategia de la aplicación en materiales impresos y
                   Branding es fundamental para un posicionamiento adecuado frente
                   al consumidor. Nosotros facilitamos el enfoque.
                 </p>
               </div>
-              <div className="flex justify-end">
-                <div className="overflow-hidden rounded-lg shadow-lg transform transition duration-300 ease-out hover:scale-105">
+              <div className="flex justify-center lg:justify-end">
+                <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-110 hover:rotate-3 bg-white/5 backdrop-blur-sm border border-white/10 p-6">
                   <img
                     src={IMG_GORRA}
                     alt="Gorra con branding Payrolling Tech"
@@ -225,8 +237,8 @@ const Proyecto: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
-              <div className="overflow-hidden rounded-lg shadow-lg transform transition duration-300 ease-out hover:scale-105">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4">
                 <img
                   src={IMG_CAMISA}
                   alt="Playera con branding Payrolling Tech"
@@ -234,7 +246,7 @@ const Proyecto: React.FC = () => {
                   loading="lazy"
                 />
               </div>
-              <div className="overflow-hidden rounded-lg shadow-lg transform transition duration-300 ease-out hover:scale-105">
+              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4">
                 <img
                   src={IMG_BOTELLA}
                   alt="Botella con branding Payrolling Tech"
@@ -250,13 +262,14 @@ const Proyecto: React.FC = () => {
       {/* Redes Sociales */}
       <div
         ref={redesRef}
-        className={`transition-all duration-700 ease-out ${redesInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
+        className={`transition-all duration-700 ease-out ${
+          redesInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        }`}
       >
-        <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-              <div className="overflow-hidden rounded-lg shadow-lg transform transition duration-300 ease-out hover:scale-105 flex justify-center md:justify-start">
+        <section className="py-16 relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 flex justify-center md:justify-start bg-white/5 backdrop-blur-sm border border-white/10 p-6">
                 <img
                   src={IMG_CAMPANAS}
                   alt="Mockup publicación de Instagram en móvil"
@@ -264,15 +277,15 @@ const Proyecto: React.FC = () => {
                   loading="lazy"
                 />
               </div>
-              <div>
-                <h2 className="text-3xl sm:text-4xl font-bold uppercase mb-4">
+              <div className="space-y-6 md:pt-8">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-pink-400 to-red-400 bg-clip-text text-transparent">
                   REDES SOCIALES
                 </h2>
-                <p className="text-lg text-gray-200 mb-2">
+                <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
                   La gestión estratégica de redes sociales es clave para lograr
                   posicionar tu marca y generar leads calificados.
                 </p>
-                <p className="text-base text-gray-200">
+                <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
                   En Quantum logramos activar la presencia en las principales
                   redes mediante la gestión estratégica de estas, la correcta
                   segmentación de audiencias y generación de contenido relevante.
@@ -280,7 +293,7 @@ const Proyecto: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/20 transform transition-all duration-500 hover:scale-105">
               <img
                 src={IMG_CAMPANAS_DIG}
                 alt="Reporte mensual de redes sociales (Facebook e Instagram)"
@@ -295,11 +308,21 @@ const Proyecto: React.FC = () => {
       {/* Carrusel de Tips */}
       <div
         ref={tipsRef}
-        className={`transition-all duration-700 ease-out ${tipsInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
+        className={`transition-all duration-700 ease-out ${
+          tipsInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        }`}
       >
-        <section className="py-16">
-          <div className="max-w-7xl max-h- mx-auto px-4 sm:px-6 lg:px-8 md:h-full md:w-full">
+        <section className="py-20 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 backdrop-blur-3xl" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent mb-4">
+                TIPS & CONTENIDO
+              </h2>
+              <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+                Descubre estrategias y consejos para potenciar tu marca
+              </p>
+            </div>
             <Carousel />
           </div>
         </section>
