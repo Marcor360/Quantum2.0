@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import type { JSX } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLocation } from "react-router-dom";
 
 import QM360 from "/Quantum-360.webp";
 import QM360_MV from "/Quantum-360-mobile.webp";
@@ -42,12 +43,20 @@ function useIsMobile(breakpoint = 768) {
 const Home: React.FC = () => {
   const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState(0);
+  const location = useLocation();
 
   // Refs para animaciones GSAP
   const circlesRefMobile = useRef<HTMLUListElement | null>(null);
   const resultsRefMobile = useRef<HTMLDivElement | null>(null);
   const circlesRefDesktop = useRef<HTMLUListElement | null>(null);
   const resultsRefDesktop = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (location.hash) {
+      const target = document.getElementById(location.hash.slice(1));
+      target?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location]);
 
   // Data de slides dinámicos
   const slides: { imgUrl: string; content: JSX.Element }[] = [
