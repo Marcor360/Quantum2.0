@@ -91,11 +91,10 @@ const Carousel: React.FC = () => {
           <button
             key={i}
             onClick={() => setCurrentIndex(i)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              i === currentIndex 
-                ? "bg-white scale-125 shadow-lg" 
-                : "bg-white/40 hover:bg-white/60 hover:scale-110"
-            }`}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${i === currentIndex
+              ? "bg-white scale-125 shadow-lg"
+              : "bg-white/40 hover:bg-white/60 hover:scale-110"
+              }`}
             aria-label={`Ir al slide ${i + 1}`}
           />
         ))}
@@ -105,223 +104,338 @@ const Carousel: React.FC = () => {
 };
 
 const Proyecto: React.FC = () => {
-  const { ref: marcaRef, inView: marcaInView } = useInView();
-  const { ref: webRef, inView: webInView } = useInView();
-  const { ref: brandingRef, inView: brandingInView } = useInView();
-  const { ref: redesRef, inView: redesInView } = useInView();
-  const { ref: tipsRef, inView: tipsInView } = useInView();
+  const { ref: marcaRef, inView: marcaInView } = useInView({ threshold: 0.1 });
+  const { ref: webRef, inView: webInView } = useInView({ threshold: 0.2 });
+  const { ref: brandingRef, inView: brandingInView } = useInView({ threshold: 0.1 });
+  const { ref: redesRef, inView: redesInView } = useInView({ threshold: 0.1 });
+  const { ref: tipsRef, inView: tipsInView } = useInView({ threshold: 0.2 });
+
+  // Nuevas referencias para animaciones adicionales
+  const { ref: titleMarcaRef, inView: titleMarcaInView } = useInView({ threshold: 0.3 });
+  const { ref: libretaRef, inView: libretaInView } = useInView({ threshold: 0.2 });
+  const { ref: handsRef, inView: handsInView } = useInView({ threshold: 0.3 });
+  const { ref: gorraRef, inView: gorraInView } = useInView({ threshold: 0.3 });
+  const { ref: webImageRef, inView: webImageInView } = useInView({ threshold: 0.2 });
+  const { ref: brandingTitleRef, inView: brandingTitleInView } = useInView({ threshold: 0.3 });
+  const { ref: camisaRef, inView: camisaInView } = useInView({ threshold: 0.3 });
+  const { ref: botellaRef, inView: botellaInView } = useInView({ threshold: 0.3 });
+  const { ref: socialTitleRef, inView: socialTitleInView } = useInView({ threshold: 0.3 });
+  const { ref: campaignRef, inView: campaignInView } = useInView({ threshold: 0.2 });
+  const { ref: reportRef, inView: reportInView } = useInView({ threshold: 0.2 });
 
   return (
-    <main className="font-subjectivity text-white space-y-16">
-      {/* Desarrollo de Marca */}
-      <div
-        ref={marcaRef}
-        className={`transition-all duration-700 ease-out ${
-          marcaInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-        }`}
-      >
-        <section className="py-6 md:py-20 relative ">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 backdrop-blur-3xl" />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 relative z-10">
-            <div className="text-right mb-8">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl uppercase text-[#ffff00] font-bold drop-shadow-[0_0_10px_rgba(255,255,0,0.5)] bg-clip-text">
-                DESARROLLO DE MARCA
-              </h2>
-              <p className="text-right text-lg sm:text-xl text-gray-300 mt-4 font-medium">
-                Las bases de un correcto proceso
-              </p>
-              <p className="text-right text-sm sm:text-base text-gray-400 mt-4 max-w-3xl ml-auto leading-relaxed">
-                Enfocamos el complejo desarrollo de una adecuada implementación en todos los medios diseñando un modelo de brandbook con todas las especificaciones a un nivel competitivo.
-              </p>
-            </div>
+    <>
+      <style>{`
+        @keyframes slideInLeft {
+          from { opacity: 0; transform: translateX(-60px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+          from { opacity: 0; transform: translateX(60px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(40px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+          to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        
+        @keyframes bounceIn {
+          0% { opacity: 0; transform: scale(0.3); }
+          50% { opacity: 1; transform: scale(1.05); }
+          70% { transform: scale(0.9); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes flipIn {
+          from { opacity: 0; transform: perspective(400px) rotate3d(1, 0, 0, 90deg); }
+          40% { transform: perspective(400px) rotate3d(1, 0, 0, -20deg); }
+          60% { opacity: 1; transform: perspective(400px) rotate3d(1, 0, 0, 10deg); }
+          80% { transform: perspective(400px) rotate3d(1, 0, 0, -5deg); }
+          to { opacity: 1; transform: perspective(400px); }
+        }
+        
+        @keyframes rotateIn {
+          from { opacity: 0; transform: rotate(-180deg) scale(0.8); }
+          to { opacity: 1; transform: rotate(0deg) scale(1); }
+        }
+        
+        @keyframes zoomIn {
+          from { opacity: 0; transform: scale(0.5); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        
+        .animate-slideInLeft { animation: slideInLeft 0.8s ease-out; }
+        .animate-slideInRight { animation: slideInRight 0.8s ease-out; }
+        .animate-fadeInUp { animation: fadeInUp 0.6s ease-out; }
+        .animate-scaleIn { animation: scaleIn 0.7s ease-out; }
+        .animate-bounceIn { animation: bounceIn 0.8s ease-out; }
+        .animate-flipIn { animation: flipIn 0.6s ease-out; }
+        .animate-rotateIn { animation: rotateIn 0.8s ease-out; }
+        .animate-zoomIn { animation: zoomIn 0.5s ease-out; }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+      `}</style>
 
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-8">
-              {/* Libreta: ocupa 2 filas en md+ */}
-              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-span-2 md:row-span-2 bg-white/5 backdrop-blur-sm border border-white/10">
-                <img
-                  src={IMG_LIBRETAS}
-                  alt="Mockup Libreta Payrolling Tech"
-                  className="w-full h-64 sm:h-80 lg:h-96 object-contain p-4"
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Brandbook abierto */}
-              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 md:col-start-3 md:row-start-1 bg-white/5 backdrop-blur-sm border border-white/10">
-                <img
-                  src={IMG_HANDS}
-                  alt="Fotografía manos sujetando"
-                  className="w-full h-48 sm:h-56 md:h-40 lg:h-48 object-cover"
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Gorra */}
-              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-start-3 md:row-start-2 bg-white/5 backdrop-blur-sm border border-white/10">
-                <img
-                  src={IMG_GORRA}
-                  alt="Mockup Gorra Payrolling Tech"
-                  className="w-full h-48 sm:h-56 md:h-40 lg:h-48 object-cover"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* Desarrollo Web */}
-      <div
-        ref={webRef}
-        className={`transition-all duration-700 ease-out ${
-          webInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-        }`}
-      >
-        <section className="py-16 relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="relative w-full aspect-[16/9] group">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
-              <img
-                src={IMG_DESARROLLO_WEB}
-                alt="Mockup Desarrollo Web"
-                className="relative w-full h-full object-contain rounded-2xl drop-shadow-2xl transform transition-all duration-500 group-hover:scale-105"
-                loading="lazy"
-              />
-              <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-white/10 backdrop-blur-md rounded-xl p-4 md:p-6 border border-white/20">
-                <h2 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl text-white">
-                  <span className="block font-semibold leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    DESARROLLO
-                  </span>
-                  <span className="block font-bold text-xs sm:text-sm md:text-base lg:text-lg xl:text-2xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    WEB
-                  </span>
+      <main className="font-subjectivity text-white space-y-16">
+        {/* Desarrollo de Marca */}
+        <div
+          ref={marcaRef}
+          className={`transition-all duration-700 ease-out ${marcaInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+        >
+          <section className="py-6 md:py-20 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 backdrop-blur-3xl" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 relative z-10">
+              <div
+                ref={titleMarcaRef}
+                className={`text-right mb-8 ${titleMarcaInView ? 'animate-slideInRight' : 'opacity-0'
+                  }`}
+              >
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl uppercase text-[#ffff00] font-bold drop-shadow-[0_0_10px_rgba(255,255,0,0.5)] bg-clip-text">
+                  DESARROLLO DE MARCA
                 </h2>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* Branding */}
-      <div
-        ref={brandingRef}
-        className={`transition-all duration-700 ease-out ${
-          brandingInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-        }`}
-      >
-        <section className="py-16 relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-              <div className="space-y-6">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-                  BRANDING
-                </h2>
-                <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
-                  Definimos la esencia, valores y promesa única de tu empresa,
-                  alineado a una propuesta de valor poderosa.
+                <p className="text-right text-lg sm:text-xl text-gray-300 mt-4 font-medium">
+                  Las bases de un correcto proceso
                 </p>
-                <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
-                  La estrategia de la aplicación en materiales impresos y
-                  Branding es fundamental para un posicionamiento adecuado frente
-                  al consumidor. Nosotros facilitamos el enfoque.
+                <p className="text-right text-sm sm:text-base text-gray-400 mt-4 max-w-3xl ml-auto leading-relaxed">
+                  Enfocamos el complejo desarrollo de una adecuada implementación en todos los medios diseñando un modelo de brandbook con todas las especificaciones a un nivel competitivo.
                 </p>
               </div>
-              <div className="flex justify-center lg:justify-end">
-                <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-110 hover:rotate-3 bg-white/5 backdrop-blur-sm border border-white/10 p-6">
+
+              <div className="mt-12 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-8">
+                {/* Libreta: ocupa 2 filas en md+ */}
+                <div
+                  ref={libretaRef}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-span-2 md:row-span-2 bg-white/5 backdrop-blur-sm border border-white/10 ${libretaInView ? 'animate-scaleIn' : 'opacity-0'
+                    }`}
+                >
+                  <img
+                    src={IMG_LIBRETAS}
+                    alt="Mockup Libreta Payrolling Tech"
+                    className="w-full h-64 sm:h-80 lg:h-96 object-contain p-4"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Brandbook abierto */}
+                <div
+                  ref={handsRef}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 md:col-start-3 md:row-start-1 bg-white/5 backdrop-blur-sm border border-white/10 ${handsInView ? 'animate-bounceIn delay-200' : 'opacity-0'
+                    }`}
+                >
+                  <img
+                    src={IMG_HANDS}
+                    alt="Fotografía manos sujetando"
+                    className="w-full h-48 sm:h-56 md:h-40 lg:h-48 object-cover"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Gorra */}
+                <div
+                  ref={gorraRef}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-1 md:col-start-3 md:row-start-2 bg-white/5 backdrop-blur-sm border border-white/10 ${gorraInView ? 'animate-flipIn delay-400' : 'opacity-0'
+                    }`}
+                >
                   <img
                     src={IMG_GORRA}
-                    alt="Gorra con branding Payrolling Tech"
-                    className="max-w-xs sm:max-w-sm w-full object-contain"
+                    alt="Mockup Gorra Payrolling Tech"
+                    className="w-full h-48 sm:h-56 md:h-40 lg:h-48 object-cover"
                     loading="lazy"
                   />
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4">
+          </section>
+        </div>
+
+        {/* Desarrollo Web */}
+        <div
+          ref={webRef}
+          className={`transition-all duration-700 ease-out ${webInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+        >
+          <section className="py-16 relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div
+                ref={webImageRef}
+                className={`relative w-full aspect-[16/9] group ${webImageInView ? 'animate-zoomIn' : 'opacity-0'
+                  }`}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
                 <img
-                  src={IMG_CAMISA}
-                  alt="Playera con branding Payrolling Tech"
+                  src={IMG_DESARROLLO_WEB}
+                  alt="Mockup Desarrollo Web"
+                  className="relative w-full h-full object-contain rounded-2xl drop-shadow-2xl transform transition-all duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8 rounded-xl p-2 sm:p-3 md:p-4 lg:p-6">
+                  <h2 className="text-white">
+                    <span className="block font-semibold leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent text-xs sm:text-sm md:text-base lg:text-lg xl:text-2xl">
+                      DESARROLLO
+                    </span>
+                    <span className="block font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-xl">
+                      WEB
+                    </span>
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Branding */}
+        <div
+          ref={brandingRef}
+          className={`transition-all duration-700 ease-out ${brandingInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+        >
+          <section className="py-16 relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                <div
+                  ref={brandingTitleRef}
+                  className={`space-y-6 ${brandingTitleInView ? 'animate-slideInLeft' : 'opacity-0'
+                    }`}
+                >
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+                    BRANDING
+                  </h2>
+                  <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
+                    Definimos la esencia, valores y promesa única de tu empresa,
+                    alineado a una propuesta de valor poderosa.
+                  </p>
+                  <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
+                    La estrategia de la aplicación en materiales impresos y
+                    Branding es fundamental para un posicionamiento adecuado frente
+                    al consumidor. Nosotros facilitamos el enfoque.
+                  </p>
+                </div>
+                <div className="flex justify-center lg:justify-end">
+                  <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-110 hover:rotate-3 bg-white/5 backdrop-blur-sm border border-white/10 p-6">
+                    <img
+                      src={IMG_GORRA}
+                      alt="Gorra con branding Payrolling Tech"
+                      className="max-w-xs sm:max-w-sm w-full object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div
+                  ref={camisaRef}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${camisaInView ? 'animate-rotateIn delay-100' : 'opacity-0'
+                    }`}
+                >
+                  <img
+                    src={IMG_CAMISA}
+                    alt="Playera con branding Payrolling Tech"
+                    className="w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+                <div
+                  ref={botellaRef}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${botellaInView ? 'animate-rotateIn delay-300' : 'opacity-0'
+                    }`}
+                >
+                  <img
+                    src={IMG_BOTELLA}
+                    alt="Botella con branding Payrolling Tech"
+                    className="w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Redes Sociales */}
+        <div
+          ref={redesRef}
+          className={`transition-all duration-700 ease-out ${redesInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+        >
+          <section className="py-16 relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                <div
+                  ref={campaignRef}
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 flex justify-center md:justify-start  p-6 ${campaignInView ? 'animate-slideInLeft' : 'opacity-0'
+                    }`}
+                >
+                  <img
+                    src={IMG_CAMPANAS}
+                    alt="Mockup publicación de Instagram en móvil"
+                    className="w-full sm:w-60 md:w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+                <div
+                  ref={socialTitleRef}
+                  className={`space-y-6 md:pt-8 ${socialTitleInView ? 'animate-slideInRight' : 'opacity-0'
+                    }`}
+                >
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-pink-400 to-red-400 bg-clip-text text-transparent">
+                    REDES SOCIALES
+                  </h2>
+                  <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
+                    La gestión estratégica de redes sociales es clave para lograr
+                    posicionar tu marca y generar leads calificados.
+                  </p>
+                  <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
+                    En Quantum logramos activar la presencia en las principales
+                    redes mediante la gestión estratégica de estas, la correcta
+                    segmentación de audiencias y generación de contenido relevante.
+                    ¡Transforma seguidores en embajadores y datos en ventas!
+                  </p>
+                </div>
+              </div>
+              <div
+                ref={reportRef}
+                className={` rounded-2xl shadow-2xl overflow-hidden  transform transition-all duration-500 hover:scale-105 ${reportInView ? 'animate-fadeInUp' : 'opacity-0'
+                  }`}
+              >
+                <img
+                  src={IMG_CAMPANAS_DIG}
+                  alt="Reporte mensual de redes sociales (Facebook e Instagram)"
                   className="w-full object-contain"
                   loading="lazy"
                 />
               </div>
-              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4">
-                <img
-                  src={IMG_BOTELLA}
-                  alt="Botella con branding Payrolling Tech"
-                  className="w-full object-contain"
-                  loading="lazy"
-                />
-              </div>
             </div>
-          </div>
-        </section>
-      </div>
+          </section>
+        </div>
 
-      {/* Redes Sociales */}
-      <div
-        ref={redesRef}
-        className={`transition-all duration-700 ease-out ${
-          redesInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-        }`}
-      >
-        <section className="py-16 relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-              <div className="overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-1 flex justify-center md:justify-start bg-white/5 backdrop-blur-sm border border-white/10 p-6">
-                <img
-                  src={IMG_CAMPANAS}
-                  alt="Mockup publicación de Instagram en móvil"
-                  className="w-full sm:w-60 md:w-full object-contain"
-                  loading="lazy"
-                />
+        {/* Carrusel de Tips */}
+        <div
+          ref={tipsRef}
+          className={`transition-all duration-700 ease-out ${tipsInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+        >
+          <section className="py-20 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 backdrop-blur-3xl" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="text-center mb-12">
               </div>
-              <div className="space-y-6 md:pt-8">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase bg-gradient-to-r from-pink-400 to-red-400 bg-clip-text text-transparent">
-                  REDES SOCIALES
-                </h2>
-                <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
-                  La gestión estratégica de redes sociales es clave para lograr
-                  posicionar tu marca y generar leads calificados.
-                </p>
-                <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
-                  En Quantum logramos activar la presencia en las principales
-                  redes mediante la gestión estratégica de estas, la correcta
-                  segmentación de audiencias y generación de contenido relevante.
-                  ¡Transforma seguidores en embajadores y datos en ventas!
-                </p>
-              </div>
+              <Carousel />
             </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/20 transform transition-all duration-500 hover:scale-105">
-              <img
-                src={IMG_CAMPANAS_DIG}
-                alt="Reporte mensual de redes sociales (Facebook e Instagram)"
-                className="w-full object-contain"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* Carrusel de Tips */}
-      <div
-        ref={tipsRef}
-        className={`transition-all duration-700 ease-out ${
-          tipsInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-        }`}
-      >
-        <section className="py-20 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 backdrop-blur-3xl" />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="text-center mb-12">
-            </div>
-            <Carousel />
-          </div>
-        </section>
-      </div>
-    </main>
+          </section>
+        </div>
+      </main>
+    </>
   );
 };
 

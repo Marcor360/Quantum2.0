@@ -349,18 +349,16 @@ const Home: React.FC = () => {
                 className="w-full h-full object-cover object-[89%] transition-all duration-500 ease-in-out group-hover:scale-105"
               />
               <div
-                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${
-                  idx === activeIndex ? "justify-end" : "opacity-0"
-                }`}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-300 ${idx === activeIndex ? "justify-end" : "opacity-0"
+                  }`}
               >
                 <div className="max-w-[50%] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   {slide.content}
                 </div>
               </div>
               <div
-                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${
-                  activeIndex === idx ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-[#ffff00] to-[#ff6ef3] transition-all duration-300 ${activeIndex === idx ? "opacity-100" : "opacity-0"
+                  }`}
               />
             </article>
           ))}
@@ -369,7 +367,7 @@ const Home: React.FC = () => {
       {/* =============== CTA QUANTUM 360 =============== */}
 
       <section
-        id="quantum360"
+        id="Quantum360"
         aria-label="Descubre Quantum 360"
         className="relative w-full min-h-screen overflow-hidden group font-subjectivity"
       >
