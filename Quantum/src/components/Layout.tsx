@@ -5,10 +5,7 @@ import Footer from "./Footer";
 import WhatsAppButton from "./WhatsAppButton";
 
 const Layout: React.FC = () => {
-  // Controla si el menú móvil está abierto
   const [isOpen, setIsOpen] = useState(false);
-
-  // Controla la visibilidad del menú al hacer scroll
   const [showMenu, setShowMenu] = useState(true);
 
   useEffect(() => {
@@ -27,103 +24,109 @@ const Layout: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Rutas y etiquetas del menú
   const links = [
-    { to: "/Credenciales", label: "Credenciales" },
-    { to: "/proyecto", label: "Proyectos" },
-    { to: "/#Quantum360", label: "Quantum360°" },
     { to: "/#servicios", label: "Servicios" },
+    { to: "/#Quantum360", label: "Quantum360°" },
+    { to: "/proyecto", label: "Proyectos" },
+    { to: "/Credenciales", label: "Credenciales" },
     { to: "/contacto", label: "Contacto" },
   ];
 
   return (
     <>
-      {/* -----------------------------------------
-          Navbar con mismo estilo “bubblegum blur”
-          que el menú móvil
-      ----------------------------------------- */}
-      <nav className={`font-subjectivity fixed top-0 w-full transition-transform duration-300 bg-black/25 backdrop-blur-lg px-6 flex justify-between items-center z-50
-    ${showMenu ? "translate-y-0" : "-translate-y-full"}`}>
-        {/* Logo */}
+      {/* Navbar */}
+      <nav className={`font-subjectivity fixed top-0 w-full transition-transform duration-300 bg-black/25 backdrop-blur-lg px-4 sm:px-6 flex justify-between items-center z-50 h-16 sm:h-18 md:h-20 lg:h-24
+        ${showMenu ? "translate-y-0" : "-translate-y-full"}`}>
+
+        {/* Logo - Tamaño ajustado para diferentes pantallas */}
         <div className="flex-shrink-0">
           <Link to="/">
             <img
               src="/Quantum-Logo.webp"
               alt="Logo Quantum"
-              className="h-16 sm:h-18 md:h-22 lg:h-24 w-auto"
+              className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto"
             />
           </Link>
         </div>
 
-        {/* -------------------------------
-            Menú de escritorio (desktop)
-            Visible en pantallas md+ (>=768px)
-        ------------------------------- */}
-        <ul className="hidden md:flex space-x-8 items-center text-white text-base sm:text-lg md:text-xl font-subjectivity font-semibold tracking-wides">
+        {/* Menú de escritorio - Solo visible en pantallas grandes (xl+) */}
+        <ul className="hidden xl:flex space-x-6 2xl:space-x-8 items-center text-white text-lg 2xl:text-xl font-subjectivity font-semibold">
           {links.map(({ to, label }) => (
             <li key={to}>
-              <Link to={to} className="hover:text-[#ffff00]">
+              <Link to={to} className="hover:text-[#ffff00] transition-colors">
                 {label}
               </Link>
             </li>
           ))}
         </ul>
 
-        {/* ---------------------------------
-            Botón hamburguesa (mobile)
-            Visible en <md (<768px)
-        --------------------------------- */}
+        {/* Botón hamburguesa - Visible en pantallas menores a xl */}
         {!isOpen && (
           <button
-            className="md:hidden focus:outline-none text-white"
+            className="xl:hidden focus:outline-none text-white hover:text-[#ffff00] transition-colors"
             onClick={() => setIsOpen(true)}
             aria-label="Abrir menú"
           >
-            <FiMenu size={28} />
+            <FiMenu size={24} className="sm:w-7 sm:h-7" />
           </button>
         )}
       </nav>
 
-      {/* ---------------------------------
-          Panel móvil deslizante (desde la derecha)
-          Aparece al hacer clic en el botón hamburguesa
-      --------------------------------- */}
+      {/* Overlay para cerrar menú al hacer clic fuera */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 xl:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Panel móvil/tablet deslizante */}
       <div
         className={`
-          fixed inset-y-0 right-0 w-2/3 md:hidden
-          bg-blue-900/40 backdrop-blur-lg
-          transform transition-transform duration-700 ease-in-out
+          fixed inset-y-0 right-0 w-80 sm:w-96 xl:hidden
+          bg-gradient-to-b from-blue-900/90 to-purple-900/90 backdrop-blur-xl
+          transform transition-transform duration-500 ease-out
           ${isOpen ? "translate-x-0" : "translate-x-full"}
-          z-50 font-subjectivity
+          z-50 font-subjectivity shadow-2xl
         `}
       >
-        {/* Tache interno para cerrar */}
-        <button
-          className="absolute top-4 right-4 focus:outline-none text-white"
-          onClick={() => setIsOpen(false)}
-          aria-label="Cerrar menú"
-        >
-          <FiX size={28} />
-        </button>
+        {/* Header del menú */}
+        <div className="flex justify-between items-center p-6 border-b border-white/20">
+          <h2 className="text-white text-xl font-semibold">Menú</h2>
+          <button
+            className="focus:outline-none text-white hover:text-[#ffff00] transition-colors"
+            onClick={() => setIsOpen(false)}
+            aria-label="Cerrar menú"
+          >
+            <FiX size={28} />
+          </button>
+        </div>
 
-        {/* Lista de enlaces móvil */}
-        <ul className="h-full flex flex-col items-center justify-center space-y-8">
+        {/* Lista de enlaces */}
+        <ul className="flex flex-col pt-8 px-6 space-y-6">
           {links.map(({ to, label }) => (
             <li key={to}>
               <Link
                 to={to}
                 onClick={() => setIsOpen(false)}
-                className="text-white text-2xl hover:underline"
+                className="block text-white text-xl py-3 px-4 rounded-lg hover:bg-white/10 hover:text-[#ffff00] transition-all duration-200 border-l-4 border-transparent hover:border-[#ffff00]"
               >
                 {label}
               </Link>
             </li>
           ))}
         </ul>
+
+        {/* Footer del menú */}
+        <div className="absolute bottom-6 left-6 right-6">
+          <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent mb-4"></div>
+          <img
+            src="/Quantum-Logo.webp"
+            alt="Logo Quantum"
+            className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto " />
+        </div>
       </div>
 
-
-      {/* Punto de renderizado de rutas hijas */}
       <Outlet />
       <WhatsAppButton />
       <Footer />
