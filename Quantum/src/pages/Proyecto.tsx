@@ -258,7 +258,7 @@ const Proyecto: React.FC = () => {
             }`}
         >
           <section className="py-6 md:py-20 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 backdrop-blur-3xl" />
+            <div className="absolute inset-0" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 relative z-10">
               <div
                 ref={titleMarcaRef}
@@ -333,11 +333,11 @@ const Proyecto: React.FC = () => {
             }`}
         >
           <section
-            className="py-16 relative min-h-[70vh] flex items-center justify-center overflow-hidden"
+            className="py-16 relative min-h-[90vh] flex items-center justify-center overflow-hidden"
             style={{
               backgroundImage: `url(${IMG_DESARROLLO_WEB})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundPosition: 'center center',
               backgroundAttachment: 'fixed',
               backgroundRepeat: 'no-repeat'
             }}
