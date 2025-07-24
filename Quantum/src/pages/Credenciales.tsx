@@ -15,7 +15,7 @@ const Credenciales: React.FC = () => {
         <main className="flex items-center justify-center min-h-screen py-10 font-subjectivity text-white">
             <Particulas />
             <div
-                className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-3xl xl:max-w-4xl overflow-hidden">
+                className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl xl:max-w-7xl overflow-hidden">
                 <div className="flex transition-transform duration-500" style={{ transform: `translateX(${translateX}%)` }}>
                     {slides.map((src, i) => (
                         <div key={i} className="flex-none w-full">
