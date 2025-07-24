@@ -332,30 +332,39 @@ const Proyecto: React.FC = () => {
           className={`transition-all duration-700 ease-out ${webInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
         >
-          <section className="py-16 relative">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <section
+            className="py-16 relative min-h-[70vh] flex items-center justify-center overflow-hidden"
+            style={{
+              backgroundImage: `url(${IMG_DESARROLLO_WEB})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed',
+              backgroundRepeat: 'no-repeat'
+            }}
+          >
+            {/* Overlay para mejorar legibilidad */}
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+
+            {/* Gradiente decorativo */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30" />
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
               <div
                 ref={webImageRef}
-                className={`relative w-full aspect-[16/9] group ${webImageInView ? "animate-zoomIn" : "opacity-0"
-                  }`}
+                className={`${webImageInView ? "animate-zoomIn" : "opacity-0"}`}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
-                <img
-                  src={IMG_DESARROLLO_WEB}
-                  alt="Mockup Desarrollo Web"
-                  className="relative w-full h-full object-contain rounded-2xl drop-shadow-2xl transform transition-all duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8 rounded-xl p-2 sm:p-3 md:p-4 lg:p-6">
-                  <h2 className="text-white">
-                    <span className="block font-semibold leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent text-xs sm:text-sm md:text-base lg:text-lg xl:text-2xl">
-                      DESARROLLO
-                    </span>
-                    <span className="block font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-xl">
-                      WEB
-                    </span>
-                  </h2>
-                </div>
+                <h2 className="text-white mb-6">
+                  <span className="block font-semibold leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl drop-shadow-2xl">
+                    DESARROLLO
+                  </span>
+                  <span className="block font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl drop-shadow-2xl">
+                    WEB
+                  </span>
+                </h2>
+
+                <p className="text-lg sm:text-xl md:text-2xl text-white font-medium drop-shadow-lg max-w-3xl mx-auto leading-relaxed">
+                  Creamos experiencias digitales modernas y funcionales que conectan con tu audiencia
+                </p>
               </div>
             </div>
           </section>
@@ -404,7 +413,7 @@ const Proyecto: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div
                   ref={camisaRef}
-                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${camisaInView ? "animate-rotateIn delay-100" : "opacity-0"
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:-rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${camisaInView ? "animate-flipIn delay-100" : "opacity-0"
                     }`}
                 >
                   <img
@@ -416,7 +425,7 @@ const Proyecto: React.FC = () => {
                 </div>
                 <div
                   ref={botellaRef}
-                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${botellaInView ? "animate-rotateIn delay-300" : "opacity-0"
+                  className={`overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-out hover:scale-105 hover:rotate-2 bg-white/5 backdrop-blur-sm border border-white/10 p-4 ${botellaInView ? "animate-flipIn delay-300" : "opacity-0"
                     }`}
                 >
                   <img
