@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Particulas from "../components/MouseParticles";
+import credencialesPDF from "../assets/Doc/CREDENCIALES_QUANTUM_M&S_1.pdf";
 
 const Credenciales: React.FC = () => {
     const slides = Array.from({ length: 18 }, (_, i) =>
@@ -10,15 +11,6 @@ const Credenciales: React.FC = () => {
     const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
     const next = () => setIndex((i) => (i + 1) % slides.length);
     const translateX = -index * 100;
-
-    const handleDownload = () => {
-        const link = document.createElement('a');
-        link.href = '../src/assets/Doc/CREDENCIALES_QUANTUM_M&S_1.pdf';
-        link.download = 'CREDENCIALES_QUANTUM_M&S.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
 
     return (
         <main className="flex flex-col items-center justify-center min-h-screen py-10 font-subjectivity text-white">
@@ -64,10 +56,13 @@ const Credenciales: React.FC = () => {
                 </button>
             </div>
 
-            {/* Download Button */}
-            <button
-                onClick={handleDownload}
-                className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            {/* Download Button - Usando etiqueta <a> */}
+            <a
+                href={credencialesPDF}
+                download="CREDENCIALES_QUANTUM_M&S.pdf"
+                className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 no-underline"
+                role="button"
+                aria-label="Descargar archivo PDF de credenciales"
             >
                 <svg
                     className="w-6 h-6"
@@ -83,7 +78,7 @@ const Credenciales: React.FC = () => {
                     />
                 </svg>
                 Descargar Credenciales PDF
-            </button>
+            </a>
         </main>
     );
 };
