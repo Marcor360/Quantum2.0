@@ -343,7 +343,7 @@ const Proyecto: React.FC = () => {
             }}
           >
             {/* Overlay para mejorar legibilidad */}
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
 
             {/* Gradiente decorativo */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30" />
@@ -492,7 +492,7 @@ const Proyecto: React.FC = () => {
                 <img
                   src={IMG_CAMPANAS_DIG}
                   alt="Reporte mensual de redes sociales (Facebook e Instagram)"
-                  className="w-full object-contain"
+                  className="w-full sm:w-60 md:w-full object-contain"
                   loading="lazy"
                 />
               </div>

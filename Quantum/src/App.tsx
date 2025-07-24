@@ -6,6 +6,8 @@ import backg from '/Font.webp';
 import Contacto from './pages/Contacto';
 import Home from './pages/Home';
 import Proyecto from './pages/Proyecto';
+import Credenciales from './pages/Credenciales';
+
 
 
 
@@ -22,6 +24,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Layout />} >
             <Route index element={<Home />} />
+            <Route path="/credenciales" element={<Credenciales />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/proyecto" element={<Proyecto />} />
           </Route>

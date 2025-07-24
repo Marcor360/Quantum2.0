@@ -29,6 +29,7 @@ const Layout: React.FC = () => {
 
   // Rutas y etiquetas del menú
   const links = [
+    { to: "/Credenciales", label: "Credenciales" },
     { to: "/proyecto", label: "Proyectos" },
     { to: "/#Quantum360", label: "Quantum360°" },
     { to: "/#servicios", label: "Servicios" },
