@@ -18,11 +18,11 @@ const Credenciales: React.FC = () => {
     const translateX = -index * 100;
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen py-10 font-subjectivity text-white md:pt-0">
+        <main className="flex flex-col items-center justify-center min-h-screen md:pt-35 py-8 sm:py-10 px-4 font-subjectivity text-white">
             <Particulas />
 
             {/* Slider Container */}
-            <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl xl:max-w-7xl overflow-hidden mb-8">
+            <div className="relative w-full mx-auto max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl xl:max-w-7xl overflow-hidden mb-8">
                 <div
                     className="flex transition-transform duration-500"
                     style={{ transform: `translateX(${translateX}%)` }}
