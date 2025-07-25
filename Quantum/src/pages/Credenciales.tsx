@@ -18,7 +18,7 @@ const Credenciales: React.FC = () => {
     const translateX = -index * 100;
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen py-10 font-subjectivity text-white md:pt-30">
+        <main className="flex flex-col items-center justify-center min-h-screen py-10 font-subjectivity text-white md:pt-0">
             <Particulas />
 
             {/* Slider Container */}
