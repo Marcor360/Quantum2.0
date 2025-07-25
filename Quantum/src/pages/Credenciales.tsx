@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Particulas from "../components/MouseParticles";
+// Ruta pública al archivo PDF de credenciales
 import credencialesPDF from "../assets/Doc/CREDENCIALES_QUANTUM_M&S_1.pdf";
 
 const Credenciales: React.FC = () => {
@@ -59,6 +60,8 @@ const Credenciales: React.FC = () => {
             {/* Download Button - Usando etiqueta <a> */}
             <a
                 href={credencialesPDF}
+                target="_blank"
+                rel="noopener noreferrer"
                 download="CREDENCIALES_QUANTUM_M&S.pdf"
                 className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 no-underline"
                 role="button"
