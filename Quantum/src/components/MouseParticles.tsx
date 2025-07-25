@@ -137,7 +137,12 @@ const MouseParticles: React.FC = () => {
     }, []); // Dependencias vacías: solo se ejecuta al montar
 
     // Renderiza el canvas cubriendo todo el contenedor padre
-    return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />;
+    return (
+        <canvas
+            ref={canvasRef}
+            className="pointer-events-none absolute inset-0 w-full h-full"
+        />
+    );
 };
 
 export default MouseParticles;
