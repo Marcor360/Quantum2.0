@@ -14,7 +14,6 @@ const NotFoundPage: React.FC = () => {
   const [stars, setStars] = useState<Star[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // Generar estrellas al montar el componente
   useEffect(() => {
     const generateStars = () => {
       const newStars: Star[] = [];
@@ -34,7 +33,6 @@ const NotFoundPage: React.FC = () => {
     generateStars();
   }, []);
 
-  // Seguir el mouse para efectos interactivos
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
@@ -125,9 +123,33 @@ const NotFoundPage: React.FC = () => {
           </p>
         </div>
 
+        {/* Botones de navegación espacial */}
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 animate-fadeInUp opacity-0 w-full max-w-md mb-8 sm:mb-12"
+          style={{ animationDelay: '1.1s', animationFillMode: 'forwards' }}>
+
+          <Link
+            to="/"
+            className="group relative flex-1 px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-[#ff6ef3] to-[#753bd0] text-white font-bold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#ff6ef3]/50 active:scale-95 overflow-hidden"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              🚀 Regresar a la Base
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#753bd0] to-[#ffff00] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </Link>
+
+          <button
+            onClick={() => window.history.back()}
+            className="group relative flex-1 px-6 py-3 sm:px-8 sm:py-4 border-2 border-[#ffff00] text-[#ffff00] font-bold rounded-full transition-all duration-300 hover:bg-[#ffff00] hover:text-[#191514] hover:scale-105 hover:shadow-lg hover:shadow-[#ffff00]/50 active:scale-95"
+          >
+            <span className="flex items-center justify-center gap-2">
+              ⬅️ Volver al Pasado
+            </span>
+          </button>
+        </div>
+
         {/* Constelación interactiva */}
         <div className="relative mb-8 sm:mb-12 animate-fadeInUp opacity-0 w-full max-w-md"
-          style={{ animationDelay: '1.1s', animationFillMode: 'forwards' }}>
+          style={{ animationDelay: '1.4s', animationFillMode: 'forwards' }}>
           <svg
             viewBox="0 0 400 200"
             className="w-full h-32 sm:h-40 text-[#ff6ef3] hover:scale-110 transition-all duration-500 cursor-pointer"
@@ -154,32 +176,8 @@ const NotFoundPage: React.FC = () => {
           </svg>
         </div>
 
-        {/* Botones de navegación espacial */}
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 animate-fadeInUp opacity-0 w-full max-w-md"
-          style={{ animationDelay: '1.4s', animationFillMode: 'forwards' }}>
-
-          <Link
-            to="/"
-            className="group relative flex-1 px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-[#ff6ef3] to-[#753bd0] text-white font-bold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#ff6ef3]/50 active:scale-95 overflow-hidden"
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              🚀 Regresar a la Base
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#753bd0] to-[#ffff00] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </Link>
-
-          <button
-            onClick={() => window.history.back()}
-            className="group relative flex-1 px-6 py-3 sm:px-8 sm:py-4 border-2 border-[#ffff00] text-[#ffff00] font-bold rounded-full transition-all duration-300 hover:bg-[#ffff00] hover:text-[#191514] hover:scale-105 hover:shadow-lg hover:shadow-[#ffff00]/50 active:scale-95"
-          >
-            <span className="flex items-center justify-center gap-2">
-              ⬅️ Volver al Pasado
-            </span>
-          </button>
-        </div>
-
         {/* Mensaje de ayuda */}
-        <div className="mt-8 sm:mt-12 text-center animate-fadeInUp opacity-0"
+        <div className="text-center animate-fadeInUp opacity-0"
           style={{ animationDelay: '1.7s', animationFillMode: 'forwards' }}>
           <p className="text-sm sm:text-base text-gray-400 mb-2">
             Transmisión desde el espacio profundo
