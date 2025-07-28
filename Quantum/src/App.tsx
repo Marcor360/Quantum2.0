@@ -7,6 +7,7 @@ import Contacto from './pages/Contacto';
 import Home from './pages/Home';
 import Proyecto from './pages/Proyecto';
 import Credenciales from './pages/Credenciales';
+import NotFoundPage from './pages/NotFoundPage';
 
 
 
@@ -28,6 +29,7 @@ const App: React.FC = () => {
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/proyecto" element={<Proyecto />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
 

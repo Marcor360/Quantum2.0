@@ -1,8 +1,8 @@
-
 @font-face {
     font-family: morganite;
     src: url("./assets/fonts/morganite/Morganite-Book.ttf") format("truetype");
 }
+
 @theme {
     --font-morganite: morganite, sans-serif;
 }
@@ -11,7 +11,31 @@
     font-family: subjectivity;
     src: url("./assets/Fonts/subjective/Subjectivity-Regular.ttf") format("truetype");
 }
+
 @theme {
     --font-subjectivity: subjectivity, sans-serif;
 }
+
 @import "tailwindcss";
+
+@keyframes dash {
+    from {
+        stroke-dashoffset: 1000;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes wander {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-10px);
+    }
+}
