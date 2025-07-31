@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import Footer from "./Footer";
-import WhatsAppButton from "./WhatsAppButton";
+//import WhatsAppButton from "./WhatsAppButton";
 
 const Layout: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -128,7 +128,6 @@ const Layout: React.FC = () => {
       </div>
 
       <Outlet />
-      <WhatsAppButton />
       <Footer />
     </>
   );
