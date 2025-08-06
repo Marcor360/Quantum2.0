@@ -20,7 +20,6 @@ import campanasImgMV from "/Campanas_Web_mobile.webp";
 import ecommerceImgMV from "/Eomerce_Web_mobile.webp";
 import appsIaImgMV from "/Apps_IA_Web_mobile.webp";
 
-import MouseParticles from "../components/MouseParticles";
 import CompVid from "../assets/video/Comp.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -279,7 +278,6 @@ const Home: React.FC = () => {
         aria-label="Mensaje principal"
         className="relative min-h-screen flex flex-col items-center justify-center px-4"
       >
-        <MouseParticles />
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white text-center font-subjectivity tracking-wider leading-tight mb-8 drop-shadow-2xl">
           Estrategia de{" "}
           <span className="text-[#ffff00] drop-shadow-[0_0_20px_rgba(255,255,0,0.6)] animate-pulse">
