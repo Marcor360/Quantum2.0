@@ -24,6 +24,8 @@ import CompVid from "../assets/video/Comp.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const GIF_DURATION = 4400;
+
 // Hook para detectar móvil
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(
@@ -50,9 +52,12 @@ const Home: React.FC = () => {
     return initialPath === "/" && !loaderShown;
   });
 
+  const [loaderKey, setLoaderKey] = useState(() => Date.now());
+
   useEffect(() => {
     if (showLoader) {
       window.homeLoaderShown = true;
+      setLoaderKey(Date.now());
     }
   }, [showLoader]);
 
@@ -291,18 +296,19 @@ const Home: React.FC = () => {
       {showLoader && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
           <img
-            src="/Pantalla-cargas/Carga_Web.gif"
+            key={loaderKey}
+            src={`/Pantalla-cargas/Carga_Web.gif?${loaderKey}`}
             alt="Cargando..."
             className="w-full h-full object-cover"
             onLoad={() => {
-              // Ajusta 3000 al tiempo (ms) de tu GIF para ocultarlo justo al terminar
-              setTimeout(() => setShowLoader(false), 4400)
+              // Ajusta GIF_DURATION al tiempo (ms) de tu GIF para ocultarlo justo al terminar
+              setTimeout(() => setShowLoader(false), GIF_DURATION);
             }}
           />
         </div>
       )}
 
-      <main
+      < main
         className={`flex flex-col w-full min-h-screen overflow-x-hidden${showLoader ? ' hidden' : ''}`}
       >
         {/* =============== HERO =============== */}
@@ -604,7 +610,7 @@ const Home: React.FC = () => {
             }}
           />
         </section>
-      </main>
+      </main >
     </>
   );
 };
