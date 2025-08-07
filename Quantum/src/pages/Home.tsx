@@ -290,16 +290,18 @@ const Home: React.FC = () => {
     <>
       {showLoader && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
-          <video
-            src="/Pantalla-cargas/Carga_Web.mp4"
-            autoPlay
-            muted
-            playsInline
-            onEnded={() => setShowLoader(false)}
+          <img
+            src="/Pantalla-cargas/Carga_Web.gif"
+            alt="Cargando..."
             className="w-full h-full object-cover"
+            onLoad={() => {
+              // Ajusta 3000 al tiempo (ms) de tu GIF para ocultarlo justo al terminar
+              setTimeout(() => setShowLoader(false), 4400)
+            }}
           />
         </div>
       )}
+
       <main
         className={`flex flex-col w-full min-h-screen overflow-x-hidden${showLoader ? ' hidden' : ''}`}
       >
