@@ -24,7 +24,7 @@ import CompVid from "../assets/video/Comp.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const GIF_DURATION = 4400;
+const GIF_DURATION = 4500;
 
 // Hook para detectar móvil
 function useIsMobile(breakpoint = 768) {

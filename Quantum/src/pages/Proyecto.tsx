@@ -7,7 +7,7 @@ interface ProyectoItem {
 
 const proyectos: ProyectoItem[] = [
   { nombre: 'Payrollig Tech', color: 'bg-[var(--color-electrico-amarillo)]' },
-  { nombre: 'Hotel Flor de Café', color: 'bg-[var(--color-uva)]' },
+  { nombre: 'Hotel Flor de Café', color: 'bg-[var(--color-crema)]' },
   { nombre: 'AI Solutions', color: 'bg-[var(--color-electrico-rosa)]' },
   { nombre: 'MercadoLocal', color: 'bg-[var(--color-electrico-rosa)]' }, // ya no usa 'obscuro'
   { nombre: 'EcoAgro', color: 'bg-[var(--color-uva)]' },
@@ -23,6 +23,7 @@ export default function Proyecto(): React.JSX.Element {
           --color-electrico-amarillo: #ffff00;
           --color-uva:             #753bd0;
           --color-electrico-rosa:  #ff6ef3;
+          --color-crema:           #fff2ec;
         }
       `}</style>
 
