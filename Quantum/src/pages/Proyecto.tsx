@@ -18,7 +18,7 @@ export default function Proyecto(): React.JSX.Element {
         }
       `}</style>
 
-      <section className="min-h-screen flex items-start justify-center px-4 py-12">
+      <section className="min-h-screen flex items-start justify-center px-4 py-12 pt-30">
         <div className="w-full max-w-[1500px] mx-auto flex flex-col xl:flex-row items-start xl:items-stretch gap-8">
           {/* Bloque de texto */}
           <div className="xl:flex-1 flex flex-col justify-center">
@@ -34,24 +34,23 @@ export default function Proyecto(): React.JSX.Element {
           </div>
 
           {/* Grid responsivo de proyectos */}
-          <div className="xl:flex-1 w-full grid grid-cols-1 xl:grid-cols-3 gap-4">
+          <div className="xl:flex-1 w-full grid grid-cols-1 xl:grid-cols-3 gap-6">
             {proyectos.map((proy) => (
               <div
                 key={proy.nombre}
                 className={`
-                  flex items-center justify-center w-full
-                  ${proy.color}
-                  h-32 sm:h-40 md:h-48 xl:h-60
-                  text-white
-                  font-black
-                  text-lg sm:text-2xl md:text-3xl xl:text-4xl
-                  transition-transform duration-300
-                  hover:scale-105 hover:shadow-lg
-                  rounded
-                  cursor-pointer
-                  select-none
-                  bg-cover bg-center
-                `}
+        flex items-center justify-center w-full
+        ${proy.color}
+        h-32 sm:h-44 md:h-56 xl:h-72 2xl:h-80
+        text-black text-center font-black
+        text-lg sm:text-xl md:text-1xl xl:text-2xl 2xl:text-3xl
+        transition-transform duration-300
+        hover:scale-105 hover:shadow-lg
+        rounded-2xl
+        cursor-pointer select-none
+        bg-cover bg-center
+        p-2
+      `}
                 style={hovered === proy.slug ? { backgroundImage: `url(${proy.imagen})` } : undefined}
                 onMouseEnter={() => setHovered(proy.slug)}
                 onMouseLeave={() => setHovered(null)}
@@ -61,6 +60,7 @@ export default function Proyecto(): React.JSX.Element {
               </div>
             ))}
           </div>
+
         </div>
       </section>
     </>
