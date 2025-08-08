@@ -41,7 +41,7 @@ export const Footer: React.FC = () => (
                 <div className="flex space-x-3 sm:space-x-4">
                     {/* Facebook */}
                     <a
-                        href=""
+                        href="https://www.facebook.com/profile.php?id=61578676121384"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Facebook"
@@ -61,7 +61,7 @@ export const Footer: React.FC = () => (
                     </a>
                     {/* Instagram */}
                     <a
-                        href=""
+                        href="https://www.instagram.com/quantum_marketing_agencia"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Instagram"

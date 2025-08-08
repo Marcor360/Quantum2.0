@@ -24,7 +24,6 @@ import CompVid from "../assets/video/Comp.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const GIF_DURATION = 4500;
 
 // Hook para detectar móvil
 function useIsMobile(breakpoint = 768) {
@@ -294,16 +293,14 @@ const Home: React.FC = () => {
   return (
     <>
       {showLoader && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
-          <img
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <video
             key={loaderKey}
-            src={`/Pantalla-cargas/Carga_Web.gif?${loaderKey}`}
-            alt="Cargando..."
+            src="/Pantalla-cargas/Carga_Web.mp4"
+            autoPlay
+            muted
             className="w-full h-full object-cover"
-            onLoad={() => {
-              // Ajusta GIF_DURATION al tiempo (ms) de tu GIF para ocultarlo justo al terminar
-              setTimeout(() => setShowLoader(false), GIF_DURATION);
-            }}
+            onEnded={() => setShowLoader(false)}
           />
         </div>
       )}

@@ -1,20 +1,11 @@
-import React from 'react'
-
-interface ProyectoItem {
-  nombre: string
-  color: string
-}
-
-const proyectos: ProyectoItem[] = [
-  { nombre: 'Payrollig Tech', color: 'bg-[var(--color-electrico-amarillo)]' },
-  { nombre: 'Hotel Flor de Café', color: 'bg-[var(--color-crema)]' },
-  { nombre: 'AI Solutions', color: 'bg-[var(--color-electrico-rosa)]' },
-  { nombre: 'MercadoLocal', color: 'bg-[var(--color-electrico-rosa)]' }, // ya no usa 'obscuro'
-  { nombre: 'EcoAgro', color: 'bg-[var(--color-uva)]' },
-  { nombre: 'FastWeb', color: 'bg-[var(--color-electrico-amarillo)]' },
-]
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { proyectos } from '../data/proyectos'
 
 export default function Proyecto(): React.JSX.Element {
+  const [hovered, setHovered] = useState<string | null>(null)
+  const navigate = useNavigate()
+
   return (
     <>
       {/* Variables CSS definidas en el JSX */}
@@ -51,7 +42,7 @@ export default function Proyecto(): React.JSX.Element {
                   flex items-center justify-center
                   ${proy.color}
                   h-32 sm:h-40 md:h-48 lg:h-60
-                  text-black
+                  text-black text-center
                   font-black
                   text-lg sm:text-2xl md:text-3xl lg:text-4xl
                   transition-transform duration-300
@@ -59,7 +50,12 @@ export default function Proyecto(): React.JSX.Element {
                   rounded
                   cursor-pointer
                   select-none
+                  bg-cover bg-center
                 `}
+                style={hovered === proy.slug ? { backgroundImage: `url(${proy.imagen})` } : undefined}
+                onMouseEnter={() => setHovered(proy.slug)}
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => navigate(`/proyecto/${proy.slug}`)}
               >
                 {proy.nombre}
               </div>
