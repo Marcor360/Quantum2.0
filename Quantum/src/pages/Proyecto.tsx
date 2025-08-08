@@ -18,10 +18,10 @@ export default function Proyecto(): React.JSX.Element {
         }
       `}</style>
 
-      <section className="min-h-screen flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-[1500px] mx-auto flex flex-col md:flex-row items-start md:items-stretch gap-8">
+      <section className="min-h-screen flex items-start justify-center px-4 py-12">
+        <div className="w-full max-w-[1500px] mx-auto flex flex-col xl:flex-row items-start xl:items-stretch gap-8">
           {/* Bloque de texto */}
-          <div className="flex-1 flex flex-col justify-center">
+          <div className="xl:flex-1 flex flex-col justify-center">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4 sm:mb-6 leading-tight">
               PROYECTOS
             </h1>
@@ -34,17 +34,17 @@ export default function Proyecto(): React.JSX.Element {
           </div>
 
           {/* Grid responsivo de proyectos */}
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="xl:flex-1 w-full grid grid-cols-1 xl:grid-cols-3 gap-4">
             {proyectos.map((proy) => (
               <div
                 key={proy.nombre}
                 className={`
-                  flex items-center justify-center
+                  flex items-center justify-center w-full
                   ${proy.color}
-                  h-32 sm:h-40 md:h-48 lg:h-60
-                  text-black text-center
+                  h-32 sm:h-40 md:h-48 xl:h-60
+                  text-white
                   font-black
-                  text-lg sm:text-2xl md:text-3xl lg:text-4xl
+                  text-lg sm:text-2xl md:text-3xl xl:text-4xl
                   transition-transform duration-300
                   hover:scale-105 hover:shadow-lg
                   rounded
