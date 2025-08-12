@@ -38,29 +38,32 @@ export default function Proyecto(): React.JSX.Element {
             {proyectos.map((proy) => (
               <div
                 key={proy.nombre}
+                aria-label={proy.nombre}
                 className={`
+        group
         flex items-center justify-center w-full
         ${proy.color}
         h-32 sm:h-44 md:h-56 xl:h-72 2xl:h-80
-        text-black text-center font-black
-        text-lg sm:text-xl md:text-1xl xl:text-2xl 2xl:text-3xl
-        transition-transform duration-300
+        text-center font-black
+        text-lg sm:text-xl md:text-xl xl:text-2xl 2xl:text-3xl
+        transition-[transform,box-shadow] duration-300
         hover:scale-105 hover:shadow-lg
         rounded-2xl
-        cursor-pointer select-none
+        ${proy.slug === 'payrolling-tech' ? 'cursor-pointer' : 'cursor-default'} select-none
         bg-cover bg-center
         p-2
       `}
                 style={hovered === proy.slug ? { backgroundImage: `url(${proy.imagen})` } : undefined}
                 onMouseEnter={() => setHovered(proy.slug)}
                 onMouseLeave={() => setHovered(null)}
-                onClick={() => navigate(`/proyecto/${proy.slug}`)}
+                onClick={proy.slug === 'payrolling-tech' ? () => navigate(`/proyecto/${proy.slug}`) : undefined}
               >
-                {proy.nombre}
+                <span className="text-black transition-opacity duration-200 group-hover:opacity-0">
+                  {proy.nombre}
+                </span>
               </div>
             ))}
           </div>
-
         </div>
       </section>
     </>
