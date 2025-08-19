@@ -293,7 +293,7 @@ const Home: React.FC = () => {
   return (
     <>
       {showLoader && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
           <video
             key={loaderKey}
             src="/Pantalla-cargas/Carga_Web.mp4"
