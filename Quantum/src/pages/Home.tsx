@@ -103,19 +103,19 @@ const Home: React.FC = () => {
       imgUrl: isMobile ? brandingImgMV : brandingImg,
       content: (
         <>
-          <h2 className="text-base sm:text-lg md:text-5xl font-bold mb-4 text-white font-subjectivity tracking-wide drop-shadow-lg uppercase">
+          <h2 className="text-base sm:text-lg md:text-3xl font-bold mb-4 text-white font-subjectivity tracking-wide drop-shadow-lg uppercase">
             ¿Buscas una identidad{" "}
             <span className="text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.9)] uppercase">
               poderosa
             </span>
             ?
           </h2>
-          <p className="text-xs sm:text-sm md:text-lg text-white/95 font-subjectivity leading-relaxed pr-30">
+          <p className="text-xs sm:text-sm md:text-lg text-white/95 font-subjectivity leading-relaxed pr-30 font-bold">
             Creamos{" "}
-            <strong className="text-[#ff6ef3] font-extrabold">
-              ADN estratégico
+            <strong className="text-[#ff6ef3] drop-shadow-[0_0_10px_rgba(255,110,243,0.9)] font-extrabold">
+              <br />ADN estratégico
             </strong>{" "}
-            para tu marca, elevamos reconocimiento y fidelizamos audiencias.
+            <br /> para tu marca, elevamos reconocimiento y fidelizamos audiencias.
           </p>
         </>
       ),
