@@ -3,6 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import Footer from "./Footer";
 //import WhatsAppButton from "./WhatsAppButton";
+import GoogleTranslate from "./GoogleTranslate";
 
 const Layout: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,6 +59,9 @@ const Layout: React.FC = () => {
               </Link>
             </li>
           ))}
+          <div className="flex items-center space-x-4">
+            <GoogleTranslate />
+          </div>
         </ul>
 
         {/* Botón hamburguesa - Visible en pantallas menores a xl */}
@@ -115,6 +119,9 @@ const Layout: React.FC = () => {
               </Link>
             </li>
           ))}
+          <li>
+            <GoogleTranslate mobile />
+          </li>
         </ul>
 
         {/* Footer del menú */}

@@ -45,21 +45,6 @@ const Home: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const location = useLocation();
 
-  const [showLoader, setShowLoader] = useState(() => {
-    const initialPath = window.initialPath;
-    const loaderShown = window.homeLoaderShown;
-    return initialPath === "/" && !loaderShown;
-  });
-
-  const [loaderKey, setLoaderKey] = useState(() => Date.now());
-
-  useEffect(() => {
-    if (showLoader) {
-      window.homeLoaderShown = true;
-      setLoaderKey(Date.now());
-    }
-  }, [showLoader]);
-
   // Refs para animaciones GSAP
   const circlesRefMobile = useRef<HTMLUListElement | null>(null);
   const resultsRefMobile = useRef<HTMLDivElement | null>(null);
@@ -188,7 +173,6 @@ const Home: React.FC = () => {
 
   // GSAP animaciones para móvil
   useEffect(() => {
-    if (showLoader) return;
     const list = circlesRefMobile.current;
     if (!list) return;
     const tween = gsap.fromTo(
@@ -211,10 +195,10 @@ const Home: React.FC = () => {
       tween.scrollTrigger?.kill();
       tween.kill();
     };
-  }, [showLoader]);
+  }, []);
 
   useEffect(() => {
-    if (showLoader) return;
+
     const bar = resultsRefMobile.current;
     if (!bar) return;
     const tween = gsap.fromTo(
@@ -236,11 +220,11 @@ const Home: React.FC = () => {
       tween.scrollTrigger?.kill();
       tween.kill();
     };
-  }, [showLoader]);
+  }, []);
 
   // GSAP animaciones para escritorio
   useEffect(() => {
-    if (showLoader) return;
+
     const list = circlesRefDesktop.current;
     if (!list) return;
     const tween = gsap.fromTo(
@@ -263,10 +247,10 @@ const Home: React.FC = () => {
       tween.scrollTrigger?.kill();
       tween.kill();
     };
-  }, [showLoader]);
+  }, []);
 
   useEffect(() => {
-    if (showLoader) return;
+
     const bar = resultsRefDesktop.current;
     if (!bar) return;
     const tween = gsap.fromTo(
@@ -288,25 +272,11 @@ const Home: React.FC = () => {
       tween.scrollTrigger?.kill();
       tween.kill();
     };
-  }, [showLoader]);
+  }, []);
 
   return (
     <>
-      {showLoader && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
-          <video
-            key={loaderKey}
-            src="/Pantalla-cargas/Carga_Web.mp4"
-            autoPlay
-            muted
-            className="w-full h-full object-cover"
-            onEnded={() => setShowLoader(false)}
-          />
-        </div>
-      )}
-
-      < main
-        className={`flex flex-col w-full min-h-screen overflow-x-hidden${showLoader ? ' hidden' : ''}`}
+      < main className={`flex flex-col w-full min-h-screen overflow-x-hidden`}
       >
         {/* =============== HERO =============== */}
         <header
