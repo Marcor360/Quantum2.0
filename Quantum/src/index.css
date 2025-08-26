@@ -40,8 +40,11 @@
     }
 }
 
-/* Hide Google Translate top bar */
-.goog-te-banner-frame.skiptranslate {
+/* Hide Google Translate top bar and widget */
+.goog-te-banner-frame.skiptranslate,
+#goog-gt-tt,
+.goog-te-menu-frame.skiptranslate,
+.goog-te-gadget-icon {
     display: none !important;
 }
 
