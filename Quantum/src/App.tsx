@@ -10,7 +10,9 @@ import Credenciales from './pages/Credenciales';
 import NotFoundPage from './pages/NotFoundPage';
 {/*Importacion de Subpagina*/ }
 import Payrolling from './pages/sub-pages/payrolling'
-
+{/* importandopaginaoculta */ }
+import Objetivo from './pages/sub-pages/objetivo'
+import Politicas from './pages/sub-pages/politica'
 
 
 
@@ -31,6 +33,8 @@ const App: React.FC = () => {
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/proyecto" element={<Proyecto />} />
             <Route path="/proyecto/payrolling-tech" element={<Payrolling />} />
+            <Route path="/objetivo" element={<Objetivo />} />
+            <Route path="/politicas" element={<Politicas />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
