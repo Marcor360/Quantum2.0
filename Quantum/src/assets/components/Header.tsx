@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import './Header.css'
 
 type NavItem = {
@@ -8,26 +8,15 @@ type NavItem = {
 
 const DEFAULT_LINKS: NavItem[] = [
   { label: 'Servicios', href: '#servicios' },
-  { label: 'Quantum 360°', href: '#quantum360' },
+  { label: 'Quantum 360\u00B0', href: '#quantum360' },
   { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Contáctanos', href: '#contacto' },
+  { label: 'Cont\u00E1ctanos', href: '#contacto' },
 ]
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const navLinks = useMemo(() => DEFAULT_LINKS, [])
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setIsOpen(true)
-      }
-    }
-
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  const navLinks = DEFAULT_LINKS
+  const navId = 'site-navigation'
 
   return (
     <header className="site-header">
@@ -44,7 +33,8 @@ export default function Header() {
 
         <nav
           className="site-header__nav"
-          aria-label="Navegación principal"
+          id={navId}
+          aria-label="Navegacion principal"
           data-open={isOpen}
         >
           {navLinks.map((link) => (
@@ -61,8 +51,9 @@ export default function Header() {
         <button
           type="button"
           className="site-header__toggle"
-          aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-label={isOpen ? 'Cerrar menu' : 'Abrir menu'}
           aria-expanded={isOpen}
+          aria-controls={navId}
           onClick={() => setIsOpen((prev) => !prev)}
         >
           <img src="/svg/Menu.svg" alt="" aria-hidden="true" />
