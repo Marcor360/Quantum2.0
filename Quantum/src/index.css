@@ -103,7 +103,7 @@ body {
 
 .home-hero {
     min-height: 100vh;
-    padding: 0 clamp(2rem, 6vw, 8rem) clamp(4rem, 8vw, 10rem);
+    padding: clamp(2rem, 5vw, 4rem) clamp(1.6rem, 6vw, 8rem) clamp(4rem, 8vw, 10rem);
     display: flex;
     flex-direction: column;
     gap: clamp(3rem, 6vw, 8rem);
@@ -111,44 +111,98 @@ body {
 }
 
 .home-hero__content {
-    max-width: 100rem;
-    margin-inline: clamp(0rem, 8vw, 12rem);
+    width: min(120rem, 100%);
+    flex: 1 1 auto;
+    margin-inline: auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(2.4rem, 4vw, 5rem);
     color: #fff;
 }
 
-.home-hero__eyebrow {
-    font-size: 1.8rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0;
+.home-hero__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 1.8rem);
+    text-align: center;
 }
 
-.home-hero__title {
-    font-size: clamp(4.6rem, 9vw, 10rem);
-    margin: 0;
-    text-transform: uppercase;
+.home-hero__brand-mark {
+    width: clamp(12rem, 20vw, 24rem);
+    height: auto;
+    flex-shrink: 0;
 }
 
-.home-hero__title span {
+.home-hero__brand-name {
+    margin: 0;
+    text-transform: uppercase;
+    font-family: "Morganite", "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(4rem, 9vw, 10rem);
+    letter-spacing: 0.2em;
     color: var(--electrico);
 }
 
-.home-hero__lead {
-    font-size: 2rem;
-    max-width: 70ch;
+.home-hero__headline {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(1.6rem, 3vw, 3.6rem);
+    text-transform: lowercase;
+}
+
+.home-hero__headline-prefix {
     margin: 0;
+    font-family: "Morganite", "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(4.5rem, 11vw, 12.5rem);
+    color: #fff;
+    line-height: 1;
+}
+
+.home-hero__headline-rotator {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: clamp(4.4rem, 11vw, 12rem);
+    min-width: clamp(14rem, 36vw, 32rem);
+    perspective: 600px;
+}
+
+.home-hero__headline-word {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotateX(90deg);
+    opacity: 0;
+    font-family: "Subjectivity", "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(3.8rem, 10vw, 11rem);
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    animation: wordFlip 9s infinite both;
+}
+
+.home-hero__headline-word:first-child {
+    opacity: 1;
+    transform: translateY(-50%) rotateX(0);
+}
+
+.home-hero__lead {
+    font-size: clamp(1.8rem, 2vw, 2.6rem);
+    max-width: 80ch;
+    margin: 0 auto;
+    text-align: center;
     color: rgba(255, 255, 255, 0.9);
 }
 
 .home-hero__cta {
-    font-size: 2rem;
+    font-size: clamp(1.8rem, 2vw, 2.4rem);
     color: var(--chicle);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
+    text-align: center;
 }
 
 .home-hero__cta:hover,
@@ -163,6 +217,51 @@ body {
     }
 
     .home-hero__content {
-        margin-inline: 0;
+        width: 100%;
+    }
+
+    .home-hero__headline {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+        width: 100%;
+    }
+
+    .home-hero__headline-prefix {
+        font-size: clamp(4.6rem, 18vw, 9rem);
+    }
+
+    .home-hero__headline-rotator {
+        width: 100%;
+        min-width: 0;
+        height: clamp(5rem, 20vw, 12rem);
+    }
+
+    .home-hero__headline-word {
+        font-size: clamp(4.2rem, 16vw, 10rem);
+        text-align: left;
+    }
+}
+
+@keyframes wordFlip {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%) rotateX(90deg);
+    }
+    5% {
+        opacity: 1;
+        transform: translateY(-50%) rotateX(0deg);
+    }
+    30% {
+        opacity: 1;
+        transform: translateY(-50%) rotateX(0deg);
+    }
+    35% {
+        opacity: 0;
+        transform: translateY(-50%) rotateX(-90deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50%) rotateX(-90deg);
     }
 }
