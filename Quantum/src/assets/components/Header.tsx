@@ -23,7 +23,7 @@ export default function Header() {
       <div className={`site-header__rail ${isOpen ? 'is-open' : ''}`}>
         <a className="site-header__logo" href="/" aria-label="Quantum inicio">
           <img
-            src="/svg/Logo.svg"
+            src="/svg/Logo-Amarillo.svg"
             alt="Quantum"
             width="148"
             height="28"

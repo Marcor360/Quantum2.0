@@ -11,13 +11,10 @@ export default function Home() {
                 <div className="home-hero__brand">
                     <img
                         className="home-hero__brand-mark"
-                        src="/svg/Logo.svg"
+                        src="/svg/Logo-text.svg"
                         alt="Quantum"
                         loading="lazy"
                     />
-                    <p className="home-hero__brand-name" aria-hidden="true">
-                        quantum
-                    </p>
                 </div>
 
                 <div className="home-hero__headline" aria-live="polite">
