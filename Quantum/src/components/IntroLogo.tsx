@@ -1,10 +1,61 @@
-import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import './IntroLogo.css'
 
 type IntroLogoProps = {
   svgUrl: string
   children: ReactNode
+}
+
+const DRAW_TARGET_SELECTOR = 'path, circle, rect, line, polyline, polygon, ellipse'
+const DOCK_MARGIN = 16
+const DOCK_SCALE = 0.28
+
+function splitMultiSegmentPaths(svg: SVGSVGElement) {
+  const paths = Array.from(svg.querySelectorAll('path'))
+
+  paths.forEach((path) => {
+    const d = path.getAttribute('d')
+    if (!d) return
+
+    const segments = d.match(/[Mm][^Mm]*/g)
+    if (!segments || segments.length <= 1) return
+
+    const parent = path.parentNode
+    if (!parent) return
+
+    const baseId = path.getAttribute('id') || undefined
+
+    segments.forEach((segment, index) => {
+      const newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+
+      Array.from(path.attributes).forEach((attr) => {
+        if (attr.name === 'd' || attr.name === 'id') return
+        newPath.setAttribute(attr.name, attr.value)
+      })
+
+      newPath.setAttribute('d', segment.trim())
+
+      if (baseId) {
+        newPath.setAttribute('id', `${baseId}__seg${index + 1}`)
+      }
+
+      parent.insertBefore(newPath, path)
+    })
+
+    parent.removeChild(path)
+  })
+}
+
+function getStrokeColor(svg: SVGSVGElement) {
+  const firstPath = svg.querySelector('path')
+  const computedFill = firstPath ? window.getComputedStyle(firstPath).fill : null
+
+  if (!computedFill || computedFill === 'none') {
+    return '#ff0'
+  }
+
+  return computedFill
 }
 
 export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
@@ -16,6 +67,8 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const logoWrapperRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const baseSizeRef = useRef<{ w: number; h: number } | null>(null)
+  const hasDockedRef = useRef(false)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -61,48 +114,52 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
       return
     }
 
-    const svg = logoWrapperRef.current.querySelector('svg')
-    if (!svg) return
-
-    const drawTargets = svg.querySelectorAll(
-      'path, circle, rect, line, polyline, polygon, ellipse'
-    )
-    const margin = 16
-    const targetScale = 0.28
-
     const ctx = gsap.context(() => {
-      gsap.set(contentRef.current, { autoAlpha: prefersReducedMotion ? 1 : 0 })
-      gsap.set(overlayRef.current, { autoAlpha: 1, pointerEvents: 'auto' })
-      gsap.set(logoWrapperRef.current, {
+      const wrapper = logoWrapperRef.current
+      const overlay = overlayRef.current
+      const content = contentRef.current
+      const svg = wrapper?.querySelector('svg') as SVGSVGElement | null
+
+      if (!wrapper || !overlay || !content || !svg) return
+
+      splitMultiSegmentPaths(svg)
+
+      const drawTargets = svg.querySelectorAll(DRAW_TARGET_SELECTOR)
+      const strokeColor = getStrokeColor(svg)
+
+      const rect = wrapper.getBoundingClientRect()
+      if (!baseSizeRef.current) {
+        baseSizeRef.current = { w: rect.width, h: rect.height }
+      }
+
+      gsap.set(content, { autoAlpha: prefersReducedMotion ? 1 : 0 })
+      gsap.set(overlay, {
+        autoAlpha: prefersReducedMotion ? 0 : 1,
+        pointerEvents: prefersReducedMotion ? 'none' : 'auto',
+      })
+      gsap.set(wrapper, {
         x: 0,
         y: 0,
         scale: 1,
         transformOrigin: 'center center',
       })
 
-      const rect = logoWrapperRef.current!.getBoundingClientRect()
-      const targetX = window.innerWidth - margin - rect.width * targetScale
-      const targetY = margin
-      const deltaX = targetX - rect.left
-      const deltaY = targetY - rect.top
-
       if (prefersReducedMotion) {
-        gsap.set(logoWrapperRef.current, {
-          x: deltaX,
-          y: deltaY,
-          scale: targetScale,
-        })
-        gsap.set(overlayRef.current, { autoAlpha: 0, pointerEvents: 'none' })
+        overlay.setAttribute('data-hidden', 'true')
         setIsIntroDone(true)
         return
       }
 
       Array.from(drawTargets).forEach((el) => {
         const geometry = el as SVGGeometryElement
-        const length = geometry.getTotalLength ? geometry.getTotalLength() : 0
+        const length = typeof geometry.getTotalLength === 'function' ? geometry.getTotalLength() : 0
+        const dash = length || 1
+
         gsap.set(el, {
-          strokeDasharray: length || 0,
-          strokeDashoffset: length || 0,
+          stroke: strokeColor,
+          strokeWidth: 2,
+          strokeDasharray: dash,
+          strokeDashoffset: dash,
           strokeOpacity: 1,
           fillOpacity: 0,
         })
@@ -112,7 +169,7 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
         defaults: { ease: 'power2.out' },
         onComplete: () => {
           setIsIntroDone(true)
-          overlayRef.current?.setAttribute('data-hidden', 'true')
+          overlay.setAttribute('data-hidden', 'true')
         },
       })
 
@@ -133,7 +190,7 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
           '-=0.4'
         )
         .to(
-          contentRef.current,
+          content,
           {
             autoAlpha: 1,
             duration: 0.8,
@@ -141,25 +198,14 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
           '-=0.2'
         )
         .to(
-          logoWrapperRef.current,
-          {
-            x: deltaX,
-            y: deltaY,
-            scale: targetScale,
-            duration: 0.9,
-            ease: 'power3.inOut',
-          },
-          '-=0.4'
-        )
-        .to(
-          overlayRef.current,
+          overlay,
           {
             autoAlpha: 0,
             duration: 0.5,
             ease: 'power1.in',
-            onComplete: () => overlayRef.current?.style.setProperty('pointer-events', 'none'),
+            onComplete: () => overlay.style.setProperty('pointer-events', 'none'),
           },
-          '-=0.5'
+          '-=0.3'
         )
 
       return () => timeline.kill()
@@ -170,12 +216,84 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
 
   useEffect(() => {
     if (!isIntroDone && !prefersReducedMotion) return
+
     if (contentRef.current) {
       gsap.set(contentRef.current, { autoAlpha: 1 })
     }
+
     if (overlayRef.current && isIntroDone) {
       overlayRef.current.style.pointerEvents = 'none'
       gsap.set(overlayRef.current, { autoAlpha: 0 })
+    }
+  }, [isIntroDone, prefersReducedMotion])
+
+  useEffect(() => {
+    if (!isIntroDone || !logoWrapperRef.current) return
+
+    const computeDockTransform = () => {
+      const wrapper = logoWrapperRef.current
+      const baseSize = baseSizeRef.current
+
+      if (!wrapper || !baseSize) return null
+
+      const rect = wrapper.getBoundingClientRect()
+      const currentCX = rect.left + rect.width / 2
+      const currentCY = rect.top + rect.height / 2
+      const targetW = baseSize.w * DOCK_SCALE
+      const targetH = baseSize.h * DOCK_SCALE
+      const targetCX = DOCK_MARGIN + targetW / 2
+      const targetCY = DOCK_MARGIN + targetH / 2
+
+      return {
+        x: targetCX - currentCX,
+        y: targetCY - currentCY,
+        scale: DOCK_SCALE,
+      }
+    }
+
+    const dockLogo = (instant = false) => {
+      const transform = computeDockTransform()
+      if (!transform) return
+
+      hasDockedRef.current = true
+
+      if (prefersReducedMotion || instant) {
+        gsap.set(logoWrapperRef.current, transform)
+      } else {
+        gsap.to(logoWrapperRef.current, {
+          ...transform,
+          duration: 0.8,
+          ease: 'power3.inOut',
+        })
+      }
+    }
+
+    const handleScroll = () => {
+      if (hasDockedRef.current) return
+      if (window.scrollY > 0) {
+        dockLogo()
+        window.removeEventListener('scroll', handleScroll)
+      }
+    }
+
+    const handleResize = () => {
+      if (!hasDockedRef.current) return
+      const transform = computeDockTransform()
+      if (transform) {
+        gsap.set(logoWrapperRef.current, transform)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize)
+
+    if (window.scrollY > 0) {
+      dockLogo(true)
+    }
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
     }
   }, [isIntroDone, prefersReducedMotion])
 
