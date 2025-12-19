@@ -21,16 +21,6 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className={`site-header__rail ${isOpen ? 'is-open' : ''}`}>
-        <a className="site-header__logo" href="/" aria-label="Quantum inicio">
-          <img
-            src="/svg/Logo-Amarillo.svg"
-            alt="Quantum"
-            width="148"
-            height="28"
-            loading="lazy"
-          />
-        </a>
-
         <nav
           className="site-header__nav"
           id={navId}

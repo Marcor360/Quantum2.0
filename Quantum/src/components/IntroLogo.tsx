@@ -61,6 +61,7 @@ function getStrokeColor(svg: SVGSVGElement) {
 export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
   const [svgMarkup, setSvgMarkup] = useState<string | null>(null)
   const [isIntroDone, setIsIntroDone] = useState(false)
+  const [isGateOpen, setIsGateOpen] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   const rootRef = useRef<HTMLDivElement>(null)
@@ -98,7 +99,7 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
   useEffect(() => {
     const originalOverflow = document.body.style.overflow
 
-    if (!prefersReducedMotion && !isIntroDone) {
+    if (!prefersReducedMotion && (!isIntroDone || !isGateOpen)) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = originalOverflow
@@ -107,7 +108,7 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
     return () => {
       document.body.style.overflow = originalOverflow
     }
-  }, [prefersReducedMotion, isIntroDone])
+  }, [prefersReducedMotion, isIntroDone, isGateOpen])
 
   useLayoutEffect(() => {
     if (!svgMarkup || !logoWrapperRef.current || !overlayRef.current || !contentRef.current) {
@@ -147,6 +148,7 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
       if (prefersReducedMotion) {
         overlay.setAttribute('data-hidden', 'true')
         setIsIntroDone(true)
+        setIsGateOpen(true)
         return
       }
 
@@ -169,7 +171,7 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
         defaults: { ease: 'power2.out' },
         onComplete: () => {
           setIsIntroDone(true)
-          overlay.setAttribute('data-hidden', 'true')
+          overlay.style.setProperty('pointer-events', 'none')
         },
       })
 
@@ -189,24 +191,6 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
           },
           '-=0.4'
         )
-        .to(
-          content,
-          {
-            autoAlpha: 1,
-            duration: 0.8,
-          },
-          '-=0.2'
-        )
-        .to(
-          overlay,
-          {
-            autoAlpha: 0,
-            duration: 0.5,
-            ease: 'power1.in',
-            onComplete: () => overlay.style.setProperty('pointer-events', 'none'),
-          },
-          '-=0.3'
-        )
 
       return () => timeline.kill()
     }, rootRef)
@@ -215,17 +199,51 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
   }, [svgMarkup, prefersReducedMotion])
 
   useEffect(() => {
-    if (!isIntroDone && !prefersReducedMotion) return
-
-    if (contentRef.current) {
-      gsap.set(contentRef.current, { autoAlpha: 1 })
+    if (prefersReducedMotion) {
+      if (contentRef.current) {
+        gsap.set(contentRef.current, { autoAlpha: 1 })
+      }
+      if (overlayRef.current) {
+        overlayRef.current.style.pointerEvents = 'none'
+        gsap.set(overlayRef.current, { autoAlpha: 0 })
+      }
+      return
     }
 
-    if (overlayRef.current && isIntroDone) {
-      overlayRef.current.style.pointerEvents = 'none'
-      gsap.set(overlayRef.current, { autoAlpha: 0 })
+    if (!isIntroDone || isGateOpen) return
+
+    const openGate = () => {
+      if (isGateOpen) return
+      setIsGateOpen(true)
+
+      if (contentRef.current) {
+        gsap.to(contentRef.current, { autoAlpha: 1, duration: 0.8, ease: 'power2.out' })
+      }
+
+      if (overlayRef.current) {
+        gsap.to(overlayRef.current, {
+          autoAlpha: 0,
+          duration: 0.7,
+          ease: 'power1.inOut',
+          onComplete: () => overlayRef.current?.style.setProperty('pointer-events', 'none'),
+        })
+      }
     }
-  }, [isIntroDone, prefersReducedMotion])
+
+    const handleWheel = () => openGate()
+    const handleTouchStart = () => openGate()
+    const handleKeyDown = () => openGate()
+
+    window.addEventListener('wheel', handleWheel, { passive: true })
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel)
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isIntroDone, isGateOpen, prefersReducedMotion])
 
   useEffect(() => {
     if (!isIntroDone || !logoWrapperRef.current) return
@@ -302,7 +320,7 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
       <div
         className="intro-overlay"
         ref={overlayRef}
-        aria-hidden={isIntroDone}
+        aria-hidden={isGateOpen}
         role="presentation"
       />
 
