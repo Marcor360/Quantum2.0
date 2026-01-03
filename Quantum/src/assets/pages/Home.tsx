@@ -1,156 +1,169 @@
-import { useEffect, useRef, useState } from "react"
+import { useGSAP } from "@gsap/react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { type CSSProperties, useRef } from "react"
 import Header from "../components/Header"
 
-const ROTATING_WORDS = ["estrategia,", "precisión,", "resultados."]
-const OVERLAY_LETTERS = ["Q", "U", "A", "N", "T", "U", "M"]
-
-const SERVICES_PLACEHOLDERS = [
-    { title: "Servicio 01", subtitle: "Espacio reservado", body: "Breve descripción pendiente para este servicio. Añade aquí el enfoque y el entregable principal." },
-    { title: "Servicio 02", subtitle: "Espacio reservado", body: "Añade el nombre real del servicio y un statement corto que explique su impacto." },
-    { title: "Servicio 03", subtitle: "Espacio reservado", body: "Texto de apoyo para este bloque. Ideal para resultados esperados o metodología." },
-    { title: "Servicio 04", subtitle: "Espacio reservado", body: "Lugar para detallar la oferta. Incluye tipo de cliente objetivo o KPI clave." },
-    { title: "Servicio 05", subtitle: "Espacio reservado", body: "Usa este espacio para beneficios o la promesa de valor principal del servicio." },
-    { title: "Servicio 06", subtitle: "Espacio reservado", body: "Placeholder para un servicio futuro. Indica etapa, entregable o equipo involucrado." },
-]
-
-type UseInViewOptions = IntersectionObserverInit & { once?: boolean }
-
-function useInView(options: UseInViewOptions = {}) {
-    const { once = true, ...observerOptions } = options
-    const ref = useRef<HTMLElement | null>(null)
-    const [isInView, setIsInView] = useState(false)
-
-    useEffect(() => {
-        const target = ref.current
-        if (!target) return
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsInView(true)
-                    if (once) observer.disconnect()
-                } else if (!once) {
-                    setIsInView(false)
-                }
-            },
-            {
-                root: observerOptions.root,
-                rootMargin: observerOptions.rootMargin,
-                threshold: observerOptions.threshold,
-            },
-        )
-
-        observer.observe(target)
-        return () => observer.disconnect()
-    }, [observerOptions.root, observerOptions.rootMargin, observerOptions.threshold, once])
-
-    return { ref, isInView }
+type ServiceCard = {
+    id: string
+    label: string
+    title: string
+    description: string
+    href: string
+    accent: string
+    overlay: string
+    desktopImage: string
+    mobileImage?: string
+    minHeight?: string
 }
 
+gsap.registerPlugin(ScrollTrigger, useGSAP)
+
+const SERVICE_CARDS: ServiceCard[] = [
+    {
+        id: "branding",
+        label: "BRANDING",
+        title: "Branding",
+        description: "Creamos ADN estratégico para tu marca, elevamos reconocimiento y fidelizamos audiencias.",
+        href: "/servicios#branding",
+        accent: "#d7ff00",
+        overlay: "linear-gradient(135deg, rgba(3, 3, 3, 0.72), rgba(8, 8, 8, 0.82))",
+        desktopImage: "/img/branding.webp",
+        mobileImage: "/img/branding-mobile.webp",
+        minHeight: "36rem",
+    },
+    {
+        id: "ecommerce",
+        label: "E - COMMERCE",
+        title: "E-commerce",
+        description: "Operamos canales digitales para crecer ticket, tráfico y recompra con procesos precisos.",
+        href: "/servicios#ecommerce",
+        accent: "#ff4d4d",
+        overlay: "linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.78))",
+        desktopImage: "/img/e-commerce.webp",
+        mobileImage: "/img/e-commerce-mobile.webp",
+        minHeight: "36rem",
+    },
+    {
+        id: "apps",
+        label: "APPS & I.A",
+        title: "Apps & I.A",
+        description: "Diseñamos experiencias móviles y flujos con I.A. aplicada para crear hábitos y eficiencia.",
+        href: "/servicios#apps-ia",
+        accent: "#5b3ae6",
+        overlay: "linear-gradient(160deg, rgba(8, 6, 20, 0.35), rgba(8, 6, 20, 0.75))",
+        desktopImage: "/img/appsIA.webp",
+        mobileImage: "/img/appsIA-mobile.webp",
+        minHeight: "32rem",
+    },
+    {
+        id: "campanas",
+        label: "CAMPAÑAS",
+        title: "Campañas",
+        description: "Creatividad accionable: campañas full-funnel con narrativa, performance y optimización continua.",
+        href: "/servicios#campanas",
+        accent: "#b687ff",
+        overlay: "linear-gradient(200deg, rgba(13, 7, 24, 0.52), rgba(8, 6, 12, 0.86))",
+        desktopImage: "/img/campan~as.webp",
+        mobileImage: "/img/campan~as-mobiles.webp",
+        minHeight: "32rem",
+    },
+]
+
 export default function Home() {
-    const { ref: videoRef, isInView: videoVisible } = useInView({ threshold: 0.35 })
-    const { ref: messageRef, isInView: messageVisible } = useInView({ threshold: 0.55 })
+    const scope = useRef<HTMLElement | null>(null)
+
+    useGSAP(
+        () => {
+            const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+            if (prefersReducedMotion) {
+                gsap.set("[data-animate]", { opacity: 1, y: 0 })
+                gsap.set("[data-animate-card]", { opacity: 1, y: 0 })
+                return
+            }
+
+            gsap.fromTo(
+                "[data-animate]",
+                { opacity: 0, y: 18 },
+                { opacity: 1, y: 0, duration: 1, ease: "power3.out", stagger: 0.12, delay: 0.1 },
+            )
+
+            gsap.from("[data-animate-card]", {
+                opacity: 0,
+                y: 22,
+                duration: 1,
+                ease: "power2.out",
+                stagger: 0.15,
+                scrollTrigger: {
+                    trigger: ".quantum-services",
+                    start: "top 78%",
+                },
+            })
+        },
+        { scope },
+    )
 
     return (
-        <main className="home-hero">
+        <main className="home-hero" ref={scope}>
             <Header />
 
-            <section className="home-hero__immersive">
-                <div className="home-hero__intro-rail">
-                    <div className="home-hero__brand">
-                        <img
-                            className="home-hero__brand-mark"
-                            src="/svg/Logo-text.svg"
-                            alt="Quantum"
-                            loading="lazy"
-                        />
-                        <p className="home-hero__brand-note">Desplaza para entrar al modo video.</p>
-                    </div>
-                    <div className="home-hero__scroll-cue" aria-hidden="true">
-                        <span className="home-hero__scroll-dot" />
-                        <span className="home-hero__scroll-line" />
-                        <span>scroll</span>
-                    </div>
+            <section className="quantum-hero" aria-labelledby="quantum-title">
+                <div className="quantum-hero__identifier" data-animate>
+                    <img
+                        className="quantum-hero__logo"
+                        src="/svg/Logo-text.svg"
+                        alt="Quantum"
+                        loading="lazy"
+                        decoding="async"
+                    />
                 </div>
 
-                <div className="home-hero__scroll-stage">
-                    <div className={`home-hero__video-stage ${videoVisible ? "is-visible" : ""}`} ref={videoRef}>
-                        <video
-                            className="home-hero__video"
-                            src="/video/quantum-showreel.mp4"
-                            poster="/svg/Logo-Amarillo.svg"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                        />
-                        <div className="home-hero__video-sheen" />
-                        <div className="home-hero__word-stack" aria-hidden="true">
-                            {OVERLAY_LETTERS.map((letter, index) => (
-                                <span
-                                    key={letter + index}
-                                    className={`home-hero__overlay-letter ${videoVisible ? "is-visible" : ""}`}
-                                    style={{ transitionDelay: `${index * 90}ms` }}
-                                >
-                                    {letter}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="home-hero__message-wrap" ref={messageRef}>
-                        <div className={`home-hero__message ${messageVisible ? "is-visible" : ""}`}>
-                            <div className="home-hero__headline" aria-live="polite">
-                                <span className="home-hero__headline-prefix">es</span>
-                                <div className="home-hero__headline-rotator">
-                                    {ROTATING_WORDS.map((word, index) => (
-                                        <span
-                                            key={word}
-                                            className="home-hero__headline-word"
-                                            style={{ animationDelay: `${index * 3}s` }}
-                                        >
-                                            {word}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <p className="home-hero__lead">
-                                Estrategia y tecnología que impulsan tu negocio con precisión creativa.
-                            </p>
-                            <a className="home-hero__cta" href="#contacto">
-                                ¿Deseas un diagnóstico sin costo de tu modelo actual?
-                            </a>
-                        </div>
-                    </div>
+                <div className="quantum-hero__statement">
+                    <span className="quantum-hero__prefix" data-animate>
+                        es
+                    </span>
+                    <h1 className="quantum-hero__headline" id="quantum-title" data-animate>
+                        estrategia,
+                    </h1>
                 </div>
+
             </section>
 
-            <section className="home-services" id="servicios" aria-labelledby="servicios-title">
-                <div className="home-services__header">
-                    <p className="eyebrow">Servicios</p>
-                    <div>
-                        <h2 id="servicios-title">Capas de servicio en progreso</h2>
-                        <p className="home-services__lead">
-                            Bloques reservados para detallar la oferta completa. Usa estos espacios para titular,
-                            describir y priorizar entregables clave.
-                        </p>
-                    </div>
-                </div>
+            <section className="quantum-services" id="servicios" aria-label="Servicios principales">
+                <div className="quantum-grid">
+                    {SERVICE_CARDS.map((card) => (
+                        <a
+                            key={card.id}
+                            className={`quantum-card quantum-card--${card.id}`}
+                            href={card.href}
+                            aria-label={`Ir a ${card.title}`}
+                            data-animate-card
+                            style={
+                                {
+                                    "--card-accent": card.accent,
+                                    "--card-overlay": card.overlay,
+                                    "--card-image-desktop": `url(${card.desktopImage})`,
+                                    "--card-image-mobile": card.mobileImage ? `url(${card.mobileImage})` : undefined,
+                                    "--card-min-height": card.minHeight,
+                                } as CSSProperties
+                            }
+                        >
+                            <span className="quantum-card__bg" aria-hidden="true" />
+                            <span className="quantum-card__overlay" aria-hidden="true" />
 
-                <div className="home-services__grid">
-                    {SERVICES_PLACEHOLDERS.map((service) => (
-                        <article key={service.title} className="home-services__card">
-                            <header>
-                                <p className="home-services__badge">{service.title}</p>
-                                <h3>{service.subtitle}</h3>
-                            </header>
-                            <p className="home-services__body">{service.body}</p>
-                            <div className="home-services__meta">
-                                <span>Espacio para bullets</span>
-                                <span>Tiempo / entregable</span>
+                            <span className="quantum-card__badge">
+                                {card.label}
+                                <span className="quantum-card__arrow" aria-hidden="true">
+                                    →
+                                </span>
+                            </span>
+
+                            <div className="quantum-card__content">
+                                <h3 className="quantum-card__title">{card.title}</h3>
+                                <p className="quantum-card__desc">{card.description}</p>
                             </div>
-                        </article>
+                        </a>
                     ))}
                 </div>
             </section>
