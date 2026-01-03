@@ -1,7 +1,7 @@
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { type CSSProperties, useRef } from "react"
+import { type CSSProperties, useLayoutEffect, useRef } from "react"
 import Header from "../components/Header"
 
 type ServiceCard = {
@@ -64,14 +64,46 @@ const SERVICE_CARDS: ServiceCard[] = [
         href: "/servicios#campanas",
         accent: "#b687ff",
         overlay: "linear-gradient(200deg, rgba(13, 7, 24, 0.52), rgba(8, 6, 12, 0.86))",
-        desktopImage: "/img/campan~as.webp",
-        mobileImage: "/img/campan~as-mobiles.webp",
+        desktopImage: "/img/campañas.webp",
+        mobileImage: "/img/campañas-mobile.webp",
         minHeight: "32rem",
     },
 ]
 
+const ROTATING_WORDS = ["estrategia", "precisión", "resultados"] as const
+
 export default function Home() {
     const scope = useRef<HTMLElement | null>(null)
+    const rotatorWrapRef = useRef<HTMLSpanElement | null>(null)
+    const rotatorWordRef = useRef<HTMLSpanElement | null>(null)
+
+    useLayoutEffect(() => {
+        const wrap = rotatorWrapRef.current
+        const wordEl = rotatorWordRef.current
+        if (!wrap || !wordEl) return
+
+        const computed = getComputedStyle(wordEl)
+        const measureSpan = document.createElement("span")
+        measureSpan.style.position = "absolute"
+        measureSpan.style.visibility = "hidden"
+        measureSpan.style.whiteSpace = "nowrap"
+        measureSpan.style.fontFamily = computed.fontFamily
+        measureSpan.style.fontSize = computed.fontSize
+        measureSpan.style.fontWeight = computed.fontWeight
+        measureSpan.style.letterSpacing = computed.letterSpacing
+
+        document.body.appendChild(measureSpan)
+        let maxWidth = 0
+        ROTATING_WORDS.forEach((word) => {
+            measureSpan.textContent = word
+            maxWidth = Math.max(maxWidth, measureSpan.getBoundingClientRect().width)
+        })
+        measureSpan.remove()
+
+        if (maxWidth > 0) {
+            wrap.style.setProperty("--rotator-width", `${Math.ceil(maxWidth)}px`)
+        }
+    }, [])
 
     useGSAP(
         () => {
@@ -80,6 +112,10 @@ export default function Home() {
             if (prefersReducedMotion) {
                 gsap.set("[data-animate]", { opacity: 1, y: 0 })
                 gsap.set("[data-animate-card]", { opacity: 1, y: 0 })
+                if (rotatorWordRef.current) {
+                    rotatorWordRef.current.textContent = ROTATING_WORDS[0]
+                    gsap.set(rotatorWordRef.current, { rotationY: 0, opacity: 1 })
+                }
                 return
             }
 
@@ -100,6 +136,30 @@ export default function Home() {
                     start: "top 78%",
                 },
             })
+
+            const wordEl = rotatorWordRef.current
+            if (!wordEl) return
+
+            let index = 0
+            wordEl.textContent = ROTATING_WORDS[index]
+            gsap.set(wordEl, { transformOrigin: "50% 50%", transformPerspective: 800, rotationY: 0, opacity: 1 })
+
+            gsap.timeline({ repeat: -1 })
+                .to(wordEl, {
+                    rotationY: 90,
+                    opacity: 0,
+                    duration: 0.9,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        index = (index + 1) % ROTATING_WORDS.length
+                        wordEl.textContent = ROTATING_WORDS[index]
+                    },
+                }, "+=4")
+                .fromTo(
+                    wordEl,
+                    { rotationY: -90, opacity: 0 },
+                    { rotationY: 0, opacity: 1, duration: 1, ease: "power2.out" },
+                )
         },
         { scope },
     )
@@ -120,14 +180,16 @@ export default function Home() {
                 </div>
 
                 <div className="quantum-hero__statement">
-                    <span className="quantum-hero__prefix" data-animate>
-                        es
-                    </span>
-                    <h1 className="quantum-hero__headline" id="quantum-title" data-animate>
-                        estrategia,
+                    <h1 className="quantum-hero__headline" id="quantum-title" data-animate aria-live="off">
+                        <span className="quantum-hero__prefix">es</span>
+                        <span className="quantum-hero__rotator-wrap" ref={rotatorWrapRef}>
+                            <span className="quantum-hero__rotator-word" ref={rotatorWordRef}>
+                                {ROTATING_WORDS[0]}
+                            </span>
+                        </span>
+                        <span className="quantum-hero__headline-comma">,</span>
                     </h1>
                 </div>
-
             </section>
 
             <section className="quantum-services" id="servicios" aria-label="Servicios principales">
