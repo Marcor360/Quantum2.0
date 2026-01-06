@@ -69,8 +69,8 @@ const SERVICE_CARDS: ServiceCard[] = [
         href: '/servicios/campanas',
         accent: '#b687ff',
         overlay: 'linear-gradient(200deg, rgba(13, 7, 24, 0.52), rgba(8, 6, 12, 0.86))',
-        desktopImage: '/img/campañas.webp',
-        mobileImage: '/img/campañas-mobile.webp',
+        desktopImage: '/img/campañas.webp',
+        mobileImage: '/img/campañas-mobiles.webp',
         minHeight: '32rem',
     },
 ]
@@ -163,27 +163,25 @@ export default function Home() {
                 opacity: 1,
             })
 
+            const swapWord = () => {
+                index = (index + 1) % ROTATING_WORDS.length
+                wordEl.textContent = ROTATING_WORDS[index]
+            }
+
+            // Keep the word always visible while still rotating it.
             gsap
-                .timeline({ repeat: -1 })
+                .timeline({ repeat: -1, repeatDelay: 3 })
                 .to(
                     wordEl,
                     {
-                        rotationY: 90,
-                        opacity: 0,
-                        duration: 0.9,
+                        rotationY: 55,
+                        duration: 0.6,
                         ease: 'power2.inOut',
-                        onComplete: () => {
-                            index = (index + 1) % ROTATING_WORDS.length
-                            wordEl.textContent = ROTATING_WORDS[index]
-                        },
+                        onComplete: swapWord,
                     },
-                    '+=4'
+                    '+=3.8'
                 )
-                .fromTo(
-                    wordEl,
-                    { rotationY: -90, opacity: 0 },
-                    { rotationY: 0, opacity: 1, duration: 1, ease: 'power2.out' }
-                )
+                .to(wordEl, { rotationY: 0, duration: 0.6, ease: 'power2.out' })
         },
         { scope }
     )
