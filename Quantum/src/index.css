@@ -104,10 +104,10 @@ body {
 .home-hero {
     position: relative;
     min-height: 100vh;
-    padding: clamp(2.4rem, 5vw, 4.8rem) clamp(1.8rem, 6vw, 6rem) clamp(6rem, 8vw, 9rem);
+    padding: clamp(2.4rem, 5vw, 4.8rem) clamp(1.8rem, 6vw, 6rem) clamp(5rem, 6vw, 7rem);
     display: flex;
     flex-direction: column;
-    gap: clamp(4rem, 8vw, 8rem);
+    gap: clamp(2.4rem, 5vw, 4.8rem);
     background:
         radial-gradient(140% 90% at 15% 12%, rgba(215, 255, 0, 0.08), transparent),
         radial-gradient(80% 70% at 85% 12%, rgba(117, 59, 208, 0.16), transparent),
@@ -129,6 +129,7 @@ body {
 }
 
 .quantum-hero,
+.quantum-video,
 .quantum-services {
     position: relative;
     z-index: 1;
@@ -139,7 +140,7 @@ body {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: clamp(2rem, 3vw, 3.8rem);
+    gap: clamp(1.4rem, 2vw, 2.6rem);
     align-items: center;
     text-align: center;
 }
@@ -147,12 +148,12 @@ body {
 .quantum-hero__identifier {
     display: inline-flex;
     align-items: center;
-    gap: clamp(1.4rem, 2vw, 2.4rem);
+    gap: clamp(1.2rem, 1.8vw, 2rem);
     color: #d7ff00;
 }
 
 .quantum-hero__logo {
-    width: clamp(22rem, 28vw, 34rem);
+    width: clamp(28rem, 32vw, 40rem);
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.4));
@@ -161,7 +162,7 @@ body {
 .quantum-hero__statement {
     display: flex;
     align-items: flex-end;
-    gap: clamp(1.4rem, 3vw, 2.6rem);
+    gap: clamp(1rem, 1.6vw, 2rem);
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -169,22 +170,22 @@ body {
 .quantum-hero__prefix {
     margin: 0;
     font-family: "Subjectivity", "Helvetica Neue", Arial, sans-serif;
-    font-size: clamp(2.6rem, 4vw, 3.6rem);
+    font-size: clamp(4.6rem, 7vw, 6.2rem);
     text-transform: lowercase;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.12em;
     color: rgba(255, 255, 255, 0.76);
 }
 
 .quantum-hero__headline {
     margin: 0;
     font-family: "Morganite", "Helvetica Neue", Arial, sans-serif;
-    font-size: clamp(7.2rem, 14vw, 13.4rem);
-    line-height: 0.92;
+    font-size: clamp(12rem, 18vw, 22rem);
+    line-height: 0.9;
     letter-spacing: 0.02em;
     text-transform: lowercase;
     display: flex;
     align-items: flex-end;
-    gap: clamp(1rem, 2vw, 1.8rem);
+    gap: clamp(0.8rem, 1.4vw, 1.6rem);
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -206,6 +207,44 @@ body {
 
 .quantum-hero__headline-comma {
     display: inline-block;
+}
+
+.quantum-video {
+    min-height: 100vh;
+    padding: clamp(2.4rem, 5vw, 4.8rem) clamp(1.8rem, 6vw, 6rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(120% 90% at 20% 10%, rgba(215, 255, 0, 0.05), transparent),
+        radial-gradient(90% 80% at 80% 15%, rgba(117, 59, 208, 0.12), transparent),
+        radial-gradient(90% 80% at 50% 85%, rgba(255, 110, 243, 0.06), transparent),
+        var(--mate);
+}
+
+.quantum-video__frame {
+    width: min(126rem, 100%);
+    min-height: min(90vh, 80rem);
+    border-radius: 2.4rem;
+    border: 1px dashed rgba(255, 255, 255, 0.22);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0)),
+        rgba(0, 0, 0, 0.32);
+    box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.quantum-video__placeholder {
+    margin: 0;
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .quantum-services {

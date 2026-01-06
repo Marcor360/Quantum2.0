@@ -75,7 +75,7 @@ const SERVICE_CARDS: ServiceCard[] = [
     },
 ]
 
-const ROTATING_WORDS = ['estrategia', 'precisión', 'resultados'] as const
+const ROTATING_WORDS = ['estrategia,', 'precisión,', 'resultados.'] as const
 
 export default function Home() {
     const scope = useRef<HTMLElement | null>(null)
@@ -214,8 +214,13 @@ export default function Home() {
                                 {ROTATING_WORDS[0]}
                             </span>
                         </span>
-                        <span className="quantum-hero__headline-comma">,</span>
                     </h1>
+                </div>
+            </section>
+
+            <section className="quantum-video" aria-label="Video principal">
+                <div className="quantum-video__frame">
+                    <p className="quantum-video__placeholder">Aqui ira el video (full screen)</p>
                 </div>
             </section>
 
