@@ -37,6 +37,7 @@ const config: ServiceTemplateConfig = {
       },
     ],
   },
+  tabsAlign: 'center',
   pricing: {
     variant: 'toggle-cards',
     title: 'Precios público en general',

@@ -5,11 +5,13 @@ import ServiceTemplate, {
 const config: ServiceTemplateConfig = {
   title: 'Apps & I.A.',
   titleSvgSrc: '/svg/text/Apps-text.svg',
+  sectionsAlign: 'center',
   sections: [
     {
       id: 'que-resuelve',
       title: 'Qué resuelve',
       body: 'Automatización de atención y ventas (24/7) + sistemas de seguimiento (CRM) + embudos que convierten leads en citas/ventas.',
+      align: 'center',
     },
   ],
   tabs: {
@@ -52,6 +54,7 @@ const config: ServiceTemplateConfig = {
       },
     ],
   },
+  tabsAlign: 'center',
   pricing: {
     variant: 'catalog-grid',
     title: 'Actualiza tu negocio',

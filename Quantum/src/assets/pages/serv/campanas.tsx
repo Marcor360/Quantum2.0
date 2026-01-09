@@ -5,6 +5,7 @@ import ServiceTemplate, {
 const config: ServiceTemplateConfig = {
   title: 'Campañas',
   titleSvgSrc: '/svg/text/Campañas-text.svg',
+  sectionsAlign: 'center',
   sections: [
     {
       id: 'que-resuelve',
@@ -41,6 +42,7 @@ const config: ServiceTemplateConfig = {
       },
     ],
   },
+  tabsAlign: 'center',
   pricing: {
     variant: 'toggle-cards',
     title: 'Precios para dueños de agencias',

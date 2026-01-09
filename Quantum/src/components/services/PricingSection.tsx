@@ -85,7 +85,12 @@ function SubtitleLines({
   const items = Array.isArray(lines) ? lines : [lines]
 
   return (
-    <div className={['mt-4 space-y-2 text-lg/8 text-white/70', className].join(' ')}>
+    <div
+      className={[
+        'mt-4 space-y-2 text-base/7 text-white/70 sm:text-lg/8 md:text-xl/9',
+        className,
+      ].join(' ')}
+    >
       {items.map((line, index) => (
         <p key={`${index}-${line}`}>{line}</p>
       ))}
@@ -99,7 +104,7 @@ function PricingButton({
   className = '',
 }: PricingButton & { className?: string }) {
   const classes = [
-    'inline-flex items-center justify-center rounded-full px-6 py-3 text-base font-semibold transition',
+    'inline-flex w-full items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition sm:w-auto sm:px-6 sm:py-3 sm:text-base',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(255,255,0,0.75)]',
     className,
   ].join(' ')
@@ -126,10 +131,10 @@ function ToggleCards({ config }: { config: PricingToggleCardsConfig }) {
   const isAnnual = mode === 'anual'
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8">
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
             {config.title}
           </h2>
           <SubtitleLines lines={config.subtitles} />
@@ -155,7 +160,7 @@ function ToggleCards({ config }: { config: PricingToggleCardsConfig }) {
                 tabIndex={isActive ? 0 : -1}
                 onClick={() => setMode(item.id)}
                 className={[
-                  'rounded-full px-5 py-2 text-sm font-semibold uppercase tracking-[0.18em] transition',
+                  'rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition sm:px-5 sm:text-sm',
                   isActive
                     ? 'bg-(--electrico) text-black'
                     : 'text-white/70 hover:text-white',
@@ -178,7 +183,7 @@ function ToggleCards({ config }: { config: PricingToggleCardsConfig }) {
           <div
             key={plan.id}
             className={[
-              'rounded-3xl border p-6 text-center shadow-[0_25px_60px_rgba(0,0,0,0.35)]',
+              'rounded-3xl border p-5 text-center shadow-[0_25px_60px_rgba(0,0,0,0.35)] sm:p-6',
               isAnnual
                 ? 'border-[rgba(255,255,255,0.18)] bg-[linear-gradient(160deg,rgba(117,59,208,0.92),rgba(58,31,112,0.95))] text-white'
                 : 'border-[rgba(117,59,208,0.35)] bg-[rgba(255,255,255,0.06)] text-white',
@@ -186,14 +191,14 @@ function ToggleCards({ config }: { config: PricingToggleCardsConfig }) {
           >
             <p
               className={[
-                'text-sm font-semibold uppercase tracking-[0.16em]',
+                'text-xs font-semibold uppercase tracking-[0.16em] sm:text-sm',
                 isAnnual ? 'text-white/80' : 'text-(--electrico)',
               ].join(' ')}
             >
               {plan.labelByMode[mode]}
             </p>
-            <h3 className="mt-4 text-2xl font-semibold">{plan.name}</h3>
-            <p className="mt-4 text-3xl font-semibold text-(--electrico)">
+            <h3 className="mt-4 text-xl font-semibold sm:text-2xl">{plan.name}</h3>
+            <p className="mt-4 text-2xl font-semibold text-(--electrico) sm:text-3xl">
               {plan.priceByMode[mode]}
             </p>
           </div>
@@ -215,10 +220,10 @@ function ToggleCards({ config }: { config: PricingToggleCardsConfig }) {
 
 function TwoCardsHero({ config }: { config: PricingTwoCardsHeroConfig }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8">
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8">
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
-          <div className="flex h-full min-h-[260px] flex-col items-center justify-center rounded-3xl border border-white/10 bg-[radial-gradient(120%_80%_at_20%_10%,rgba(255,255,0,0.12),transparent_60%),radial-gradient(110%_80%_at_80%_20%,rgba(117,59,208,0.25),transparent_60%),rgba(0,0,0,0.25)] p-6 text-center">
+          <div className="flex h-full min-h-[200px] flex-col items-center justify-center rounded-3xl border border-white/10 bg-[radial-gradient(120%_80%_at_20%_10%,rgba(255,255,0,0.12),transparent_60%),radial-gradient(110%_80%_at_80%_20%,rgba(117,59,208,0.25),transparent_60%),rgba(0,0,0,0.25)] p-6 text-center sm:min-h-[260px]">
             {config.visual?.label ? (
               <span className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
                 {config.visual.label}
@@ -228,20 +233,26 @@ function TwoCardsHero({ config }: { config: PricingTwoCardsHeroConfig }) {
         </div>
 
         <div className="lg:col-span-7">
-          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
             {config.title}
           </h2>
-          <p className="mt-4 text-lg/8 text-white/75">{config.body}</p>
+          <p className="mt-4 text-base/7 text-white/75 sm:text-lg/8">
+            {config.body}
+          </p>
           {config.emphasis ? (
-            <p className="mt-4 text-lg/8 font-semibold text-white">
+            <p className="mt-4 text-base/7 font-semibold text-white sm:text-lg/8">
               {config.emphasis}
             </p>
           ) : null}
           {config.subheading ? (
-            <h3 className="mt-6 text-3xl font-semibold">{config.subheading}</h3>
+            <h3 className="mt-6 text-2xl font-semibold sm:text-3xl">
+              {config.subheading}
+            </h3>
           ) : null}
           {config.body2 ? (
-            <p className="mt-3 text-lg/8 text-white/75">{config.body2}</p>
+            <p className="mt-3 text-base/7 text-white/75 sm:text-lg/8">
+              {config.body2}
+            </p>
           ) : null}
         </div>
       </div>
@@ -250,13 +261,15 @@ function TwoCardsHero({ config }: { config: PricingTwoCardsHeroConfig }) {
         {config.cards.map((card) => (
           <div
             key={card.id}
-            className="rounded-3xl border border-[rgba(117,59,208,0.45)] bg-[rgba(255,255,255,0.06)] p-6 text-white shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
+            className="rounded-3xl border border-[rgba(117,59,208,0.45)] bg-[rgba(255,255,255,0.06)] p-5 text-white shadow-[0_20px_50px_rgba(0,0,0,0.25)] sm:p-6"
           >
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-(--electrico)">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--electrico) sm:text-sm">
               {card.labelTop}
             </p>
-            <h4 className="mt-4 text-3xl font-semibold">{card.title}</h4>
-            <p className="mt-4 text-4xl font-semibold text-(--electrico)">
+            <h4 className="mt-4 text-2xl font-semibold sm:text-3xl">
+              {card.title}
+            </h4>
+            <p className="mt-4 text-3xl font-semibold text-(--electrico) sm:text-4xl">
               {card.price}
             </p>
             <div className="mt-6">
@@ -275,13 +288,15 @@ function TwoCardsHero({ config }: { config: PricingTwoCardsHeroConfig }) {
 
 function CatalogGrid({ config }: { config: PricingCatalogConfig }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8">
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 sm:p-6 md:p-8">
       <div>
-        <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
           {config.title}
         </h2>
         {config.subtitle ? (
-          <p className="mt-4 text-lg/8 text-white/75">{config.subtitle}</p>
+          <p className="mt-4 text-base/7 text-white/75 sm:text-lg/8 md:text-xl/9">
+            {config.subtitle}
+          </p>
         ) : null}
       </div>
 
@@ -290,12 +305,12 @@ function CatalogGrid({ config }: { config: PricingCatalogConfig }) {
           const isDark = group.tone === 'dark'
           return (
             <div key={group.id}>
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
                 {group.cards.map((card) => (
                   <div
                     key={card.id}
                     className={[
-                      'rounded-3xl border p-6 shadow-[0_20px_50px_rgba(0,0,0,0.3)]',
+                      'rounded-3xl border p-5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] sm:p-6',
                       isDark
                         ? 'border-[rgba(255,255,255,0.18)] bg-[linear-gradient(160deg,rgba(117,59,208,0.92),rgba(58,31,112,0.95))] text-white'
                         : 'border-[rgba(117,59,208,0.35)] bg-[rgba(255,255,255,0.06)] text-white',
@@ -303,14 +318,16 @@ function CatalogGrid({ config }: { config: PricingCatalogConfig }) {
                   >
                     <p
                       className={[
-                        'text-sm font-semibold uppercase tracking-[0.18em]',
+                        'text-xs font-semibold uppercase tracking-[0.18em] sm:text-sm',
                         isDark ? 'text-white/80' : 'text-(--electrico)',
                       ].join(' ')}
                     >
                       {card.label}
                     </p>
-                    <h3 className="mt-4 text-2xl font-semibold">{card.title}</h3>
-                    <p className="mt-4 text-3xl font-semibold text-(--electrico)">
+                    <h3 className="mt-4 text-xl font-semibold sm:text-2xl">
+                      {card.title}
+                    </h3>
+                    <p className="mt-4 text-2xl font-semibold text-(--electrico) sm:text-3xl">
                       {card.price}
                     </p>
                     <div className="mt-6">
@@ -325,7 +342,9 @@ function CatalogGrid({ config }: { config: PricingCatalogConfig }) {
               </div>
 
               {group.note ? (
-                <p className="mt-4 text-sm text-white/70">{group.note}</p>
+                <p className="mt-4 text-xs text-white/70 sm:text-sm">
+                  {group.note}
+                </p>
               ) : null}
             </div>
           )

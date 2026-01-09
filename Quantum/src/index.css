@@ -82,6 +82,19 @@ h6 {
     line-height: 1.35;
 }
 
+.service-template {
+    font-family: var(--font-sans);
+}
+
+.service-template h1,
+.service-template h2,
+.service-template h3,
+.service-template h4,
+.service-template h5,
+.service-template h6 {
+    font-family: inherit;
+}
+
 html {
     box-sizing: border-box;
     font-size: 62.5%;
@@ -439,6 +452,26 @@ body {
 }
 
 @media (max-width: 768px) {
+    .home-hero {
+        gap: clamp(1.6rem, 4vw, 3.2rem);
+        padding: clamp(2rem, 6vw, 3.6rem) clamp(1.6rem, 5vw, 3rem)
+            clamp(3.6rem, 6vw, 5rem);
+    }
+
+    .quantum-video {
+        min-height: 75vh;
+        padding: clamp(2rem, 6vw, 3.6rem) clamp(1.6rem, 5vw, 3rem);
+    }
+
+    .quantum-video__frame {
+        min-height: min(70vh, 52rem);
+        border-radius: 1.8rem;
+    }
+
+    .quantum-video__placeholder {
+        font-size: clamp(1.2rem, 3vw, 1.6rem);
+    }
+
     .quantum-hero__identifier {
         flex-direction: row;
         gap: 1.6rem;

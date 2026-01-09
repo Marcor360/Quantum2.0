@@ -190,6 +190,12 @@ export default function Home() {
         <main className="home-hero" ref={scope}>
             <Header />
 
+            <section className="quantum-video" aria-label="Video principal">
+                <div className="quantum-video__frame">
+                    <p className="quantum-video__placeholder">Aqui ira el video (full screen)</p>
+                </div>
+            </section>
+
             <section className="quantum-hero" aria-labelledby="quantum-title">
                 <div className="quantum-hero__identifier" data-animate>
                     <img
@@ -215,12 +221,6 @@ export default function Home() {
                             </span>
                         </span>
                     </h1>
-                </div>
-            </section>
-
-            <section className="quantum-video" aria-label="Video principal">
-                <div className="quantum-video__frame">
-                    <p className="quantum-video__placeholder">Aqui ira el video (full screen)</p>
                 </div>
             </section>
 

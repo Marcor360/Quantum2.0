@@ -6,6 +6,7 @@ const config: ServiceTemplateConfig = {
   title: 'Branding',
   titleSvgSrc: '/svg/text/Branding-text.svg',
   sectionsLayout: 'grid',
+  sectionsAlign: 'center',
   sections: [
     {
       id: 'que-resuelve',

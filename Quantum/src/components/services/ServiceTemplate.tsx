@@ -16,6 +16,7 @@ export type ServiceTemplateConfig = {
     body?: string
   }
   sectionsLayout?: 'grid' | 'stack'
+  sectionsAlign?: 'left' | 'center'
   sections?: Array<{
     id: string
     title: string
@@ -23,6 +24,7 @@ export type ServiceTemplateConfig = {
     bullets?: string[]
     note?: string
     fullWidth?: boolean
+    align?: 'left' | 'center'
   }>
   tabs?: {
     title: string
@@ -36,6 +38,7 @@ export type ServiceTemplateConfig = {
       note?: string
     }>
   }
+  tabsAlign?: 'left' | 'center'
   pricing?: PricingSectionConfig
   cta?: {
     title: string
@@ -78,7 +81,7 @@ function SectionCard({
   return (
     <div
       className={[
-        'rounded-2xl p-6',
+        'rounded-2xl p-5 sm:p-6 md:p-8',
         className,
       ].join(' ')}
     >
@@ -87,13 +90,26 @@ function SectionCard({
   )
 }
 
-function Bullets({ bullets }: { bullets: string[] }) {
+function Bullets({
+  bullets,
+  align = 'left',
+}: {
+  bullets: string[]
+  align?: 'left' | 'center'
+}) {
   const items = bullets.filter((bullet) => bullet.trim().length > 0)
 
   if (!items.length) return null
+  const alignClass =
+    align === 'center' ? 'list-inside text-center' : 'pl-5 text-left'
 
   return (
-    <ul className="mt-4 list-disc space-y-3 pl-5 text-lg leading-relaxed text-zinc-200/90 marker:text-lime-300 md:text-xl">
+    <ul
+      className={[
+        'mt-4 list-disc space-y-2 text-base leading-relaxed text-zinc-200/90 marker:text-lime-300 sm:text-lg md:text-xl sm:space-y-3',
+        alignClass,
+      ].join(' ')}
+    >
       {items.map((bullet, index) => (
         <li key={`${index}-${bullet}`}>{bullet}</li>
       ))}
@@ -103,7 +119,7 @@ function Bullets({ bullets }: { bullets: string[] }) {
 
 function Note({ children }: { children: string }) {
   return (
-    <p className="mt-4 text-base leading-relaxed text-zinc-200/90 md:text-lg">
+    <p className="mt-4 text-base leading-relaxed text-zinc-200/90 sm:text-lg md:text-xl">
       <span className="font-semibold text-white">Nota:</span> {children}
     </p>
   )
@@ -120,9 +136,16 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
   }, [activeTabId, config.tabs])
 
   const sectionsLayout = config.sectionsLayout ?? 'stack'
+  const tabsAlign = config.tabsAlign ?? 'left'
+  const tabsAlignClass = tabsAlign === 'center' ? 'text-center' : 'text-left'
+  const tabListAlignClass = tabsAlign === 'center' ? 'justify-center' : ''
+  const panelHeaderClass =
+    tabsAlign === 'center'
+      ? 'flex flex-col items-center gap-3 text-center'
+      : 'flex flex-wrap items-center gap-4'
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-(--mate) text-white">
+    <main className="service-template relative min-h-screen overflow-hidden bg-(--mate) text-white font-sans">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
@@ -131,7 +154,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
       <div className="relative z-10">
         <Header />
 
-        <div className="mx-auto w-full max-w-5xl px-4 py-10 md:py-14">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 py-8 sm:px-6 sm:py-10 md:py-14 lg:px-12 2xl:px-16">
           <section
             aria-label={config.title}
             className="flex flex-col items-center gap-3 text-center"
@@ -141,12 +164,12 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
               src={config.titleSvgSrc}
               alt=""
               aria-hidden="true"
-              className="h-24 w-auto max-w-full drop-shadow-[0_20px_60px_rgba(0,0,0,0.6)] sm:h-3=48 md:h-62"
+              className="h-24 w-auto max-w-full drop-shadow-[0_20px_60px_rgba(0,0,0,0.6)] sm:h-32 md:h-48 lg:h-62"
               decoding="async"
               loading="lazy"
             />
             {config.hero?.subtitle && (
-              <p className="max-w-2xl text-balance text-lg text-zinc-300 md:text-xl">
+              <p className="max-w-2xl text-balance text-base text-zinc-300 sm:text-lg md:text-xl">
                 {config.hero.subtitle}
               </p>
             )}
@@ -192,7 +215,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                     </p>
                   )}
                   {config.intro.heading && (
-                    <p className="mt-2 text-3xl font-semibold leading-tight sm:text-4xl">
+                    <p className="mt-2 text-2xl font-semibold leading-tight sm:text-3xl md:text-4xl">
                       {config.intro.heading}
                     </p>
                   )}
@@ -202,7 +225,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                     </p>
                   )}
                   {config.intro.body && (
-                    <p className="mt-5 text-lg/8 text-white/75 md:text-xl/9">
+                    <p className="mt-5 text-base/7 text-white/75 sm:text-lg/8 md:text-xl/9">
                       {config.intro.body}
                     </p>
                   )}
@@ -226,22 +249,29 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                   )
                   const isFullWidth =
                     sectionsLayout === 'grid' && section.fullWidth
+                  const align = section.align ?? config.sectionsAlign ?? 'left'
+                  const alignClass = align === 'center' ? 'text-center' : 'text-left'
 
                   return (
                     <SectionCard
                       key={section.id}
                       className={isFullWidth ? 'md:col-span-2' : ''}
                     >
-                      <div id={section.id} className="scroll-mt-28">
-                        <h2 className="text-3xl font-semibold text-white md:text-4xl">
+                      <div
+                        id={section.id}
+                        className={['scroll-mt-28', alignClass].join(' ')}
+                      >
+                        <h2 className="text-3xl font-semibold text-white sm:text-4xl md:text-5xl">
                           {section.title}
                         </h2>
                         {section.body && (
-                          <p className="mt-3 text-lg leading-relaxed text-zinc-200/90 md:text-xl">
+                          <p className="mt-3 text-lg leading-relaxed text-zinc-200/90 sm:text-xl md:text-2xl">
                             {section.body}
                           </p>
                         )}
-                        {bullets?.length ? <Bullets bullets={bullets} /> : null}
+                        {bullets?.length ? (
+                          <Bullets bullets={bullets} align={align} />
+                        ) : null}
                         {section.note ? <Note>{section.note}</Note> : null}
                       </div>
                     </SectionCard>
@@ -254,7 +284,12 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
           {config.tabs?.items.length ? (
             <section className="mt-12 lg:mt-14">
               <Card className="p-6 sm:p-8">
-                <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                <h2
+                  className={[
+                    'text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl',
+                    tabsAlignClass,
+                  ].join(' ')}
+                >
                   {config.tabs.title}
                 </h2>
 
@@ -262,7 +297,10 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                   <div
                     role="tablist"
                     aria-label={config.tabs.title}
-                    className="flex gap-2 overflow-x-auto pb-2"
+                    className={[
+                      'flex flex-wrap gap-2 overflow-x-auto pb-2 sm:flex-nowrap',
+                      tabListAlignClass,
+                    ].join(' ')}
                   >
                     {config.tabs.items.map((item) => {
                       const isActive = item.id === activeTab?.id
@@ -280,7 +318,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                           tabIndex={isActive ? 0 : -1}
                           onClick={() => setActiveTabId(item.id)}
                           className={[
-                            'inline-flex flex-none items-center gap-2 rounded-full border px-4 py-2 text-lg font-medium transition',
+                            'inline-flex flex-none items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition sm:text-base md:text-lg',
                             'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(255,255,0,0.75)]',
                             isActive
                               ? 'border-[rgba(255,255,0,0.35)] bg-[rgba(255,255,0,0.12)] text-white'
@@ -308,9 +346,12 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                       id={`${tabBaseId}-panel-${activeTab.id}`}
                       role="tabpanel"
                       aria-labelledby={`${tabBaseId}-tab-${activeTab.id}`}
-                      className="mt-6 rounded-3xl p-6 sm:p-8"
+                      className={[
+                        'mt-6 rounded-3xl p-6 sm:p-8',
+                        tabsAlignClass,
+                      ].join(' ')}
                     >
-                      <div className="flex flex-wrap items-center gap-4">
+                      <div className={panelHeaderClass}>
                         {activeTab.iconSvgSrc ? (
                           <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl">
                             <img
@@ -323,18 +364,18 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                             />
                           </span>
                         ) : null}
-                        <h3 className="text-3xl font-semibold md:text-4xl">
+                        <h3 className="text-2xl font-semibold sm:text-3xl md:text-4xl">
                           {activeTab.title ?? activeTab.label}
                         </h3>
                       </div>
 
                       {activeTab.body ? (
-                        <p className="mt-4 text-lg/8 text-white/75 md:text-xl/9">
+                        <p className="mt-4 text-base/7 text-white/75 sm:text-lg/8 md:text-xl/9">
                           {activeTab.body}
                         </p>
                       ) : null}
                       {activeTab.bullets?.length ? (
-                        <Bullets bullets={activeTab.bullets} />
+                        <Bullets bullets={activeTab.bullets} align={tabsAlign} />
                       ) : null}
                       {activeTab.note ? <Note>{activeTab.note}</Note> : null}
                     </div>
@@ -355,18 +396,18 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
               <Card className="overflow-hidden">
                 <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-12 lg:items-center">
                   <div className="lg:col-span-8">
-                    <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                    <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
                       {config.cta.title}
                     </h2>
                     {config.cta.body ? (
-                      <p className="mt-4 text-lg/8 text-white/75 md:text-xl/9">
+                      <p className="mt-4 text-base/7 text-white/75 sm:text-lg/8 md:text-xl/9">
                         {config.cta.body}
                       </p>
                     ) : null}
                   </div>
                   <div className="lg:col-span-4 lg:text-right">
                     {config.cta.priceText ? (
-                      <p className="text-4xl font-semibold text-(--electrico)">
+                      <p className="text-3xl font-semibold text-(--electrico) sm:text-4xl">
                         {config.cta.priceText}
                       </p>
                     ) : null}

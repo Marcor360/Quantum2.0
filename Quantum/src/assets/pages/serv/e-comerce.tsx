@@ -5,6 +5,7 @@ import ServiceTemplate, {
 const config: ServiceTemplateConfig = {
   title: 'E-Commerce',
   titleSvgSrc: '/svg/text/E-Comerce-text.svg',
+  sectionsAlign: 'center',
   sections: [
     {
       id: 'que-resuelve',
@@ -51,6 +52,7 @@ const config: ServiceTemplateConfig = {
       },
     ],
   },
+  tabsAlign: 'center',
   pricing: {
     variant: 'catalog-grid',
     title: 'Actualiza tu negocio',
