@@ -6,6 +6,7 @@ import AppsIA from './assets/pages/serv/app-ia'
 import Branding from './assets/pages/serv/brannding'
 import Campanas from './assets/pages/serv/campanas'
 import Ecomerce from './assets/pages/serv/e-comerce'
+import SocialMedia from './assets/pages/serv/social-media'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/servicios/e-commerce" element={<Ecomerce />} />
         <Route path="/servicios/apps-ia" element={<AppsIA />} />
         <Route path="/servicios/campanas" element={<Campanas />} />
+        <Route path="/servicios/social-media" element={<SocialMedia />} />
       </Routes>
     </IntroLogo>
   )
