@@ -125,7 +125,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
     <main className="relative min-h-screen overflow-hidden bg-(--mate) text-white">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_0%_0%,rgba(255,255,0,0.14),transparent_60%),radial-gradient(110%_85%_at_100%_15%,rgba(117,59,208,0.18),transparent_60%)]"
+        className="pointer-events-none absolute inset-0"
       />
 
       <div className="relative z-10">

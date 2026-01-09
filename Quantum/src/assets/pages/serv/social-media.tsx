@@ -38,43 +38,61 @@ const config: ServiceTemplateConfig = {
     ],
   },
   pricing: {
+    variant: 'toggle-cards',
     title: 'Precios público en general',
-    subtitle:
+    subtitles:
       'Estos precios son para la compra de nuestros planes sin tomar alguna de nuestras ofertas de descuento de agencia.',
-    billingModes: [
-      { id: 'mensual', label: 'Mensual' },
-      { id: 'anual', label: 'Anual' },
-    ],
-    defaultMode: 'mensual',
+    toggle: {
+      modes: [
+        { id: 'mensual', label: 'Mensual' },
+        { id: 'anual', label: 'Anual' },
+      ],
+      defaultMode: 'mensual',
+    },
     plans: [
       {
         id: 'una-red',
-        labelTop: 'Una red social',
-        name: 'Esencial',
+        name: 'Una red social',
+        labelByMode: {
+          mensual: 'Esencial | Mes',
+          anual: 'Esencial | Anual',
+        },
         priceByMode: { mensual: '$1,999', anual: '—' },
       },
       {
         id: 'dos-redes',
-        labelTop: 'Dos redes sociales',
-        name: 'Indispensable',
+        name: 'Dos redes sociales',
+        labelByMode: {
+          mensual: 'Indispensable | Mes',
+          anual: 'Indispensable | Anual',
+        },
         priceByMode: { mensual: '$2,099', anual: '—' },
       },
       {
         id: 'tres-redes',
-        labelTop: 'Tres redes sociales',
-        name: 'Todo en Uno',
+        name: 'Tres redes sociales',
+        labelByMode: {
+          mensual: 'Todo en Uno | Mes',
+          anual: 'Todo en Uno | Anual',
+        },
         priceByMode: { mensual: '$2,199', anual: '—' },
       },
       {
         id: 'cuatro-redes',
-        labelTop: 'Cuatro redes sociales',
-        name: 'Profesional',
+        name: 'Cuatro redes sociales',
+        labelByMode: {
+          mensual: 'Profesional | Mes',
+          anual: 'Profesional | Anual',
+        },
         priceByMode: { mensual: '$2,499', anual: '—' },
       },
       {
         id: 'seis-redes',
-        labelTop: 'Seis redes sociales',
-        name: 'Omnipresente',
+        name: 'Seis redes sociales',
+        labelByMode: {
+          mensual: 'Omnipresente | Mes',
+          anual: 'Omnipresente | Anual',
+        },
         priceByMode: { mensual: '$2,999', anual: '—' },
       },
     ],
@@ -95,4 +113,3 @@ const config: ServiceTemplateConfig = {
 export default function SocialMedia() {
   return <ServiceTemplate config={config} />
 }
-
