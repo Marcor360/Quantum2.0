@@ -1,7 +1,6 @@
 ﻿import { type ReactNode, useId, useMemo, useState } from 'react'
 import Header from '../../assets/components/Header'
-
-export type ServiceTemplateBillingMode = 'mensual' | 'anual'
+import PricingSection, { type PricingSectionConfig } from './PricingSection'
 
 export type ServiceTemplateConfig = {
   title: string
@@ -37,18 +36,7 @@ export type ServiceTemplateConfig = {
       note?: string
     }>
   }
-  pricing?: {
-    title: string
-    subtitle?: string
-    billingModes: Array<{ id: ServiceTemplateBillingMode; label: string }>
-    defaultMode: ServiceTemplateBillingMode
-    plans: Array<{
-      id: string
-      labelTop: string
-      name: string
-      priceByMode: Record<ServiceTemplateBillingMode, string>
-    }>
-  }
+  pricing?: PricingSectionConfig
   cta?: {
     title: string
     body?: string
@@ -105,7 +93,7 @@ function Bullets({ bullets }: { bullets: string[] }) {
   if (!items.length) return null
 
   return (
-    <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-zinc-200/90 marker:text-lime-300 md:text-base">
+    <ul className="mt-4 list-disc space-y-3 pl-5 text-lg leading-relaxed text-zinc-200/90 marker:text-lime-300 md:text-xl">
       {items.map((bullet, index) => (
         <li key={`${index}-${bullet}`}>{bullet}</li>
       ))}
@@ -115,7 +103,7 @@ function Bullets({ bullets }: { bullets: string[] }) {
 
 function Note({ children }: { children: string }) {
   return (
-    <p className="mt-4 text-xs leading-relaxed text-zinc-200/90 md:text-sm">
+    <p className="mt-4 text-base leading-relaxed text-zinc-200/90 md:text-lg">
       <span className="font-semibold text-white">Nota:</span> {children}
     </p>
   )
@@ -131,9 +119,6 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
     return current ?? config.tabs.items[0]
   }, [activeTabId, config.tabs])
 
-  const [billingMode, setBillingMode] = useState<ServiceTemplateBillingMode>(
-    config.pricing?.defaultMode ?? 'mensual'
-  )
   const sectionsLayout = config.sectionsLayout ?? 'stack'
 
   return (
@@ -161,7 +146,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
               loading="lazy"
             />
             {config.hero?.subtitle && (
-              <p className="max-w-2xl text-balance text-sm text-zinc-300 md:text-base">
+              <p className="max-w-2xl text-balance text-lg text-zinc-300 md:text-xl">
                 {config.hero.subtitle}
               </p>
             )}
@@ -217,7 +202,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                     </p>
                   )}
                   {config.intro.body && (
-                    <p className="mt-5 text-sm/7 text-white/75">
+                    <p className="mt-5 text-lg/8 text-white/75 md:text-xl/9">
                       {config.intro.body}
                     </p>
                   )}
@@ -248,11 +233,11 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                       className={isFullWidth ? 'md:col-span-2' : ''}
                     >
                       <div id={section.id} className="scroll-mt-28">
-                        <h2 className="text-2xl font-semibold text-white md:text-3xl">
+                        <h2 className="text-3xl font-semibold text-white md:text-4xl">
                           {section.title}
                         </h2>
                         {section.body && (
-                          <p className="mt-3 text-sm leading-relaxed text-zinc-200/90 md:text-base">
+                          <p className="mt-3 text-lg leading-relaxed text-zinc-200/90 md:text-xl">
                             {section.body}
                           </p>
                         )}
@@ -295,7 +280,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                           tabIndex={isActive ? 0 : -1}
                           onClick={() => setActiveTabId(item.id)}
                           className={[
-                            'inline-flex flex-none items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition',
+                            'inline-flex flex-none items-center gap-2 rounded-full border px-4 py-2 text-lg font-medium transition',
                             'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(255,255,0,0.75)]',
                             isActive
                               ? 'border-[rgba(255,255,0,0.35)] bg-[rgba(255,255,0,0.12)] text-white'
@@ -338,13 +323,13 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                             />
                           </span>
                         ) : null}
-                        <h3 className="text-2xl font-semibold">
+                        <h3 className="text-3xl font-semibold md:text-4xl">
                           {activeTab.title ?? activeTab.label}
                         </h3>
                       </div>
 
                       {activeTab.body ? (
-                        <p className="mt-4 text-sm/7 text-white/75">
+                        <p className="mt-4 text-lg/8 text-white/75 md:text-xl/9">
                           {activeTab.body}
                         </p>
                       ) : null}
@@ -361,59 +346,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
 
           {config.pricing ? (
             <section className="mt-12 lg:mt-14">
-              <Card className="p-6 sm:p-8">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                  <div>
-                    <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                      {config.pricing.title}
-                    </h2>
-                    {config.pricing.subtitle ? (
-                      <p className="mt-3 max-w-3xl text-sm/7 text-white/70">
-                        {config.pricing.subtitle}
-                      </p>
-                    ) : null}
-                  </div>
-
-                  <div className="inline-flex gap-2">
-                    {config.pricing.billingModes.map((mode) => {
-                      const isActive = billingMode === mode.id
-                      return (
-                        <button
-                          key={mode.id}
-                          type="button"
-                          onClick={() => setBillingMode(mode.id)}
-                          className={[
-                            'rounded-full px-4 py-2 text-xs font-semibold tracking-[0.14em] uppercase transition',
-                            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(255,255,0,0.75)]',
-                            isActive
-                              ? 'bg-(--electrico) text-black'
-                              : 'text-white/70 hover:text-white',
-                          ].join(' ')}
-                        >
-                          {mode.label}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-
-                <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {config.pricing.plans.map((plan) => (
-                    <div
-                      key={plan.id}
-                      className="rounded-3xl p-6"
-                    >
-                      <p className="text-xs font-semibold tracking-[0.18em] text-white/60">
-                        {plan.labelTop}
-                      </p>
-                      <p className="mt-2 text-xl font-semibold">{plan.name}</p>
-                      <p className="mt-6 text-3xl font-semibold text-(--electrico)">
-                        {plan.priceByMode[billingMode]}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Card>
+              <PricingSection config={config.pricing} />
             </section>
           ) : null}
 
@@ -426,7 +359,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                       {config.cta.title}
                     </h2>
                     {config.cta.body ? (
-                      <p className="mt-4 text-sm/7 text-white/75">
+                      <p className="mt-4 text-lg/8 text-white/75 md:text-xl/9">
                         {config.cta.body}
                       </p>
                     ) : null}
@@ -468,4 +401,3 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
     </main>
   )
 }
-

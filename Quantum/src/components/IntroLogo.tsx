@@ -75,12 +75,18 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
     const controller = new AbortController()
 
     fetch(svgUrl, { cache: 'no-store', signal: controller.signal })
-      .then((response) => response.text())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to load intro SVG: ${response.status}`)
+        }
+        return response.text()
+      })
       .then((markup) => setSvgMarkup(markup))
       .catch(() => {
         if (!controller.signal.aborted) {
           setSvgMarkup(null)
           setIsIntroDone(true)
+          setIsGateOpen(true)
         }
       })
 
@@ -121,7 +127,16 @@ export default function IntroLogo({ svgUrl, children }: IntroLogoProps) {
       const content = contentRef.current
       const svg = wrapper?.querySelector('svg') as SVGSVGElement | null
 
-      if (!wrapper || !overlay || !content || !svg) return
+      if (!wrapper || !overlay || !content) return
+
+      if (!svg) {
+        overlay.setAttribute('data-hidden', 'true')
+        gsap.set(content, { autoAlpha: 1 })
+        gsap.set(overlay, { autoAlpha: 0, pointerEvents: 'none' })
+        setIsIntroDone(true)
+        setIsGateOpen(true)
+        return
+      }
 
       splitMultiSegmentPaths(svg)
 

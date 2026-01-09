@@ -41,6 +41,87 @@ const config: ServiceTemplateConfig = {
       },
     ],
   },
+  pricing: {
+    variant: 'toggle-cards',
+    title: 'Precios para dueños de agencias',
+    subtitles: [
+      'Estos precios son exclusivos para personas con membresía de agencia.',
+      'Sobre de este precio adicional tendrán un descuento extra del 10%,15% o 25% de acuerdo a su tipo de membresía',
+    ],
+    toggle: {
+      modes: [
+        { id: 'mensual', label: 'Mensual' },
+        { id: 'anual', label: 'Anual' },
+      ],
+      defaultMode: 'mensual',
+    },
+    plans: [
+      {
+        id: 'una-red',
+        name: 'Una red social',
+        labelByMode: {
+          mensual: 'Esencial | Mes',
+          anual: 'Esencial | Anual',
+        },
+        priceByMode: {
+          mensual: '$899 – $1,199',
+          anual: '$8,993 – $11,990',
+        },
+      },
+      {
+        id: 'dos-redes',
+        name: 'Dos redes sociales',
+        labelByMode: {
+          mensual: 'Indispensable | Mes',
+          anual: 'Indispensable | Anual',
+        },
+        priceByMode: {
+          mensual: '$1,049 – $1,399',
+          anual: '$10,493 – $13,990',
+        },
+      },
+      {
+        id: 'tres-redes',
+        name: 'Tres redes sociales',
+        labelByMode: {
+          mensual: 'Todo en Uno | Mes',
+          anual: 'Todo en Uno | Anual',
+        },
+        priceByMode: {
+          mensual: '$1,274 – $1,699',
+          anual: '$12,743 – $16,990',
+        },
+      },
+      {
+        id: 'cuatro-redes',
+        name: 'Cuatro redes sociales',
+        labelByMode: {
+          mensual: 'Profesional | Mes',
+          anual: 'Profesional | Anual',
+        },
+        priceByMode: {
+          mensual: '$1,499 – $1,999',
+          anual: '$14,993 – $19,990',
+        },
+      },
+      {
+        id: 'seis-redes',
+        name: 'Seis redes sociales',
+        labelByMode: {
+          mensual: 'Omnipresente | Mes',
+          anual: 'Omnipresente | Anual',
+        },
+        priceByMode: {
+          mensual: '$2,024 – $2,699',
+          anual: '$20,243 – $26,990',
+        },
+      },
+    ],
+    cta: {
+      label: 'Sé dueño de tu agencia',
+      href: '#',
+    },
+  },
 }
 
 export default function Campanas() {

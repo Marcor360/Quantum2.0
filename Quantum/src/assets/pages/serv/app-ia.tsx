@@ -52,6 +52,110 @@ const config: ServiceTemplateConfig = {
       },
     ],
   },
+  pricing: {
+    variant: 'catalog-grid',
+    title: 'Actualiza tu negocio',
+    subtitle:
+      'Elige cualquiera de las opciones de pago, en cuotas o en una sola exhibición.',
+    groups: [
+      {
+        id: 'economico',
+        tone: 'light',
+        cards: [
+          {
+            id: 'economico-landing',
+            label: 'Económico',
+            title: 'Landing Page',
+            price: '$5,980',
+            button: {
+              label: 'CONTRATAR',
+              href: '#',
+            },
+          },
+          {
+            id: 'economico-informativo',
+            label: 'Económico',
+            title: 'Sitio Informativo',
+            price: '$7,980',
+            button: {
+              label: 'CONTRATAR',
+              href: '#',
+            },
+          },
+          {
+            id: 'economico-whatsapp',
+            label: 'Económico',
+            title: 'Ecommerce a WhatsApp',
+            price: '$9,600',
+            button: {
+              label: 'CONTRATAR',
+              href: '#',
+            },
+          },
+          {
+            id: 'economico-pasarela',
+            label: 'Económico',
+            title: 'E-commerce con pasarela de pago',
+            price: '$11,600',
+            button: {
+              label: 'CONTRATAR',
+              href: '#',
+            },
+          },
+        ],
+        note:
+          '*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)',
+      },
+      {
+        id: 'medida',
+        tone: 'dark',
+        cards: [
+          {
+            id: 'medida-landing',
+            label: 'A la medida',
+            title: 'Landing Page',
+            price: '$7,980',
+            button: {
+              label: 'CONTRATAR',
+              href: '#',
+            },
+          },
+          {
+            id: 'medida-informativo',
+            label: 'A la medida',
+            title: 'Sitio Informativo',
+            price: '$9,980',
+            button: {
+              label: 'CONTRATAR',
+              href: '#',
+            },
+          },
+          {
+            id: 'medida-whatsapp',
+            label: 'A la medida',
+            title: 'Ecommerce a WhatsApp',
+            price: '$11,600',
+            button: {
+              label: 'CONTRATAR',
+              href: '#',
+            },
+          },
+          {
+            id: 'medida-pasarela',
+            label: 'A la medida',
+            title: 'E-commerce con pasarela de pago',
+            price: '$13,600',
+            button: {
+              label: 'CONTRATAR',
+              href: '#',
+            },
+          },
+        ],
+        note:
+          '*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)',
+      },
+    ],
+  },
 }
 
 export default function AppsIA() {

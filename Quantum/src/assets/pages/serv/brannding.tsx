@@ -41,6 +41,38 @@ const config: ServiceTemplateConfig = {
       body: 'Naming y piezas corporativas (menús, papelería, etc.) cuando aplique.',
     },
   ],
+  pricing: {
+    variant: 'two-cards-hero',
+    title: 'Tu negocio necesita un menú digital',
+    body: 'Nosotros lo diseñamos según tus necesidades y listo para usarse con la cámara de cualquier dispositivo.',
+    emphasis:
+      '¡No pierdas más ventas! Y aprovecha todos los beneficios que tiene para tu negocio.',
+    subheading: '¿Para qué sirve un Código QR?',
+    body2:
+      '¡Tus clientes solo tendrán que abrir su cámara desde su celular, escanear el código y listo podrás acceder a tu menú en cuestión de segundos! No necesitan instalar ninguna APP.',
+    cards: [
+      {
+        id: 'menu-pyme',
+        labelTop: 'Anualmente / 40 platillos',
+        title: 'Menú Pyme',
+        price: '$1,499',
+        button: {
+          label: 'CONTRATAR',
+          href: '#',
+        },
+      },
+      {
+        id: 'menu-empresarial',
+        labelTop: 'Anualmente / 40 platillos',
+        title: 'Menú Empresarial',
+        price: '$1,999',
+        button: {
+          label: 'CONTRATAR',
+          href: '#',
+        },
+      },
+    ],
+  },
 }
 
 export default function Branding() {

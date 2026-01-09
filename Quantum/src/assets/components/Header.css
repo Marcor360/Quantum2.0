@@ -70,7 +70,7 @@
 .site-header__nav {
     align-items: center;
     gap: clamp(1rem, 2vw, 1.8rem);
-    font-size: 1.6rem;
+    font-size: clamp(1.8rem, 1.2vw, 2.4rem);
     font-family: "Subjectivity", "Helvetica Neue", Arial, sans-serif;
     z-index: 1001;
 }
@@ -171,6 +171,8 @@
     padding: 0;
     cursor: pointer;
     transition: transform 0.2s ease;
+    position: relative;
+    z-index: 1002;
 }
 
 .site-header__toggle:hover,
@@ -190,7 +192,7 @@
     background: rgba(0, 0, 0, 0.45);
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    z-index: 998;
+    z-index: 1000;
     opacity: 0;
     pointer-events: none;
     transition: opacity 250ms ease;
@@ -222,9 +224,10 @@
         position: fixed;
         top: 0;
         right: 0;
+        left: 0;
         height: 100vh;
         height: 100dvh;
-        width: min(86vw, 32rem);
+        width: 100vw;
         max-width: 100vw;
         padding: calc(env(safe-area-inset-top, 0px) + 3rem)
             calc(env(safe-area-inset-right, 0px) + 2.4rem)
@@ -245,7 +248,7 @@
         pointer-events: none;
         transform: translateX(100%);
         transition: transform 0.35s ease, box-shadow 0.35s ease;
-        z-index: 999;
+        z-index: 1001;
         overflow-y: auto;
     }
 
