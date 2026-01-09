@@ -5,11 +5,13 @@ import ServiceTemplate, {
 const config: ServiceTemplateConfig = {
   title: 'Branding',
   titleSvgSrc: '/svg/text/Branding-text.svg',
+  sectionsLayout: 'grid',
   sections: [
     {
       id: 'que-resuelve',
       title: 'Qué resuelve',
       body: 'Identidad visual sólida para que la marca se vea profesional, consistente y lista para usarse en digital e impresión.',
+      fullWidth: true,
     },
     {
       id: 'incluye',
@@ -20,6 +22,7 @@ const config: ServiceTemplateConfig = {
         'Paleta corporativa definida para aplicar en toda la comunicación.',
         'Mockups / implementaciones: presentación digital con ejemplos de aplicación del logo en materiales.',
       ],
+      fullWidth: true,
     },
     {
       id: 'entregables',
@@ -29,14 +32,8 @@ const config: ServiceTemplateConfig = {
     {
       id: 'requisitos',
       title: 'Requisitos para arrancar',
-      bullets: [
-        'Nombre de marca',
-        'Giro',
-        'Público objetivo',
-        'Referencias visuales (3–5)',
-        'Usos principales (redes, empaque, uniforme, etc.).',
-      ],
-      note: 'Esto es estándar para ejecutar el alcance anterior.',
+      body: 'Nombre de marca, giro, público objetivo, referencias visuales (3–5), y usos principales (redes, empaque, uniforme, etc.). (Esto es estándar para ejecutar el alcance anterior.)',
+      fullWidth: true,
     },
     {
       id: 'complementos',

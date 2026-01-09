@@ -1,4 +1,4 @@
-import { type ReactNode, useId, useMemo, useState } from 'react'
+﻿import { type ReactNode, useId, useMemo, useState } from 'react'
 import Header from '../../assets/components/Header'
 
 export type ServiceTemplateBillingMode = 'mensual' | 'anual'
@@ -16,12 +16,14 @@ export type ServiceTemplateConfig = {
     tag?: string
     body?: string
   }
+  sectionsLayout?: 'grid' | 'stack'
   sections?: Array<{
     id: string
     title: string
     body?: string
     bullets?: string[]
     note?: string
+    fullWidth?: boolean
   }>
   tabs?: {
     title: string
@@ -69,7 +71,26 @@ function Card({
   return (
     <div
       className={[
-        'rounded-3xl border border-purple-500/25 bg-white/5 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-md',
+        'rounded-3xl',
+        className,
+      ].join(' ')}
+    >
+      {children}
+    </div>
+  )
+}
+
+function SectionCard({
+  children,
+  className = '',
+}: {
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <div
+      className={[
+        'rounded-2xl p-6',
         className,
       ].join(' ')}
     >
@@ -79,16 +100,14 @@ function Card({
 }
 
 function Bullets({ bullets }: { bullets: string[] }) {
+  const items = bullets.filter((bullet) => bullet.trim().length > 0)
+
+  if (!items.length) return null
+
   return (
-    <ul className="mt-4 space-y-2 text-sm/6 text-white/80">
-      {bullets.map((bullet) => (
-        <li key={bullet} className="flex gap-3">
-          <span
-            aria-hidden="true"
-            className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-(--electrico)"
-          />
-          <span>{bullet}</span>
-        </li>
+    <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-zinc-200/90 marker:text-lime-300 md:text-base">
+      {items.map((bullet, index) => (
+        <li key={`${index}-${bullet}`}>{bullet}</li>
       ))}
     </ul>
   )
@@ -96,8 +115,8 @@ function Bullets({ bullets }: { bullets: string[] }) {
 
 function Note({ children }: { children: string }) {
   return (
-    <p className="mt-4 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm/6 text-white/75">
-      <span className="font-medium text-white/80">Nota:</span> {children}
+    <p className="mt-4 text-xs leading-relaxed text-zinc-200/90 md:text-sm">
+      <span className="font-semibold text-white">Nota:</span> {children}
     </p>
   )
 }
@@ -115,34 +134,34 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
   const [billingMode, setBillingMode] = useState<ServiceTemplateBillingMode>(
     config.pricing?.defaultMode ?? 'mensual'
   )
+  const sectionsLayout = config.sectionsLayout ?? 'stack'
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-(--mate) text-white">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_100%_at_10%_0%,rgba(255,255,0,0.12),transparent_60%),radial-gradient(90%_80%_at_90%_10%,rgba(117,59,208,0.18),transparent_60%),radial-gradient(120%_90%_at_40%_90%,rgba(255,110,243,0.10),transparent_60%)]"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_0%,rgba(0,0,0,0),rgba(0,0,0,0.78))]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_0%_0%,rgba(255,255,0,0.14),transparent_60%),radial-gradient(110%_85%_at_100%_15%,rgba(117,59,208,0.18),transparent_60%)]"
       />
 
       <div className="relative z-10">
         <Header />
 
-        <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-10 sm:px-8">
-          <section aria-label={config.title} className="space-y-4">
+        <div className="mx-auto w-full max-w-5xl px-4 py-10 md:py-14">
+          <section
+            aria-label={config.title}
+            className="flex flex-col items-center gap-3 text-center"
+          >
             <h1 className="sr-only">{config.title}</h1>
             <img
               src={config.titleSvgSrc}
               alt=""
               aria-hidden="true"
-              className="h-14 w-auto max-w-full drop-shadow-[0_18px_50px_rgba(0,0,0,0.55)] sm:h-16"
+              className="h-24 w-auto max-w-full drop-shadow-[0_20px_60px_rgba(0,0,0,0.6)] sm:h-3=48 md:h-62"
               decoding="async"
               loading="lazy"
             />
             {config.hero?.subtitle && (
-              <p className="max-w-2xl text-balance text-base/7 text-white/75">
+              <p className="max-w-2xl text-balance text-sm text-zinc-300 md:text-base">
                 {config.hero.subtitle}
               </p>
             )}
@@ -155,7 +174,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                   <Card className="overflow-hidden">
                     <div className="aspect-video w-full">
                       {config.intro.video.type === 'embed' &&
-                      config.intro.video.url ? (
+                        config.intro.video.url ? (
                         <iframe
                           className="h-full w-full"
                           src={config.intro.video.url}
@@ -171,7 +190,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                             Video (16:9)
                           </p>
                           <p className="text-xs text-white/60">
-                            Placeholder — aquí irá el video
+                            Placeholder - aqui ira el video
                           </p>
                         </div>
                       )}
@@ -208,30 +227,49 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
           )}
 
           {config.sections?.length ? (
-            <section className="mt-12 space-y-6 lg:mt-14">
-              {config.sections.map((section) => (
-                <Card key={section.id} className="p-6 sm:p-8">
-                  <div id={section.id} className="scroll-mt-28">
-                    <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                      {section.title}
-                    </h2>
-                    {section.body && (
-                      <p className="mt-4 text-sm/7 text-white/75">
-                        {section.body}
-                      </p>
-                    )}
-                    {section.bullets?.length ? <Bullets bullets={section.bullets} /> : null}
-                    {section.note ? <Note>{section.note}</Note> : null}
-                  </div>
-                </Card>
-              ))}
+            <section className="mt-10 md:mt-12">
+              <div
+                className={
+                  sectionsLayout === 'grid'
+                    ? 'grid gap-6 md:grid-cols-2'
+                    : 'space-y-6'
+                }
+              >
+                {config.sections.map((section) => {
+                  const bullets = section.bullets?.filter(
+                    (item) => item.trim().length > 0
+                  )
+                  const isFullWidth =
+                    sectionsLayout === 'grid' && section.fullWidth
+
+                  return (
+                    <SectionCard
+                      key={section.id}
+                      className={isFullWidth ? 'md:col-span-2' : ''}
+                    >
+                      <div id={section.id} className="scroll-mt-28">
+                        <h2 className="text-2xl font-semibold text-white md:text-3xl">
+                          {section.title}
+                        </h2>
+                        {section.body && (
+                          <p className="mt-3 text-sm leading-relaxed text-zinc-200/90 md:text-base">
+                            {section.body}
+                          </p>
+                        )}
+                        {bullets?.length ? <Bullets bullets={bullets} /> : null}
+                        {section.note ? <Note>{section.note}</Note> : null}
+                      </div>
+                    </SectionCard>
+                  )
+                })}
+              </div>
             </section>
           ) : null}
 
           {config.tabs?.items.length ? (
             <section className="mt-12 lg:mt-14">
               <Card className="p-6 sm:p-8">
-                <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+                <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                   {config.tabs.title}
                 </h2>
 
@@ -285,11 +323,11 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                       id={`${tabBaseId}-panel-${activeTab.id}`}
                       role="tabpanel"
                       aria-labelledby={`${tabBaseId}-tab-${activeTab.id}`}
-                      className="mt-6 rounded-3xl border border-white/10 bg-black/20 p-6 sm:p-8"
+                      className="mt-6 rounded-3xl p-6 sm:p-8"
                     >
                       <div className="flex flex-wrap items-center gap-4">
                         {activeTab.iconSvgSrc ? (
-                          <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                          <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl">
                             <img
                               src={activeTab.iconSvgSrc}
                               alt=""
@@ -300,7 +338,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                             />
                           </span>
                         ) : null}
-                        <h3 className="text-xl font-semibold">
+                        <h3 className="text-2xl font-semibold">
                           {activeTab.title ?? activeTab.label}
                         </h3>
                       </div>
@@ -326,7 +364,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
               <Card className="p-6 sm:p-8">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                    <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+                    <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                       {config.pricing.title}
                     </h2>
                     {config.pricing.subtitle ? (
@@ -336,7 +374,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                     ) : null}
                   </div>
 
-                  <div className="inline-flex rounded-full border border-white/10 bg-black/30 p-1">
+                  <div className="inline-flex gap-2">
                     {config.pricing.billingModes.map((mode) => {
                       const isActive = billingMode === mode.id
                       return (
@@ -363,7 +401,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                   {config.pricing.plans.map((plan) => (
                     <div
                       key={plan.id}
-                      className="rounded-3xl border border-purple-500/30 bg-black/20 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] transition hover:border-[rgba(255,255,0,0.30)]"
+                      className="rounded-3xl p-6"
                     >
                       <p className="text-xs font-semibold tracking-[0.18em] text-white/60">
                         {plan.labelTop}
@@ -384,7 +422,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
               <Card className="overflow-hidden">
                 <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-12 lg:items-center">
                   <div className="lg:col-span-8">
-                    <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+                    <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                       {config.cta.title}
                     </h2>
                     {config.cta.body ? (
@@ -407,7 +445,7 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
                         {config.cta.icons.map((src) => (
                           <span
                             key={src}
-                            className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+                            className="inline-flex h-12 w-12 items-center justify-center rounded-2xl"
                           >
                             <img
                               src={src}
@@ -430,3 +468,4 @@ export default function ServiceTemplate({ config }: ServiceTemplateProps) {
     </main>
   )
 }
+

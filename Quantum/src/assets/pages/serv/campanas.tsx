@@ -4,7 +4,7 @@ import ServiceTemplate, {
 
 const config: ServiceTemplateConfig = {
   title: 'Campañas',
-  titleSvgSrc: '/svg/text/Campa¤as-text.svg',
+  titleSvgSrc: '/svg/text/Campañas-text.svg',
   sections: [
     {
       id: 'que-resuelve',
@@ -14,13 +14,7 @@ const config: ServiceTemplateConfig = {
     {
       id: 'requisitos',
       title: 'Requisitos para arrancar',
-      bullets: [
-        'Accesos a Business Manager/Ads',
-        'Pixel/eventos (si aplica)',
-        'Objetivo claro (leads/ventas)',
-        'Presupuesto',
-        'Ubicación y oferta',
-      ],
+      body: 'Accesos a Business Manager/Ads, pixel/eventos (si aplica), objetivo claro (leads/ventas), presupuesto, ubicación y oferta.',
     },
   ],
   tabs: {
@@ -43,7 +37,7 @@ const config: ServiceTemplateConfig = {
         bullets: [
           'Propuesta de campaña + diseño de creatividad (imagen) + coordinador asignado + monitoreo hasta 30 días.',
         ],
-        note: 'No incluye la inversión / presupuesto pagado a la plataforma publicitaria.',
+        note: 'No incluye la inversión/presupuesto pagado a la plataforma publicitaria.',
       },
     ],
   },
@@ -52,4 +46,3 @@ const config: ServiceTemplateConfig = {
 export default function Campanas() {
   return <ServiceTemplate config={config} />
 }
-
