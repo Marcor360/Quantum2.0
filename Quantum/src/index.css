@@ -115,9 +115,12 @@ body {
 }
 
 .home-hero {
+    --home-pad-x: clamp(1.8rem, 6vw, 6rem);
+    --home-pad-y: clamp(2.4rem, 5vw, 4.8rem);
+    --home-pad-bottom: clamp(5rem, 6vw, 7rem);
     position: relative;
     min-height: 100vh;
-    padding: clamp(2.4rem, 5vw, 4.8rem) clamp(1.8rem, 6vw, 6rem) clamp(5rem, 6vw, 7rem);
+    padding: var(--home-pad-y) var(--home-pad-x) var(--home-pad-bottom);
     display: flex;
     flex-direction: column;
     gap: clamp(2.4rem, 5vw, 4.8rem);
@@ -218,27 +221,39 @@ body {
 
 .quantum-video {
     min-height: 100vh;
-    padding: clamp(2.4rem, 5vw, 4.8rem) clamp(1.8rem, 6vw, 6rem);
+    padding: 0;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
+    width: calc(100% + var(--home-pad-x) + var(--home-pad-x));
+    margin-left: calc(0px - var(--home-pad-x));
+    margin-right: calc(0px - var(--home-pad-x));
 }
 
 .quantum-video__frame {
-    width: min(126rem, 100%);
-    min-height: min(90vh, 80rem);
-    border-radius: 2.4rem;
-    border: 1px dashed rgba(255, 255, 255, 0.22);
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0)),
-        rgba(0, 0, 0, 0.32);
-    box-shadow:
-        0 28px 80px rgba(0, 0, 0, 0.45),
-        0 0 0 1px rgba(255, 255, 255, 0.05);
+    width: 100%;
+    min-height: 100vh;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+}
+
+.quantum-video__media {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.quantum-video__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .quantum-video__placeholder {
@@ -429,7 +444,7 @@ body {
 
 @media (max-width: 1024px) {
     .home-hero {
-        padding-inline: clamp(1.4rem, 6vw, 3.2rem);
+        --home-pad-x: clamp(1.4rem, 6vw, 3.2rem);
     }
 
     .quantum-hero__statement {
@@ -447,25 +462,26 @@ body {
 
     .quantum-card {
         --card-image-active: var(--card-image-mobile, var(--card-image-desktop));
-        min-height: auto;
+        min-height: clamp(26rem, 70vw, 36rem);
     }
 }
 
 @media (max-width: 768px) {
     .home-hero {
         gap: clamp(1.6rem, 4vw, 3.2rem);
-        padding: clamp(2rem, 6vw, 3.6rem) clamp(1.6rem, 5vw, 3rem)
-            clamp(3.6rem, 6vw, 5rem);
+        --home-pad-x: clamp(1.6rem, 5vw, 3rem);
+        --home-pad-y: clamp(2rem, 6vw, 3.6rem);
+        --home-pad-bottom: clamp(3.6rem, 6vw, 5rem);
     }
 
     .quantum-video {
-        min-height: 75vh;
-        padding: clamp(2rem, 6vw, 3.6rem) clamp(1.6rem, 5vw, 3rem);
+        min-height: 100vh;
+        padding: 0;
     }
 
     .quantum-video__frame {
-        min-height: min(70vh, 52rem);
-        border-radius: 1.8rem;
+        min-height: 100vh;
+        border-radius: 0;
     }
 
     .quantum-video__placeholder {

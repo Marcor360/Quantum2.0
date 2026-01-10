@@ -6,6 +6,11 @@ type NavItem = {
   href: string
 }
 
+type ServiceItem = {
+  label: string
+  href: string
+}
+
 type Lang = 'es' | 'en'
 
 const I18N = {
@@ -14,8 +19,14 @@ const I18N = {
     openMenu: 'Abrir menú',
     closeMenu: 'Cerrar menú',
     langLabel: 'Idioma',
+    servicesLabel: 'Servicios',
+    services: [
+      { label: 'Branding', href: '/servicios/branding' },
+      { label: 'E-commerce', href: '/servicios/e-commerce' },
+      { label: 'Apps & I.A.', href: '/servicios/apps-ia' },
+      { label: 'Campanas', href: '/servicios/campanas' },
+    ] satisfies ServiceItem[],
     links: [
-      { label: 'Servicios', href: '#servicios' },
       { label: 'Quantum 360°', href: '#quantum360' },
       { label: 'Proyectos', href: '#proyectos' },
       { label: 'Contáctanos', href: '#contacto' },
@@ -26,8 +37,14 @@ const I18N = {
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     langLabel: 'Language',
+    servicesLabel: 'Services',
+    services: [
+      { label: 'Branding', href: '/servicios/branding' },
+      { label: 'E-commerce', href: '/servicios/e-commerce' },
+      { label: 'Apps & A.I.', href: '/servicios/apps-ia' },
+      { label: 'Campaigns', href: '/servicios/campanas' },
+    ] satisfies ServiceItem[],
     links: [
-      { label: 'Services', href: '#servicios' },
       { label: 'Quantum 360°', href: '#quantum360' },
       { label: 'Projects', href: '#proyectos' },
       { label: 'Contact', href: '#contacto' },
@@ -40,6 +57,8 @@ const I18N = {
     openMenu: string
     closeMenu: string
     langLabel: string
+    servicesLabel: string
+    services: ServiceItem[]
     links: NavItem[]
   }
 >
@@ -83,7 +102,9 @@ export default function Header() {
     return 'es'
   })
   const railRef = useRef<HTMLDivElement | null>(null)
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  const isMobile = useMediaQuery('(max-width: 1024px)')
+  const [servicesOpen, setServicesOpen] = useState(isMobile)
+  const wasMobileRef = useRef(isMobile)
   const navId = 'site-navigation'
   const content = I18N[lang]
 
@@ -98,27 +119,51 @@ export default function Header() {
   }, [lang])
 
   useEffect(() => {
-    if (!isOpen) return
+    if (typeof window === 'undefined' || !isOpen) return
+
+    const w = window as Window & typeof globalThis
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') setIsOpen(false)
     }
 
-    function handleClickOutside(event: MouseEvent) {
+    function handlePointerOutside(event: Event) {
       const rail = railRef.current
       if (rail && !rail.contains(event.target as Node)) {
         setIsOpen(false)
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
-    window.addEventListener('mousedown', handleClickOutside)
+    w.addEventListener('keydown', handleKeyDown)
+
+    w.addEventListener('pointerdown', handlePointerOutside)
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-      window.removeEventListener('mousedown', handleClickOutside)
+      w.removeEventListener('keydown', handleKeyDown)
+      w.removeEventListener('pointerdown', handlePointerOutside)
     }
   }, [isOpen])
+
+  useEffect(() => {
+    if (wasMobileRef.current && !isMobile && isOpen) {
+      setIsOpen(false)
+    }
+    wasMobileRef.current = isMobile
+  }, [isMobile, isOpen])
+
+  useEffect(() => {
+    if (isMobile) {
+      setServicesOpen(true)
+    } else {
+      setServicesOpen(false)
+    }
+  }, [isMobile])
+
+  useEffect(() => {
+    if (!isMobile && !isOpen && servicesOpen) {
+      setServicesOpen(false)
+    }
+  }, [isMobile, isOpen, servicesOpen])
 
   useEffect(() => {
     if (isMobile && isOpen) {
@@ -150,6 +195,34 @@ export default function Header() {
           data-open={isOpen}
         >
           <div className="site-header__links">
+            <div className={`site-header__services ${servicesOpen ? 'is-open' : ''}`}>
+              <button
+                type="button"
+                className="site-header__services-toggle"
+                aria-haspopup="true"
+                aria-expanded={servicesOpen}
+                onClick={() => setServicesOpen((prev) => !prev)}
+              >
+                {content.servicesLabel}
+                <span className="site-header__services-caret" aria-hidden="true" />
+              </button>
+              <div
+                className="site-header__services-menu"
+                role="menu"
+                aria-hidden={!servicesOpen}
+              >
+                {content.services.map((service) => (
+                  <a
+                    key={service.label}
+                    href={service.href}
+                    onClick={() => setIsOpen(false)}
+                    role="menuitem"
+                  >
+                    {service.label}
+                  </a>
+                ))}
+              </div>
+            </div>
             {content.links.map((link) => (
               <a
                 key={link.label}

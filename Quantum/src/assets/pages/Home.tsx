@@ -139,17 +139,22 @@ export default function Home() {
                 }
             )
 
-            gsap.from('[data-animate-card]', {
-                opacity: 0,
-                y: 22,
-                duration: 1,
-                ease: 'power2.out',
-                stagger: 0.15,
-                scrollTrigger: {
-                    trigger: '.quantum-services',
-                    start: 'top 78%',
-                },
-            })
+            const isMobile = window.matchMedia('(max-width: 1024px)').matches
+            if (isMobile) {
+                gsap.set('[data-animate-card]', { opacity: 1, y: 0 })
+            } else {
+                gsap.from('[data-animate-card]', {
+                    opacity: 0,
+                    y: 22,
+                    duration: 1,
+                    ease: 'power2.out',
+                    stagger: 0.15,
+                    scrollTrigger: {
+                        trigger: '.quantum-services',
+                        start: 'top 78%',
+                    },
+                })
+            }
 
             const wordEl = rotatorWordRef.current
             if (!wordEl) return
@@ -192,7 +197,18 @@ export default function Home() {
 
             <section className="quantum-video" aria-label="Video principal">
                 <div className="quantum-video__frame">
-                    <p className="quantum-video__placeholder">Aqui ira el video (full screen)</p>
+                    <picture className="quantum-video__media">
+                        <source
+                            media="(max-width: 768px)"
+                            srcSet="/video/banermobile.webp"
+                        />
+                        <img
+                            className="quantum-video__image"
+                            src="/video/Banner%20Home%20quantum.webp"
+                            alt="Banner Quantum"
+                            decoding="async"
+                        />
+                    </picture>
                 </div>
             </section>
 
