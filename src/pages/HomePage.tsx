@@ -1,7 +1,23 @@
+import Header from '../components/header'
+import Footer from '../components/Footer'
+
 export default function HomePage() {
     return (
-        <div>
+        <>
+            <Header />
+            <main>
+                <section className=''>
 
-        </div>
+                </section>
+                <section>
+
+                </section>
+                <section>
+
+                </section>
+            </main>
+            <Footer />
+        </>
+
     )
 }

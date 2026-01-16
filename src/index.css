@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+    /* Principales */
+    --color-electrico: rgb(255, 255, 0);
+    --color-uva: rgb(117, 59, 208);
+    --color-chicle: rgb(255, 110, 243);
+    --color-mate: rgb(25, 21, 20);
+
+    /* blanco */
+    --color-blanco: rgb(255, 255, 255);
+    --color-negro: rgb(0, 0, 0);
+
+    --font-subjectivity: subjectivity, sans-serif;
+    --font-morganite: morganite, sans-serif;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+    background-color: var(--color-mate);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    padding-top: 96px
+}
+
+
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+@font-face {
+    font-family: morganite;
+    src: url("./assets/Fonts/morganite/Morganite-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: subjectivity;
+    src: url("./assets/Fonts/subjective/Subjectivity-Regular.ttf") format("truetype");
+}
+
+.Conteiner {
+    width: min(95%, 125rem);
+    margin: 0 auto;
+}
