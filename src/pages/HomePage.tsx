@@ -225,7 +225,9 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        <section id="Quantum360">
 
+        </section>
         {/* resto del home (si quieres) */}
         <section id="contacto" className="Conteiner" style={{ padding: "60px 0" }} />
       </main>
