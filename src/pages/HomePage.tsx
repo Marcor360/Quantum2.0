@@ -2,6 +2,7 @@
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -243,6 +244,115 @@ export default function HomePage() {
   const q360Current = useRef({ x: 0, y: 0 });
   const q360Raf = useRef<number | null>(null);
 
+  const resolveSlides = useMemo(
+    () => [
+      { src: ResolveData, alt: "Data Driven" },
+      { src: ResolveCenter, alt: "Centrado en el cliente" },
+      { src: ResolveChannels, alt: "Nuevos canales comerciales" },
+      { src: ResolveOps, alt: "Transformación operativa" },
+    ],
+    []
+  );
+  const [resolveIndex, setResolveIndex] = useState(0);
+  const resolveIndexRef = useRef(0);
+  const resolveStageRef = useRef<HTMLDivElement | null>(null);
+  const resolveBubbleRef = useRef<HTMLImageElement | null>(null);
+  const resolvePinkRef = useRef<HTMLImageElement | null>(null);
+  const resolveTlRef = useRef<gsap.core.Timeline | null>(null);
+  const resolveAnimatingRef = useRef(false);
+  const quoteTextRef = useRef<HTMLParagraphElement | null>(null);
+  const questionTextRef = useRef<HTMLHeadingElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (showSplash) return;
+    const stage = resolveStageRef.current;
+    const bubble = resolveBubbleRef.current;
+    const pink = resolvePinkRef.current;
+    if (!stage || !bubble || !pink) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set(stage, { x: 0, scale: 1 });
+      gsap.set(bubble, { autoAlpha: 1, y: 0 });
+      gsap.set(pink, { autoAlpha: 0 });
+
+      const getOffset = () => {
+        const container = stage.parentElement ?? stage;
+        const base = container.clientWidth * 0.32;
+        return Math.max(160, Math.min(320, Math.round(base)));
+      };
+
+      const run = (nextIndex: number) => {
+        if (resolveAnimatingRef.current) return;
+        resolveAnimatingRef.current = true;
+        resolveTlRef.current?.kill();
+        gsap.killTweensOf([stage, bubble, pink]);
+
+        const offset = getOffset();
+        const tl = gsap.timeline({
+          onComplete: () => {
+            resolveAnimatingRef.current = false;
+            const next = (nextIndex + 1) % resolveSlides.length;
+            gsap.delayedCall(1.2, () => run(next));
+          },
+        });
+        resolveTlRef.current = tl;
+
+        tl.to(bubble, { autoAlpha: 0, y: -10, duration: 0.35, ease: "power2.inOut" })
+          .set(bubble, { y: 10 })
+          .to(pink, { autoAlpha: 1, duration: 0.2 }, "<")
+          .to(stage, { x: -offset, scale: 0.82, duration: 0.65, ease: "power2.inOut" }, "<")
+          .set(stage, { x: offset, scale: 0.82 })
+          .add(() => {
+            resolveIndexRef.current = nextIndex;
+            setResolveIndex(nextIndex);
+          })
+          .to(stage, { x: 0, scale: 1, duration: 0.9, ease: "power2.out" })
+          .to(pink, { autoAlpha: 0, duration: 0.25 }, "<")
+          .to(bubble, { autoAlpha: 1, y: 0, duration: 0.45, ease: "power2.out" }, "<")
+          .to({}, { duration: 0.9 });
+      };
+
+      run((resolveIndexRef.current + 1) % resolveSlides.length);
+    }, stage);
+
+    return () => {
+      resolveTlRef.current?.kill();
+      resolveTlRef.current = null;
+      resolveAnimatingRef.current = false;
+      ctx.revert();
+    };
+  }, [resolveSlides.length, showSplash]);
+
+  useLayoutEffect(() => {
+    const quoteEl = quoteTextRef.current;
+    const questionEl = questionTextRef.current;
+    if (!quoteEl || !questionEl) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set([quoteEl, questionEl], { autoAlpha: 0, y: 18 });
+
+      const animateIn = (el: Element) =>
+        gsap.to(el, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 72%",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+      animateIn(quoteEl);
+      animateIn(questionEl);
+    });
+
+    return () => {
+      ctx.revert();
+    };
+  }, []);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -376,6 +486,7 @@ export default function HomePage() {
         {/* ===== SECCIÓN SERVICIOS ===== */}
         <section id="servicios" className="home-services" aria-label="Servicios">
           <div className="Conteiner">
+            <div className="home-services__eyebrow">SERVICIOS</div>
             <div className="home-services__headline">
               <img className="home-services__logo" src={LogoText} alt="Quantum" />
 
@@ -495,22 +606,24 @@ export default function HomePage() {
         <section className="q-resolve" aria-label="Orbitas qué resolvemos">
           <div className="Conteiner q-resolve__inner">
             <div className="q-resolve__stage">
-              <img className="q-resolve__pink q-resolve__pink--top" src={ResolvePink} alt="" aria-hidden="true" />
               <img className="q-resolve__pink q-resolve__pink--left" src={ResolvePink} alt="" aria-hidden="true" />
               <img className="q-resolve__pink q-resolve__pink--right" src={ResolvePink} alt="" aria-hidden="true" />
 
-              <div className="q-resolve__orbit" aria-hidden="true">
-                <div className="q-resolve__item q-resolve__item--a">
-                  <img src={ResolveData} alt="Data Driven" />
-                </div>
-                <div className="q-resolve__item q-resolve__item--b">
-                  <img src={ResolveCenter} alt="Centrado en el cliente" />
-                </div>
-                <div className="q-resolve__item q-resolve__item--c">
-                  <img src={ResolveChannels} alt="Nuevos canales comerciales" />
-                </div>
-                <div className="q-resolve__item q-resolve__item--d">
-                  <img src={ResolveOps} alt="Transformación operativa" />
+              <div className="q-resolve__orbit" aria-live="polite">
+                <div ref={resolveStageRef} className="q-resolve__item">
+                  <img
+                    ref={resolveBubbleRef}
+                    className="q-resolve__item-img"
+                    src={resolveSlides[resolveIndex].src}
+                    alt={resolveSlides[resolveIndex].alt}
+                  />
+                  <img
+                    ref={resolvePinkRef}
+                    className="q-resolve__item-pink"
+                    src={ResolvePink}
+                    alt=""
+                    aria-hidden="true"
+                  />
                 </div>
               </div>
             </div>
