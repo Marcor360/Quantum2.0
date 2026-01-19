@@ -413,3 +413,110 @@ body {
         width: max-content;
     }
 }
+
+/* =========================
+   QUANTUM 360
+========================= */
+.q360 {
+    position: relative;
+    padding: clamp(64px, 9vw, 140px) 0;
+    background: radial-gradient(1200px 520px at 20% 0%, rgba(255, 110, 243, 0.10), transparent 55%),
+        radial-gradient(900px 520px at 80% 20%, rgba(255, 255, 0, 0.08), transparent 55%);
+    overflow: hidden;
+}
+
+.q360__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 2vw, 22px);
+    position: relative;
+}
+
+.q360__kicker {
+    margin: 0;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.8rem, 2.8vw, 3.4rem);
+    letter-spacing: 0.58em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    text-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+}
+
+.q360__art {
+    position: relative;
+    width: min(82vw, 560px);
+    aspect-ratio: 388 / 407;
+}
+
+.q360__outline,
+.q360__fill {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.q360__outline {
+    opacity: 0.7;
+}
+
+.q360__outline img,
+.q360__fill img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+}
+
+.q360__fill {
+    --q360-cut: clamp(32px, 4.2vw, 78px);
+}
+
+.q360__fill.is-erasing {
+    -webkit-mask-image: radial-gradient(circle var(--q360-cut) at var(--cx, -999px) var(--cy, -999px), transparent 0 58%, #000 64%);
+    mask-image: radial-gradient(circle var(--q360-cut) at var(--cx, -999px) var(--cy, -999px), transparent 0 58%, #000 64%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+.q360.is-active {
+    cursor: none;
+}
+
+.q360__cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: clamp(36px, 4.5vw, 74px);
+    height: clamp(36px, 4.5vw, 74px);
+    transform: translate3d(calc(var(--x, -100px) - 50%), calc(var(--y, -100px) - 50%), 0);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 160ms ease;
+    z-index: 10;
+}
+
+.q360__cursor img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.q360__cursor.is-on {
+    opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse) {
+    .q360 {
+        cursor: auto;
+    }
+
+    .q360__cursor {
+        display: none;
+    }
+}

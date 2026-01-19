@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+// src/pages/HomePage.tsx
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link, useLocation } from "react-router-dom";
@@ -6,6 +14,12 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import HomeLogoSplash from "../components/HomeLogoSplash/HomeLogoSplash";
 import LogoText from "../assets/svg/Logo-text.svg";
+
+// ===== Quantum 360 SVGs =====
+import Quantum360Fill from "../assets/svg/360/360 solo fill.svg";
+import Quantum360Outline from "../assets/svg/360/360 sin relleno.svg";
+import Cursor360Svg from "../assets/svg/360/CirculoCursor.svg";
+
 import "../index.css";
 
 const MOBILE_MQ = "(max-width: 768px)";
@@ -78,6 +92,8 @@ export default function HomePage() {
   // ===== Video responsive (carga 1 solo MP4) =====
   const [isMobile, setIsMobile] = useState(getIsMobile);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Servicios scroll horizontal desktop
   const servicesPinRef = useRef<HTMLDivElement | null>(null);
   const servicesTrackRef = useRef<HTMLDivElement | null>(null);
 
@@ -209,6 +225,120 @@ export default function HomePage() {
     };
   }, [showSplash]);
 
+  // ===== Quantum 360: cursor custom + “borrado” por mask =====
+  const q360ArtRef = useRef<HTMLDivElement | null>(null);
+  const q360FillRef = useRef<HTMLDivElement | null>(null);
+  const q360CursorRef = useRef<HTMLDivElement | null>(null);
+
+  const [q360CursorOk, setQ360CursorOk] = useState(false);
+  const [q360Active, setQ360Active] = useState(false); // cursor visible / cursor:none
+  const [q360Erasing, setQ360Erasing] = useState(false); // activa el mask
+
+  const q360Target = useRef({ x: 0, y: 0 });
+  const q360Current = useRef({ x: 0, y: 0 });
+  const q360Raf = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mqFine = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const update = () => setQ360CursorOk(mqFine.matches && !mqReduce.matches);
+    update();
+
+    const onChange = () => update();
+
+    if (typeof mqFine.addEventListener === "function") {
+      mqFine.addEventListener("change", onChange);
+      mqReduce.addEventListener("change", onChange);
+    } else {
+      mqFine.addListener(onChange);
+      mqReduce.addListener(onChange);
+    }
+
+    return () => {
+      if (typeof mqFine.removeEventListener === "function") {
+        mqFine.removeEventListener("change", onChange);
+        mqReduce.removeEventListener("change", onChange);
+      } else {
+        mqFine.removeListener(onChange);
+        mqReduce.removeListener(onChange);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!q360CursorOk || !q360Active) {
+      if (q360Raf.current) cancelAnimationFrame(q360Raf.current);
+      q360Raf.current = null;
+      return;
+    }
+
+    const tick = () => {
+      const cursorEl = q360CursorRef.current;
+      const fillEl = q360FillRef.current;
+      const artEl = q360ArtRef.current;
+
+      const t = q360Target.current;
+      const c = q360Current.current;
+
+      // smoothing
+      c.x += (t.x - c.x) * 0.22;
+      c.y += (t.y - c.y) * 0.22;
+
+      if (cursorEl) {
+        cursorEl.style.setProperty("--x", `${c.x}px`);
+        cursorEl.style.setProperty("--y", `${c.y}px`);
+      }
+
+      // coordenadas locales para la máscara
+      if (fillEl && artEl) {
+        const rect = artEl.getBoundingClientRect();
+        const lx = c.x - rect.left;
+        const ly = c.y - rect.top;
+        fillEl.style.setProperty("--cx", `${lx}px`);
+        fillEl.style.setProperty("--cy", `${ly}px`);
+      }
+
+      q360Raf.current = requestAnimationFrame(tick);
+    };
+
+    q360Raf.current = requestAnimationFrame(tick);
+
+    return () => {
+      if (q360Raf.current) cancelAnimationFrame(q360Raf.current);
+      q360Raf.current = null;
+    };
+  }, [q360Active, q360CursorOk]);
+
+  const onQ360Enter = useCallback(
+    (e: ReactPointerEvent<HTMLElement>) => {
+      if (!q360CursorOk) return;
+      q360Current.current.x = e.clientX;
+      q360Current.current.y = e.clientY;
+      q360Target.current.x = e.clientX;
+      q360Target.current.y = e.clientY;
+      setQ360Active(true);
+    },
+    [q360CursorOk]
+  );
+
+  const onQ360Move = useCallback(
+    (e: ReactPointerEvent<HTMLElement>) => {
+      if (!q360CursorOk) return;
+      q360Target.current.x = e.clientX;
+      q360Target.current.y = e.clientY;
+      if (!q360Active) setQ360Active(true);
+    },
+    [q360CursorOk, q360Active]
+  );
+
+  const onQ360Leave = useCallback(() => {
+    setQ360Active(false);
+    setQ360Erasing(false);
+  }, []);
+
   if (showSplash) {
     return <HomeLogoSplash onDone={handleSplashDone} />;
   }
@@ -238,7 +368,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ===== SECCIÓN SERVICIOS (como tu imagen) ===== */}
+        {/* ===== SECCIÓN SERVICIOS ===== */}
         <section id="servicios" className="home-services" aria-label="Servicios">
           <div className="Conteiner">
             <div className="home-services__headline">
@@ -273,13 +403,13 @@ export default function HomePage() {
                       </div>
 
                       <p className="q-svcCard__desc">{s.desc}</p>
-
                     </div>
                   </div>
                 </Link>
               ))}
             </div>
 
+            {/* ===== DESKTOP: scroll horizontal con ScrollTrigger ===== */}
             <div ref={servicesPinRef} className="home-services__scroller">
               <div ref={servicesTrackRef} className="home-services__track">
                 {SERVICES.map((s) => (
@@ -300,7 +430,6 @@ export default function HomePage() {
                           </div>
 
                           <p className="q-svcCard__desc">{s.desc}</p>
-
                         </div>
                       </div>
                     </Link>
@@ -310,10 +439,50 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-        <section id="Quantum360">
 
+        {/* ===== QUANTUM 360 ===== */}
+        <section
+          id="Quantum360"
+          className={`q360 ${q360Active ? "is-active" : ""}`}
+          aria-label="Quantum 360"
+          onPointerEnter={onQ360Enter}
+          onPointerMove={onQ360Move}
+          onPointerLeave={onQ360Leave}
+        >
+          <div className="Conteiner q360__inner">
+            <div className="q360__kicker">QUANTUM</div>
+
+            <div
+              ref={q360ArtRef}
+              className="q360__art"
+              onPointerEnter={() => setQ360Erasing(true)}
+              onPointerLeave={() => setQ360Erasing(false)}
+            >
+              {/* Contorno siempre visible */}
+              <div className="q360__outline" aria-hidden="true">
+                <img src={Quantum360Outline} alt="" draggable={false} />
+              </div>
+
+              {/* Relleno que “se borra” con máscara radial */}
+              <div ref={q360FillRef} className={`q360__fill ${q360Erasing ? "is-erasing" : ""}`}>
+                <img src={Quantum360Fill} alt="360" draggable={false} />
+              </div>
+            </div>
+          </div>
+
+          {/* Cursor custom (solo desktop fine pointer) */}
+          {q360CursorOk && (
+            <div
+              ref={q360CursorRef}
+              className={`q360__cursor ${q360Active ? "is-on" : ""}`}
+              aria-hidden="true"
+            >
+              <img src={Cursor360Svg} alt="" draggable={false} />
+            </div>
+          )}
         </section>
-        {/* resto del home (si quieres) */}
+
+        {/* resto del home */}
         <section id="contacto" className="Conteiner" style={{ padding: "60px 0" }} />
       </main>
 
