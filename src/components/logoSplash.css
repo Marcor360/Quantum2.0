@@ -1,0 +1,21 @@
+.logo-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-mate);
+  overflow: hidden;
+}
+
+.logo-splash__logo {
+  width: clamp(160px, 30vw, 520px);
+}
+
+.logo-splash__logo svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  will-change: opacity, transform;
+}

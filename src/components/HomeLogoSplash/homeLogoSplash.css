@@ -1,0 +1,47 @@
+.home-logo-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(25, 21, 20);
+  overflow: hidden;
+}
+
+.home-logo-splash__logo {
+  display: grid;
+  place-items: center;
+  width: clamp(160px, 30vw, 520px);
+}
+
+.home-logo-splash__layer {
+  grid-area: 1 / 1;
+}
+
+.home-logo-splash__draw svg * {
+  fill: none !important;
+}
+
+.home-logo-splash__final {
+  z-index: 2;
+}
+
+.home-logo-splash__draw {
+  z-index: 1;
+}
+
+.home-logo-splash__layer svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.home-logo-splash__draw.is-forced svg * {
+  fill: none !important;
+  stroke: var(--color-electrico, #ff0) !important;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}

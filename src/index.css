@@ -13,6 +13,16 @@
 
     --font-subjectivity: subjectivity, sans-serif;
     --font-morganite: morganite, sans-serif;
+
+    /* Header height (ajusta si tu header cambia en mobile) */
+    --header-h: 96px;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --header-h: 96px;
+        /* cámbialo si tu header mobile mide distinto */
+    }
 }
 
 html {
@@ -26,10 +36,8 @@ body {
     padding: 0;
     font-size: 1.6rem;
     line-height: 1.6;
-    padding-top: 96px
+    padding-top: 96px;
 }
-
-
 
 *,
 *::before,
@@ -50,4 +58,69 @@ body {
 .Conteiner {
     width: min(95%, 125rem);
     margin: 0 auto;
+}
+
+/* =========================
+   HOME — HERO VIDEO
+========================= */
+
+.home-hero {
+    position: relative;
+    isolation: isolate;
+
+    /* Tu body ya tiene padding-top: 96px.
+     Con esto el hero arranca desde arriba del viewport
+     pero sin tapar el contenido bajo el header. */
+    margin-top: calc(var(--header-h) * -1);
+    padding-top: var(--header-h);
+
+    min-height: 100vh;
+    display: grid;
+    align-items: end;
+    overflow: hidden;
+}
+
+.home-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+
+.home-hero__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transform: scale(1.02);
+}
+
+.home-hero__overlay {
+    position: absolute;
+    inset: 0;
+}
+
+.home-hero__content {
+    padding: clamp(24px, 5vw, 64px) 0;
+    color: var(--color-blanco);
+}
+
+.home-hero__kicker {
+    margin: 0 0 6px 0;
+    font-family: var(--font-morganite);
+    letter-spacing: 0.08em;
+    font-size: clamp(2.4rem, 3.2vw, 3.4rem);
+    opacity: 0.92;
+}
+
+.home-hero__actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-hero__video {
+        transform: none;
+    }
 }
