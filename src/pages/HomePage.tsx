@@ -297,15 +297,17 @@ export default function HomePage() {
         });
         resolveTlRef.current = tl;
 
-        tl.to(bubble, { autoAlpha: 0, y: -10, duration: 0.35, ease: "power2.inOut" })
+        tl.to(bubble, { autoAlpha: 0, y: -10, duration: 0.35, ease: "power1.inOut" })
           .set(bubble, { y: 10 })
-          .to(pink, { autoAlpha: 1, duration: 0.2 }, "<")
-          .to(stage, { x: -offset, scale: 0.82, duration: 0.65, ease: "power2.inOut" }, "<")
-          .set(stage, { x: offset, scale: 0.82 })
+          .to(pink, { autoAlpha: 1, duration: 0.35, ease: "power1.out" }, "<")
+          .to(stage, { x: -offset, scale: 0.82, duration: 0.9, ease: "power1.inOut" }, "<")
+          .to(stage, { autoAlpha: 0, duration: 0.15 }, "-=0.1")
+          .set(stage, { x: offset, scale: 0.82, autoAlpha: 0 })
           .add(() => {
             resolveIndexRef.current = nextIndex;
             setResolveIndex(nextIndex);
           })
+          .to(stage, { autoAlpha: 1, duration: 0.2 })
           .to(stage, { x: 0, scale: 1, duration: 0.9, ease: "power2.out" })
           .to(pink, { autoAlpha: 0, duration: 0.25 }, "<")
           .to(bubble, { autoAlpha: 1, y: 0, duration: 0.45, ease: "power2.out" }, "<")
