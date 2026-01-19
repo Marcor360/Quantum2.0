@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -7,6 +9,8 @@ import LogoText from "../assets/svg/Logo-text.svg";
 import "../index.css";
 
 const MOBILE_MQ = "(max-width: 768px)";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function getIsMobile(): boolean {
   if (typeof window === "undefined") return false;
@@ -74,6 +78,8 @@ export default function HomePage() {
   // ===== Video responsive (carga 1 solo MP4) =====
   const [isMobile, setIsMobile] = useState(getIsMobile);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const servicesPinRef = useRef<HTMLDivElement | null>(null);
+  const servicesTrackRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const mq = window.matchMedia(MOBILE_MQ);
@@ -150,6 +156,59 @@ export default function HomePage() {
     };
   }, [words.length]);
 
+  // ===== Servicios: ScrollTrigger horizontal solo en desktop =====
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const getHeaderHeight = () => {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
+      const parsed = Number.parseFloat(raw);
+      return Number.isFinite(parsed) ? parsed : 0;
+    };
+
+    const mm = gsap.matchMedia();
+
+    if (!showSplash) {
+      mm.add("(min-width: 769px) and (prefers-reduced-motion: no-preference)", () => {
+        const pin = servicesPinRef.current;
+        const track = servicesTrackRef.current;
+        if (!pin || !track) return undefined;
+
+        const panels = track.querySelectorAll<HTMLElement>(".home-services__panel");
+        const snapValue = panels.length > 1 ? 1 / (panels.length - 1) : 1;
+
+        const tween = gsap.to(track, {
+          x: () => {
+            const distance = track.scrollWidth - pin.clientWidth;
+            return distance > 0 ? -distance : 0;
+          },
+          ease: "none",
+          scrollTrigger: {
+            trigger: pin,
+            start: () => `top top+=${getHeaderHeight()}`,
+            end: () => {
+              const distance = track.scrollWidth - pin.clientWidth;
+              return `+=${distance > 0 ? distance : 0}`;
+            },
+            pin: true,
+            scrub: 0.9,
+            snap: snapValue,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        return () => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
+        };
+      });
+    }
+
+    return () => {
+      mm.revert();
+    };
+  }, [showSplash]);
+
   if (showSplash) {
     return <HomeLogoSplash onDone={handleSplashDone} />;
   }
@@ -215,13 +274,39 @@ export default function HomePage() {
 
                       <p className="q-svcCard__desc">{s.desc}</p>
 
-                      <span className="q-svcCard__cta">
-                        Ver más <span className="q-svcCard__arrow" aria-hidden="true">›</span>
-                      </span>
                     </div>
                   </div>
                 </Link>
               ))}
+            </div>
+
+            <div ref={servicesPinRef} className="home-services__scroller">
+              <div ref={servicesTrackRef} className="home-services__track">
+                {SERVICES.map((s) => (
+                  <div key={`${s.key}-panel`} className="home-services__panel">
+                    <Link to={s.to} className={`q-svcCard q-svcCard--${s.key} q-svcCard--panel`}>
+                      <picture className="q-svcCard__media" aria-hidden="true">
+                        <source media={MOBILE_MQ} srcSet={safeSrc(s.imgMobile)} />
+                        <img src={safeSrc(s.imgDesktop)} alt="" loading="lazy" decoding="async" />
+                      </picture>
+
+                      <div className="q-svcCard__shade" aria-hidden="true" />
+
+                      <div className="q-svcCard__overlay">
+                        <div className="q-svcCard__content">
+                          <div className="q-svcCard__top">
+                            <h3 className="q-svcCard__title">{s.title}</h3>
+                            <span className="q-svcCard__badge">{s.badge}</span>
+                          </div>
+
+                          <p className="q-svcCard__desc">{s.desc}</p>
+
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

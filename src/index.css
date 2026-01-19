@@ -91,12 +91,6 @@ body {
 .home-hero__overlay {
     position: absolute;
     inset: 0;
-
-    /* Oscurecer suave para que el resto del home no “brinque” visualmente */
-    background: linear-gradient(180deg,
-            rgba(25, 21, 20, 0.45) 0%,
-            rgba(25, 21, 20, 0.25) 45%,
-            rgba(25, 21, 20, 0.75) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -238,13 +232,14 @@ body {
     object-position: center center;
 
     transform: scale(1.02);
+    filter: brightness(0.75) saturate(1.02);
     transition: transform 320ms ease, filter 320ms ease;
 }
 
 .q-svcCard__shade {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.10);
+    background: rgba(0, 0, 0, 0.55);
     transition: background 260ms ease;
 }
 
@@ -261,23 +256,29 @@ body {
     width: 100%;
     max-width: 62ch;
 
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 240ms ease, transform 240ms ease;
+    text-align: left;
+    opacity: 1;
+    transform: none;
 }
 
 .q-svcCard__top {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 12px;
 }
 
 .q-svcCard__title {
     margin: 0;
-    font-family: var(--font-subjectivity);
-    font-size: 2.6rem;
-    letter-spacing: -0.01em;
+    display: inline-block;
+    font-family: var(--font-morganite);
+    font-size: clamp(4.8rem, 6.2vw, 10.2rem);
+    line-height: 0.9;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-electrico);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    padding: clamp(8px, 1.4vw, 14px) clamp(14px, 2.2vw, 26px);
 }
 
 .q-svcCard__badge {
@@ -321,29 +322,94 @@ body {
     line-height: 1;
 }
 
+.q-svcCard__badge,
+.q-svcCard__desc,
+.q-svcCard__cta {
+    display: none;
+}
+
 /* Hover: oscurece + muestra info */
 .q-svcCard:hover .q-svcCard__media img {
     transform: scale(1.06);
-    filter: brightness(0.86) saturate(1.06);
+    filter: brightness(1) saturate(1.06);
 }
 
 .q-svcCard:hover .q-svcCard__shade {
-    background: rgba(0, 0, 0, 0.58);
+    background: rgba(0, 0, 0, 0.05);
 }
 
-.q-svcCard:hover .q-svcCard__content {
-    opacity: 1;
-    transform: translateY(0);
+.q-svcCard:hover .q-svcCard__badge {
+    display: inline-flex;
+}
+
+.q-svcCard:hover .q-svcCard__desc {
+    display: block;
+}
+
+.q-svcCard:hover .q-svcCard__cta {
+    display: inline-flex;
 }
 
 /* En móviles (sin hover), mostramos la info siempre */
 @media (hover: none) {
     .q-svcCard__shade {
-        background: rgba(0, 0, 0, 0.50);
+        background: rgba(0, 0, 0, 0.55);
+    }
+}
+
+/* ===== Servicios: scroller horizontal (solo desktop) ===== */
+.home-services__scroller {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .home-services__grid {
+        display: none;
     }
 
-    .q-svcCard__content {
-        opacity: 1;
-        transform: none;
+    .home-services__scroller {
+        display: block;
+        height: clamp(520px, 72vh, 760px);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .home-services__track {
+        display: flex;
+        height: 100%;
+        will-change: transform;
+    }
+
+    .home-services__panel {
+        flex: 0 0 100%;
+        height: 100%;
+        padding: clamp(12px, 2.6vw, 28px);
+        box-sizing: border-box;
+        scroll-snap-align: start;
+    }
+
+    .q-svcCard--panel {
+        height: 100%;
+        min-height: 100%;
+    }
+
+    .q-svcCard--panel .q-svcCard__overlay {
+        padding: clamp(18px, 2.4vw, 32px);
+    }
+
+    .q-svcCard--panel .q-svcCard__shade {
+        background: rgba(0, 0, 0, 0.55);
+    }
+}
+
+@media (min-width: 769px) and (prefers-reduced-motion: reduce) {
+    .home-services__scroller {
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+    }
+
+    .home-services__track {
+        width: max-content;
     }
 }

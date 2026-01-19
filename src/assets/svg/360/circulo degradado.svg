@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 95.987 95.987">
+  <defs>
+    <radialGradient id="d" data-name="Degradado sin nombre 51" cx="-64.559" cy="-52.186" fx="-64.559" fy="-52.186" r="81.399" gradientTransform="translate(124.151 66.88) rotate(-2.57)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".432" stop-color="#ff0"/>
+      <stop offset="1" stop-color="#753bd0"/>
+    </radialGradient>
+  </defs>
+  <g id="c" data-name="Layer 1">
+    <circle cx="47.993" cy="47.993" r="47.993" style="fill: url(#d);"/>
+  </g>
+</svg>
