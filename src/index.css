@@ -254,11 +254,14 @@ body {
 
 .q-svcCard__content {
     width: 100%;
-    max-width: 62ch;
-
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    text-align: right;
     opacity: 1;
     transform: none;
+    padding: clamp(12px, 2vw, 24px);
 }
 
 .q-svcCard__top {
@@ -272,13 +275,31 @@ body {
     margin: 0;
     display: inline-block;
     font-family: var(--font-morganite);
-    font-size: clamp(4.8rem, 6.2vw, 10.2rem);
+    font-size: clamp(4.4rem, 5.6vw, 9.5rem);
     line-height: 0.9;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-electrico);
     border: 1px solid rgba(255, 255, 255, 0.7);
-    padding: clamp(8px, 1.4vw, 14px) clamp(14px, 2.2vw, 26px);
+    padding: clamp(8px, 1.2vw, 12px) clamp(12px, 2vw, 22px);
+}
+
+.q-svcCard--branding .q-svcCard__title {
+    color: var(--color-electrico);
+}
+
+.q-svcCard--ecomerce .q-svcCard__title {
+    color: var(--color-uva);
+}
+
+.q-svcCard--app-ia .q-svcCard__title {
+    color: var(--color-chicle);
+}
+
+.q-svcCard--campaÇñas .q-svcCard__title {
+    color: var(--color-electrico);
+    color: color-mix(in srgb, var(--color-mate) 55%, var(--color-electrico) 45%);
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
 }
 
 .q-svcCard__badge {
@@ -420,8 +441,6 @@ body {
 .q360 {
     position: relative;
     padding: clamp(64px, 9vw, 140px) 0;
-    background: radial-gradient(1200px 520px at 20% 0%, rgba(255, 110, 243, 0.10), transparent 55%),
-        radial-gradient(900px 520px at 80% 20%, rgba(255, 255, 0, 0.08), transparent 55%);
     overflow: hidden;
 }
 
@@ -437,11 +456,11 @@ body {
 .q360__kicker {
     margin: 0;
     font-family: var(--font-subjectivity);
-    font-size: clamp(1.8rem, 2.8vw, 3.4rem);
-    letter-spacing: 0.58em;
+    font-size: clamp(2.4rem, 4vw, 5rem);
+    letter-spacing: 0.48em;
     text-transform: uppercase;
     color: var(--color-chicle);
-    text-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+    text-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
 }
 
 .q360__art {
@@ -475,13 +494,29 @@ body {
 
 .q360__fill {
     --q360-cut: clamp(32px, 4.2vw, 78px);
+    transition: opacity 160ms ease, filter 160ms ease;
+}
+
+.q360__fill img {
+    /* allow the mask to reveal the page background */
+    filter: drop-shadow(0 12px 35px rgba(0, 0, 0, 0.55));
 }
 
 .q360__fill.is-erasing {
-    -webkit-mask-image: radial-gradient(circle var(--q360-cut) at var(--cx, -999px) var(--cy, -999px), transparent 0 58%, #000 64%);
-    mask-image: radial-gradient(circle var(--q360-cut) at var(--cx, -999px) var(--cy, -999px), transparent 0 58%, #000 64%);
+    --q360-cut: clamp(82px, 10vw, 180px);
+    opacity: 0.65;
+    -webkit-mask-image: radial-gradient(circle var(--q360-cut) at var(--cx, -999px) var(--cy, -999px),
+            transparent 0 72%,
+            #000 78%);
+    mask-image: radial-gradient(circle var(--q360-cut) at var(--cx, -999px) var(--cy, -999px),
+            transparent 0 72%,
+            #000 78%);
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+}
+
+.q360__art:hover .q360__fill {
+    opacity: 0.55;
 }
 
 .q360.is-active {
@@ -511,7 +546,8 @@ body {
     opacity: 1;
 }
 
-@media (hover: none), (pointer: coarse) {
+@media (hover: none),
+(pointer: coarse) {
     .q360 {
         cursor: auto;
     }
@@ -519,4 +555,218 @@ body {
     .q360__cursor {
         display: none;
     }
+}
+
+.quote-section,
+.question-section {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.quote-section__content,
+.question-section__content {
+    position: sticky;
+    top: var(--header-h, 96px);
+    min-height: calc(100vh - var(--header-h, 96px));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(32px, 5vw, 64px);
+    text-align: center;
+}
+
+.quote-section__content p {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    line-height: 1.6;
+    max-width: 760px;
+    letter-spacing: 0.02em;
+    text-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+}
+
+.question-section__content {
+    justify-content: center;
+}
+
+.question-section__content h2 {
+    margin: 0;
+    color: var(--color-chicle);
+    font-family: var(--font-subjectivity);
+    font-size: clamp(4rem, 8vw, 6.4rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-shadow: 0 10px 36px rgba(0, 0, 0, 0.55);
+}
+
+.q-resolve {
+    position: relative;
+    padding: clamp(70px, 10vw, 140px) 0;
+}
+
+.q-resolve__inner {
+    display: flex;
+    justify-content: center;
+}
+
+.q-resolve__stage {
+    position: relative;
+    width: min(86vw, 720px);
+    aspect-ratio: 1 / 1;
+}
+
+.q-resolve__pink {
+    position: absolute;
+    width: clamp(90px, 12vw, 150px);
+    height: auto;
+    opacity: 0.9;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.35));
+}
+
+.q-resolve__pink--top {
+    top: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.q-resolve__pink--left {
+    top: 44%;
+    left: 4%;
+    transform: translateY(-50%);
+}
+
+.q-resolve__pink--right {
+    top: 44%;
+    right: 4%;
+    transform: translateY(-50%);
+}
+
+.q-resolve__orbit {
+    position: absolute;
+    inset: 0;
+    animation: qOrbitSpin 20s linear infinite;
+}
+
+.q-resolve__item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+}
+
+.q-resolve__item img {
+    width: clamp(190px, 28vw, 300px);
+    height: auto;
+    display: block;
+    animation: qOrbitCounter 20s linear infinite;
+    filter: drop-shadow(0 12px 36px rgba(0, 0, 0, 0.45));
+}
+
+.q-resolve__item--a {
+    transform: rotate(0deg) translateY(-220px);
+}
+
+.q-resolve__item--b {
+    transform: rotate(90deg) translateY(-220px);
+}
+
+.q-resolve__item--c {
+    transform: rotate(180deg) translateY(-220px);
+}
+
+.q-resolve__item--d {
+    transform: rotate(270deg) translateY(-220px);
+}
+
+@keyframes qOrbitSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes qOrbitCounter {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .q-resolve__item--a,
+    .q-resolve__item--b,
+    .q-resolve__item--c,
+    .q-resolve__item--d {
+        transform: rotate(var(--angle, 0deg)) translateY(-160px);
+    }
+
+    .q-resolve__item--a {
+        --angle: 0deg;
+    }
+
+    .q-resolve__item--b {
+        --angle: 90deg;
+    }
+
+    .q-resolve__item--c {
+        --angle: 180deg;
+    }
+
+    .q-resolve__item--d {
+        --angle: 270deg;
+    }
+}
+
+.q-cta {
+    position: relative;
+    padding: clamp(70px, 10vw, 140px) 0;
+    text-align: center;
+}
+
+.q-cta__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.q-cta h2 {
+    margin: 0;
+    color: var(--color-blanco);
+    font-family: var(--font-subjectivity);
+    font-size: clamp(2.6rem, 4.4vw, 4.2rem);
+    line-height: 1.2;
+    text-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+}
+
+.q-cta p {
+    margin: 0;
+    color: var(--color-chicle);
+    font-size: clamp(1.4rem, 1.8vw, 1.8rem);
+    letter-spacing: 0.02em;
+}
+
+.q-cta__btn {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    color: var(--color-blanco);
+    text-decoration: none;
+    font-size: 1.6rem;
+}
+
+.q-cta__btn:hover {
+    border-color: rgba(255, 255, 255, 0.95);
 }

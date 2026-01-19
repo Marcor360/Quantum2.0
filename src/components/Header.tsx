@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./header.css";
 
-import Logo from "../assets/svg/Logo.svg";
+import Logo from "../assets/svg/Logo-Amarillo.svg";
 import MenuIcon from "../assets/svg/Menu.svg";
 import LenguajeIcon from "../assets/svg/Lenguaje.svg";
 

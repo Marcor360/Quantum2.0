@@ -19,6 +19,11 @@ import LogoText from "../assets/svg/Logo-text.svg";
 import Quantum360Fill from "../assets/svg/360/360 solo fill.svg";
 import Quantum360Outline from "../assets/svg/360/360 sin relleno.svg";
 import Cursor360Svg from "../assets/svg/360/CirculoCursor.svg";
+import ResolveCenter from "../assets/svg/360/centrado en el cliente.svg";
+import ResolveData from "../assets/svg/360/data driven.svg";
+import ResolveChannels from "../assets/svg/360/nuevas canales comerciales.svg";
+import ResolveOps from "../assets/svg/360/transformación operativa_1.svg";
+import ResolvePink from "../assets/svg/360/circulo rosa_que resolvemos.svg";
 
 import "../index.css";
 
@@ -395,16 +400,11 @@ export default function HomePage() {
 
                   <div className="q-svcCard__shade" aria-hidden="true" />
 
-                  <div className="q-svcCard__overlay">
-                    <div className="q-svcCard__content">
-                      <div className="q-svcCard__top">
-                        <h3 className="q-svcCard__title">{s.title}</h3>
-                        <span className="q-svcCard__badge">{s.badge}</span>
-                      </div>
-
-                      <p className="q-svcCard__desc">{s.desc}</p>
+                    <div className="q-svcCard__overlay">
+                        <div className="q-svcCard__content">
+                            <h3 className="q-svcCard__title">{s.title}</h3>
+                        </div>
                     </div>
-                  </div>
                 </Link>
               ))}
             </div>
@@ -422,16 +422,11 @@ export default function HomePage() {
 
                       <div className="q-svcCard__shade" aria-hidden="true" />
 
-                      <div className="q-svcCard__overlay">
+                    <div className="q-svcCard__overlay">
                         <div className="q-svcCard__content">
-                          <div className="q-svcCard__top">
                             <h3 className="q-svcCard__title">{s.title}</h3>
-                            <span className="q-svcCard__badge">{s.badge}</span>
-                          </div>
-
-                          <p className="q-svcCard__desc">{s.desc}</p>
                         </div>
-                      </div>
+                    </div>
                     </Link>
                   </div>
                 ))}
@@ -480,6 +475,54 @@ export default function HomePage() {
               <img src={Cursor360Svg} alt="" draggable={false} />
             </div>
           )}
+        </section>
+
+        <section className="quote-section" aria-label="Quantum statement">
+          <div className="quote-section__content">
+            <p>
+              “En Quantum impulsamos la visibilidad y el crecimiento de tu negocio integrando marketing
+              digital, branding estratégico e inteligencia artificial aplicada”.
+            </p>
+          </div>
+        </section>
+
+        <section className="question-section" aria-label="Qué resolvemos">
+          <div className="question-section__content">
+            <h2>¿QUÉ RESOLVEMOS?</h2>
+          </div>
+        </section>
+
+        <section className="q-resolve" aria-label="Orbitas qué resolvemos">
+          <div className="Conteiner q-resolve__inner">
+            <div className="q-resolve__stage">
+              <img className="q-resolve__pink q-resolve__pink--top" src={ResolvePink} alt="" aria-hidden="true" />
+              <img className="q-resolve__pink q-resolve__pink--left" src={ResolvePink} alt="" aria-hidden="true" />
+              <img className="q-resolve__pink q-resolve__pink--right" src={ResolvePink} alt="" aria-hidden="true" />
+
+              <div className="q-resolve__orbit" aria-hidden="true">
+                <div className="q-resolve__item q-resolve__item--a">
+                  <img src={ResolveData} alt="Data Driven" />
+                </div>
+                <div className="q-resolve__item q-resolve__item--b">
+                  <img src={ResolveCenter} alt="Centrado en el cliente" />
+                </div>
+                <div className="q-resolve__item q-resolve__item--c">
+                  <img src={ResolveChannels} alt="Nuevos canales comerciales" />
+                </div>
+                <div className="q-resolve__item q-resolve__item--d">
+                  <img src={ResolveOps} alt="Transformación operativa" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="q-cta" aria-label="Diagnóstico sin costo">
+          <div className="Conteiner q-cta__inner">
+            <h2>Un camino más eficiente hacia<br />más ventas...</h2>
+            <p>¿Deseas un diagnóstico sin costo de tu modelo actual?</p>
+            <a className="q-cta__btn" href="#contacto">Contáctanos</a>
+          </div>
         </section>
 
         {/* resto del home */}
