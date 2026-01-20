@@ -25,6 +25,7 @@ import ResolveData from "../assets/svg/360/data driven.svg";
 import ResolveChannels from "../assets/svg/360/nuevas canales comerciales.svg";
 import ResolveOps from "../assets/svg/360/transformación operativa_1.svg";
 import ResolvePink from "../assets/svg/360/circulo rosa_que resolvemos.svg";
+import MundoQuantum from "../assets/svg/360/mundo-quantum.svg";
 
 import "../index.css";
 
@@ -235,6 +236,8 @@ export default function HomePage() {
   const q360ArtRef = useRef<HTMLDivElement | null>(null);
   const q360FillRef = useRef<HTMLDivElement | null>(null);
   const q360CursorRef = useRef<HTMLDivElement | null>(null);
+  const q360GlobeRef = useRef<HTMLDivElement | null>(null);
+  const q360GlobeImgRef = useRef<HTMLImageElement | null>(null);
 
   const [q360CursorOk, setQ360CursorOk] = useState(false);
   const [q360Active, setQ360Active] = useState(false); // cursor visible / cursor:none
@@ -262,6 +265,8 @@ export default function HomePage() {
   const resolveAnimatingRef = useRef(false);
   const quoteTextRef = useRef<HTMLParagraphElement | null>(null);
   const questionTextRef = useRef<HTMLHeadingElement | null>(null);
+  const q360GlobeTlRef = useRef<gsap.core.Timeline | null>(null);
+  const q360GlobeStRef = useRef<ScrollTrigger | null>(null);
 
   useLayoutEffect(() => {
     if (showSplash) return;
@@ -324,6 +329,110 @@ export default function HomePage() {
       ctx.revert();
     };
   }, [resolveSlides.length, showSplash]);
+
+  useLayoutEffect(() => {
+    if (showSplash) return;
+    const art = q360ArtRef.current;
+    const globe = q360GlobeRef.current;
+    const globeImg = q360GlobeImgRef.current;
+    if (!art || !globe || !globeImg) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(globe, { autoAlpha: 1 });
+      return () => {};
+    });
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const AMP_Y = 18;
+      gsap.set(globe, { autoAlpha: 1 });
+      gsap.set(globeImg, {
+        transformPerspective: 900,
+        transformOrigin: "50% 50%",
+        force3D: true,
+        rotateY: -AMP_Y,
+        rotateX: 0,
+        rotateZ: 0,
+      });
+
+      const setScaleX = gsap.quickSetter(globeImg, "scaleX");
+
+      const applyScale = () => {
+        const current = (gsap.getProperty(globeImg, "rotateY") as number) * (Math.PI / 180);
+        const cos = Math.cos(current);
+        const scaleX = Math.abs(cos) < 0.01 ? 1 : 1 / cos;
+        setScaleX(scaleX);
+      };
+
+      applyScale();
+
+      const tl = gsap.timeline({
+        paused: true,
+        repeat: -1,
+        yoyo: true,
+        defaults: { duration: 1, ease: "sine.inOut" },
+      });
+
+      tl.to(globeImg, {
+        rotateY: AMP_Y,
+        rotateX: 5,
+        rotateZ: 1.2,
+      });
+
+      tl.eventCallback("onUpdate", applyScale);
+      tl.pause(0);
+      q360GlobeTlRef.current = tl;
+
+      const fadeIn = () => {
+        gsap.to(globe, { autoAlpha: 1, duration: 0.5, ease: "power2.out" });
+        tl.play();
+      };
+
+      const fadeOut = () => {
+        gsap.to(globe, { autoAlpha: 0, duration: 0.35, ease: "power2.inOut" });
+        tl.pause();
+      };
+
+      const st = ScrollTrigger.create({
+        trigger: art,
+        start: "top 85%",
+        end: "bottom 15%",
+        onEnter: fadeIn,
+        onEnterBack: fadeIn,
+        onLeave: fadeOut,
+        onLeaveBack: fadeOut,
+        onRefresh: (self) => {
+          if (self.isActive) {
+            fadeIn();
+          } else {
+            fadeOut();
+          }
+        },
+      });
+
+      if (st.isActive) {
+        fadeIn();
+      }
+
+      q360GlobeStRef.current = st;
+
+      return () => {
+        st.kill();
+        tl.kill();
+        q360GlobeStRef.current = null;
+        q360GlobeTlRef.current = null;
+      };
+    });
+
+    return () => {
+      mm.revert();
+      q360GlobeStRef.current?.kill();
+      q360GlobeTlRef.current?.kill();
+      q360GlobeStRef.current = null;
+      q360GlobeTlRef.current = null;
+    };
+  }, [showSplash]);
 
   useLayoutEffect(() => {
     const quoteEl = quoteTextRef.current;
@@ -566,6 +675,10 @@ export default function HomePage() {
               onPointerEnter={() => setQ360Erasing(true)}
               onPointerLeave={() => setQ360Erasing(false)}
             >
+              <div ref={q360GlobeRef} className="q360__globe" aria-hidden="true">
+                <img ref={q360GlobeImgRef} src={MundoQuantum} alt="" draggable={false} />
+              </div>
+
               {/* Contorno siempre visible */}
               <div className="q360__outline" aria-hidden="true">
                 <img src={Quantum360Outline} alt="" draggable={false} />
