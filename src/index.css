@@ -149,14 +149,14 @@ body {
 .q-rotateWord {
     display: inline-block;
     perspective: 900px;
-    perspective-origin: 50% 70%;
+    perspective-origin: 50% 50%;
     margin-left: 0.18em;
     /* un poco más para que respire centrado */
 }
 
 .q-rotateWord__inner {
     display: inline-block;
-    transform-origin: 50% 100%;
+    transform-origin: 50% 50%;
     will-change: transform, opacity;
     text-shadow: 0 12px 34px rgba(0, 0, 0, 0.55);
 }
@@ -167,17 +167,17 @@ body {
 
 @keyframes qWordSpinUp {
     0% {
-        transform: translateY(0) rotateX(0deg);
+        transform: rotateX(0deg);
         opacity: 1;
     }
 
     40% {
-        transform: translateY(-14px) rotateX(-180deg);
+        transform: rotateX(-180deg);
         opacity: 0;
     }
 
     60% {
-        transform: translateY(14px) rotateX(-180deg);
+        transform: rotateX(-180deg);
         opacity: 0;
     }
 
