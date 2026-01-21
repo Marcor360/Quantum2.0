@@ -20,11 +20,11 @@ import LogoText from "../assets/svg/Logo-text.svg";
 import Quantum360Fill from "../assets/svg/360/360 solo fill.svg";
 import Quantum360Outline from "../assets/svg/360/360 sin relleno.svg";
 import Cursor360Svg from "../assets/svg/360/CirculoCursor.svg";
+import MundoMitad from "../assets/svg/MundoMitad.svg";
 import ResolveCenter from "../assets/svg/360/centrado en el cliente.svg";
 import ResolveData from "../assets/svg/360/data driven.svg";
 import ResolveChannels from "../assets/svg/360/nuevas canales comerciales.svg";
 import ResolveOps from "../assets/svg/360/transformación operativa_1.svg";
-import ResolvePink from "../assets/svg/360/circulo rosa_que resolvemos.svg";
 import MundoQuantum from "../assets/svg/360/mundo-quantum.svg";
 
 import "../index.css";
@@ -45,7 +45,7 @@ type SplitResult = {
   restore: () => void;
 };
 
-function splitQuoteIntoSpans(el: HTMLParagraphElement): SplitResult {
+function splitQuoteIntoWords(el: HTMLParagraphElement): SplitResult {
   const originalHtml = el.innerHTML;
   const text = el.textContent ?? "";
   el.innerHTML = "";
@@ -53,14 +53,21 @@ function splitQuoteIntoSpans(el: HTMLParagraphElement): SplitResult {
   const frag = document.createDocumentFragment();
   const spans: HTMLSpanElement[] = [];
 
-  for (const ch of text) {
-    const span = document.createElement("span");
-    span.className = "quote-char";
-    span.dataset.char = ch === " " ? "space" : ch;
-    span.textContent = ch === " " ? "\u00A0" : ch;
-    frag.appendChild(span);
-    spans.push(span);
-  }
+  const tokens = text.match(/\S+|\s+/g) ?? [];
+
+  tokens.forEach((token) => {
+    if (/^\s+$/.test(token)) {
+      const nbsp = token.replace(/ /g, "\u00A0");
+      frag.appendChild(document.createTextNode(nbsp));
+    } else {
+      const span = document.createElement("span");
+      span.className = "quote-word";
+      span.dataset.token = token;
+      span.textContent = token;
+      frag.appendChild(span);
+      spans.push(span);
+    }
+  });
 
   el.appendChild(frag);
 
@@ -273,6 +280,9 @@ export default function HomePage() {
   const q360SectionRef = useRef<HTMLElement | null>(null);
   const q360WorldScrollRef = useRef<HTMLDivElement | null>(null);
   const q360WorldAnimRef = useRef<HTMLDivElement | null>(null);
+  const resolveStackSectionRef = useRef<HTMLElement | null>(null);
+  const resolveStackPinRef = useRef<HTMLDivElement | null>(null);
+  const resolveStackItemsRef = useRef<HTMLDivElement[]>([]);
 
   const [q360CursorOk, setQ360CursorOk] = useState(false);
   const [q360Active, setQ360Active] = useState(false); // cursor visible / cursor:none
@@ -281,89 +291,10 @@ export default function HomePage() {
   const q360Target = useRef({ x: 0, y: 0 });
   const q360Current = useRef({ x: 0, y: 0 });
   const q360Raf = useRef<number | null>(null);
-
-  const resolveSlides = useMemo(
-    () => [
-      { src: ResolveData, alt: "Data Driven" },
-      { src: ResolveCenter, alt: "Centrado en el cliente" },
-      { src: ResolveChannels, alt: "Nuevos canales comerciales" },
-      { src: ResolveOps, alt: "Transformación operativa" },
-    ],
-    []
-  );
-  const [resolveIndex, setResolveIndex] = useState(0);
-  const resolveIndexRef = useRef(0);
-  const resolveStageRef = useRef<HTMLDivElement | null>(null);
-  const resolveBubbleRef = useRef<HTMLImageElement | null>(null);
-  const resolvePinkRef = useRef<HTMLImageElement | null>(null);
-  const resolveTlRef = useRef<gsap.core.Timeline | null>(null);
-  const resolveAnimatingRef = useRef(false);
   const quoteTextRef = useRef<HTMLParagraphElement | null>(null);
   const questionTextRef = useRef<HTMLHeadingElement | null>(null);
   const q360GlobeTlRef = useRef<gsap.core.Timeline | null>(null);
   const q360GlobeStRef = useRef<ScrollTrigger | null>(null);
-
-  useLayoutEffect(() => {
-    if (showSplash) return;
-    const stage = resolveStageRef.current;
-    const bubble = resolveBubbleRef.current;
-    const pink = resolvePinkRef.current;
-    if (!stage || !bubble || !pink) return;
-
-    const ctx = gsap.context(() => {
-      gsap.set(stage, { x: 0, scale: 1 });
-      gsap.set(bubble, { autoAlpha: 1, y: 0 });
-      gsap.set(pink, { autoAlpha: 0 });
-
-      const getOffset = () => {
-        const container = stage.parentElement ?? stage;
-        const base = container.clientWidth * 0.32;
-        return Math.max(160, Math.min(320, Math.round(base)));
-      };
-
-      const run = (nextIndex: number) => {
-        if (resolveAnimatingRef.current) return;
-        resolveAnimatingRef.current = true;
-        resolveTlRef.current?.kill();
-        gsap.killTweensOf([stage, bubble, pink]);
-
-        const offset = getOffset();
-        const tl = gsap.timeline({
-          onComplete: () => {
-            resolveAnimatingRef.current = false;
-            const next = (nextIndex + 1) % resolveSlides.length;
-            gsap.delayedCall(1.2, () => run(next));
-          },
-        });
-        resolveTlRef.current = tl;
-
-        tl.to(bubble, { autoAlpha: 0, y: -10, duration: 0.35, ease: "power1.inOut" })
-          .set(bubble, { y: 10 })
-          .to(pink, { autoAlpha: 1, duration: 0.35, ease: "power1.out" }, "<")
-          .to(stage, { x: -offset, scale: 0.82, duration: 0.9, ease: "power1.inOut" }, "<")
-          .to(stage, { autoAlpha: 0, duration: 0.15 }, "-=0.1")
-          .set(stage, { x: offset, scale: 0.82, autoAlpha: 0 })
-          .add(() => {
-            resolveIndexRef.current = nextIndex;
-            setResolveIndex(nextIndex);
-          })
-          .to(stage, { autoAlpha: 1, duration: 0.2 })
-          .to(stage, { x: 0, scale: 1, duration: 0.9, ease: "power2.out" })
-          .to(pink, { autoAlpha: 0, duration: 0.25 }, "<")
-          .to(bubble, { autoAlpha: 1, y: 0, duration: 0.45, ease: "power2.out" }, "<")
-          .to({}, { duration: 0.9 });
-      };
-
-      run((resolveIndexRef.current + 1) % resolveSlides.length);
-    }, stage);
-
-    return () => {
-      resolveTlRef.current?.kill();
-      resolveTlRef.current = null;
-      resolveAnimatingRef.current = false;
-      ctx.revert();
-    };
-  }, [resolveSlides.length, showSplash]);
 
   useLayoutEffect(() => {
     if (showSplash) return;
@@ -376,7 +307,7 @@ export default function HomePage() {
 
     mm.add("(max-width: 768px) and (prefers-reduced-motion: reduce)", () => {
       gsap.set(globe, { autoAlpha: 1 });
-      return () => {};
+      return () => { };
     });
 
     mm.add("(max-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
@@ -481,12 +412,18 @@ export default function HomePage() {
     const world = q360WorldScrollRef.current;
     if (!section || !world) return;
 
+    const getHeaderHeight = () => {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
+      const parsed = Number.parseFloat(raw);
+      return Number.isFinite(parsed) ? parsed : 0;
+    };
+
     const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
       mm.add("(min-width: 769px)", () => {
         gsap.set(world, {
-          y: () => window.innerHeight * 0.45,
-          scale: 1.3,
+          y: 0,
+          scale: 0.8,
           transformOrigin: "50% 50%",
           force3D: true,
         });
@@ -494,14 +431,15 @@ export default function HomePage() {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: "top bottom",
-            end: "center center",
+            pin: section,
+            start: () => `top top+=${getHeaderHeight()}`,
+            end: () => "+=120%",
             scrub: true,
             invalidateOnRefresh: true,
           },
         });
 
-        tl.to(world, { y: 0, scale: 1.05, ease: "none" });
+        tl.to(world, { scale: 1.4, ease: "none" }, 0);
 
         return () => {
           tl.scrollTrigger?.kill();
@@ -532,15 +470,13 @@ export default function HomePage() {
 
     const ctx = gsap.context(() => {
       mm.add("(min-width: 769px) and (prefers-reduced-motion: no-preference)", () => {
-        const { spans, restore: restoreFn } = splitQuoteIntoSpans(quoteEl);
+        const { spans, restore: restoreFn } = splitQuoteIntoWords(quoteEl);
         restore = restoreFn;
 
         gsap.set(spans, {
-          opacity: 0,
-          y: 14,
-          filter: "blur(6px)",
+          color: "transparent",
           display: "inline-block",
-          willChange: "transform, opacity, filter",
+          willChange: "color",
         });
 
         const tl = gsap.timeline({
@@ -548,7 +484,7 @@ export default function HomePage() {
             trigger: quoteEl.closest(".quote-section") ?? quoteEl,
             pin: quoteEl.closest(".quote-section__content") ?? quoteEl,
             start: () => `top top+=${getHeaderHeight()}`,
-            end: () => `+=${Math.max(600, spans.length * 6)}`,
+            end: () => `+=${Math.max(900, spans.length * 55)}`,
             scrub: true,
             pinSpacing: true,
             invalidateOnRefresh: true,
@@ -556,10 +492,8 @@ export default function HomePage() {
         });
 
         tl.to(spans, {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          stagger: 0.015,
+          color: "#fff",
+          stagger: 0.06,
           ease: "none",
         });
 
@@ -569,16 +503,84 @@ export default function HomePage() {
         };
       });
 
-      mm.add("(prefers-reduced-motion: reduce)", () => {
+      mm.add("(max-width: 768px), (prefers-reduced-motion: reduce)", () => {
+        if (restore) {
+          restore();
+          restore = null;
+        }
         gsap.set(quoteEl, { clearProps: "all" });
         return () => {};
       });
     }, quoteEl);
 
+    const doRestore = () => {
+      if (restore) {
+        restore();
+        restore = null;
+      }
+    };
+
     return () => {
       ctx.revert();
       mm.revert();
-      restore?.();
+      doRestore();
+    };
+  }, [showSplash]);
+
+  useLayoutEffect(() => {
+    if (showSplash) return;
+    const section = resolveStackSectionRef.current;
+    const pin = resolveStackPinRef.current ?? resolveStackSectionRef.current;
+    const items = resolveStackItemsRef.current;
+    if (!section || !pin || items.length === 0) return;
+
+    const getHeaderHeight = () => {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
+      const parsed = Number.parseFloat(raw);
+      return Number.isFinite(parsed) ? parsed : 0;
+    };
+
+    const mm = gsap.matchMedia();
+    const ctx = gsap.context(() => {
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(items, { autoAlpha: 1, y: 0, scale: 1, clearProps: "filter" });
+        return () => { };
+      });
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.set(items, { autoAlpha: 0, y: 60, scale: 0.6, filter: "blur(6px)" });
+
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: section,
+            pin: pin,
+            start: () => `top top+=${getHeaderHeight()}`,
+            end: () => `+=${Math.max(800, items.length * 260)}`,
+            scrub: true,
+            pinSpacing: true,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        items.forEach((item, idx) => {
+          tl.to(
+            item,
+            { autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)" },
+            idx === 0 ? 0 : ">+0.2"
+          );
+        });
+
+        return () => {
+          tl.scrollTrigger?.kill();
+          tl.kill();
+        };
+      });
+    }, section);
+
+    return () => {
+      ctx.revert();
+      mm.revert();
     };
   }, [showSplash]);
 
@@ -765,11 +767,11 @@ export default function HomePage() {
 
                   <div className="q-svcCard__shade" aria-hidden="true" />
 
-                    <div className="q-svcCard__overlay">
-                        <div className="q-svcCard__content">
-                            <h3 className="q-svcCard__title">{s.title}</h3>
-                        </div>
+                  <div className="q-svcCard__overlay">
+                    <div className="q-svcCard__content">
+                      <h3 className="q-svcCard__title">{s.title}</h3>
                     </div>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -787,11 +789,11 @@ export default function HomePage() {
 
                       <div className="q-svcCard__shade" aria-hidden="true" />
 
-                    <div className="q-svcCard__overlay">
+                      <div className="q-svcCard__overlay">
                         <div className="q-svcCard__content">
-                            <h3 className="q-svcCard__title">{s.title}</h3>
+                          <h3 className="q-svcCard__title">{s.title}</h3>
                         </div>
-                    </div>
+                      </div>
                     </Link>
                   </div>
                 ))}
@@ -818,12 +820,15 @@ export default function HomePage() {
               className="q360__globe q360-world-anim"
               aria-hidden="true"
             >
-              <img ref={q360GlobeImgRef} src={MundoQuantum} alt="" draggable={false} />
+              <img ref={q360GlobeImgRef} src={isMobile ? MundoQuantum : MundoMitad} alt="" draggable={false} />
             </div>
           </div>
 
           <div className="Conteiner q360__inner q360-foreground">
-            <div className="q360__kicker">QUANTUM</div>
+            <div className="q360__labels">
+              <span className="q360__meta">METODOLOGÍA</span>
+              <span className="q360__brand">QUANTUM</span>
+            </div>
 
             <div
               ref={q360ArtRef}
@@ -863,36 +868,26 @@ export default function HomePage() {
             </p>
           </div>
         </section>
-
-        <section className="question-section" aria-label="Qué resolvemos">
-          <div className="question-section__content">
-            <h2 ref={questionTextRef}>¿QUÉ RESOLVEMOS?</h2>
-          </div>
-        </section>
-
-        <section className="q-resolve" aria-label="Orbitas qué resolvemos">
-          <div className="Conteiner q-resolve__inner">
-            <div className="q-resolve__stage">
-              <img className="q-resolve__pink q-resolve__pink--left" src={ResolvePink} alt="" aria-hidden="true" />
-              <img className="q-resolve__pink q-resolve__pink--right" src={ResolvePink} alt="" aria-hidden="true" />
-
-              <div className="q-resolve__orbit" aria-live="polite">
-                <div ref={resolveStageRef} className="q-resolve__item">
-                  <img
-                    ref={resolveBubbleRef}
-                    className="q-resolve__item-img"
-                    src={resolveSlides[resolveIndex].src}
-                    alt={resolveSlides[resolveIndex].alt}
-                  />
-                  <img
-                    ref={resolvePinkRef}
-                    className="q-resolve__item-pink"
-                    src={ResolvePink}
-                    alt=""
-                    aria-hidden="true"
-                  />
+        {/* ===== RESOLVE STACK ===== */}
+        <section ref={resolveStackSectionRef} className="resolve-stack" aria-label="Cómo lo resolvemos">
+          <div ref={resolveStackPinRef} className="resolve-stack__pin">
+            <h2 className="resolve-stack__title">¿CÓMO LO RESOLVEMOS?</h2>
+            <div className="resolve-stack__items">
+              {(() => {
+                resolveStackItemsRef.current = [];
+                return null;
+              })()}
+              {[ResolveData, ResolveCenter, ResolveChannels, ResolveOps].map((img, idx) => (
+                <div
+                  key={`resolve-${idx}`}
+                  className={`resolve-stack__item resolve-stack__item--${idx + 1}`}
+                  ref={(el) => {
+                    if (el) resolveStackItemsRef.current[idx] = el;
+                  }}
+                >
+                  <img src={img} alt="" aria-hidden="true" />
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
