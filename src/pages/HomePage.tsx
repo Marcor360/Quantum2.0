@@ -40,6 +40,37 @@ function getIsMobile(): boolean {
 
 const safeSrc = (p: string) => encodeURI(p);
 
+type SplitResult = {
+  spans: HTMLSpanElement[];
+  restore: () => void;
+};
+
+function splitQuoteIntoSpans(el: HTMLParagraphElement): SplitResult {
+  const originalHtml = el.innerHTML;
+  const text = el.textContent ?? "";
+  el.innerHTML = "";
+
+  const frag = document.createDocumentFragment();
+  const spans: HTMLSpanElement[] = [];
+
+  for (const ch of text) {
+    const span = document.createElement("span");
+    span.className = "quote-char";
+    span.dataset.char = ch === " " ? "space" : ch;
+    span.textContent = ch === " " ? "\u00A0" : ch;
+    frag.appendChild(span);
+    spans.push(span);
+  }
+
+  el.appendChild(frag);
+
+  const restore = () => {
+    el.innerHTML = originalHtml;
+  };
+
+  return { spans, restore };
+}
+
 type ServiceCard = {
   key: "branding" | "ecomerce" | "app-ia" | "campañas";
   title: string;
@@ -180,7 +211,7 @@ export default function HomePage() {
   }, [words.length]);
 
   // ===== Servicios: ScrollTrigger horizontal solo en desktop =====
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return;
 
     const getHeaderHeight = () => {
@@ -220,6 +251,8 @@ export default function HomePage() {
           },
         });
 
+        requestAnimationFrame(() => ScrollTrigger.refresh());
+
         return () => {
           tween.scrollTrigger?.kill();
           tween.kill();
@@ -236,8 +269,10 @@ export default function HomePage() {
   const q360ArtRef = useRef<HTMLDivElement | null>(null);
   const q360FillRef = useRef<HTMLDivElement | null>(null);
   const q360CursorRef = useRef<HTMLDivElement | null>(null);
-  const q360GlobeRef = useRef<HTMLDivElement | null>(null);
   const q360GlobeImgRef = useRef<HTMLImageElement | null>(null);
+  const q360SectionRef = useRef<HTMLElement | null>(null);
+  const q360WorldScrollRef = useRef<HTMLDivElement | null>(null);
+  const q360WorldAnimRef = useRef<HTMLDivElement | null>(null);
 
   const [q360CursorOk, setQ360CursorOk] = useState(false);
   const [q360Active, setQ360Active] = useState(false); // cursor visible / cursor:none
@@ -333,18 +368,18 @@ export default function HomePage() {
   useLayoutEffect(() => {
     if (showSplash) return;
     const art = q360ArtRef.current;
-    const globe = q360GlobeRef.current;
+    const globe = q360WorldAnimRef.current;
     const globeImg = q360GlobeImgRef.current;
     if (!art || !globe || !globeImg) return;
 
     const mm = gsap.matchMedia();
 
-    mm.add("(prefers-reduced-motion: reduce)", () => {
+    mm.add("(max-width: 768px) and (prefers-reduced-motion: reduce)", () => {
       gsap.set(globe, { autoAlpha: 1 });
       return () => {};
     });
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    mm.add("(max-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
       const AMP_Y = 18;
       gsap.set(globe, { autoAlpha: 1 });
       gsap.set(globeImg, {
@@ -434,29 +469,137 @@ export default function HomePage() {
     };
   }, [showSplash]);
 
+  useEffect(() => {
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad);
+    return () => window.removeEventListener("load", onLoad);
+  }, []);
+
   useLayoutEffect(() => {
-    const quoteEl = quoteTextRef.current;
-    const questionEl = questionTextRef.current;
-    if (!quoteEl || !questionEl) return;
+    if (showSplash) return;
+    const section = q360SectionRef.current;
+    const world = q360WorldScrollRef.current;
+    if (!section || !world) return;
 
+    const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
-      gsap.set([quoteEl, questionEl], { autoAlpha: 0, y: 18 });
+      mm.add("(min-width: 769px)", () => {
+        gsap.set(world, {
+          y: () => window.innerHeight * 0.45,
+          scale: 1.3,
+          transformOrigin: "50% 50%",
+          force3D: true,
+        });
 
-      const animateIn = (el: Element) =>
-        gsap.to(el, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.9,
-          ease: "power2.out",
+        const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: el,
-            start: "top 72%",
-            toggleActions: "play none none reverse",
+            trigger: section,
+            start: "top bottom",
+            end: "center center",
+            scrub: true,
+            invalidateOnRefresh: true,
           },
         });
 
-      animateIn(quoteEl);
-      animateIn(questionEl);
+        tl.to(world, { y: 0, scale: 1.05, ease: "none" });
+
+        return () => {
+          tl.scrollTrigger?.kill();
+          tl.kill();
+        };
+      });
+    }, section);
+
+    return () => {
+      ctx.revert();
+      mm.revert();
+    };
+  }, [showSplash]);
+
+  useLayoutEffect(() => {
+    if (showSplash) return;
+    const quoteEl = quoteTextRef.current;
+    if (!quoteEl) return;
+
+    const mm = gsap.matchMedia();
+    let restore: (() => void) | null = null;
+
+    const getHeaderHeight = () => {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
+      const parsed = Number.parseFloat(raw);
+      return Number.isFinite(parsed) ? parsed : 0;
+    };
+
+    const ctx = gsap.context(() => {
+      mm.add("(min-width: 769px) and (prefers-reduced-motion: no-preference)", () => {
+        const { spans, restore: restoreFn } = splitQuoteIntoSpans(quoteEl);
+        restore = restoreFn;
+
+        gsap.set(spans, {
+          opacity: 0,
+          y: 14,
+          filter: "blur(6px)",
+          display: "inline-block",
+          willChange: "transform, opacity, filter",
+        });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: quoteEl.closest(".quote-section") ?? quoteEl,
+            pin: quoteEl.closest(".quote-section__content") ?? quoteEl,
+            start: () => `top top+=${getHeaderHeight()}`,
+            end: () => `+=${Math.max(600, spans.length * 6)}`,
+            scrub: true,
+            pinSpacing: true,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.to(spans, {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          stagger: 0.015,
+          ease: "none",
+        });
+
+        return () => {
+          tl.scrollTrigger?.kill();
+          tl.kill();
+        };
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(quoteEl, { clearProps: "all" });
+        return () => {};
+      });
+    }, quoteEl);
+
+    return () => {
+      ctx.revert();
+      mm.revert();
+      restore?.();
+    };
+  }, [showSplash]);
+
+  useLayoutEffect(() => {
+    const questionEl = questionTextRef.current;
+    if (!questionEl) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set(questionEl, { autoAlpha: 0, y: 18 });
+
+      gsap.to(questionEl, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.9,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: questionEl,
+          start: "top 72%",
+          toggleActions: "play none none reverse",
+        },
+      });
     });
 
     return () => {
@@ -659,14 +802,27 @@ export default function HomePage() {
 
         {/* ===== QUANTUM 360 ===== */}
         <section
+          ref={q360SectionRef}
           id="Quantum360"
-          className={`q360 ${q360Active ? "is-active" : ""}`}
+          className={`q360 q360-section ${q360Active ? "is-active" : ""}`}
           aria-label="Quantum 360"
           onPointerEnter={onQ360Enter}
           onPointerMove={onQ360Move}
           onPointerLeave={onQ360Leave}
         >
-          <div className="Conteiner q360__inner">
+          <div ref={q360WorldScrollRef} className="q360-world-scroll" aria-hidden="true">
+            <div
+              ref={(el) => {
+                q360WorldAnimRef.current = el;
+              }}
+              className="q360__globe q360-world-anim"
+              aria-hidden="true"
+            >
+              <img ref={q360GlobeImgRef} src={MundoQuantum} alt="" draggable={false} />
+            </div>
+          </div>
+
+          <div className="Conteiner q360__inner q360-foreground">
             <div className="q360__kicker">QUANTUM</div>
 
             <div
@@ -675,10 +831,6 @@ export default function HomePage() {
               onPointerEnter={() => setQ360Erasing(true)}
               onPointerLeave={() => setQ360Erasing(false)}
             >
-              <div ref={q360GlobeRef} className="q360__globe" aria-hidden="true">
-                <img ref={q360GlobeImgRef} src={MundoQuantum} alt="" draggable={false} />
-              </div>
-
               {/* Contorno siempre visible */}
               <div className="q360__outline" aria-hidden="true">
                 <img src={Quantum360Outline} alt="" draggable={false} />
@@ -705,7 +857,7 @@ export default function HomePage() {
 
         <section className="quote-section" aria-label="Quantum statement">
           <div className="quote-section__content">
-            <p>
+            <p ref={quoteTextRef}>
               “En Quantum impulsamos la visibilidad y el crecimiento de tu negocio integrando marketing
               digital, branding estratégico e inteligencia artificial aplicada”.
             </p>
@@ -714,7 +866,7 @@ export default function HomePage() {
 
         <section className="question-section" aria-label="Qué resolvemos">
           <div className="question-section__content">
-            <h2>¿QUÉ RESOLVEMOS?</h2>
+            <h2 ref={questionTextRef}>¿QUÉ RESOLVEMOS?</h2>
           </div>
         </section>
 
