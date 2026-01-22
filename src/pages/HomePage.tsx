@@ -412,12 +412,6 @@ export default function HomePage() {
     const world = q360WorldScrollRef.current;
     if (!section || !world) return;
 
-    const getHeaderHeight = () => {
-      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
-      const parsed = Number.parseFloat(raw);
-      return Number.isFinite(parsed) ? parsed : 0;
-    };
-
     const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
       mm.add("(min-width: 769px)", () => {
@@ -431,9 +425,9 @@ export default function HomePage() {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            pin: section,
-            start: () => `top top+=${getHeaderHeight()}`,
-            end: () => "+=120%",
+            // pin removed; natural scroll
+            start: "top 85%",
+            end: "bottom 15%",
             scrub: true,
             invalidateOnRefresh: true,
           },
@@ -509,7 +503,7 @@ export default function HomePage() {
           restore = null;
         }
         gsap.set(quoteEl, { clearProps: "all" });
-        return () => {};
+        return () => { };
       });
     }, quoteEl);
 
@@ -862,6 +856,7 @@ export default function HomePage() {
 
         <section className="quote-section" aria-label="Quantum statement">
           <div className="quote-section__content">
+            <h2 className="quote-section__title">¿QUÉ RESOLVEMOS?</h2>
             <p ref={quoteTextRef}>
               “En Quantum impulsamos la visibilidad y el crecimiento de tu negocio integrando marketing
               digital, branding estratégico e inteligencia artificial aplicada”.
