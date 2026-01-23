@@ -507,6 +507,8 @@ export default function HomePage() {
       });
     }, quoteEl);
 
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+
     const doRestore = () => {
       if (restore) {
         restore();
@@ -528,40 +530,69 @@ export default function HomePage() {
     const items = resolveStackItemsRef.current;
     if (!section || !pin || items.length === 0) return;
 
-    const getHeaderHeight = () => {
-      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
-      const parsed = Number.parseFloat(raw);
-      return Number.isFinite(parsed) ? parsed : 0;
-    };
+    const clamp = gsap.utils.clamp;
+    const TX = () => clamp(140, 320, window.innerWidth * 0.18);
+    const TY = () => clamp(120, 260, window.innerHeight * 0.18);
 
     const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(items, { autoAlpha: 1, y: 0, scale: 1, clearProps: "filter" });
+      mm.add("(prefers-reduced-motion: reduce), (max-width: 768px)", () => {
+        gsap.set(items, {
+          clearProps: "all",
+          autoAlpha: 1,
+          filter: "none",
+          scale: 1,
+          y: 0,
+        });
         return () => { };
       });
 
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.set(items, { autoAlpha: 0, y: 60, scale: 0.6, filter: "blur(6px)" });
+      mm.add("(min-width: 769px) and (prefers-reduced-motion: no-preference)", () => {
+        const center = [
+          { x: () => -TX(), y: () => -TY() * 0.4 },
+          { x: () => TX(), y: () => -TY() * 0.25 },
+          { x: () => -TX() * 0.9, y: () => TY() * 0.35 },
+          { x: () => TX() * 0.8, y: () => TY() * 0.45 },
+        ];
+        const exit = [
+          { x: center[0].x, y: () => center[0].y() - TY() * 2.5 },
+          { x: center[1].x, y: () => center[1].y() - TY() * 2.5 },
+          { x: center[2].x, y: () => center[2].y() - TY() * 2.5 },
+          { x: center[3].x, y: () => center[3].y() - TY() * 2.5 },
+        ];
+
+        gsap.set(items, { autoAlpha: 0, filter: "blur(0px)", scale: 0.9 });
 
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
             trigger: section,
             pin: pin,
-            start: () => `top top+=${getHeaderHeight()}`,
-            end: () => `+=${Math.max(800, items.length * 260)}`,
-            scrub: true,
+            start: "center center",
+            end: () => `+=${Math.max(2000, items.length * 700)}`,
+            scrub: 1,
             pinSpacing: true,
             invalidateOnRefresh: true,
+            anticipatePin: 1,
           },
         });
 
-        items.forEach((item, idx) => {
+        [0, 1, 2, 3].forEach((idx, i) => {
+          const enter = {
+            x: center[idx].x,
+            y: () => center[idx].y() + TY() * 2.2,
+          };
+          tl.fromTo(
+            items[idx],
+            { autoAlpha: 0, scale: 0.9, filter: "blur(0px)", ...enter },
+            { autoAlpha: 1, scale: 1, filter: "blur(0px)", ...center[idx], duration: 1.2 },
+            i === 0 ? 0 : ">-0.2"
+          );
+          tl.to({}, { duration: 0.8 }, ">");
           tl.to(
-            item,
-            { autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)" },
-            idx === 0 ? 0 : ">+0.2"
+            items[idx],
+            { autoAlpha: 0, scale: 0.92, filter: "blur(12px)", ...exit[idx], duration: 1.2 },
+            ">"
           );
         });
 
@@ -571,6 +602,8 @@ export default function HomePage() {
         };
       });
     }, section);
+
+    requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
       ctx.revert();
@@ -814,7 +847,7 @@ export default function HomePage() {
               className="q360__globe q360-world-anim"
               aria-hidden="true"
             >
-              <img ref={q360GlobeImgRef} src={isMobile ? MundoQuantum : MundoMitad} alt="" draggable={false} />
+              <img className="Mundo" ref={q360GlobeImgRef} src={isMobile ? MundoQuantum : MundoMitad} alt="" draggable={false} />
             </div>
           </div>
 
