@@ -28,6 +28,9 @@ html {
     box-sizing: border-box;
     font-size: 62.5%;
     background-color: var(--color-mate);
+    scrollbar-gutter: stable both-edges;
+    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 body {
@@ -259,7 +262,7 @@ body {
     border-radius: 28px;
     overflow: hidden;
 
-    min-height: clamp(220px, 24vw, 320px);
+    min-height: clamp(280px, 36vw, 520px);
 
     text-decoration: none;
     color: var(--color-blanco);
@@ -439,7 +442,7 @@ body {
 
     .home-services__scroller {
         display: block;
-        height: clamp(520px, 72vh, 760px);
+        height: clamp(640px, 82vh, 980px);
         position: relative;
         overflow: hidden;
     }

@@ -33,6 +33,31 @@ const MOBILE_MQ = "(max-width: 768px)";
 
 gsap.registerPlugin(ScrollTrigger);
 
+ScrollTrigger.config({
+  ignoreMobileResize: true,
+});
+
+ScrollTrigger.defaults({
+  anticipatePin: 1,
+  fastScrollEnd: true,
+  invalidateOnRefresh: true,
+});
+
+function getHeaderHeight(): number {
+  if (typeof document === "undefined") return 0;
+  const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
+  const parsed = Number.parseFloat(raw);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+const onPinLeave = (self: ScrollTrigger) => {
+  self.animation?.progress(1);
+};
+
+const onPinLeaveBack = (self: ScrollTrigger) => {
+  self.animation?.progress(0);
+};
+
 function getIsMobile(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia(MOBILE_MQ).matches;
@@ -143,6 +168,19 @@ export default function HomePage() {
   const servicesTrackRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (typeof document === "undefined") return;
+    const refresh = () => ScrollTrigger.refresh();
+    const fontsReady = (document as Document & { fonts?: FontFaceSet }).fonts?.ready;
+
+    if (fontsReady && typeof fontsReady.then === "function") {
+      fontsReady.then(refresh).catch(() => { });
+    }
+
+    const t = window.setTimeout(refresh, 200);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
     const mq = window.matchMedia(MOBILE_MQ);
     const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
 
@@ -221,12 +259,6 @@ export default function HomePage() {
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
 
-    const getHeaderHeight = () => {
-      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
-      const parsed = Number.parseFloat(raw);
-      return Number.isFinite(parsed) ? parsed : 0;
-    };
-
     const mm = gsap.matchMedia();
 
     if (!showSplash) {
@@ -237,6 +269,12 @@ export default function HomePage() {
 
         const panels = track.querySelectorAll<HTMLElement>(".home-services__panel");
         const snapValue = panels.length > 1 ? 1 / (panels.length - 1) : 1;
+
+        const distance = track.scrollWidth - pin.clientWidth;
+        if (distance <= 1) {
+          gsap.set(track, { x: 0 });
+          return undefined;
+        }
 
         const tween = gsap.to(track, {
           x: () => {
@@ -252,8 +290,14 @@ export default function HomePage() {
               return `+=${distance > 0 ? distance : 0}`;
             },
             pin: true,
-            scrub: 0.9,
-            snap: snapValue,
+            scrub: 0.25,
+            snap: {
+              snapTo: snapValue,
+              duration: { min: 0.12, max: 0.25 },
+              ease: "power1.inOut",
+            },
+            onLeave: onPinLeave,
+            onLeaveBack: onPinLeaveBack,
             invalidateOnRefresh: true,
           },
         });
@@ -456,12 +500,6 @@ export default function HomePage() {
     const mm = gsap.matchMedia();
     let restore: (() => void) | null = null;
 
-    const getHeaderHeight = () => {
-      const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
-      const parsed = Number.parseFloat(raw);
-      return Number.isFinite(parsed) ? parsed : 0;
-    };
-
     const ctx = gsap.context(() => {
       mm.add("(min-width: 769px) and (prefers-reduced-motion: no-preference)", () => {
         const { spans, restore: restoreFn } = splitQuoteIntoWords(quoteEl);
@@ -479,8 +517,10 @@ export default function HomePage() {
             pin: quoteEl.closest(".quote-section__content") ?? quoteEl,
             start: () => `top top+=${getHeaderHeight()}`,
             end: () => `+=${Math.max(900, spans.length * 55)}`,
-            scrub: true,
+            scrub: 0.25,
             pinSpacing: true,
+            onLeave: onPinLeave,
+            onLeaveBack: onPinLeaveBack,
             invalidateOnRefresh: true,
           },
         });
@@ -570,10 +610,12 @@ export default function HomePage() {
             pin: pin,
             start: "center center",
             end: () => `+=${Math.max(2000, items.length * 700)}`,
-            scrub: 1,
+            scrub: 0.25,
             pinSpacing: true,
             invalidateOnRefresh: true,
             anticipatePin: 1,
+            onLeave: onPinLeave,
+            onLeaveBack: onPinLeaveBack,
           },
         });
 
@@ -788,8 +830,6 @@ export default function HomePage() {
                 <p className="home-services__lead">Estrategia y tecnología que impulsan tu negocio.</p>
                 <p className="home-services__hint">¿Deseas un diagnóstico sin costo de tu modelo actual?</p>
               </div>
-
-              <div className="home-services__eyebrow">SERVICIOS</div>
             </div>
 
             <div className="home-services__content">
