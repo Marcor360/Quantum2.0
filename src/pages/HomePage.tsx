@@ -769,61 +769,71 @@ export default function HomePage() {
         {/* ===== SECCIÓN SERVICIOS ===== */}
         <section id="servicios" className="home-services" aria-label="Servicios">
           <div className="Conteiner">
-            <div className="home-services__eyebrow">SERVICIOS</div>
-            <div className="home-services__headline">
-              <img className="home-services__logo" src={LogoText} alt="Quantum" />
+            <div className="home-services__intro">
+              <div className="home-services__headline">
+                <img className="home-services__logo" src={LogoText} alt="Quantum" />
 
-              <h2 className="home-services__title">
-                es{" "}
-                <span className="q-rotateWord" aria-live="polite">
-                  <span className={`q-rotateWord__inner ${wordSpin ? "is-animating" : ""}`}>
-                    {words[wordIndex]}
+                <h2 className="home-services__title">
+                  es{" "}
+                  <span className="q-rotateWord" aria-live="polite">
+                    <span className={`q-rotateWord__inner ${wordSpin ? "is-animating" : ""}`}>
+                      {words[wordIndex]}
+                    </span>
                   </span>
-                </span>
-                <span className="home-services__comma">,</span>
-              </h2>
+                  <span className="home-services__comma">,</span>
+                </h2>
+              </div>
+
+              <div className="home-services__copy">
+                <p className="home-services__lead">Estrategia y tecnología que impulsan tu negocio.</p>
+                <p className="home-services__hint">¿Deseas un diagnóstico sin costo de tu modelo actual?</p>
+              </div>
+
+              <div className="home-services__eyebrow">SERVICIOS</div>
             </div>
 
-            <div className="home-services__grid">
-              {SERVICES.map((s) => (
-                <Link key={s.key} to={s.to} className={`q-svcCard q-svcCard--${s.key}`}>
-                  <picture className="q-svcCard__media" aria-hidden="true">
-                    <source media={MOBILE_MQ} srcSet={safeSrc(s.imgMobile)} />
-                    <img src={safeSrc(s.imgDesktop)} alt="" loading="lazy" decoding="async" />
-                  </picture>
-
-                  <div className="q-svcCard__shade" aria-hidden="true" />
-
-                  <div className="q-svcCard__overlay">
-                    <div className="q-svcCard__content">
-                      <h3 className="q-svcCard__title">{s.title}</h3>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {/* ===== DESKTOP: scroll horizontal con ScrollTrigger ===== */}
-            <div ref={servicesPinRef} className="home-services__scroller">
-              <div ref={servicesTrackRef} className="home-services__track">
+            <div className="home-services__content">
+              <div className="home-services__grid">
                 {SERVICES.map((s) => (
-                  <div key={`${s.key}-panel`} className="home-services__panel">
-                    <Link to={s.to} className={`q-svcCard q-svcCard--${s.key} q-svcCard--panel`}>
-                      <picture className="q-svcCard__media" aria-hidden="true">
-                        <source media={MOBILE_MQ} srcSet={safeSrc(s.imgMobile)} />
-                        <img src={safeSrc(s.imgDesktop)} alt="" loading="lazy" decoding="async" />
-                      </picture>
+                  <Link key={s.key} to={s.to} className={`q-svcCard q-svcCard--${s.key}`}>
+                    <picture className="q-svcCard__media" aria-hidden="true">
+                      <source media={MOBILE_MQ} srcSet={safeSrc(s.imgMobile)} />
+                      <img src={safeSrc(s.imgDesktop)} alt="" loading="lazy" decoding="async" />
+                    </picture>
 
-                      <div className="q-svcCard__shade" aria-hidden="true" />
+                    <div className="q-svcCard__shade" aria-hidden="true" />
 
-                      <div className="q-svcCard__overlay">
-                        <div className="q-svcCard__content">
-                          <h3 className="q-svcCard__title">{s.title}</h3>
-                        </div>
+                    <div className="q-svcCard__overlay">
+                      <div className="q-svcCard__content">
+                        <h3 className="q-svcCard__title">{s.title}</h3>
                       </div>
-                    </Link>
-                  </div>
+                    </div>
+                  </Link>
                 ))}
+              </div>
+
+              {/* ===== DESKTOP: scroll horizontal con ScrollTrigger ===== */}
+              <div ref={servicesPinRef} className="home-services__scroller">
+                <div ref={servicesTrackRef} className="home-services__track">
+                  {SERVICES.map((s) => (
+                    <div key={`${s.key}-panel`} className="home-services__panel">
+                      <Link to={s.to} className={`q-svcCard q-svcCard--${s.key} q-svcCard--panel`}>
+                        <picture className="q-svcCard__media" aria-hidden="true">
+                          <source media={MOBILE_MQ} srcSet={safeSrc(s.imgMobile)} />
+                          <img src={safeSrc(s.imgDesktop)} alt="" loading="lazy" decoding="async" />
+                        </picture>
+
+                        <div className="q-svcCard__shade" aria-hidden="true" />
+
+                        <div className="q-svcCard__overlay">
+                          <div className="q-svcCard__content">
+                            <h3 className="q-svcCard__title">{s.title}</h3>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

@@ -103,12 +103,63 @@ body {
    HOME â€” SERVICIOS (como imagen)
 ========================= */
 
+.home-services__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: calc(100vh - var(--header-h));
+    padding-top: clamp(40px, 8vh, 100px);
+    padding-bottom: clamp(24px, 10vh, 140px);
+    gap: clamp(10px, 1.6vw, 16px);
+}
+
+.home-services__copy {
+    max-width: 70ch;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.home-services__lead {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(1.7rem, 2.0vw, 2.4rem);
+    font-weight: 600;
+}
+
+.home-services__hint {
+    margin: 0;
+    color: var(--color-chicle);
+    font-size: clamp(1.3rem, 1.6vw, 1.8rem);
+}
+
 .home-services__eyebrow {
     text-align: left;
-    margin: clamp(10px, 2vw, 18px) 0 clamp(18px, 3vw, 28px);
+    margin: 0;
+    margin-top: auto;
+    align-self: flex-start;
     color: var(--color-electrico);
     font-size: 1.2rem;
     letter-spacing: 0.6em;
+}
+
+.home-services__content {
+    padding-top: clamp(14px, 3vw, 28px);
+}
+
+@media (max-width: 768px) {
+    .home-services__intro {
+        min-height: auto;
+        padding-top: clamp(26px, 6vw, 40px);
+        padding-bottom: clamp(20px, 8vw, 40px);
+    }
+
+    .home-services__eyebrow {
+        order: -1;
+        margin-top: clamp(10px, 2vw, 18px);
+        align-self: flex-start;
+    }
 }
 
 /* ===== CAMBIO: Headline centrado + mÃ¡s grande (como mock) ===== */
@@ -461,7 +512,7 @@ body {
 }
 
 .q360__meta {
-    font-family: var(--font-morganite);
+    font-family: var(--font-subjectivity);
     font-size: clamp(4rem, 8vw, 6.4rem);
     letter-spacing: 0.15em;
     text-transform: uppercase;
