@@ -111,9 +111,9 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    min-height: calc(100vh - var(--header-h));
-    padding-top: clamp(40px, 8vh, 100px);
-    padding-bottom: clamp(24px, 10vh, 140px);
+    min-height: auto;
+    padding-top: clamp(32px, 6vw, 72px);
+    padding-bottom: clamp(20px, 7vw, 64px);
     gap: clamp(10px, 1.6vw, 16px);
 }
 
@@ -149,6 +149,17 @@ body {
 
 .home-services__content {
     padding-top: clamp(14px, 3vw, 28px);
+}
+
+.home-services__sectionTitle {
+    margin: 0 0 clamp(20px, 3vw, 32px);
+    text-align: center;
+    color: var(--color-electrico);
+    font-family: var(--font-morganite);
+    font-size: clamp(7rem, 11vw, 16rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
 }
 
 @media (max-width: 768px) {
@@ -516,19 +527,17 @@ body {
 
 .q360__meta {
     font-family: var(--font-subjectivity);
-    font-size: clamp(4rem, 8vw, 6.4rem);
+    font-size: clamp(1.9rem, 3vw, 2.6rem);
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--color-electrico);
 }
 
 .q360__brand {
-    font-family: var(--font-morganite);
-    font-size: clamp(4rem, 8vw, 6.4rem);
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    color: var(--color-chicle);
-    text-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+    display: block;
+    width: clamp(300px, 48vw, 680px);
+    height: auto;
+    filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.55));
 }
 
 .q360__art {

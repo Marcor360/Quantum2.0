@@ -26,6 +26,7 @@ import ResolveData from "../assets/svg/360/data driven.svg";
 import ResolveChannels from "../assets/svg/360/nuevas canales comerciales.svg";
 import ResolveOps from "../assets/svg/360/transformación operativa_1.svg";
 import MundoQuantum from "../assets/svg/360/mundo-quantum.svg";
+import QuantumTextSvg from "../assets/svg/360/QUANTU TEXTO.svg";
 
 import "../index.css";
 
@@ -291,11 +292,6 @@ export default function HomePage() {
             },
             pin: true,
             scrub: 0.25,
-            snap: {
-              snapTo: snapValue,
-              duration: { min: 0.12, max: 0.25 },
-              ease: "power1.inOut",
-            },
             onLeave: onPinLeave,
             onLeaveBack: onPinLeaveBack,
             invalidateOnRefresh: true,
@@ -833,6 +829,7 @@ export default function HomePage() {
             </div>
 
             <div className="home-services__content">
+              <h3 className="home-services__sectionTitle">SERVICIOS</h3>
               <div className="home-services__grid">
                 {SERVICES.map((s) => (
                   <Link key={s.key} to={s.to} className={`q-svcCard q-svcCard--${s.key}`}>
@@ -904,7 +901,7 @@ export default function HomePage() {
           <div className="Conteiner q360__inner q360-foreground">
             <div className="q360__labels">
               <span className="q360__meta">METODOLOGÍA</span>
-              <span className="q360__brand">QUANTUM</span>
+              <img className="q360__brand" src={QuantumTextSvg} alt="Quantum" />
             </div>
 
             <div
