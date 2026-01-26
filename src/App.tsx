@@ -2,6 +2,7 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 {/*Servicios*/ }
+import Serv from './pages/Servicios';
 import APP_IA from './pages/servicios/app-e-ia';
 import Branding from './pages/servicios/branding';
 import Campañas from './pages/servicios/campañas';
@@ -11,6 +12,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/servicios" element={<Serv />} />
       {/*Servicios*/}
       <Route path="/servicios/app-e-ia" element={<APP_IA />} />
       <Route path="/servicios/branding" element={<Branding />} />

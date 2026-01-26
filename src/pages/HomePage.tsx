@@ -162,15 +162,46 @@ export default function HomePage() {
 
   // ===== Video responsive (carga 1 solo MP4) =====
   const [isMobile, setIsMobile] = useState(getIsMobile);
+  const [reduceMotion, setReduceMotion] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const stRefreshRaf = useRef<number | null>(null);
+
+  const requestSTRefresh = useCallback(() => {
+    if (stRefreshRaf.current !== null) return;
+    stRefreshRaf.current = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      stRefreshRaf.current = null;
+    });
+  }, []);
 
   // Servicios scroll horizontal desktop
   const servicesPinRef = useRef<HTMLDivElement | null>(null);
   const servicesTrackRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const update = () => setReduceMotion(mq.matches);
+    update();
+
+    const onChange = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
+
+    if (typeof mq.addEventListener === "function") mq.addEventListener("change", onChange);
+    else mq.addListener(onChange);
+
+    return () => {
+      if (typeof mq.removeEventListener === "function") mq.removeEventListener("change", onChange);
+      else mq.removeListener(onChange);
+    };
+  }, []);
+
+  useEffect(() => {
     if (typeof document === "undefined") return;
-    const refresh = () => ScrollTrigger.refresh();
+    const refresh = () => {
+      if (isMobile) requestSTRefresh();
+      else ScrollTrigger.refresh();
+    };
     const fontsReady = (document as Document & { fonts?: FontFaceSet }).fonts?.ready;
 
     if (fontsReady && typeof fontsReady.then === "function") {
@@ -179,7 +210,17 @@ export default function HomePage() {
 
     const t = window.setTimeout(refresh, 200);
     return () => window.clearTimeout(t);
-  }, []);
+  }, [isMobile, requestSTRefresh]);
+
+  useEffect(
+    () => () => {
+      if (stRefreshRaf.current !== null) {
+        cancelAnimationFrame(stRefreshRaf.current);
+        stRefreshRaf.current = null;
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     const mq = window.matchMedia(MOBILE_MQ);
@@ -205,9 +246,50 @@ export default function HomePage() {
     const v = videoRef.current;
     if (!v) return;
     v.load();
+
+    if (reduceMotion) {
+      v.pause();
+      return;
+    }
+
+    if (isMobile) {
+      v.pause();
+      return;
+    }
+
     const p = v.play();
     if (p && typeof p.catch === "function") p.catch(() => { });
-  }, [heroVideoSrc]);
+  }, [heroVideoSrc, isMobile, reduceMotion]);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const videoEl = videoRef.current;
+    if (!videoEl) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+
+        if (reduceMotion) {
+          videoEl.pause();
+          return;
+        }
+
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+          const p = videoEl.play();
+          if (p && typeof p.catch === "function") p.catch(() => { });
+        } else {
+          videoEl.pause();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    io.observe(videoEl);
+
+    return () => io.disconnect();
+  }, [isMobile, reduceMotion]);
 
   // ===== Splash =====
   useEffect(() => {
@@ -269,7 +351,6 @@ export default function HomePage() {
         if (!pin || !track) return undefined;
 
         const panels = track.querySelectorAll<HTMLElement>(".home-services__panel");
-        const snapValue = panels.length > 1 ? 1 / (panels.length - 1) : 1;
 
         const distance = track.scrollWidth - pin.clientWidth;
         if (distance <= 1) {
@@ -441,10 +522,13 @@ export default function HomePage() {
   }, [showSplash]);
 
   useEffect(() => {
-    const onLoad = () => ScrollTrigger.refresh();
+    const onLoad = () => {
+      if (isMobile) requestSTRefresh();
+      else ScrollTrigger.refresh();
+    };
     window.addEventListener("load", onLoad);
     return () => window.removeEventListener("load", onLoad);
-  }, []);
+  }, [isMobile, requestSTRefresh]);
 
   useLayoutEffect(() => {
     if (showSplash) return;
@@ -775,6 +859,15 @@ export default function HomePage() {
     setQ360Erasing(false);
   }, []);
 
+  const onQ360ArtEnter = useCallback(() => {
+    if (!q360CursorOk) return;
+    setQ360Erasing(true);
+  }, [q360CursorOk]);
+
+  const onQ360ArtLeave = useCallback(() => {
+    setQ360Erasing(false);
+  }, []);
+
   if (showSplash) {
     return <HomeLogoSplash onDone={handleSplashDone} />;
   }
@@ -794,7 +887,7 @@ export default function HomePage() {
               muted
               loop
               playsInline
-              preload="metadata"
+              preload={isMobile ? "none" : "metadata"}
               disablePictureInPicture
               disableRemotePlayback
             >
@@ -907,8 +1000,8 @@ export default function HomePage() {
             <div
               ref={q360ArtRef}
               className="q360__art"
-              onPointerEnter={() => setQ360Erasing(true)}
-              onPointerLeave={() => setQ360Erasing(false)}
+              onPointerEnter={onQ360ArtEnter}
+              onPointerLeave={onQ360ArtLeave}
             >
               {/* Contorno siempre visible */}
               <div className="q360__outline" aria-hidden="true">

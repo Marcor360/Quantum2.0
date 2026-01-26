@@ -134,7 +134,7 @@ export default function Header() {
                 <div className="q-header__pill" ref={pillRef}>
                     {/* Desktop: el nav se despliega aquí (inline) */}
                     <nav className="q-header__navDesktop" aria-label="Primary">
-                        <a className="q-header__link" href="#servicios" onClick={close}>{t.services}</a>
+                        <a className="q-header__link" href="/servicios" onClick={close}>{t.services}</a>
                         <a className="q-header__link" href="#quantum" onClick={close}>{t.quantum}</a>
                         <a className="q-header__link" href="#proyectos" onClick={close}>{t.projects}</a>
                         <a className="q-header__link" href="#contacto" onClick={close}>{t.contact}</a>
@@ -185,7 +185,7 @@ export default function Header() {
                 </div>
 
                 <nav className="q-drawer__nav" aria-label="Mobile Menu">
-                    <a className="q-drawer__link" href="#servicios" onClick={close}>{t.services}</a>
+                    <a className="q-drawer__link" href="/servicios" onClick={close}>{t.services}</a>
                     <a className="q-drawer__link" href="#quantum" onClick={close}>{t.quantum}</a>
                     <a className="q-drawer__link" href="#proyectos" onClick={close}>{t.projects}</a>
                     <a className="q-drawer__link" href="#contacto" onClick={close}>{t.contact}</a>
