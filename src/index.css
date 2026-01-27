@@ -49,7 +49,7 @@ body {
     box-sizing: inherit;
 }
 
-/* Offset anchor targets so sticky header doesn't “rebotar” al saltar */
+/* Offset anchor targets so sticky header doesn't �rebotar� al saltar */
 [id] {
     scroll-margin-top: calc(var(--header-h) + 12px);
 }
@@ -70,7 +70,7 @@ body {
 }
 
 /* =========================
-   HOME â€” HERO VIDEO
+   HOME — HERO VIDEO
 ========================= */
 
 .home-hero {
@@ -110,7 +110,7 @@ body {
 }
 
 /* =========================
-   HOME â€” SERVICIOS (como imagen)
+   HOME — SERVICIOS (como imagen)
 ========================= */
 
 .home-services__intro {
@@ -183,7 +183,7 @@ body {
     }
 }
 
-/* ===== CAMBIO: Headline centrado + mÃ¡s grande (como mock) ===== */
+/* ===== CAMBIO: Headline centrado + más grande (como mock) ===== */
 .home-services__headline {
     display: flex;
     flex-direction: column;
@@ -194,14 +194,14 @@ body {
     margin-bottom: clamp(22px, 4vw, 46px);
 }
 
-/* Logo mÃ¡s grande */
+/* Logo más grande */
 .home-services__logo {
     width: clamp(240px, 30vw, 520px);
     height: auto;
     display: block;
 }
 
-/* TÃ­tulo mÃ¡s grande y centrado */
+/* Título más grande y centrado */
 .home-services__title {
     margin: 0;
     color: var(--color-blanco);
@@ -216,14 +216,14 @@ body {
     opacity: 0.92;
 }
 
-/* ===== RotaciÃ³n palabra (giro completo hacia arriba) ===== */
+/* ===== Rotación palabra (giro completo hacia arriba) ===== */
 
 .q-rotateWord {
     display: inline-block;
     perspective: 900px;
     perspective-origin: 50% 50%;
     margin-left: 0.18em;
-    /* un poco mÃ¡s para que respire centrado */
+    /* un poco más para que respire centrado */
 }
 
 .q-rotateWord__inner {
@@ -366,7 +366,7 @@ body {
     color: var(--color-chicle);
 }
 
-.q-svcCard--campaÃ‡Ã±as .q-svcCard__title {
+.q-svcCard--campaÇñas .q-svcCard__title {
     color: var(--color-electrico);
     color: color-mix(in srgb, var(--color-mate) 55%, var(--color-electrico) 45%);
     text-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
@@ -397,14 +397,14 @@ body {
     margin-top: 14px;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 
     padding: 8px 12px;
     border-radius: 999px;
 
     border: 1px solid rgba(255, 255, 255, 0.18);
 
-    font-size: 1.35rem;
+    font-size: 1.45rem;
     letter-spacing: 0.02em;
 }
 
@@ -441,7 +441,7 @@ body {
     display: inline-flex;
 }
 
-/* En mÃ³viles (sin hover), mostramos la info siempre */
+/* En móviles (sin hover), mostramos la info siempre */
 @media (hover: none) {
     .q-svcCard__shade {
         background: rgba(0, 0, 0, 0.55);
@@ -1029,7 +1029,7 @@ body {
 /* src/pages/Servicios.css */
 
 /* =========================
-   SERVICIOS — HERO (mock)
+   SERVICIOS � HERO (mock)
 ========================= */
 
 .Servicios-hero {
@@ -1048,7 +1048,7 @@ body {
     gap: clamp(10px, 1.8vw, 16px);
 }
 
-/* Eyebrow “SERVICIOS” */
+/* Eyebrow �SERVICIOS� */
 .Servicios-hero h2 {
     margin: 0;
     color: var(--color-chicle);
@@ -1077,10 +1077,10 @@ body {
     max-width: 70ch;
     color: rgba(255, 255, 255, 0.92);
     font-size: clamp(1.4rem, 1.6vw, 2.0rem);
-    line-height: 1.55;
+    line-height: 1.565;
 }
 
-/* “Conoce nuestros servicios” estilo link */
+/* �Conoce nuestros servicios� estilo link */
 .Servicios-hero p:nth-of-type(2) {
     margin-top: 6px;
     color: var(--color-chicle);
@@ -1090,7 +1090,7 @@ body {
 }
 
 /* =========================
-   SERVICIOS — TARJETAS (sticky/pin)
+   SERVICIOS � TARJETAS (sticky/pin)
 ========================= */
 
 .ServiciosCards {
@@ -1103,7 +1103,7 @@ body {
     margin: 0 auto;
 }
 
-/* “Stage” que se pinnea */
+/* �Stage� que se pinnea */
 .ServiciosCards__pin {
     position: relative;
     width: min(96vw, 1280px);
@@ -1175,7 +1175,7 @@ body {
     text-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
 }
 
-/* Mobile: stage más “contenible” */
+/* Mobile: stage m�s �contenible� */
 @media (max-width: 768px) {
     .Servicios-hero h1 {
         font-size: clamp(7.4rem, 15vw, 12.2rem);
@@ -1184,11 +1184,11 @@ body {
 
     .ServiciosCards__pin {
         height: min(68vh, 520px);
-        border-radius: 22px;
+        border-radius: 26px;
     }
 
     .ServiciosCards__card {
-        border-radius: 22px;
+        border-radius: 26px;
     }
 }
 
@@ -1219,14 +1219,14 @@ body {
         height: min(68vh, 520px);
         margin: 0 0 18px 0;
 
-        border-radius: 22px;
+        border-radius: 26px;
         border: 1px solid rgba(255, 255, 255, 0.14);
         box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
     }
 }
 
 /* =========================
-   SERVICIOS — PRECIOS
+   SERVICIOS � PRECIOS
 ========================= */
 
 .ServiciosPricing {
@@ -1259,12 +1259,12 @@ body {
 }
 
 .ServiciosPricing__grid {
-    width: min(96%, 1180px);
+    width: min(96%, 1320px);
     margin: 0 auto;
     display: flex;
     flex-direction: row-reverse;
     /* 1,2,3 de derecha a izquierda */
-    gap: clamp(14px, 2vw, 22px);
+    gap: clamp(20px, 3vw, 32px);
     align-items: stretch;
     justify-content: center;
     flex-wrap: wrap;
@@ -1272,10 +1272,10 @@ body {
 
 .ServiciosPricing__card {
     position: relative;
-    flex: 1 1 280px;
-    min-width: 260px;
-    max-width: 360px;
-    border-radius: 22px;
+    flex: 1 1 320px;
+    min-width: 300px;
+    max-width: 420px;
+    border-radius: 26px;
     overflow: hidden;
     background-size: cover;
     background-position: center;
@@ -1285,7 +1285,6 @@ body {
 
 .ServiciosPricing__card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.45);
 }
 
 .ServiciosPricing__card::before {
@@ -1296,18 +1295,20 @@ body {
 
 .ServiciosPricing__cardInner {
     position: relative;
-    padding: clamp(20px, 4vw, 32px);
+    padding: clamp(24px, 4.6vw, 38px);
     display: flex;
     flex-direction: column;
-    gap: clamp(12px, 2vw, 18px);
+    gap: clamp(16px, 2.8vw, 24px);
     height: 100%;
     z-index: 1;
+    align-items: center;
+    text-align: center;
 }
 
 .ServiciosPricing__subtitle {
     margin: 0;
     font-family: var(--font-morganite);
-    font-size: clamp(2.6rem, 4vw, 3.6rem);
+    font-size: clamp(2.9rem, 4.6vw, 4.1rem);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-chicle);
@@ -1316,53 +1317,54 @@ body {
 .ServiciosPricing__priceBlock {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 11px;
+    justify-content: center;
 }
 
 .ServiciosPricing__price {
     font-family: var(--font-morganite);
-    font-size: clamp(5.4rem, 8vw, 8rem);
+    font-size: clamp(6.2rem, 9vw, 9.4rem);
     letter-spacing: 0.06em;
     color: var(--color-blanco);
 }
 
 .ServiciosPricing__currency {
-    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-size: clamp(1.8rem, 2.6vw, 2.3rem);
     opacity: 0.85;
 }
 
 .ServiciosPricing__perks {
     list-style: none;
     padding: 0;
-    margin: clamp(8px, 2vw, 14px) 0 auto;
+    margin: clamp(12px, 2.6vw, 20px) 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 11px;
 }
 
 .ServiciosPricing__perks li {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: flex-start;
-    gap: 10px;
-    font-size: 1.4rem;
-    line-height: 1.5;
+    gap: 12px;
+    font-size: clamp(1.55rem, 2.5vw, 1.8rem);
+    line-height: 1.56;
 }
 
 .ServiciosPricing__perks img {
-    width: 14px;
-    height: 14px;
-    margin-top: 2px;
+    width: 17px;
+    height: 17px;
+    margin-top: 3px;
 }
 
 .ServiciosPricing__cta {
     margin-top: auto;
-    padding: 10px 18px;
-    border-radius: 10px;
+    padding: 12px 22px;
+    border-radius: 12px;
     border: 2px solid rgba(255, 255, 255, 0.7);
     background: linear-gradient(135deg, rgba(255, 110, 243, 0.85), rgba(117, 59, 208, 0.85));
     color: var(--color-blanco);
-    font-size: 1.35rem;
+    font-size: 1.45rem;
     font-weight: 700;
     letter-spacing: 0.01em;
     cursor: pointer;
