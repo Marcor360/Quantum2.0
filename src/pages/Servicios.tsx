@@ -83,7 +83,7 @@ export default function Servicios() {
                     "10% de descuento en todos nuestros servicios.",
                     "1 cuenta de plan esencial (cada mes con la renovación de tu membresía, acumulables para usar en cuentas nuevas).",
                 ],
-                bg: cardBg1,
+                bg: cardBg3,
             },
             {
                 key: "completa",
@@ -111,7 +111,7 @@ export default function Servicios() {
                     "5 cuentas de plan esencial (una red social) para cuentas nuevas.",
                     "Diseño de logotipo para tu agencia o marca.",
                 ],
-                bg: cardBg3,
+                bg: cardBg1,
             },
         ],
         []
@@ -258,7 +258,7 @@ export default function Servicios() {
                 </div>
 
                 <div className="ServiciosPricing__grid">
-                    {plans.map((plan, idx) => (
+                    {plans.map((plan) => (
                         <article
                             key={plan.key}
                             className={`ServiciosPricing__card ${plan.highlight ? "is-highlight" : ""}`}
@@ -282,23 +282,6 @@ export default function Servicios() {
                                 </ul>
 
                                 <button type="button" className="ServiciosPricing__cta">Me interesa</button>
-
-                                {idx === 1 && (
-                                    <img
-                                        className="ServiciosPricing__asterisk ServiciosPricing__asterisk--top"
-                                        src={cardStar}
-                                        alt=""
-                                        aria-hidden="true"
-                                    />
-                                )}
-                                {idx === 0 && (
-                                    <img
-                                        className="ServiciosPricing__asterisk ServiciosPricing__asterisk--bottom"
-                                        src={cardStar}
-                                        alt=""
-                                        aria-hidden="true"
-                                    />
-                                )}
                             </div>
                         </article>
                     ))}
