@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import "./header.css";
 
 import Logo from "../assets/svg/Logo-Amarillo.svg";
@@ -126,15 +127,15 @@ export default function Header() {
         <header className={`q-header ${open ? "is-open" : ""}`}>
             <div className="q-header__bar">
                 {/* LOGO fuera del contorno */}
-                <a className="q-header__logo" href="/" aria-label="Home">
+                <Link className="q-header__logo" to="/" aria-label="Home" onClick={close}>
                     <img src={Logo} alt="Quantum" />
-                </a>
+                </Link>
 
                 {/* PILL (contorno) */}
                 <div className="q-header__pill" ref={pillRef}>
                     {/* Desktop: el nav se despliega aquí (inline) */}
                     <nav className="q-header__navDesktop" aria-label="Primary">
-                        <a className="q-header__link" href="/servicios" onClick={close}>{t.services}</a>
+                        <Link className="q-header__link" to="/servicios" onClick={close}>{t.services}</Link>
                         <a className="q-header__link" href="#quantum" onClick={close}>{t.quantum}</a>
                         <a className="q-header__link" href="#proyectos" onClick={close}>{t.projects}</a>
                         <a className="q-header__link" href="#contacto" onClick={close}>{t.contact}</a>
@@ -175,9 +176,9 @@ export default function Header() {
                 aria-hidden={!open}
             >
                 <div className="q-drawer__top">
-                    <a className="q-drawer__logo" href="/" onClick={close} aria-label="Home">
+                    <Link className="q-drawer__logo" to="/" onClick={close} aria-label="Home">
                         <img src={Logo} alt="Quantum" />
-                    </a>
+                    </Link>
 
                     <button type="button" className="q-drawer__close" onClick={close} aria-label={t.closeMenu}>
                         ×
@@ -185,7 +186,7 @@ export default function Header() {
                 </div>
 
                 <nav className="q-drawer__nav" aria-label="Mobile Menu">
-                    <a className="q-drawer__link" href="/servicios" onClick={close}>{t.services}</a>
+                    <Link className="q-drawer__link" to="/servicios" onClick={close}>{t.services}</Link>
                     <a className="q-drawer__link" href="#quantum" onClick={close}>{t.quantum}</a>
                     <a className="q-drawer__link" href="#proyectos" onClick={close}>{t.projects}</a>
                     <a className="q-drawer__link" href="#contacto" onClick={close}>{t.contact}</a>

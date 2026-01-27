@@ -350,8 +350,6 @@ export default function HomePage() {
         const track = servicesTrackRef.current;
         if (!pin || !track) return undefined;
 
-        const panels = track.querySelectorAll<HTMLElement>(".home-services__panel");
-
         const distance = track.scrollWidth - pin.clientWidth;
         if (distance <= 1) {
           gsap.set(track, { x: 0 });

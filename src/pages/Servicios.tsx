@@ -4,6 +4,11 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import "../index.css";
+import cardBg1 from "../assets/svg/Servicios/Tarjeta 1 fondo.svg";
+import cardBg2 from "../assets/svg/Servicios/tarjeta 2 fondo.svg";
+import cardBg3 from "../assets/svg/Servicios/Tarjeta 3 fondo.svg";
+import cardStar from "../assets/svg/Servicios/Asterisco_tarjetas.svg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +17,16 @@ type Card = {
     title: string;
     desktopSrc: string;
     mobileSrc: string;
+};
+
+type Plan = {
+    key: string;
+    title: string;
+    price: string;
+    currency: string;
+    perks: string[];
+    bg: string;
+    highlight?: boolean;
 };
 
 function getHeaderH(): number {
@@ -52,6 +67,51 @@ export default function Servicios() {
                 title: "E-COMMERCE",
                 desktopSrc: "/img/e-commerce.webp",
                 mobileSrc: "/img/e-commerce-mobile.webp",
+            },
+        ],
+        []
+    );
+
+    const plans = useMemo<Plan[]>(
+        () => [
+            {
+                key: "emprende",
+                title: "Agencia emprende",
+                price: "$ 2,999",
+                currency: "MXN",
+                perks: [
+                    "10% de descuento en todos nuestros servicios.",
+                    "1 cuenta de plan esencial (cada mes con la renovación de tu membresía, acumulables para usar en cuentas nuevas).",
+                ],
+                bg: cardBg1,
+            },
+            {
+                key: "completa",
+                title: "Agencia completa",
+                price: "$ 25,000",
+                currency: "MXN",
+                perks: [
+                    "25% de descuento en todos nuestros servicios.",
+                    "Agente inteligencia artificial.",
+                    "Sitio web de tu agencia con tienda en línea (Tienda básica).",
+                    "3 cuentas de plan indispensable (2 redes sociales) reutilizables una única vez (las puedes utilizar cuando gustes).",
+                    "Diseño de logotipo para tu agencia.",
+                    "30 USD de inversión mensual para campaña publicitaria por 3 meses.",
+                ],
+                bg: cardBg2,
+                highlight: true,
+            },
+            {
+                key: "startup",
+                title: "Agencia startup",
+                price: "$ 15,000",
+                currency: "MXN",
+                perks: [
+                    "15% de descuento en todos nuestros servicios.",
+                    "5 cuentas de plan esencial (una red social) para cuentas nuevas.",
+                    "Diseño de logotipo para tu agencia o marca.",
+                ],
+                bg: cardBg3,
             },
         ],
         []
@@ -187,6 +247,61 @@ export default function Servicios() {
                             </article>
                         ))}
                     </div>
+                </div>
+            </section>
+
+            {/* ====== PRECIOS ====== */}
+            <section className="ServiciosPricing" aria-labelledby="precios-title">
+                <div className="ServiciosPricing__head">
+                    <p className="ServiciosPricing__eyebrow">Consulta nuestros planes</p>
+                    <h2 id="precios-title">Precios</h2>
+                </div>
+
+                <div className="ServiciosPricing__grid">
+                    {plans.map((plan, idx) => (
+                        <article
+                            key={plan.key}
+                            className={`ServiciosPricing__card ${plan.highlight ? "is-highlight" : ""}`}
+                            style={{ backgroundImage: `url(${plan.bg})` }}
+                        >
+                            <div className="ServiciosPricing__cardInner">
+                                <p className="ServiciosPricing__subtitle">{plan.title}</p>
+
+                                <div className="ServiciosPricing__priceBlock">
+                                    <span className="ServiciosPricing__price">{plan.price}</span>
+                                    <span className="ServiciosPricing__currency">{plan.currency}</span>
+                                </div>
+
+                                <ul className="ServiciosPricing__perks">
+                                    {plan.perks.map((perk) => (
+                                        <li key={perk}>
+                                            <img src={cardStar} alt="" aria-hidden="true" />
+                                            <span>{perk}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <button type="button" className="ServiciosPricing__cta">Me interesa</button>
+
+                                {idx === 1 && (
+                                    <img
+                                        className="ServiciosPricing__asterisk ServiciosPricing__asterisk--top"
+                                        src={cardStar}
+                                        alt=""
+                                        aria-hidden="true"
+                                    />
+                                )}
+                                {idx === 0 && (
+                                    <img
+                                        className="ServiciosPricing__asterisk ServiciosPricing__asterisk--bottom"
+                                        src={cardStar}
+                                        alt=""
+                                        aria-hidden="true"
+                                    />
+                                )}
+                            </div>
+                        </article>
+                    ))}
                 </div>
             </section>
 
