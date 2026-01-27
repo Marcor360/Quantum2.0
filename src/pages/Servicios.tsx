@@ -1,20 +1,196 @@
+// src/pages/Servicios.tsx
+import { useLayoutEffect, useMemo, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
+gsap.registerPlugin(ScrollTrigger);
+
+type Card = {
+    key: string;
+    title: string;
+    desktopSrc: string;
+    mobileSrc: string;
+};
+
+function getHeaderH(): number {
+    if (typeof window === "undefined") return 96;
+    const raw = getComputedStyle(document.documentElement)
+        .getPropertyValue("--header-h")
+        .trim();
+    const n = parseInt(raw.replace("px", ""), 10);
+    return Number.isFinite(n) ? n : 96;
+}
+
 export default function Servicios() {
+    const sectionRef = useRef<HTMLElement | null>(null);
+    const pinRef = useRef<HTMLDivElement | null>(null);
+
+    const cards = useMemo<Card[]>(
+        () => [
+            {
+                key: "apps-ia",
+                title: "APPS & I.A",
+                desktopSrc: "/img/appsIA.webp",
+                mobileSrc: "/img/appsIA-mobile.webp",
+            },
+            {
+                key: "branding",
+                title: "BRANDING",
+                desktopSrc: "/img/branding.webp",
+                mobileSrc: "/img/branding-mobile.webp",
+            },
+            {
+                key: "campanas",
+                title: "CAMPAÑAS",
+                desktopSrc: "/img/campañas.webp",
+                mobileSrc: "/img/campañas-mobiles.webp",
+            },
+            {
+                key: "ecommerce",
+                title: "E-COMMERCE",
+                desktopSrc: "/img/e-commerce.webp",
+                mobileSrc: "/img/e-commerce-mobile.webp",
+            },
+        ],
+        []
+    );
+
+    useLayoutEffect(() => {
+        const section = sectionRef.current;
+        const pin = pinRef.current;
+        if (!section || !pin) return;
+
+        const reduceMotion =
+            typeof window !== "undefined" &&
+            window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (reduceMotion) return;
+
+        const PIN_GAP = 16; // separación bajo header
+        const TRAVEL_DESKTOP = 90; // px (movimiento vertical en transiciones)
+        const TRAVEL_MOBILE = 60; // px
+        const HOLD = 0.65; // “tiempo” de lectura por tarjeta (en unidades del timeline)
+        const TRANS = 0.75; // transición entre tarjetas (en unidades del timeline)
+        const SCROLL_FACTOR = 0.9; // multiplica vh para convertir timeline->scroll
+
+        const ctx = gsap.context(() => {
+            const mm = gsap.matchMedia();
+
+            mm.add(
+                {
+                    isDesktop: "(min-width: 769px)",
+                    isMobile: "(max-width: 768px)",
+                },
+                (context: gsap.Context) => {
+                    const isMobile = !!context.conditions?.isMobile;
+                    const travel = isMobile ? TRAVEL_MOBILE : TRAVEL_DESKTOP;
+
+                    const cardEls = gsap.utils.toArray<HTMLElement>(".ServiciosCards__card");
+                    if (cardEls.length <= 1) return;
+
+                    // Estado inicial
+                    gsap.set(cardEls, { autoAlpha: 0, y: travel, scale: 0.985 });
+                    gsap.set(cardEls[0], { autoAlpha: 1, y: 0, scale: 1 });
+
+                    const tl = gsap.timeline({ defaults: { ease: "none" } });
+
+                    for (let i = 0; i < cardEls.length - 1; i++) {
+                        const curr = cardEls[i];
+                        const next = cardEls[i + 1];
+
+                        // hold
+                        tl.to({}, { duration: HOLD });
+
+                        // transición: curr sale arriba, next entra desde abajo
+                        tl.to(
+                            curr,
+                            { autoAlpha: 0, y: -travel, scale: 0.99, duration: TRANS },
+                            "<"
+                        );
+                        tl.fromTo(
+                            next,
+                            { autoAlpha: 0, y: travel, scale: 0.985 },
+                            { autoAlpha: 1, y: 0, scale: 1, duration: TRANS },
+                            "<"
+                        );
+                    }
+
+                    // hold final
+                    tl.to({}, { duration: HOLD });
+
+                    ScrollTrigger.create({
+                        animation: tl,
+                        trigger: section,
+                        pin: pin,
+                        start: () => `top top+=${getHeaderH() + PIN_GAP}`,
+                        end: () => {
+                            // mapeo: duración timeline -> scroll (vh)
+                            const px = tl.duration() * window.innerHeight * SCROLL_FACTOR;
+                            return `+=${Math.max(1, Math.floor(px))}`;
+                        },
+                        scrub: 1,
+                        anticipatePin: 1,
+                        invalidateOnRefresh: true,
+                    });
+
+                    // refresca cuando cargan imágenes (evita cálculos malos)
+                    requestAnimationFrame(() => ScrollTrigger.refresh());
+
+                    return () => {
+                        mm.kill();
+                    };
+                }
+            );
+        }, section);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
         <>
             <Header />
+
             <section className="Servicios-hero">
-                <h2>
-                    S E R V I C I O S
-                </h2>
+                <h2>S E R V I C I O S</h2>
                 <h1>IMPULSA TU CRECIMIENTO</h1>
-                <p>Diseñamos estrategias que convierten usuarios en clientes.
-                    Conectamos creatividad, tecnología y resultados.</p>
+                <p>
+                    Diseñamos estrategias que convierten usuarios en clientes. Conectamos
+                    creatividad, tecnología y resultados.
+                </p>
                 <p>Conoce nuestros servicios</p>
             </section>
+
+            {/* ====== SECCIÓN NUEVA (sticky real tipo mock) ====== */}
+            <section ref={sectionRef} className="ServiciosCards" aria-label="Servicios">
+                <div className="ServiciosCards__wrap">
+                    <div ref={pinRef} className="ServiciosCards__pin">
+                        {cards.map((c) => (
+                            <article key={c.key} className="ServiciosCards__card">
+                                <picture className="ServiciosCards__media">
+                                    <source media="(max-width: 768px)" srcSet={c.mobileSrc} />
+                                    <img
+                                        src={c.desktopSrc}
+                                        alt={c.title}
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                </picture>
+
+                                <div className="ServiciosCards__shade" aria-hidden="true" />
+
+                                <div className="ServiciosCards__label" aria-hidden="true">
+                                    {c.title}
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             <Footer />
         </>
-    )
+    );
 }
