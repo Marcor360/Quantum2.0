@@ -1256,60 +1256,85 @@ body {
 }
 
 .ServiciosPricing__grid {
-    width: min(96%, 1320px);
+    width: min(88%, 1040px);
     margin: 0 auto;
-    display: flex;
-    flex-direction: row-reverse;
-    /* 1,2,3 de derecha a izquierda */
-    gap: clamp(28px, 4vw, 40px);
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: minmax(210px, 260px) minmax(280px, 360px) minmax(210px, 260px);
+    gap: clamp(12px, 2vw, 18px);
+    align-items: end;
     justify-content: center;
-    flex-wrap: wrap;
 }
 
 .ServiciosPricing__card {
     position: relative;
-    flex: 1 1 280px;
-    min-width: 260px;
-    max-width: 360px;
-    min-height: clamp(640px, 74vh, 780px);
+    --card-y: 0px;
+    --card-pad-top: clamp(32px, 4.8vw, 58px);
+    --card-pad-x: clamp(14px, 2.6vw, 24px);
+    --card-pad-bottom: clamp(66px, 7vw, 104px);
+    --price-size: clamp(3.9rem, 5.0vw, 5.8rem);
+    min-height: clamp(500px, 56vh, 620px);
     overflow: hidden;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45);
+    transform: translateY(var(--card-y));
     transition: transform 240ms ease, box-shadow 240ms ease;
+    z-index: 2;
+}
+
+.ServiciosPricing__card--completa {
+    --card-y: -30px;
+    --card-pad-top: clamp(48px, 6.4vw, 90px);
+    --card-pad-bottom: clamp(96px, 11vw, 160px);
+    --price-size: clamp(5.6rem, 8vw, 8.6rem);
+    min-height: clamp(680px, 80vh, 820px);
+    margin-inline: -6px;
+    z-index: 3;
+    box-shadow: 0 32px 78px rgba(0, 0, 0, 0.55);
+}
+
+.ServiciosPricing__card--startup,
+.ServiciosPricing__card--emprende {
+    --card-y: 12px;
 }
 
 .ServiciosPricing__card:hover {
-    transform: translateY(-6px);
+    transform: translateY(calc(var(--card-y) - 6px));
+    box-shadow: 0 28px 84px rgba(0, 0, 0, 0.6);
 }
 
 .ServiciosPricing__card::before {
     content: "";
     position: absolute;
     inset: 0;
+    background: linear-gradient(180deg,
+            rgba(0, 0, 0, 0.24) 0%,
+            rgba(0, 0, 0, 0.60) 42%,
+            rgba(0, 0, 0, 0.82) 100%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .ServiciosPricing__cardInner {
     position: relative;
-    padding:
-        clamp(60px, 8.5vw, 92px)      /* top: bajar título dentro del borde */
-        clamp(24px, 4.6vw, 34px)
-        clamp(120px, 12vw, 160px);    /* bottom: botón bien contenido */
+    padding: var(--card-pad-top) var(--card-pad-x) var(--card-pad-bottom);
     display: grid;
     grid-template-rows: auto auto 1fr auto;
-    row-gap: clamp(16px, 2.8vw, 24px);
+    row-gap: clamp(14px, 2.4vw, 22px);
     height: 100%;
     z-index: 1;
-    align-items: center;
+    align-items: start;
     justify-items: center;
-    text-align: center;
 }
 
 .ServiciosPricing__subtitle {
     margin: 0;
     font-family: var(--font-morganite);
-    font-size: clamp(2.4rem, 4vw, 3.6rem);
-    letter-spacing: 0.06em;
+    font-size: clamp(2.8rem, 4vw, 4.4rem);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-chicle);
     text-align: center;
@@ -1318,38 +1343,51 @@ body {
 .ServiciosPricing__subtitle::after {
     content: "";
     display: block;
-    width: min(62%, 180px);
-    margin: clamp(12px, 2.2vw, 16px) auto clamp(14px, 2.6vw, 20px);
+    width: min(70%, 220px);
+    margin: clamp(12px, 2.2vw, 16px) auto clamp(16px, 2.8vw, 22px);
     border-top: 1px solid rgba(255, 255, 255, 0.26);
 }
 
 .ServiciosPricing__priceBlock {
     display: flex;
-    align-items: baseline;
-    gap: 11px;
+    align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 2px;
     margin-top: clamp(6px, 1.4vw, 12px);
+    position: relative;
 }
 
 .ServiciosPricing__price {
     font-family: var(--font-morganite);
-    font-size: clamp(5.2rem, 8vw, 8rem);
+    font-size: var(--price-size);
     letter-spacing: 0.06em;
     color: var(--color-blanco);
 }
 
 .ServiciosPricing__currency {
-    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+    font-size: clamp(1.6rem, 2.4vw, 2.3rem);
     opacity: 0.85;
+    letter-spacing: 0.04em;
+}
+
+.ServiciosPricing__priceBlock::after {
+    content: "";
+    display: block;
+    width: min(62%, 170px);
+    margin: clamp(6px, 1.6vw, 12px) auto 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
 }
 
 .ServiciosPricing__perks {
     list-style: none;
     padding: 0;
-    margin: clamp(14px, 3vw, 22px) 0 clamp(16px, 3vw, 24px);
+    margin: clamp(8px, 1.8vw, 14px) auto clamp(12px, 2.2vw, 20px);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 9px;
+    width: min(92%, 340px);
+    text-align: left;
 }
 
 .ServiciosPricing__perks li {
@@ -1357,7 +1395,7 @@ body {
     grid-template-columns: auto 1fr;
     align-items: flex-start;
     gap: 12px;
-    font-size: clamp(1.45rem, 2.2vw, 1.7rem);
+    font-size: clamp(1.4rem, 2vw, 1.75rem);
     line-height: 1.5;
 }
 
@@ -1368,35 +1406,36 @@ body {
 }
 
 .ServiciosPricing__cta {
-    margin-top: clamp(18px, 3vw, 30px);
-    padding: 12px 20px;
-    border-radius: 12px;
+    margin-top: clamp(12px, 1.8vw, 20px);
+    padding: 10px 20px;
+    border-radius: 999px;
     align-self: center;
-    width: min(240px, 82%);
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    background: linear-gradient(135deg, rgba(255, 110, 243, 0.85), rgba(117, 59, 208, 0.85));
-    color: var(--color-blanco);
-    font-size: 1.35rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
+    width: min(200px, 66%);
+    border: 1.6px solid rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.35);
+    color: var(--color-chicle);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+    transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease, background 160ms ease, border-color 160ms ease;
 }
 
 .ServiciosPricing__cta:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
     filter: brightness(1.05);
 }
 
-.ServiciosPricing__card.is-highlight .ServiciosPricing__cta {
+.ServiciosPricing__cta--light {
     background: var(--color-blanco);
     color: #121212;
     border-color: var(--color-blanco);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.42);
 }
 
-.ServiciosPricing__card.is-highlight .ServiciosPricing__cta:hover {
+.ServiciosPricing__cta--light:hover {
     filter: brightness(0.97);
 }
 
@@ -1422,13 +1461,26 @@ body {
 
 @media (max-width: 900px) {
     .ServiciosPricing__grid {
-        flex-direction: column;
+        width: min(94%, 420px);
+        grid-template-columns: 1fr;
         gap: 18px;
-        align-items: center;
+        justify-items: center;
+        align-items: stretch;
     }
 
     .ServiciosPricing__card {
-        max-width: 360px;
+        --card-y: 0px;
         min-height: unset;
+        margin: 0;
+        transform: translateY(0);
+        width: 100%;
+    }
+
+    .ServiciosPricing__card--completa {
+        margin-inline: 0;
+    }
+
+    .ServiciosPricing__card:hover {
+        transform: translateY(-4px);
     }
 }

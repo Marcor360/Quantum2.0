@@ -19,16 +19,6 @@ type Card = {
     mobileSrc: string;
 };
 
-type Plan = {
-    key: string;
-    title: string;
-    price: string;
-    currency: string;
-    perks: string[];
-    bg: string;
-    highlight?: boolean;
-};
-
 function getHeaderH(): number {
     if (typeof window === "undefined") return 96;
     const raw = getComputedStyle(document.documentElement)
@@ -71,52 +61,6 @@ export default function Servicios() {
         ],
         []
     );
-
-    const plans = useMemo<Plan[]>(
-        () => [
-            {
-                key: "emprende",
-                title: "Agencia emprende",
-                price: "$ 3,898",
-                currency: "MXN",
-                perks: [
-                    "10% de descuento en servicios.",
-                    "1 plan esencial al mes (una red social).",
-                ],
-                bg: cardBg3,
-            },
-            {
-                key: "completa",
-                title: "Agencia completa",
-                price: "$ 32,500",
-                currency: "MXN",
-                perks: [
-                    "25% de descuento en servicios.",
-                    "3 planes indispensable (2 redes sociales c/u).",
-                    "Diseño de logotipo con manual de marca.",
-                    "Página web en commerce.",
-                    "30 USD mensuales para campañas (durante 3 meses).",
-                    "Elige complemento o revisión gratis para tus cuentas.",
-                ],
-                bg: cardBg2,
-                highlight: true,
-            },
-            {
-                key: "startup",
-                title: "Agencia startup",
-                price: "$ 19,500",
-                currency: "MXN",
-                perks: [
-                    "15% de descuento en servicios.",
-                    "5 planes esenciales (una red social c/u).",
-                    "Diseño de logotipo con manual de identidad.",
-                ],
-                bg: cardBg1,
-            },
-        ],
-        []
-    );
-
     useLayoutEffect(() => {
         const section = sectionRef.current;
         const pin = pinRef.current;
@@ -209,6 +153,17 @@ export default function Servicios() {
         return () => ctx.revert();
     }, []);
 
+    const PerksList = ({ items }: { items: string[] }) => (
+        <ul className="ServiciosPricing__perks">
+            {items.map((perk) => (
+                <li key={perk}>
+                    <img src={cardStar} alt="" aria-hidden="true" />
+                    <span>{perk}</span>
+                </li>
+            ))}
+        </ul>
+    );
+
     return (
         <>
             <Header />
@@ -258,33 +213,88 @@ export default function Servicios() {
                 </div>
 
                 <div className="ServiciosPricing__grid">
-                    {plans.map((plan) => (
-                        <article
-                            key={plan.key}
-                            className={`ServiciosPricing__card ${plan.highlight ? "is-highlight" : ""}`}
-                            style={{ backgroundImage: `url(${plan.bg})` }}
-                        >
-                            <div className="ServiciosPricing__cardInner">
-                                <p className="ServiciosPricing__subtitle">{plan.title}</p>
+                    <article
+                        className="ServiciosPricing__card ServiciosPricing__card--emprende"
+                        style={{ backgroundImage: `url(${cardBg3})` }}
+                    >
+                        <div className="ServiciosPricing__cardInner">
+                            <p className="ServiciosPricing__subtitle">Agencia emprende</p>
 
-                                <div className="ServiciosPricing__priceBlock">
-                                    <span className="ServiciosPricing__price">{plan.price}</span>
-                                    <span className="ServiciosPricing__currency">{plan.currency}</span>
-                                </div>
-
-                                <ul className="ServiciosPricing__perks">
-                                    {plan.perks.map((perk) => (
-                                        <li key={perk}>
-                                            <img src={cardStar} alt="" aria-hidden="true" />
-                                            <span>{perk}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-
-                                <button type="button" className="ServiciosPricing__cta">Me interesa</button>
+                            <div className="ServiciosPricing__priceBlock">
+                                <span className="ServiciosPricing__price">$ 2,999</span>
+                                <span className="ServiciosPricing__currency">MXN</span>
                             </div>
-                        </article>
-                    ))}
+
+                            <PerksList
+                                items={[
+                                    "10% de descuento en todos nuestros servicios",
+                                    "1 cuenta de plan esencial al mes (renovable y acumulable)",
+                                ]}
+                            />
+
+                            <button type="button" className="ServiciosPricing__cta">
+                                ME INTERESA
+                            </button>
+                        </div>
+                    </article>
+
+                    <article
+                        className="ServiciosPricing__card ServiciosPricing__card--completa"
+                        style={{ backgroundImage: `url(${cardBg2})` }}
+                    >
+                        <div className="ServiciosPricing__cardInner">
+                            <p className="ServiciosPricing__subtitle">Agencia completa</p>
+
+                            <div className="ServiciosPricing__priceBlock">
+                                <span className="ServiciosPricing__price">$ 25,000</span>
+                                <span className="ServiciosPricing__currency">MXN</span>
+                            </div>
+
+                            <PerksList
+                                items={[
+                                    "25% de descuento en todos nuestros servicios",
+                                    "Agente inteligencia artificial",
+                                    "Sitio web de tu agencia con tienda en línea (Tienda básica)",
+                                    "3 cuentas de plan Indispensable (2 redes sociales) reutilizables",
+                                    "Diseño de logotipo para tu agencia",
+                                    "30 USD/mes para campaña publicitaria durante 3 meses",
+                                ]}
+                            />
+
+                            <button
+                                type="button"
+                                className="ServiciosPricing__cta ServiciosPricing__cta--light"
+                            >
+                                ME INTERESA
+                            </button>
+                        </div>
+                    </article>
+
+                    <article
+                        className="ServiciosPricing__card ServiciosPricing__card--startup"
+                        style={{ backgroundImage: `url(${cardBg1})` }}
+                    >
+                        <div className="ServiciosPricing__cardInner">
+                            <p className="ServiciosPricing__subtitle">Agencia startup</p>
+
+                            <div className="ServiciosPricing__priceBlock">
+                                <span className="ServiciosPricing__price">$ 15,000</span>
+                                <span className="ServiciosPricing__currency">MXN</span>
+                            </div>
+
+                            <PerksList
+                                items={[
+                                    "15% de descuento en todos nuestros servicios",
+                                    "5 cuentas de plan esencial (una red social) para cuentas nuevas",
+                                    "Diseño de logotipo para tu agencia incluido",
+                                ]}
+                            />
+
+                            <button type="button" className="ServiciosPricing__cta">
+                                ME INTERESA
+                            </button>
+                        </div>
+                    </article>
                 </div>
             </section>
 
