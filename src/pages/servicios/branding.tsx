@@ -6,11 +6,13 @@ import "./branding.css";
 import AsteriscoBg from "../../assets/svg/Branding/ASTERISCO.svg";
 import PriceCardBg from "../../assets/svg/Branding/tarejta precio branding.svg";
 import BenefitsTitleSvg from "../../assets/svg/Branding/Beneficios y degradado.svg";
-import BenefitsCardBg from "../../assets/svg/Branding/tarjetas beneficios.svg";
+import BenefitsCard01 from "../../assets/svg/Branding/Tarjeta Beneficio/1.svg";
+import BenefitsCard02 from "../../assets/svg/Branding/Tarjeta Beneficio/2.svg";
+import BenefitsCard03 from "../../assets/svg/Branding/Tarjeta Beneficio/3.svg";
+import BenefitsCard04 from "../../assets/svg/Branding/Tarjeta Beneficio/4.svg";
 
 // ===== Imagen principal (public) =====
-const HERO_IMG = "/img/Branding/IMG_branding_principal_calidad.png";
-const TRAZOS_IMG = "/img/Branding/quantum trazos.png";
+const HERO_IMG = "/img/Branding/IMG_branding_principal_calidad.webp";
 
 // ===== Logos Marcas =====
 import CasaFlor from "../../assets/svg/Marcas/Casa Flor de Café.svg";
@@ -143,8 +145,7 @@ export default function Branding() {
                                 </div>
 
                                 <article className="BrandingBenefits__card" aria-label="Beneficio 1: Marca Única">
-                                    <img className="BrandingBenefits__deco" src={TRAZOS_IMG} alt="" aria-hidden="true" />
-                                    <img className="BrandingBenefits__cardBg" src={BenefitsCardBg} alt="" aria-hidden="true" />
+                                    <img className="BrandingBenefits__cardBg" src={BenefitsCard01} alt="" aria-hidden="true" />
 
                                     <div className="BrandingBenefits__content">
                                         <div className="BrandingBenefits__progress" aria-hidden="true">
@@ -154,9 +155,6 @@ export default function Branding() {
                                         <h3 className="BrandingBenefits__h3">MARCA ÚNICA</h3>
                                         <p className="BrandingBenefits__p">Identidad original que te diferencia y evita verse genérico.</p>
 
-                                        <span className="BrandingBenefits__num" aria-hidden="true">
-                                            1
-                                        </span>
                                     </div>
                                 </article>
                             </div>
@@ -168,8 +166,7 @@ export default function Branding() {
                                 </div>
 
                                 <article className="BrandingBenefits__card" aria-label="Beneficio 2: Claridad Estratégica">
-                                    <img className="BrandingBenefits__deco" src={TRAZOS_IMG} alt="" aria-hidden="true" />
-                                    <img className="BrandingBenefits__cardBg" src={BenefitsCardBg} alt="" aria-hidden="true" />
+                                    <img className="BrandingBenefits__cardBg" src={BenefitsCard02} alt="" aria-hidden="true" />
 
                                     <div className="BrandingBenefits__content">
                                         <div className="BrandingBenefits__progress" aria-hidden="true">
@@ -181,9 +178,50 @@ export default function Branding() {
                                             Concepto, personalidad y estilo bien definidos desde el inicio.
                                         </p>
 
-                                        <span className="BrandingBenefits__num" aria-hidden="true">
-                                            2
-                                        </span>
+                                    </div>
+                                </article>
+                            </div>
+
+                            {/* Beneficio 3 */}
+                            <div className="BrandingBenefits__row">
+                                <div className="BrandingBenefits__left" aria-hidden="true">
+                                    <img className="BrandingBenefits__titleSvg" src={BenefitsTitleSvg} alt="" />
+                                </div>
+
+                                <article className="BrandingBenefits__card" aria-label="Beneficio 3: Gestión Sencilla">
+                                    <img className="BrandingBenefits__cardBg" src={BenefitsCard03} alt="" aria-hidden="true" />
+
+                                    <div className="BrandingBenefits__content">
+                                        <div className="BrandingBenefits__progress" aria-hidden="true">
+                                            <span className="BrandingBenefits__progressFill" style={{ width: "78%" }} />
+                                        </div>
+
+                                        <h3 className="BrandingBenefits__h3">GESTIÓN SENCILLA</h3>
+                                        <p className="BrandingBenefits__p">Edita y actualiza tu contenido sin complicaciones.</p>
+
+                                    </div>
+                                </article>
+                            </div>
+
+                            {/* Beneficio 4 (con overlap en desktop) */}
+                            <div className="BrandingBenefits__row BrandingBenefits__row--overlap">
+                                <div className="BrandingBenefits__left" aria-hidden="true">
+                                    <img className="BrandingBenefits__titleSvg" src={BenefitsTitleSvg} alt="" />
+                                </div>
+
+                                <article className="BrandingBenefits__card" aria-label="Beneficio 4: Soporte Continuo">
+                                    <img className="BrandingBenefits__cardBg" src={BenefitsCard04} alt="" aria-hidden="true" />
+
+                                    <div className="BrandingBenefits__content">
+                                        <div className="BrandingBenefits__progress" aria-hidden="true">
+                                            <span className="BrandingBenefits__progressFill" style={{ width: "100%" }} />
+                                        </div>
+
+                                        <h3 className="BrandingBenefits__h3">SOPORTE CONTINUO</h3>
+                                        <p className="BrandingBenefits__p">
+                                            Ajustes mensuales de contenido con un diseñador asignado.
+                                        </p>
+
                                     </div>
                                 </article>
                             </div>

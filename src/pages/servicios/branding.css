@@ -100,7 +100,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(12px, 1.8vw, 18px);
+    gap: clamp(0px, 0.6vw, 6px);
     margin: 0 auto;
     position: relative;
 }
@@ -123,7 +123,8 @@
     text-transform: uppercase;
     color: var(--color-chicle);
     opacity: 0.9;
-    font-size: clamp(1.1rem, 1.1vw, 1.3rem);
+    font-size: clamp(1.2rem, 1.8vw, 2.2rem);
+    margin-right: clamp(-10px, -0.6vw, -4px);
 }
 
 .BrandingHero__title {
@@ -133,7 +134,7 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-electrico);
-    font-size: clamp(7.6rem, 10.5vw, 16.6rem);
+    font-size: clamp(12.5rem, 19vw, 28rem);
     line-height: 0.82;
 }
 
@@ -236,7 +237,7 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-chicle);
-    font-size: clamp(8rem, 11vw, 16rem);
+    font-size: clamp(12.5rem, 18vw, 26rem);
     line-height: 0.82;
 }
 
@@ -247,7 +248,7 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-electrico);
-    font-size: clamp(1.2rem, 1.05vw, 1.3rem);
+    font-size: clamp(1.7rem, 1.9vw, 2.2rem);
 }
 
 .BrandingPrice__card {
@@ -487,7 +488,7 @@
 ========================= */
 
 .BrandingProjects {
-    padding: clamp(56px, 9vw, 120px) 0 clamp(66px, 10vw, 140px);
+    padding: clamp(70px, 10vw, 150px) 0 clamp(80px, 12vw, 170px);
 }
 
 .BrandingProjects__title {
@@ -508,7 +509,8 @@
     background: rgba(0, 0, 0, 0.18);
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
     overflow: hidden;
-    padding: clamp(16px, 2.2vw, 24px);
+    padding: clamp(28px, 3.8vw, 46px);
+    min-height: clamp(90px, 12vw, 150px);
 }
 
 /* sutil fade en bordes (como máscara) */
@@ -535,7 +537,7 @@
 .BrandingMarquee__inner {
     display: flex;
     align-items: center;
-    gap: clamp(26px, 4vw, 64px);
+    gap: clamp(34px, 5vw, 84px);
     width: max-content;
     animation: BrandingMarqueeMove 26s linear infinite;
     will-change: transform;
@@ -549,7 +551,7 @@
 }
 
 .BrandingMarquee__img {
-    height: clamp(22px, 2.4vw, 34px);
+    height: clamp(36px, 4.2vw, 64px);
     width: auto;
     display: block;
     opacity: 0.95;
@@ -631,6 +633,8 @@
     .BrandingProjects__pill {
         border-radius: 34px;
         /* en mobile se siente mejor que pill gigante */
+        padding: clamp(22px, 6vw, 30px);
+        min-height: clamp(78px, 22vw, 120px);
     }
 
     .BrandingProjects__pill::before {
