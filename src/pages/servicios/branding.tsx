@@ -49,11 +49,13 @@ export default function Branding() {
                 <section className="BrandingHero" id="branding">
                     <div className="BrandingWrap BrandingVignette">
                         <div className="BrandingHero__top">
-                            <span className="BrandingHero__services" aria-hidden="true">
-                                SERVICIOS
-                            </span>
+                            <div className="BrandingHero__titleWrap">
+                                <span className="BrandingHero__services" aria-hidden="true">
+                                    SERVICIOS
+                                </span>
 
-                            <h1 className="BrandingHero__title">BRANDING</h1>
+                                <h1 className="BrandingHero__title">BRANDING</h1>
+                            </div>
 
                             <p className="BrandingHero__subtitle">
                                 Creamos ADN estratégico para tu marca, elevamos reconocimiento y fidelizamos audiencias.
@@ -103,8 +105,6 @@ export default function Branding() {
 
                             <div className="BrandingPrice__right">
                                 <div className="BrandingPrice__card" role="group" aria-label="Precio de Diseño de Marca">
-                                    <img className="BrandingPrice__deco BrandingPrice__deco--squiggle" src={TRAZOS_IMG} alt="" aria-hidden="true" />
-                                    <img className="BrandingPrice__deco BrandingPrice__deco--star" src={AsteriscoBg} alt="" aria-hidden="true" />
                                     <img className="BrandingPrice__cardBg" src={PriceCardBg} alt="" aria-hidden="true" />
 
                                     <div className="BrandingPrice__cardContent">

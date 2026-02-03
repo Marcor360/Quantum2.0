@@ -1,0 +1,228 @@
+/* =========================
+   CONTACTO
+========================= */
+
+.ContactoPage {
+    color: var(--color-blanco);
+    background: var(--color-mate);
+    min-height: 100vh;
+}
+
+.ContactoWrap {
+    width: min(95%, 1180px);
+    margin: 0 auto;
+}
+
+.ContactoHero {
+    padding: clamp(56px, 10vw, 120px) 0 clamp(24px, 6vw, 48px);
+    text-align: center;
+}
+
+.ContactoEyebrow {
+    margin: 0;
+    font-family: var(--font-subjectivity);
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    font-size: clamp(1.2rem, 1.3vw, 1.5rem);
+}
+
+.ContactoTitle {
+    margin: clamp(10px, 1.8vw, 14px) 0 0;
+    font-family: var(--font-morganite);
+    text-transform: uppercase;
+    font-size: clamp(5.2rem, 7.2vw, 10.4rem);
+    letter-spacing: 0.08em;
+    color: var(--color-electrico);
+    line-height: 0.9;
+}
+
+.ContactoLead {
+    margin: clamp(12px, 2vw, 18px) auto 0;
+    max-width: 70ch;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: clamp(1.5rem, 1.6vw, 1.9rem);
+    line-height: 1.6;
+}
+
+.ContactoContent {
+    padding: clamp(22px, 6vw, 60px) 0 clamp(64px, 10vw, 120px);
+}
+
+.ContactoGrid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(22px, 4vw, 52px);
+    align-items: start;
+}
+
+.ContactoInfo h2 {
+    margin: 0 0 10px;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(2.4rem, 3vw, 3.2rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.ContactoInfo__text {
+    margin: 0 0 16px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: clamp(1.4rem, 1.5vw, 1.7rem);
+    line-height: 1.55;
+}
+
+.ContactoInfo__cards {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.ContactoCard {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 14px 16px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.ContactoCard__kicker {
+    display: block;
+    font-family: var(--font-subjectivity);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+.ContactoCard__link {
+    display: inline-block;
+    font-family: var(--font-morganite);
+    color: var(--color-electrico);
+    text-decoration: none;
+    font-size: clamp(2.2rem, 2.6vw, 3rem);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+}
+
+.ContactoCard p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.35rem;
+    line-height: 1.45;
+}
+
+.ContactoForm {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: clamp(18px, 2.6vw, 28px);
+    background: radial-gradient(circle at 14% 18%, rgba(255, 110, 243, 0.08), transparent 40%),
+        radial-gradient(circle at 86% 82%, rgba(255, 255, 0, 0.08), transparent 38%),
+        rgba(0, 0, 0, 0.35);
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.45);
+    display: grid;
+    gap: 14px;
+}
+
+.ContactoForm__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.ContactoForm label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 1.35rem;
+    color: rgba(255, 255, 255, 0.86);
+}
+
+.ContactoForm input,
+.ContactoForm select,
+.ContactoForm textarea {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(0, 0, 0, 0.28);
+    color: var(--color-blanco);
+    padding: 12px 14px;
+    font-size: 1.4rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+
+.ContactoForm input:focus,
+.ContactoForm select:focus,
+.ContactoForm textarea:focus {
+    border-color: var(--color-electrico);
+    box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.15);
+    background: rgba(0, 0, 0, 0.38);
+}
+
+.ContactoForm select {
+    appearance: none;
+}
+
+.ContactoForm textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.ContactoForm__full {
+    grid-column: 1 / -1;
+}
+
+.ContactoForm__submit {
+    justify-self: start;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: linear-gradient(120deg, var(--color-electrico), var(--color-chicle));
+    color: #111;
+    font-family: var(--font-subjectivity);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 140ms ease, box-shadow 140ms ease;
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.45);
+}
+
+.ContactoForm__submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 52px rgba(0, 0, 0, 0.55);
+}
+
+.ContactoForm__note {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 1.25rem;
+}
+
+@media (max-width: 900px) {
+    .ContactoGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .ContactoForm__row {
+        grid-template-columns: 1fr;
+    }
+
+    .ContactoForm__submit {
+        width: 100%;
+        justify-self: stretch;
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ContactoForm__submit,
+    .ContactoCard,
+    .ContactoForm input,
+    .ContactoForm select,
+    .ContactoForm textarea {
+        transition: none;
+    }
+}

@@ -138,7 +138,7 @@ export default function Header() {
                         <Link className="q-header__link" to="/servicios" onClick={close}>{t.services}</Link>
                         <a className="q-header__link" href="#quantum" onClick={close}>{t.quantum}</a>
                         <a className="q-header__link" href="#proyectos" onClick={close}>{t.projects}</a>
-                        <a className="q-header__link" href="#contacto" onClick={close}>{t.contact}</a>
+                        <Link className="q-header__link" to="/contacto" onClick={close}>{t.contact}</Link>
 
                         <button type="button" className="q-header__lang" onClick={toggleLang}>
                             <img className="q-icon" src={LenguajeIcon} alt="" />
@@ -189,7 +189,7 @@ export default function Header() {
                     <Link className="q-drawer__link" to="/servicios" onClick={close}>{t.services}</Link>
                     <a className="q-drawer__link" href="#quantum" onClick={close}>{t.quantum}</a>
                     <a className="q-drawer__link" href="#proyectos" onClick={close}>{t.projects}</a>
-                    <a className="q-drawer__link" href="#contacto" onClick={close}>{t.contact}</a>
+                    <Link className="q-drawer__link" to="/contacto" onClick={close}>{t.contact}</Link>
 
                     <button type="button" className="q-drawer__lang" onClick={toggleLang}>
                         <img className="q-icon" src={LenguajeIcon} alt="" />

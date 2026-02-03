@@ -4,6 +4,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Asterisco from "../assets/svg/Branding/ASTERISCO.svg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -216,6 +217,12 @@ export default function Servicios() {
             <section className="ServiciosPricing" aria-label="Opciones de agencia">
                 <div className="ServiciosPricing__grid">
                     <article className="ServiciosPricing__card ServiciosPricing__card--emprende">
+                        <img
+                            className="ServiciosPricing__asterisk ServiciosPricing__asterisk--bottom"
+                            src={Asterisco}
+                            alt=""
+                            aria-hidden="true"
+                        />
                         <div className="ServiciosPricing__cardInner">
                             <h3 className="ServiciosPricing__subtitle">Agencia emprende</h3>
 
@@ -236,6 +243,12 @@ export default function Servicios() {
                     </article>
 
                     <article className="ServiciosPricing__card ServiciosPricing__card--completa">
+                        <img
+                            className="ServiciosPricing__asterisk ServiciosPricing__asterisk--bottom"
+                            src={Asterisco}
+                            alt=""
+                            aria-hidden="true"
+                        />
                         <div className="ServiciosPricing__cardInner">
                             <h3 className="ServiciosPricing__subtitle">Agencia completa</h3>
 
@@ -256,6 +269,12 @@ export default function Servicios() {
                     </article>
 
                     <article className="ServiciosPricing__card ServiciosPricing__card--startup">
+                        <img
+                            className="ServiciosPricing__asterisk ServiciosPricing__asterisk--bottom"
+                            src={Asterisco}
+                            alt=""
+                            aria-hidden="true"
+                        />
                         <div className="ServiciosPricing__cardInner">
                             <h3 className="ServiciosPricing__subtitle">Agencia startup</h3>
 

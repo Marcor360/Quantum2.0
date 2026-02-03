@@ -1334,6 +1334,7 @@ body {
             rgba(0, 0, 0, 0.24) 0%,
             rgba(0, 0, 0, 0.60) 42%,
             rgba(0, 0, 0, 0.82) 100%);
+    border-radius: 20px;
     pointer-events: none;
     z-index: 0;
 }
@@ -1432,7 +1433,6 @@ body {
     align-self: center;
     width: min(240px, 80%);
     border: 1.6px solid rgba(255, 255, 255, 0.7);
-    background: rgba(0, 0, 0, 0.35);
     color: var(--color-chicle);
     font-size: clamp(1.1rem, 1.4vw, 1.3rem);
     font-weight: 800;
@@ -1461,10 +1461,11 @@ body {
 
 .ServiciosPricing__asterisk {
     position: absolute;
-    width: clamp(28px, 4vw, 42px);
+    width: clamp(40px, 5vw, 80px);
     height: auto;
     pointer-events: none;
     z-index: 2;
+    animation: qSpinSlow 12s linear infinite;
 }
 
 .ServiciosPricing__asterisk--top {
@@ -1475,6 +1476,12 @@ body {
 .ServiciosPricing__asterisk--bottom {
     bottom: clamp(12px, 3vw, 18px);
     left: clamp(12px, 3vw, 18px);
+}
+
+@keyframes qSpinSlow {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 

@@ -96,13 +96,25 @@
     padding-top: clamp(6px, 1vw, 10px);
 }
 
+.BrandingHero__titleWrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 1.8vw, 18px);
+    margin: 0 auto;
+    position: relative;
+}
+
 .BrandingHero__services {
-    position: absolute;
-    left: 0;
-    top: 52%;
-    transform: translateY(-50%);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    left: auto;
+    top: auto;
+    transform: none;
     writing-mode: vertical-rl;
-    transform-origin: left center;
+    transform-origin: center;
     rotate: 180deg;
 
     font-family: var(--font-subjectivity);
@@ -161,6 +173,9 @@
     object-fit: contain;
     opacity: 0.95;
     filter: drop-shadow(0 20px 46px rgba(0, 0, 0, 0.6));
+    animation: SpinSlow 12s linear infinite;
+    transform-origin: center;
+    will-change: transform;
 }
 
 .BrandingHero__img {
@@ -170,6 +185,12 @@
     height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 22px 52px rgba(0, 0, 0, 0.65));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .BrandingHero__asterisco {
+        animation: none;
+    }
 }
 
 .BrandingHero__copy {
