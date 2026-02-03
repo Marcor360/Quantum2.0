@@ -1,45 +1,28 @@
-// src/pages/Servicios.tsx
 import { useLayoutEffect, useMemo, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "../index.css";
-import cardBg1 from "../assets/svg/Servicios/Tarjeta 1 fondo.svg";
-import cardBg2 from "../assets/svg/Servicios/tarjeta 2 fondo.svg";
-import cardBg3 from "../assets/svg/Servicios/Tarjeta 3 fondo.svg";
-import cardStar from "../assets/svg/Servicios/Asterisco_tarjetas.svg";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Card = {
-    key: string;
-    title: string;
-    desktopSrc: string;
-    mobileSrc: string;
-};
-
+/**
+ * Helper: calcula la altura del header para offset top del pin
+ */
 function getHeaderH(): number {
-    if (typeof window === "undefined") return 96;
-    const raw = getComputedStyle(document.documentElement)
-        .getPropertyValue("--header-h")
-        .trim();
-    const n = parseInt(raw.replace("px", ""), 10);
-    return Number.isFinite(n) ? n : 96;
+    if (typeof document === "undefined") return 0;
+    const root = document.documentElement;
+    const val = getComputedStyle(root).getPropertyValue("--header-h").trim();
+    return parseFloat(val) || 0;
 }
 
 export default function Servicios() {
-    const sectionRef = useRef<HTMLElement | null>(null);
-    const pinRef = useRef<HTMLDivElement | null>(null);
+    const sectionRef = useRef<HTMLElement>(null);
+    const pinRef = useRef<HTMLDivElement>(null);
 
-    const cards = useMemo<Card[]>(
+    const cards = useMemo(
         () => [
-            {
-                key: "apps-ia",
-                title: "APPS & I.A",
-                desktopSrc: "/img/appsIA.webp",
-                mobileSrc: "/img/appsIA-mobile.webp",
-            },
             {
                 key: "branding",
                 title: "BRANDING",
@@ -47,10 +30,28 @@ export default function Servicios() {
                 mobileSrc: "/img/branding-mobile.webp",
             },
             {
-                key: "campanas",
-                title: "CAMPAÑAS",
+                key: "marketing",
+                title: "MARKETING DIGITAL",
                 desktopSrc: "/img/campañas.webp",
                 mobileSrc: "/img/campañas-mobiles.webp",
+            },
+            {
+                key: "social",
+                title: "SOCIAL ADS",
+                desktopSrc: "/img/campañas.webp",
+                mobileSrc: "/img/campañas-mobiles.webp",
+            },
+            {
+                key: "web",
+                title: "WEB & APPS",
+                desktopSrc: "/img/appsIA.webp",
+                mobileSrc: "/img/appsIA-mobile.webp",
+            },
+            {
+                key: "seo",
+                title: "SEO",
+                desktopSrc: "/img/appsIA.webp",
+                mobileSrc: "/img/appsIA-mobile.webp",
             },
             {
                 key: "ecommerce",
@@ -61,6 +62,7 @@ export default function Servicios() {
         ],
         []
     );
+
     useLayoutEffect(() => {
         const section = sectionRef.current;
         const pin = pinRef.current;
@@ -73,13 +75,6 @@ export default function Servicios() {
 
         if (reduceMotion) return;
 
-        const PIN_GAP = 16; // separación bajo header
-        const TRAVEL_DESKTOP = 90; // px (movimiento vertical en transiciones)
-        const TRAVEL_MOBILE = 60; // px
-        const HOLD = 0.65; // “tiempo” de lectura por tarjeta (en unidades del timeline)
-        const TRANS = 0.75; // transición entre tarjetas (en unidades del timeline)
-        const SCROLL_FACTOR = 0.9; // multiplica vh para convertir timeline->scroll
-
         const ctx = gsap.context(() => {
             const mm = gsap.matchMedia();
 
@@ -89,59 +84,64 @@ export default function Servicios() {
                     isMobile: "(max-width: 768px)",
                 },
                 (context: gsap.Context) => {
-                    const isMobile = !!context.conditions?.isMobile;
-                    const travel = isMobile ? TRAVEL_MOBILE : TRAVEL_DESKTOP;
-
+                    const isDesktop = !!context.conditions?.isDesktop;
                     const cardEls = gsap.utils.toArray<HTMLElement>(".ServiciosCards__card");
+
                     if (cardEls.length <= 1) return;
 
-                    // Estado inicial
-                    gsap.set(cardEls, { autoAlpha: 0, y: travel, scale: 0.985 });
-                    gsap.set(cardEls[0], { autoAlpha: 1, y: 0, scale: 1 });
+                    if (isDesktop) {
+                        // DESKTOP: Pin + transiciones suaves con snap
+                        const STEP_PX = Math.max(window.innerHeight * 0.95, 700);
 
-                    const tl = gsap.timeline({ defaults: { ease: "none" } });
+                        // Estado inicial: solo primera card visible
+                        gsap.set(cardEls, { autoAlpha: 0, scale: 0.985 });
+                        gsap.set(cardEls[0], { autoAlpha: 1, scale: 1 });
 
-                    for (let i = 0; i < cardEls.length - 1; i++) {
-                        const curr = cardEls[i];
-                        const next = cardEls[i + 1];
+                        const tl = gsap.timeline({ defaults: { ease: "power1.inOut" } });
 
-                        // hold
-                        tl.to({}, { duration: HOLD });
+                        // Crear transiciones 1 por 1
+                        for (let i = 0; i < cardEls.length - 1; i++) {
+                            const curr = cardEls[i];
+                            const next = cardEls[i + 1];
 
-                        // transición: curr sale arriba, next entra desde abajo
-                        tl.to(
-                            curr,
-                            { autoAlpha: 0, y: -travel, scale: 0.99, duration: TRANS },
-                            "<"
-                        );
-                        tl.fromTo(
-                            next,
-                            { autoAlpha: 0, y: travel, scale: 0.985 },
-                            { autoAlpha: 1, y: 0, scale: 1, duration: TRANS },
-                            "<"
-                        );
+                            // Fade out actual, fade in siguiente (sin movimiento vertical)
+                            tl.to(curr, { autoAlpha: 0, scale: 0.985, duration: 0.6 }, i);
+                            tl.fromTo(
+                                next,
+                                { autoAlpha: 0, scale: 0.985 },
+                                { autoAlpha: 1, scale: 1, duration: 0.6 },
+                                i
+                            );
+                        }
+
+                        // AGREGADO: Paso extra para "congelar" la última imagen antes de des-anclar
+                        // Lo insertamos en el tiempo (cardEls.length - 1) para que dure 1 unidad completa hasta el final
+                        tl.to({}, { duration: 1 }, cardEls.length - 1);
+
+                        ScrollTrigger.create({
+                            animation: tl,
+                            trigger: section,
+                            pin: pin,
+                            start: () => `top top+=${getHeaderH() + 16}`,
+                            // Aumentamos la distancia para incluir el "hold" final (cardEls.length en vez de length-1)
+                            end: () => `+=${cardEls.length * STEP_PX}`,
+                            scrub: 1.4,
+                            snap: {
+                                // Ajustamos el snap para considerar el paso extra
+                                snapTo: 1 / cardEls.length,
+                                duration: { min: 0.15, max: 0.6 },
+                                ease: "power1.inOut",
+                            },
+                            anticipatePin: 1,
+                            invalidateOnRefresh: true,
+                        });
+
+                        // Refresh después de que carguen imágenes
+                        requestAnimationFrame(() => ScrollTrigger.refresh());
+                    } else {
+                        // MOBILE: limpiar props, scroll normal
+                        gsap.set(cardEls, { clearProps: "all" });
                     }
-
-                    // hold final
-                    tl.to({}, { duration: HOLD });
-
-                    ScrollTrigger.create({
-                        animation: tl,
-                        trigger: section,
-                        pin: pin,
-                        start: () => `top top+=${getHeaderH() + PIN_GAP}`,
-                        end: () => {
-                            // mapeo: duración timeline -> scroll (vh)
-                            const px = tl.duration() * window.innerHeight * SCROLL_FACTOR;
-                            return `+=${Math.max(1, Math.floor(px))}`;
-                        },
-                        scrub: 1,
-                        anticipatePin: 1,
-                        invalidateOnRefresh: true,
-                    });
-
-                    // refresca cuando cargan imágenes (evita cálculos malos)
-                    requestAnimationFrame(() => ScrollTrigger.refresh());
 
                     return () => {
                         mm.kill();
@@ -157,7 +157,16 @@ export default function Servicios() {
         <ul className="ServiciosPricing__perks">
             {items.map((perk) => (
                 <li key={perk}>
-                    <img src={cardStar} alt="" aria-hidden="true" />
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
                     <span>{perk}</span>
                 </li>
             ))}
@@ -196,108 +205,77 @@ export default function Servicios() {
 
                                 <div className="ServiciosCards__shade" aria-hidden="true" />
 
-                                <div className="ServiciosCards__label" aria-hidden="true">
-                                    {c.title}
-                                </div>
+                                <p className="ServiciosCards__label">{c.title}</p>
                             </article>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* ====== PRECIOS ====== */}
-            <section className="ServiciosPricing" aria-labelledby="precios-title">
-                <div className="ServiciosPricing__head">
-                    <p className="ServiciosPricing__eyebrow">Consulta nuestros planes</p>
-                    <h2 id="precios-title">Precios</h2>
-                </div>
-
+            {/* ====== SECCIÓN DE PRICING ====== */}
+            <section className="ServiciosPricing" aria-label="Opciones de agencia">
                 <div className="ServiciosPricing__grid">
-                    <article
-                        className="ServiciosPricing__card ServiciosPricing__card--emprende"
-                        style={{ backgroundImage: `url(${cardBg3})` }}
-                    >
+                    <article className="ServiciosPricing__card ServiciosPricing__card--emprende">
                         <div className="ServiciosPricing__cardInner">
-                            <p className="ServiciosPricing__subtitle">Agencia emprende</p>
+                            <h3 className="ServiciosPricing__subtitle">Agencia emprende</h3>
 
-                            <div className="ServiciosPricing__priceBlock">
-                                <span className="ServiciosPricing__price">$ 2,999</span>
-                                <span className="ServiciosPricing__currency">MXN</span>
-                            </div>
+                            <p className="ServiciosPricing__price">$3,898</p>
 
                             <PerksList
                                 items={[
-                                    "10% de descuento en todos nuestros servicios",
-                                    "1 cuenta de plan esencial al mes (renovable y acumulable)",
+                                    "Identidad de Marca con elementos visuales básicos",
+                                    "Creación y diseño de un sitio web adaptable",
+                                    "Posicionamiento SEO",
+                                    "Estrategia de marketing digital personalizada (Redes Sociales, Ads, etc.)",
+                                    "1 Modificación cada mes",
                                 ]}
                             />
 
-                            <button type="button" className="ServiciosPricing__cta">
-                                ME INTERESA
-                            </button>
+                            <button className="ServiciosPricing__cta">ME INTERESA</button>
                         </div>
                     </article>
 
-                    <article
-                        className="ServiciosPricing__card ServiciosPricing__card--completa"
-                        style={{ backgroundImage: `url(${cardBg2})` }}
-                    >
+                    <article className="ServiciosPricing__card ServiciosPricing__card--completa">
                         <div className="ServiciosPricing__cardInner">
-                            <p className="ServiciosPricing__subtitle">Agencia completa</p>
+                            <h3 className="ServiciosPricing__subtitle">Agencia completa</h3>
 
-                            <div className="ServiciosPricing__priceBlock">
-                                <span className="ServiciosPricing__price">$ 25,000</span>
-                                <span className="ServiciosPricing__currency">MXN</span>
-                            </div>
+                            <p className="ServiciosPricing__price">$32,500</p>
 
                             <PerksList
                                 items={[
-                                    "25% de descuento en todos nuestros servicios",
-                                    "Agente inteligencia artificial",
-                                    "Sitio web de tu agencia con tienda en línea (Tienda básica)",
-                                    "3 cuentas de plan Indispensable (2 redes sociales) reutilizables",
-                                    "Diseño de logotipo para tu agencia",
-                                    "30 USD/mes para campaña publicitaria durante 3 meses",
+                                    "Identidad de Marca + Manual de Nuevas identidades",
+                                    "Desarrollo completo de sitio web (Backend y Frontend + Hosting)",
+                                    "Posicionamiento SEO + Pauta Publicitaria (Meta business + Google ads)",
+                                    "Estrategia de Marketing Digital (Redes Sociales, Ads, etc.)",
+                                    "4 Modificaciones cada mes",
                                 ]}
                             />
 
-                            <button
-                                type="button"
-                                className="ServiciosPricing__cta ServiciosPricing__cta--light"
-                            >
-                                ME INTERESA
-                            </button>
+                            <button className="ServiciosPricing__cta">ME INTERESA</button>
                         </div>
                     </article>
 
-                    <article
-                        className="ServiciosPricing__card ServiciosPricing__card--startup"
-                        style={{ backgroundImage: `url(${cardBg1})` }}
-                    >
+                    <article className="ServiciosPricing__card ServiciosPricing__card--startup">
                         <div className="ServiciosPricing__cardInner">
-                            <p className="ServiciosPricing__subtitle">Agencia startup</p>
+                            <h3 className="ServiciosPricing__subtitle">Agencia startup</h3>
 
-                            <div className="ServiciosPricing__priceBlock">
-                                <span className="ServiciosPricing__price">$ 15,000</span>
-                                <span className="ServiciosPricing__currency">MXN</span>
-                            </div>
+                            <p className="ServiciosPricing__price">$19,500</p>
 
                             <PerksList
                                 items={[
-                                    "15% de descuento en todos nuestros servicios",
-                                    "5 cuentas de plan esencial (una red social) para cuentas nuevas",
-                                    "Diseño de logotipo para tu agencia incluido",
+                                    "Identidad de Marca + Manual de Marca",
+                                    "Creación y diseño de sitio web adaptable + Hosting",
+                                    "Posicionamiento SEO + Pauta Publicitaria (Meta Business o Google Ads)",
+                                    "Estrategia de marketing digital (Redes Sociales, Ads, etc.)",
+                                    "3 Modificaciones cada mes",
                                 ]}
                             />
 
-                            <button type="button" className="ServiciosPricing__cta">
-                                ME INTERESA
-                            </button>
+                            <button className="ServiciosPricing__cta">ME INTERESA</button>
                         </div>
                     </article>
                 </div>
             </section>
-
             <Footer />
         </>
     );

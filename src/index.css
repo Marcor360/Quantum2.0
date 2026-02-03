@@ -1096,21 +1096,35 @@ body {
 .ServiciosCards {
     padding: clamp(8px, 2vw, 14px) 0 clamp(40px, 7vw, 90px);
     overflow: clip;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Desktop: overflow visible para que pin funcione */
+@media (min-width: 769px) {
+    .ServiciosCards {
+        overflow: visible;
+    }
 }
 
 
 .ServiciosCards__wrap {
-    width: min(95%, 125rem);
+    width: 100%;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* �Stage� que se pinnea */
 .ServiciosCards__pin {
     position: relative;
-    width: min(96vw, 1280px);
+    width: min(95vw, 1500px);
     margin: 0 auto;
 
-    height: clamp(420px, 72vh, 760px);
+    height: clamp(500px, 88vh, 950px);
 
     border-radius: 28px;
     overflow: hidden;
@@ -1119,15 +1133,16 @@ body {
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
 
     background: rgba(0, 0, 0, 0.18);
+    transform-origin: center center;
 }
 
 /* Stack: cada card encima de otra */
 .ServiciosCards__card {
     position: absolute;
     inset: 0;
-    border-radius: 28px;
-    overflow: hidden;
-    will-change: transform, opacity;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity, transform;
 }
 
 /* Media */
@@ -1142,8 +1157,6 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: center center;
-
-    transform: scale(1.02);
     filter: brightness(1) saturate(1.08);
 }
 
@@ -1154,11 +1167,12 @@ body {
     background: none;
 }
 
-/* Label abajo-derecha */
+/* Label centrado */
 .ServiciosCards__label {
     position: absolute;
-    right: clamp(18px, 2.8vw, 34px);
-    bottom: clamp(18px, 2.8vw, 34px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     font-family: var(--font-morganite);
     font-size: clamp(4.2rem, 6vw, 8.6rem);
@@ -1227,9 +1241,15 @@ body {
 ========================= */
 
 .ServiciosPricing {
+    position: relative;
     background: var(--color-mate);
     color: var(--color-blanco);
     padding: clamp(56px, 9vw, 120px) 0 clamp(60px, 10vw, 140px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .ServiciosPricing__head {
@@ -1256,44 +1276,44 @@ body {
 }
 
 .ServiciosPricing__grid {
-    width: min(88%, 1040px);
+    width: min(96%, 1200px);
     margin: 0 auto;
     display: grid;
-    grid-template-columns: minmax(210px, 260px) minmax(280px, 360px) minmax(210px, 260px);
-    gap: clamp(12px, 2vw, 18px);
-    align-items: end;
+    grid-template-columns: minmax(260px, 320px) minmax(320px, 420px) minmax(260px, 320px);
+    gap: clamp(10px, 1.8vw, 20px);
+    align-items: center;
     justify-content: center;
 }
 
 .ServiciosPricing__card {
     position: relative;
     --card-y: 0px;
-    --card-pad-top: clamp(32px, 4.8vw, 58px);
-    --card-pad-x: clamp(14px, 2.6vw, 24px);
-    --card-pad-bottom: clamp(66px, 7vw, 104px);
-    --price-size: clamp(3.9rem, 5.0vw, 5.8rem);
-    min-height: clamp(500px, 56vh, 620px);
-    overflow: hidden;
+    --card-pad-top: clamp(12px, 1.5vw, 18px);
+    --card-pad-x: clamp(16px, 2.2vw, 26px);
+    --card-pad-bottom: clamp(16px, 2vw, 24px);
+    --price-size: clamp(3.6rem, 5vw, 5.4rem);
+    min-height: clamp(320px, 38vh, 380px);
+    overflow: visible;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius: 28px;
+    border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.55);
-    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
     transform: translateY(var(--card-y));
     transition: transform 240ms ease, box-shadow 240ms ease;
     z-index: 2;
 }
 
 .ServiciosPricing__card--completa {
-    --card-y: -30px;
-    --card-pad-top: clamp(48px, 6.4vw, 90px);
-    --card-pad-bottom: clamp(96px, 11vw, 160px);
-    --price-size: clamp(5.6rem, 8vw, 8.6rem);
-    min-height: clamp(680px, 80vh, 820px);
+    --card-y: -8px;
+    --card-pad-top: clamp(14px, 2vw, 22px);
+    --card-pad-bottom: clamp(18px, 2.5vw, 28px);
+    --price-size: clamp(5rem, 7.5vw, 7.8rem);
+    min-height: clamp(400px, 48vh, 480px);
     margin-inline: -6px;
     z-index: 3;
-    box-shadow: 0 32px 78px rgba(0, 0, 0, 0.55);
+    box-shadow: 0 20px 56px rgba(0, 0, 0, 0.55);
 }
 
 .ServiciosPricing__card--startup,
@@ -1323,7 +1343,7 @@ body {
     padding: var(--card-pad-top) var(--card-pad-x) var(--card-pad-bottom);
     display: grid;
     grid-template-rows: auto auto 1fr auto;
-    row-gap: clamp(14px, 2.4vw, 22px);
+    row-gap: clamp(4px, 0.8vw, 8px);
     height: 100%;
     z-index: 1;
     align-items: start;
@@ -1333,7 +1353,7 @@ body {
 .ServiciosPricing__subtitle {
     margin: 0;
     font-family: var(--font-morganite);
-    font-size: clamp(2.8rem, 4vw, 4.4rem);
+    font-size: clamp(2.6rem, 3.8vw, 4.2rem);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-chicle);
@@ -1344,7 +1364,7 @@ body {
     content: "";
     display: block;
     width: min(70%, 220px);
-    margin: clamp(12px, 2.2vw, 16px) auto clamp(16px, 2.8vw, 22px);
+    margin: clamp(6px, 1vw, 10px) auto clamp(8px, 1.4vw, 12px);
     border-top: 1px solid rgba(255, 255, 255, 0.26);
 }
 
@@ -1354,7 +1374,7 @@ body {
     justify-content: center;
     flex-direction: column;
     gap: 2px;
-    margin-top: clamp(6px, 1.4vw, 12px);
+    margin-top: clamp(2px, 0.6vw, 6px);
     position: relative;
 }
 
@@ -1375,17 +1395,17 @@ body {
     content: "";
     display: block;
     width: min(62%, 170px);
-    margin: clamp(6px, 1.6vw, 12px) auto 0;
+    margin: clamp(4px, 0.8vw, 8px) auto 0;
     border-top: 1px solid rgba(255, 255, 255, 0.24);
 }
 
 .ServiciosPricing__perks {
     list-style: none;
     padding: 0;
-    margin: clamp(8px, 1.8vw, 14px) auto clamp(12px, 2.2vw, 20px);
+    margin: clamp(4px, 1vw, 8px) auto clamp(6px, 1.2vw, 10px);
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 6px;
     width: min(92%, 340px);
     text-align: left;
 }
@@ -1395,8 +1415,8 @@ body {
     grid-template-columns: auto 1fr;
     align-items: flex-start;
     gap: 12px;
-    font-size: clamp(1.4rem, 2vw, 1.75rem);
-    line-height: 1.5;
+    font-size: clamp(1.3rem, 1.9vw, 1.75rem);
+    line-height: 1.4;
 }
 
 .ServiciosPricing__perks img {
@@ -1406,15 +1426,15 @@ body {
 }
 
 .ServiciosPricing__cta {
-    margin-top: clamp(12px, 1.8vw, 20px);
-    padding: 10px 20px;
+    margin-top: clamp(8px, 1.2vw, 14px);
+    padding: clamp(12px, 1.6vw, 16px) clamp(24px, 3vw, 36px);
     border-radius: 999px;
     align-self: center;
-    width: min(200px, 66%);
+    width: min(240px, 80%);
     border: 1.6px solid rgba(255, 255, 255, 0.7);
     background: rgba(0, 0, 0, 0.35);
     color: var(--color-chicle);
-    font-size: 1rem;
+    font-size: clamp(1.1rem, 1.4vw, 1.3rem);
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;

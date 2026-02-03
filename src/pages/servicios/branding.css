@@ -1,0 +1,618 @@
+/* =========================
+   BRANDING PAGE (Mockup)
+========================= */
+
+.BrandingPage {
+    color: var(--color-blanco);
+}
+
+/* container */
+.BrandingWrap {
+    width: min(95%, 125rem);
+    margin: 0 auto;
+    position: relative;
+}
+
+/* vignette + halo */
+.BrandingVignette {
+    position: relative;
+}
+
+.BrandingVignette::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    pointer-events: none;
+    mix-blend-mode: normal;
+    z-index: 0;
+}
+
+.BrandingVignette>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* shared */
+.BrandingText--yellow {
+    color: var(--color-electrico);
+}
+
+.BrandingBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: clamp(44px, 5.2vw, 54px);
+    padding: 0 clamp(18px, 2.4vw, 28px);
+    border-radius: 999px;
+    font-family: var(--font-subjectivity);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    user-select: none;
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.BrandingBtn:focus-visible {
+    outline: 2px solid var(--color-electrico);
+    outline-offset: 4px;
+}
+
+.BrandingBtn--outline {
+    color: var(--color-electrico);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+}
+
+.BrandingBtn--outline:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+}
+
+.BrandingBtn--solid {
+    color: #111;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+}
+
+.BrandingBtn--solid:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.BrandingHero {
+    padding: clamp(56px, 9vw, 120px) 0 clamp(52px, 7.5vw, 110px);
+}
+
+.BrandingHero__top {
+    position: relative;
+    text-align: center;
+    padding-top: clamp(6px, 1vw, 10px);
+}
+
+.BrandingHero__services {
+    position: absolute;
+    left: 0;
+    top: 52%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    transform-origin: left center;
+    rotate: 180deg;
+
+    font-family: var(--font-subjectivity);
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    opacity: 0.9;
+    font-size: clamp(1.1rem, 1.1vw, 1.3rem);
+}
+
+.BrandingHero__title {
+    margin: 0;
+    font-family: var(--font-morganite);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-electrico);
+    font-size: clamp(7.6rem, 10.5vw, 16.6rem);
+    line-height: 0.82;
+}
+
+.BrandingHero__subtitle {
+    margin: clamp(14px, 2vw, 18px) auto 0;
+    max-width: 58ch;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.3rem, 1.25vw, 1.6rem);
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.BrandingHero__top .BrandingBtn {
+    margin-top: clamp(18px, 2.6vw, 28px);
+}
+
+.BrandingHero__bottom {
+    margin-top: clamp(34px, 5vw, 56px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(22px, 4vw, 58px);
+    align-items: center;
+}
+
+.BrandingHero__art {
+    position: relative;
+    width: min(520px, 100%);
+    margin-inline: auto;
+    aspect-ratio: 1 / 1;
+}
+
+.BrandingHero__asterisco {
+    position: absolute;
+    inset: -4%;
+    width: 108%;
+    height: 108%;
+    object-fit: contain;
+    opacity: 0.95;
+    filter: drop-shadow(0 20px 46px rgba(0, 0, 0, 0.6));
+}
+
+.BrandingHero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 22px 52px rgba(0, 0, 0, 0.65));
+}
+
+.BrandingHero__copy {
+    max-width: 62ch;
+}
+
+.BrandingHero__lead {
+    margin: 0 0 14px;
+    font-family: var(--font-subjectivity);
+    font-weight: 700;
+    font-size: clamp(1.55rem, 1.55vw, 1.95rem);
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.BrandingHero__text {
+    margin: 0 0 12px;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.25rem, 1.2vw, 1.55rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+/* =========================
+   PRECIO
+========================= */
+
+.BrandingPrice {
+    padding: clamp(56px, 9vw, 120px) 0 clamp(56px, 9vw, 120px);
+}
+
+.BrandingPrice__grid {
+    display: grid;
+    grid-template-columns: 1fr min(520px, 100%);
+    gap: clamp(18px, 4vw, 56px);
+    align-items: center;
+}
+
+.BrandingPrice__title {
+    margin: 0;
+    font-family: var(--font-morganite);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    font-size: clamp(8rem, 11vw, 16rem);
+    line-height: 0.82;
+}
+
+.BrandingPrice__kicker {
+    margin: 10px 0 0;
+    font-family: var(--font-subjectivity);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-electrico);
+    font-size: clamp(1.2rem, 1.05vw, 1.3rem);
+}
+
+.BrandingPrice__card {
+    position: relative;
+    width: min(520px, 100%);
+    margin-left: auto;
+    overflow: visible;
+}
+
+.BrandingPrice__deco {
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.BrandingPrice__deco--squiggle {
+    width: clamp(60px, 8vw, 120px);
+    height: auto;
+    top: -20px;
+    right: -20px;
+    transform: rotate(12deg);
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.BrandingPrice__deco--star {
+    width: clamp(40px, 5vw, 80px);
+    height: auto;
+    bottom: -30px;
+    left: -30px;
+    animation: SpinSlow 12s linear infinite;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes SpinSlow {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.BrandingPrice__cardBg {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 18px 44px rgba(0, 0, 0, 0.55));
+}
+
+.BrandingPrice__cardContent {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(18px, 2.4vw, 28px);
+    text-align: center;
+}
+
+.BrandingPrice__cardTitle {
+    margin: 0;
+    font-family: var(--font-morganite);
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    font-size: clamp(2.6rem, 2.7vw, 3.6rem);
+}
+
+.BrandingPrice__divider {
+    width: min(82%, 420px);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.22);
+    margin: clamp(14px, 2vw, 18px) 0;
+}
+
+.BrandingPrice__amount {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.98);
+}
+
+.BrandingPrice__currency {
+    font-family: var(--font-subjectivity);
+    font-weight: 800;
+    font-size: clamp(2.2rem, 2vw, 2.8rem);
+    opacity: 0.95;
+}
+
+.BrandingPrice__number {
+    font-family: var(--font-morganite);
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    font-size: clamp(6.8rem, 6.2vw, 9.4rem);
+    line-height: 0.9;
+}
+
+.BrandingPrice__mxn {
+    font-family: var(--font-subjectivity);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    font-size: clamp(1.2rem, 1.1vw, 1.4rem);
+    opacity: 0.95;
+    margin-left: 2px;
+}
+
+/* =========================
+   BENEFICIOS
+========================= */
+
+.BrandingBenefits {
+    padding: clamp(56px, 9vw, 120px) 0 clamp(56px, 9vw, 120px);
+}
+
+.BrandingBenefits__stack {
+    display: grid;
+    gap: clamp(22px, 3.6vw, 34px);
+}
+
+.BrandingBenefits__row {
+    display: grid;
+    grid-template-columns: min(180px, 22%) 1fr;
+    gap: clamp(14px, 2.6vw, 28px);
+    align-items: stretch;
+}
+
+.BrandingBenefits__left {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.BrandingBenefits__titleSvg {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.55));
+}
+
+.BrandingBenefits__card {
+    position: relative;
+    width: 100%;
+    max-width: 980px;
+    margin-left: 0;
+    border-radius: 28px;
+    /* Allow squiggle to hang out */
+    overflow: visible;
+}
+
+.BrandingBenefits__deco {
+    position: absolute;
+    top: -25px;
+    right: -20px;
+    width: clamp(60px, 7vw, 100px);
+    height: auto;
+    z-index: 5;
+    pointer-events: none;
+    transform: rotate(-10deg);
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.BrandingBenefits__cardBg {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 18px 44px rgba(0, 0, 0, 0.6));
+}
+
+.BrandingBenefits__content {
+    position: absolute;
+    inset: 0;
+    padding: clamp(20px, 3vw, 38px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.BrandingBenefits__progress {
+    width: min(460px, 76%);
+    height: clamp(14px, 1.6vw, 18px);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+    margin-bottom: clamp(18px, 2.6vw, 26px);
+}
+
+.BrandingBenefits__progressFill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--color-chicle);
+    box-shadow: 0 0 22px rgba(255, 110, 243, 0.4);
+}
+
+.BrandingBenefits__h3 {
+    margin: 0 0 10px;
+    font-family: var(--font-morganite);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-chicle);
+    font-size: clamp(5.2rem, 5.4vw, 8.4rem);
+    line-height: 0.9;
+}
+
+.BrandingBenefits__p {
+    margin: 0;
+    max-width: 52ch;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.4rem, 1.35vw, 1.8rem);
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.BrandingBenefits__num {
+    position: absolute;
+    right: clamp(18px, 2.6vw, 34px);
+    bottom: clamp(10px, 1.6vw, 18px);
+    font-family: var(--font-morganite);
+    font-weight: 900;
+    font-size: clamp(7rem, 7vw, 11.5rem);
+    color: var(--color-electrico);
+    line-height: 1;
+    opacity: 0.95;
+}
+
+/* Overlap como en el mockup (solo desktop) */
+@media (min-width: 769px) {
+    .BrandingBenefits__row--overlap {
+        margin-top: clamp(-40px, -3.2vw, -24px);
+    }
+}
+
+/* =========================
+   PROYECTOS / MARCAS (infinite)
+========================= */
+
+.BrandingProjects {
+    padding: clamp(56px, 9vw, 120px) 0 clamp(66px, 10vw, 140px);
+}
+
+.BrandingProjects__title {
+    margin: 0 0 clamp(18px, 2.8vw, 28px);
+    text-align: center;
+    font-family: var(--font-subjectivity);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-electrico);
+    font-size: clamp(1.25rem, 1.2vw, 1.45rem);
+}
+
+.BrandingProjects__pill {
+    position: relative;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(0, 0, 0, 0.18);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    padding: clamp(16px, 2.2vw, 24px);
+}
+
+/* sutil fade en bordes (como máscara) */
+.BrandingProjects__pill::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+            rgba(25, 21, 20, 1) 0%,
+            rgba(25, 21, 20, 0) 14%,
+            rgba(25, 21, 20, 0) 86%,
+            rgba(25, 21, 20, 1) 100%);
+    opacity: 0.55;
+    z-index: 2;
+}
+
+.BrandingMarquee {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.BrandingMarquee__inner {
+    display: flex;
+    align-items: center;
+    gap: clamp(26px, 4vw, 64px);
+    width: max-content;
+    animation: BrandingMarqueeMove 26s linear infinite;
+    will-change: transform;
+}
+
+.BrandingMarquee__item {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    padding: 6px 2px;
+}
+
+.BrandingMarquee__img {
+    height: clamp(22px, 2.4vw, 34px);
+    width: auto;
+    display: block;
+    opacity: 0.95;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.55));
+}
+
+@keyframes BrandingMarqueeMove {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    .BrandingMarquee__inner {
+        animation: none;
+        transform: none;
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1024px) {
+    .BrandingHero__bottom {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+
+    .BrandingHero__copy {
+        max-width: 70ch;
+        margin-inline: auto;
+    }
+
+    .BrandingPrice__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .BrandingPrice__card {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .BrandingHero__services {
+        display: none;
+        /* en mobile estorba y el mock se mantiene limpio */
+    }
+
+    .BrandingHero__top {
+        text-align: center;
+    }
+
+    .BrandingHero__bottom {
+        gap: 18px;
+    }
+
+    .BrandingBenefits__row {
+        grid-template-columns: 1fr;
+    }
+
+    .BrandingBenefits__left {
+        justify-content: center;
+    }
+
+    .BrandingBenefits__titleSvg {
+        max-width: 160px;
+    }
+
+    .BrandingBenefits__content {
+        padding: 18px 18px 26px;
+    }
+
+    .BrandingBenefits__progress {
+        width: min(360px, 92%);
+    }
+
+    .BrandingProjects__pill {
+        border-radius: 34px;
+        /* en mobile se siente mejor que pill gigante */
+    }
+
+    .BrandingProjects__pill::before {
+        opacity: 0.35;
+    }
+}
