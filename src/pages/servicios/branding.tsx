@@ -95,6 +95,9 @@ export default function Branding() {
                     return getViewportH();
                 };
 
+                const getTravelPx = () => Math.round(getStepPx() * (slides.length - 1));
+                const getEndPx = () => Math.round(getStepPx() * slides.length);
+
 
                 // Importante: el layout del deck NO debe usar slides absolute.
                 // Z-index para que la de arriba quede encima visualmente
@@ -107,12 +110,12 @@ export default function Branding() {
 
 
                 const tween = gsap.to(trackEl, {
-                    y: () => -Math.round(getStepPx() * (slides.length - 1)),
+                    y: () => -getTravelPx(),
                     ease: "none",
                     scrollTrigger: {
                         trigger: sectionEl,
                         start: () => `top top+=${Math.round(getHeaderH())}`,
-                        end: () => `+=${Math.round(getStepPx() * (slides.length - 1))}`,
+                        end: () => `+=${getEndPx()}`,
                         pin: pinEl,
                         pinSpacing: true,
                         scrub: 1.1,

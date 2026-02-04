@@ -5,7 +5,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Asterisco from "../assets/svg/Branding/ASTERISCO.svg";
+import "./servicios.css"
 
 gsap.registerPlugin(ScrollTrigger);
 
