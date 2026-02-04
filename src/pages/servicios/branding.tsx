@@ -1,6 +1,12 @@
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import Head from "../../components/Header";
 import Footer from "../../components/Footer";
 import "./branding.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // ===== Assets Branding =====
 import AsteriscoBg from "../../assets/svg/Branding/ASTERISCO.svg";
@@ -40,6 +46,122 @@ const BRAND_LOGOS: BrandLogo[] = [
 ];
 
 export default function Branding() {
+    const benefitsRef = useRef<HTMLElement | null>(null);
+    const pinRef = useRef<HTMLDivElement | null>(null);
+    const trackRef = useRef<HTMLDivElement | null>(null);
+
+    useLayoutEffect(() => {
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduce) return;
+
+        let mm: gsap.MatchMedia | null = null;
+
+        const ctx = gsap.context(() => {
+            mm = gsap.matchMedia();
+            mm.add("(min-width: 769px)", () => {
+                const trackEl = trackRef.current;
+                const sectionEl = benefitsRef.current;
+                const pinEl = pinRef.current;
+
+
+                if (!trackEl || !sectionEl || !pinEl) return;
+
+
+                const slides = gsap.utils.toArray<HTMLElement>(".BrandingBenefits__slide", trackEl);
+                if (slides.length < 2) return;
+
+
+                const getHeaderH = () =>
+                    parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 96;
+
+
+                const viewportEl = pinEl.querySelector<HTMLElement>(".BrandingBenefits__viewport");
+
+
+                const getViewportH = () => viewportEl?.getBoundingClientRect().height || window.innerHeight;
+
+
+                // Medición robusta del "paso" real entre tarjetas (incluye overlap por CSS)
+                const getStepPx = () => {
+                    // Calculamos la distancia real entre el top del slide 1 al slide 2
+                    // Esto devuelve la altura VISIBLE + el espacio negativo, o sea el "step" real
+                    if (slides.length >= 2) {
+                        const step = slides[1].offsetTop - slides[0].offsetTop;
+                        // Validación simple para asegurar que no sea 0 o negativo
+                        if (Number.isFinite(step) && step > 0) {
+                            return step;
+                        }
+                    }
+                    return getViewportH();
+                };
+
+
+                // Importante: el layout del deck NO debe usar slides absolute.
+                // Z-index para que la de arriba quede encima visualmente
+                slides.forEach((s, i) => {
+                    gsap.set(s, { position: "relative", zIndex: slides.length - i });
+                });
+
+
+                gsap.set(trackEl, { y: 0, yPercent: 0 });
+
+
+                const tween = gsap.to(trackEl, {
+                    y: () => -Math.round(getStepPx() * (slides.length - 1)),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionEl,
+                        start: () => `top top+=${Math.round(getHeaderH())}`,
+                        end: () => `+=${Math.round(getStepPx() * (slides.length - 1))}`,
+                        pin: pinEl,
+                        pinSpacing: true,
+                        scrub: 1.1,
+                        anticipatePin: 2,
+                        invalidateOnRefresh: true,
+
+                        snap: {
+                            snapTo: (value) => {
+                                const n = slides.length - 1;
+                                return Math.round(value * n) / n;
+                            },
+                            duration: { min: 0.15, max: 0.35 },
+                            ease: "power1.inOut",
+                        },
+                    },
+                });
+
+
+                // Refresh cuando el layout ya asentó
+                const refresh = () => ScrollTrigger.refresh();
+                const raf = requestAnimationFrame(refresh);
+
+
+                // Recalcular si cambia altura del viewport (media queries / responsive)
+                const ro = new ResizeObserver(refresh);
+                if (viewportEl) ro.observe(viewportEl);
+
+
+                // Si hay imágenes/fonts que cambian medidas, esto ayuda
+                window.addEventListener("load", refresh, { passive: true });
+
+
+                return () => {
+                    window.removeEventListener("load", refresh);
+                    cancelAnimationFrame(raf);
+                    ro.disconnect();
+                    tween.scrollTrigger?.kill();
+                    tween.kill();
+                };
+            });
+        }, benefitsRef);
+
+
+        return () => {
+            if (mm) mm.revert();
+            ctx.revert();
+        };
+    }, []);
+
     return (
         <>
             <Head />
@@ -63,7 +185,7 @@ export default function Branding() {
                                 Creamos ADN estratégico para tu marca, elevamos reconocimiento y fidelizamos audiencias.
                             </p>
 
-                            <a className="BrandingBtn BrandingBtn--outline" href="/#contacto">
+                            <a className="BrandingBtn BrandingBtn--outline" href="/contacto">
                                 CONVERSEMOS
                             </a>
                         </div>
@@ -116,13 +238,13 @@ export default function Branding() {
 
                                         <div className="BrandingPrice__amount">
                                             <span className="BrandingPrice__currency">$</span>
-                                            <span className="BrandingPrice__number">5,999</span>
+                                            <span className="BrandingPrice__number">3,900</span>
                                             <span className="BrandingPrice__mxn">MXN</span>
                                         </div>
 
                                         <div className="BrandingPrice__divider" aria-hidden="true" />
 
-                                        <a className="BrandingBtn BrandingBtn--solid" href="/#contacto">
+                                        <a className="BrandingBtn BrandingBtn--solid" href="/contacto">
                                             CONTRATAR
                                         </a>
                                     </div>
@@ -135,95 +257,83 @@ export default function Branding() {
                 {/* =========================
             BENEFICIOS
         ========================= */}
-                <section className="BrandingBenefits" id="beneficios">
+                <section className="BrandingBenefits" id="beneficios" ref={benefitsRef}>
                     <div className="BrandingWrap BrandingVignette">
-                        <div className="BrandingBenefits__stack">
-                            {/* Beneficio 1 */}
-                            <div className="BrandingBenefits__row">
-                                <div className="BrandingBenefits__left" aria-hidden="true">
-                                    <img className="BrandingBenefits__titleSvg" src={BenefitsTitleSvg} alt="" />
-                                </div>
-
-                                <article className="BrandingBenefits__card" aria-label="Beneficio 1: Marca Única">
-                                    <img className="BrandingBenefits__cardBg" src={BenefitsCard01} alt="" aria-hidden="true" />
-
-                                    <div className="BrandingBenefits__content">
-                                        <div className="BrandingBenefits__progress" aria-hidden="true">
-                                            <span className="BrandingBenefits__progressFill" style={{ width: "24%" }} />
-                                        </div>
-
-                                        <h3 className="BrandingBenefits__h3">MARCA ÚNICA</h3>
-                                        <p className="BrandingBenefits__p">Identidad original que te diferencia y evita verse genérico.</p>
-
-                                    </div>
-                                </article>
+                        <div className="BrandingBenefits__pin" ref={pinRef}>
+                            <div className="BrandingBenefits__left BrandingBenefits__left--pinned" aria-hidden="true">
+                                <img className="BrandingBenefits__titleSvg" src={BenefitsTitleSvg} alt="" />
                             </div>
 
-                            {/* Beneficio 2 (con overlap en desktop) */}
-                            <div className="BrandingBenefits__row BrandingBenefits__row--overlap">
-                                <div className="BrandingBenefits__left" aria-hidden="true">
-                                    <img className="BrandingBenefits__titleSvg" src={BenefitsTitleSvg} alt="" />
-                                </div>
+                            <div className="BrandingBenefits__viewport">
+                                <div className="BrandingBenefits__track" ref={trackRef}>
+                                    <div className="BrandingBenefits__slide">
+                                        <article className="BrandingBenefits__card" aria-label="Beneficio 1: Marca Única">
+                                            <img className="BrandingBenefits__cardBg" src={BenefitsCard01} alt="" aria-hidden="true" />
 
-                                <article className="BrandingBenefits__card" aria-label="Beneficio 2: Claridad Estratégica">
-                                    <img className="BrandingBenefits__cardBg" src={BenefitsCard02} alt="" aria-hidden="true" />
+                                            <div className="BrandingBenefits__content">
+                                                <div className="BrandingBenefits__progress" aria-hidden="true">
+                                                    <span className="BrandingBenefits__progressFill" style={{ width: "24%" }} />
+                                                </div>
 
-                                    <div className="BrandingBenefits__content">
-                                        <div className="BrandingBenefits__progress" aria-hidden="true">
-                                            <span className="BrandingBenefits__progressFill" style={{ width: "58%" }} />
-                                        </div>
-
-                                        <h3 className="BrandingBenefits__h3">CLARIDAD ESTRATÉGICA</h3>
-                                        <p className="BrandingBenefits__p">
-                                            Concepto, personalidad y estilo bien definidos desde el inicio.
-                                        </p>
-
+                                                <h3 className="BrandingBenefits__h3">MARCA ÚNICA</h3>
+                                                <p className="BrandingBenefits__p">
+                                                    Identidad original que te diferencia y evita verse genérico.
+                                                </p>
+                                            </div>
+                                        </article>
                                     </div>
-                                </article>
-                            </div>
 
-                            {/* Beneficio 3 */}
-                            <div className="BrandingBenefits__row">
-                                <div className="BrandingBenefits__left" aria-hidden="true">
-                                    <img className="BrandingBenefits__titleSvg" src={BenefitsTitleSvg} alt="" />
-                                </div>
+                                    <div className="BrandingBenefits__slide">
+                                        <article className="BrandingBenefits__card" aria-label="Beneficio 2: Claridad Estratégica">
+                                            <img className="BrandingBenefits__cardBg" src={BenefitsCard02} alt="" aria-hidden="true" />
 
-                                <article className="BrandingBenefits__card" aria-label="Beneficio 3: Gestión Sencilla">
-                                    <img className="BrandingBenefits__cardBg" src={BenefitsCard03} alt="" aria-hidden="true" />
+                                            <div className="BrandingBenefits__content">
+                                                <div className="BrandingBenefits__progress" aria-hidden="true">
+                                                    <span className="BrandingBenefits__progressFill" style={{ width: "58%" }} />
+                                                </div>
 
-                                    <div className="BrandingBenefits__content">
-                                        <div className="BrandingBenefits__progress" aria-hidden="true">
-                                            <span className="BrandingBenefits__progressFill" style={{ width: "78%" }} />
-                                        </div>
-
-                                        <h3 className="BrandingBenefits__h3">GESTIÓN SENCILLA</h3>
-                                        <p className="BrandingBenefits__p">Edita y actualiza tu contenido sin complicaciones.</p>
-
+                                                <h3 className="BrandingBenefits__h3">CLARIDAD ESTRATÉGICA</h3>
+                                                <p className="BrandingBenefits__p">
+                                                    Concepto, personalidad y estilo bien definidos desde el inicio.
+                                                </p>
+                                            </div>
+                                        </article>
                                     </div>
-                                </article>
-                            </div>
 
-                            {/* Beneficio 4 (con overlap en desktop) */}
-                            <div className="BrandingBenefits__row BrandingBenefits__row--overlap">
-                                <div className="BrandingBenefits__left" aria-hidden="true">
-                                    <img className="BrandingBenefits__titleSvg" src={BenefitsTitleSvg} alt="" />
-                                </div>
+                                    <div className="BrandingBenefits__slide">
+                                        <article className="BrandingBenefits__card" aria-label="Beneficio 3: Gestión Sencilla">
+                                            <img className="BrandingBenefits__cardBg" src={BenefitsCard03} alt="" aria-hidden="true" />
 
-                                <article className="BrandingBenefits__card" aria-label="Beneficio 4: Soporte Continuo">
-                                    <img className="BrandingBenefits__cardBg" src={BenefitsCard04} alt="" aria-hidden="true" />
+                                            <div className="BrandingBenefits__content">
+                                                <div className="BrandingBenefits__progress" aria-hidden="true">
+                                                    <span className="BrandingBenefits__progressFill" style={{ width: "78%" }} />
+                                                </div>
 
-                                    <div className="BrandingBenefits__content">
-                                        <div className="BrandingBenefits__progress" aria-hidden="true">
-                                            <span className="BrandingBenefits__progressFill" style={{ width: "100%" }} />
-                                        </div>
-
-                                        <h3 className="BrandingBenefits__h3">SOPORTE CONTINUO</h3>
-                                        <p className="BrandingBenefits__p">
-                                            Ajustes mensuales de contenido con un diseñador asignado.
-                                        </p>
-
+                                                <h3 className="BrandingBenefits__h3">GESTIÓN SENCILLA</h3>
+                                                <p className="BrandingBenefits__p">
+                                                    Edita y actualiza tu contenido sin complicaciones.
+                                                </p>
+                                            </div>
+                                        </article>
                                     </div>
-                                </article>
+
+                                    <div className="BrandingBenefits__slide">
+                                        <article className="BrandingBenefits__card" aria-label="Beneficio 4: Soporte Continuo">
+                                            <img className="BrandingBenefits__cardBg" src={BenefitsCard04} alt="" aria-hidden="true" />
+
+                                            <div className="BrandingBenefits__content">
+                                                <div className="BrandingBenefits__progress" aria-hidden="true">
+                                                    <span className="BrandingBenefits__progressFill" style={{ width: "100%" }} />
+                                                </div>
+
+                                                <h3 className="BrandingBenefits__h3">SOPORTE CONTINUO</h3>
+                                                <p className="BrandingBenefits__p">
+                                                    Ajustes mensuales de contenido con un diseñador asignado.
+                                                </p>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

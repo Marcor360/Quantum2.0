@@ -1,4 +1,5 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
@@ -29,36 +30,28 @@ export default function Servicios() {
                 title: "BRANDING",
                 desktopSrc: "/img/branding.webp",
                 mobileSrc: "/img/branding-mobile.webp",
+                path: "/servicios/branding",
             },
             {
                 key: "marketing",
                 title: "MARKETING DIGITAL",
                 desktopSrc: "/img/campañas.webp",
                 mobileSrc: "/img/campañas-mobiles.webp",
-            },
-            {
-                key: "social",
-                title: "SOCIAL ADS",
-                desktopSrc: "/img/campañas.webp",
-                mobileSrc: "/img/campañas-mobiles.webp",
-            },
-            {
-                key: "web",
-                title: "WEB & APPS",
-                desktopSrc: "/img/appsIA.webp",
-                mobileSrc: "/img/appsIA-mobile.webp",
+                path: "/servicios/campañas",
             },
             {
                 key: "seo",
-                title: "SEO",
+                title: "APP E IA",
                 desktopSrc: "/img/appsIA.webp",
                 mobileSrc: "/img/appsIA-mobile.webp",
+                path: "/servicios/campañas",
             },
             {
                 key: "ecommerce",
                 title: "E-COMMERCE",
                 desktopSrc: "/img/e-commerce.webp",
                 mobileSrc: "/img/e-commerce-mobile.webp",
+                path: "/servicios/ecomerce",
             },
         ],
         []
@@ -86,66 +79,46 @@ export default function Servicios() {
                 },
                 (context: gsap.Context) => {
                     const isDesktop = !!context.conditions?.isDesktop;
-                    const cardEls = gsap.utils.toArray<HTMLElement>(".ServiciosCards__card");
+                    // Obtenemos los elementos directamente del DOM
+                    const items = gsap.utils.toArray<HTMLElement>(".ServiciosCards__card");
 
-                    if (cardEls.length <= 1) return;
+                    if (items.length === 0) return;
 
                     if (isDesktop) {
-                        // DESKTOP: Pin + transiciones suaves con snap
-                        const STEP_PX = Math.max(window.innerHeight * 0.95, 700);
+                        // Estado inicial
+                        gsap.set(items, { autoAlpha: 0, y: 60 });
+                        gsap.set(items[0], { autoAlpha: 1, y: 0 });
 
-                        // Estado inicial: solo primera card visible
-                        gsap.set(cardEls, { autoAlpha: 0, scale: 0.985 });
-                        gsap.set(cardEls[0], { autoAlpha: 1, scale: 1 });
-
-                        const tl = gsap.timeline({ defaults: { ease: "power1.inOut" } });
-
-                        // Crear transiciones 1 por 1
-                        for (let i = 0; i < cardEls.length - 1; i++) {
-                            const curr = cardEls[i];
-                            const next = cardEls[i + 1];
-
-                            // Fade out actual, fade in siguiente (sin movimiento vertical)
-                            tl.to(curr, { autoAlpha: 0, scale: 0.985, duration: 0.6 }, i);
-                            tl.fromTo(
-                                next,
-                                { autoAlpha: 0, scale: 0.985 },
-                                { autoAlpha: 1, scale: 1, duration: 0.6 },
-                                i
-                            );
-                        }
-
-                        // AGREGADO: Paso extra para "congelar" la última imagen antes de des-anclar
-                        // Lo insertamos en el tiempo (cardEls.length - 1) para que dure 1 unidad completa hasta el final
-                        tl.to({}, { duration: 1 }, cardEls.length - 1);
-
-                        ScrollTrigger.create({
-                            animation: tl,
-                            trigger: section,
-                            pin: pin,
-                            start: () => `top top+=${getHeaderH() + 16}`,
-                            // Aumentamos la distancia para incluir el "hold" final (cardEls.length en vez de length-1)
-                            end: () => `+=${cardEls.length * STEP_PX}`,
-                            scrub: 1.4,
-                            snap: {
-                                // Ajustamos el snap para considerar el paso extra
-                                snapTo: 1 / cardEls.length,
-                                duration: { min: 0.15, max: 0.6 },
-                                ease: "power1.inOut",
+                        const tl = gsap.timeline({
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top top", // Ajusta si tienes header sticky
+                                // Aumentamos la duración para que se sienta bien el scroll (x1.5 de la altura por cada card)
+                                end: () => `+=${window.innerHeight * (items.length + 1) * 1.2}`,
+                                pin: pin,
+                                scrub: 1,
+                                anticipatePin: 1,
+                                invalidateOnRefresh: true,
                             },
-                            anticipatePin: 1,
-                            invalidateOnRefresh: true,
+                        });
+
+                        // Transiciones card por card
+                        items.forEach((el, i) => {
+                            if (i === 0) return;
+
+                            tl.to(items[i - 1], { autoAlpha: 0, y: -60, duration: 0.35 }, i - 1)
+                                .fromTo(el, { autoAlpha: 0, y: 60 }, { autoAlpha: 1, y: 0, duration: 0.35 }, i - 1);
                         });
 
                         // Refresh después de que carguen imágenes
                         requestAnimationFrame(() => ScrollTrigger.refresh());
                     } else {
                         // MOBILE: limpiar props, scroll normal
-                        gsap.set(cardEls, { clearProps: "all" });
+                        gsap.set(items, { clearProps: "all" });
                     }
 
                     return () => {
-                        mm.kill();
+                        // mm.kill() maneja esto, pero por si acaso
                     };
                 }
             );
@@ -193,7 +166,7 @@ export default function Servicios() {
                 <div className="ServiciosCards__wrap">
                     <div ref={pinRef} className="ServiciosCards__pin">
                         {cards.map((c) => (
-                            <article key={c.key} className="ServiciosCards__card">
+                            <Link key={c.key} to={c.path} className="ServiciosCards__card">
                                 <picture className="ServiciosCards__media">
                                     <source media="(max-width: 768px)" srcSet={c.mobileSrc} />
                                     <img
@@ -207,7 +180,7 @@ export default function Servicios() {
                                 <div className="ServiciosCards__shade" aria-hidden="true" />
 
                                 <p className="ServiciosCards__label">{c.title}</p>
-                            </article>
+                            </Link>
                         ))}
                     </div>
                 </div>
@@ -217,12 +190,7 @@ export default function Servicios() {
             <section className="ServiciosPricing" aria-label="Opciones de agencia">
                 <div className="ServiciosPricing__grid">
                     <article className="ServiciosPricing__card ServiciosPricing__card--emprende">
-                        <img
-                            className="ServiciosPricing__asterisk ServiciosPricing__asterisk--bottom"
-                            src={Asterisco}
-                            alt=""
-                            aria-hidden="true"
-                        />
+
                         <div className="ServiciosPricing__cardInner">
                             <h3 className="ServiciosPricing__subtitle">Agencia emprende</h3>
 
@@ -243,12 +211,7 @@ export default function Servicios() {
                     </article>
 
                     <article className="ServiciosPricing__card ServiciosPricing__card--completa">
-                        <img
-                            className="ServiciosPricing__asterisk ServiciosPricing__asterisk--bottom"
-                            src={Asterisco}
-                            alt=""
-                            aria-hidden="true"
-                        />
+
                         <div className="ServiciosPricing__cardInner">
                             <h3 className="ServiciosPricing__subtitle">Agencia completa</h3>
 
@@ -269,12 +232,7 @@ export default function Servicios() {
                     </article>
 
                     <article className="ServiciosPricing__card ServiciosPricing__card--startup">
-                        <img
-                            className="ServiciosPricing__asterisk ServiciosPricing__asterisk--bottom"
-                            src={Asterisco}
-                            alt=""
-                            aria-hidden="true"
-                        />
+
                         <div className="ServiciosPricing__cardInner">
                             <h3 className="ServiciosPricing__subtitle">Agencia startup</h3>
 
