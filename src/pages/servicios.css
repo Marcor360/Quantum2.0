@@ -1,5 +1,5 @@
 /* =========================
-   SERVICIOS � HERO (mock)
+   SERVICIOS – HERO (mock)
 ========================= */
 
 .Servicios-hero {
@@ -18,7 +18,7 @@
     gap: clamp(10px, 1.8vw, 16px);
 }
 
-/* Eyebrow �SERVICIOS� */
+/* Eyebrow “SERVICIOS” */
 .Servicios-hero h2 {
     margin: 0;
     color: var(--color-chicle);
@@ -46,11 +46,11 @@
     margin: 0;
     max-width: 70ch;
     color: rgba(255, 255, 255, 0.92);
-    font-size: clamp(1.4rem, 1.6vw, 2.0rem);
+    font-size: clamp(1.4rem, 1.6vw, 2rem);
     line-height: 1.565;
 }
 
-/* �Conoce nuestros servicios� estilo link */
+/* “Conoce nuestros servicios” estilo link */
 .Servicios-hero p:nth-of-type(2) {
     margin-top: 6px;
     color: var(--color-chicle);
@@ -60,35 +60,44 @@
 }
 
 /* =========================
-   SERVICIOS � TARJETAS (sticky/pin)
+   SERVICIOS – TARJETAS (sticky/pin)
 ========================= */
 
 .ServiciosCards {
     padding: clamp(8px, 2vw, 14px) 0 clamp(40px, 7vw, 90px);
     overflow: clip;
     min-height: 100vh;
+
+    /* OJO: en desktop NO conviene centrar con flex porque ensucia el pin */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Desktop: overflow visible para que pin funcione */
+/* Desktop: overflow visible y layout normal (evita flex-center) */
 @media (min-width: 769px) {
     .ServiciosCards {
         overflow: visible;
+        display: block;
+        align-items: initial;
+        justify-content: initial;
+    }
+
+    .ServiciosCards__wrap {
+        display: block;
     }
 }
-
 
 .ServiciosCards__wrap {
     width: 100%;
     margin: 0 auto;
+
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* �Stage� que se pinnea */
+/* “Stage” que se pinnea */
 .ServiciosCards__pin {
     position: relative;
     width: min(95vw, 1500px);
@@ -112,6 +121,10 @@
     inset: 0;
     opacity: 0;
     will-change: opacity, transform;
+
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 /* Media */
@@ -155,7 +168,7 @@
     text-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
 }
 
-/* Mobile: stage m�s �contenible� */
+/* Mobile: stage más “contenible” */
 @media (max-width: 768px) {
     .Servicios-hero h1 {
         font-size: clamp(7.4rem, 15vw, 12.2rem);
@@ -206,7 +219,7 @@
 }
 
 /* =========================
-   SERVICIOS � PRECIOS
+   SERVICIOS – PRECIOS
 ========================= */
 
 .ServiciosPricing {
@@ -301,7 +314,7 @@
     inset: 0;
     background: linear-gradient(180deg,
             rgba(0, 0, 0, 0.24) 0%,
-            rgba(0, 0, 0, 0.60) 42%,
+            rgba(0, 0, 0, 0.6) 42%,
             rgba(0, 0, 0, 0.82) 100%);
     border-radius: 20px;
     pointer-events: none;
@@ -409,7 +422,8 @@
     text-transform: uppercase;
     cursor: pointer;
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
-    transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease, background 160ms ease, border-color 160ms ease;
+    transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease, background 160ms ease,
+        border-color 160ms ease;
 }
 
 .ServiciosPricing__cta:hover {
@@ -452,8 +466,6 @@
         transform: rotate(360deg);
     }
 }
-
-
 
 @media (max-width: 900px) {
     .ServiciosPricing__grid {

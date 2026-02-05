@@ -1,11 +1,11 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "./servicios.css"
+import "./servicios.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,56 +72,66 @@ export default function Servicios() {
         const ctx = gsap.context(() => {
             const mm = gsap.matchMedia();
 
-            mm.add(
-                {
-                    isDesktop: "(min-width: 769px)",
-                    isMobile: "(max-width: 768px)",
-                },
-                (context: gsap.Context) => {
-                    const isDesktop = !!context.conditions?.isDesktop;
-                    // Obtenemos los elementos directamente del DOM
-                    const items = gsap.utils.toArray<HTMLElement>(".ServiciosCards__card");
+            // DESKTOP
+            mm.add("(min-width: 769px)", () => {
+                const items = gsap.utils.toArray<HTMLElement>(".ServiciosCards__card", pin);
+                if (!items.length) return;
 
-                    if (items.length === 0) return;
+                // Estado inicial
+                gsap.set(items, { autoAlpha: 0, y: 60 });
+                gsap.set(items[0], { autoAlpha: 1, y: 0 });
 
-                    if (isDesktop) {
-                        // Estado inicial
-                        gsap.set(items, { autoAlpha: 0, y: 60 });
-                        gsap.set(items[0], { autoAlpha: 1, y: 0 });
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: section,
+                        start: () => `top top+=${getHeaderH()}`, // ✅ respeta header sticky
+                        end: () => `+=${window.innerHeight * (items.length + 1) * 1.2}`,
+                        pin: pin,
+                        pinSpacing: true,
+                        pinReparent: true, // ✅ ayuda si hay parents raros (overflow/transform)
+                        scrub: 0.9,
+                        anticipatePin: 1,
+                        invalidateOnRefresh: true,
 
-                        const tl = gsap.timeline({
-                            scrollTrigger: {
-                                trigger: section,
-                                start: "top top", // Ajusta si tienes header sticky
-                                // Aumentamos la duración para que se sienta bien el scroll (x1.5 de la altura por cada card)
-                                end: () => `+=${window.innerHeight * (items.length + 1) * 1.2}`,
-                                pin: pin,
-                                scrub: 1,
-                                anticipatePin: 1,
-                                invalidateOnRefresh: true,
-                            },
-                        });
+                        // Si tu layout global tiene transforms y sigue fallando, descomenta:
+                        // pinType: "transform",
+                    },
+                });
 
-                        // Transiciones card por card
-                        items.forEach((el, i) => {
-                            if (i === 0) return;
+                // Transiciones card por card
+                items.forEach((_, i) => {
+                    if (i === 0) return;
 
-                            tl.to(items[i - 1], { autoAlpha: 0, y: -60, duration: 0.35 }, i - 1)
-                                .fromTo(el, { autoAlpha: 0, y: 60 }, { autoAlpha: 1, y: 0, duration: 0.35 }, i - 1);
-                        });
+                    tl.to(items[i - 1], { autoAlpha: 0, y: -60, duration: 0.35 }, i - 1).fromTo(
+                        items[i],
+                        { autoAlpha: 0, y: 60 },
+                        { autoAlpha: 1, y: 0, duration: 0.35 },
+                        i - 1
+                    );
+                });
 
-                        // Refresh después de que carguen imágenes
-                        requestAnimationFrame(() => ScrollTrigger.refresh());
-                    } else {
-                        // MOBILE: limpiar props, scroll normal
-                        gsap.set(items, { clearProps: "all" });
-                    }
+                // Refresh cuando carguen imágenes (clave para pins estables)
+                const imgs = Array.from(pin.querySelectorAll("img"));
+                const onLoad = () => ScrollTrigger.refresh();
 
-                    return () => {
-                        // mm.kill() maneja esto, pero por si acaso
-                    };
-                }
-            );
+                imgs.forEach((img) => {
+                    if (!img.complete) img.addEventListener("load", onLoad, { once: true });
+                });
+
+                requestAnimationFrame(() => ScrollTrigger.refresh());
+
+                return () => {
+                    imgs.forEach((img) => img.removeEventListener("load", onLoad));
+                };
+            });
+
+            // MOBILE: sin pin (scroll normal)
+            mm.add("(max-width: 768px)", () => {
+                const items = gsap.utils.toArray<HTMLElement>(".ServiciosCards__card", pin);
+                gsap.set(items, { clearProps: "all" });
+            });
+
+            return () => mm.revert();
         }, section);
 
         return () => ctx.revert();
@@ -169,12 +179,7 @@ export default function Servicios() {
                             <Link key={c.key} to={c.path} className="ServiciosCards__card">
                                 <picture className="ServiciosCards__media">
                                     <source media="(max-width: 768px)" srcSet={c.mobileSrc} />
-                                    <img
-                                        src={c.desktopSrc}
-                                        alt={c.title}
-                                        loading="lazy"
-                                        decoding="async"
-                                    />
+                                    <img src={c.desktopSrc} alt={c.title} loading="lazy" decoding="async" />
                                 </picture>
 
                                 <div className="ServiciosCards__shade" aria-hidden="true" />
@@ -190,7 +195,6 @@ export default function Servicios() {
             <section className="ServiciosPricing" aria-label="Opciones de agencia">
                 <div className="ServiciosPricing__grid">
                     <article className="ServiciosPricing__card ServiciosPricing__card--emprende">
-
                         <div className="ServiciosPricing__cardInner">
                             <h3 className="ServiciosPricing__subtitle">Agencia emprende</h3>
 
@@ -211,7 +215,6 @@ export default function Servicios() {
                     </article>
 
                     <article className="ServiciosPricing__card ServiciosPricing__card--completa">
-
                         <div className="ServiciosPricing__cardInner">
                             <h3 className="ServiciosPricing__subtitle">Agencia completa</h3>
 
@@ -232,7 +235,6 @@ export default function Servicios() {
                     </article>
 
                     <article className="ServiciosPricing__card ServiciosPricing__card--startup">
-
                         <div className="ServiciosPricing__cardInner">
                             <h3 className="ServiciosPricing__subtitle">Agencia startup</h3>
 
@@ -253,6 +255,7 @@ export default function Servicios() {
                     </article>
                 </div>
             </section>
+
             <Footer />
         </>
     );
