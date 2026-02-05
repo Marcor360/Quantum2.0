@@ -45,6 +45,14 @@ const BRAND_LOGOS: BrandLogo[] = [
     { src: CasaSanAngel, alt: "Casa San Ángel" },
 ];
 
+function getHeaderH(): number {
+    if (typeof document === "undefined") return 96;
+    const root = document.documentElement;
+    const val = getComputedStyle(root).getPropertyValue("--header-h").trim();
+    const n = parseFloat(val);
+    return Number.isFinite(n) ? n : 96;
+}
+
 export default function Branding() {
     const benefitsRef = useRef<HTMLElement | null>(null);
     const pinRef = useRef<HTMLDivElement | null>(null);
@@ -54,102 +62,155 @@ export default function Branding() {
         const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         if (reduce) return;
 
-        let mm: gsap.MatchMedia | null = null;
+        const mm = gsap.matchMedia();
 
         const ctx = gsap.context(() => {
-            mm = gsap.matchMedia();
             mm.add("(min-width: 769px)", () => {
-                const trackEl = trackRef.current;
                 const sectionEl = benefitsRef.current;
                 const pinEl = pinRef.current;
+                const trackEl = trackRef.current;
 
-
-                if (!trackEl || !sectionEl || !pinEl) return;
-
+                if (!sectionEl || !pinEl || !trackEl) return;
 
                 const slides = gsap.utils.toArray<HTMLElement>(".BrandingBenefits__slide", trackEl);
                 if (slides.length < 2) return;
 
-
-                const getHeaderH = () =>
-                    parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 96;
-
-
                 const viewportEl = pinEl.querySelector<HTMLElement>(".BrandingBenefits__viewport");
+                if (!viewportEl) return;
 
+                const clamp = (min: number, max: number, v: number) => Math.min(max, Math.max(min, v));
+                const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-                const getViewportH = () => viewportEl?.getBoundingClientRect().height || window.innerHeight;
+                // ===== Deck tuning
+                // Más “premium”: transición continua + scroll más largo por tarjeta
+                const basePeek = 40; // asomo de la siguiente (baja para que asome más)
+                const gapPeek = 10;
 
+                const yForSlot = (slot: number) => (slot <= 0 ? 0 : basePeek + (slot - 1) * gapPeek);
+                const scaleForSlot = (slot: number) => Math.max(0.94, 1 - slot * 0.016);
 
-                // Medición robusta del "paso" real entre tarjetas (incluye overlap por CSS)
-                const getStepPx = () => {
-                    // Calculamos la distancia real entre el top del slide 1 al slide 2
-                    // Esto devuelve la altura VISIBLE + el espacio negativo, o sea el "step" real
-                    if (slides.length >= 2) {
-                        const step = slides[1].offsetTop - slides[0].offsetTop;
-                        // Validación simple para asegurar que no sea 0 o negativo
-                        if (Number.isFinite(step) && step > 0) {
-                            return step;
+                const setY = slides.map((el) => gsap.quickSetter(el, "yPercent"));
+                const setS = slides.map((el) => gsap.quickSetter(el, "scale"));
+                const setA = slides.map((el) => gsap.quickSetter(el, "autoAlpha"));
+                const setZ = slides.map((el) => gsap.quickSetter(el, "zIndex"));
+
+                let activeIdx = 0;
+                const setActiveClass = (idx: number) => {
+                    if (idx === activeIdx) return;
+                    activeIdx = idx;
+                    slides.forEach((s, i) => s.classList.toggle("is-active", i === idx));
+                };
+                slides.forEach((s, i) => s.classList.toggle("is-active", i === 0));
+
+                const render = (p: number) => {
+                    const n = slides.length;
+                    const idx = clamp(0, n - 1, Math.round(p));
+                    setActiveClass(idx);
+
+                    for (let i = 0; i < n; i++) {
+                        const r = i - p; // relativo a la activa
+
+                        let y = 0;
+                        let sc = 1;
+                        let a = 1;
+                        let z = 0;
+
+                        if (r < -1.25) {
+                            // ya salió completamente
+                            y = -62;
+                            sc = 0.99;
+                            a = 0;
+                            z = 0;
+                        } else if (r < 0) {
+                            // activa saliendo: NO se apaga a mitad, fade al final
+                            const t = clamp(0, 1, -r); // 0..1
+                            y = lerp(0, -62, t);
+                            sc = lerp(1, 0.992, t);
+
+                            const fadeT = clamp(0, 1, (t - 0.82) / 0.18);
+                            a = lerp(1, 0, fadeT);
+
+                            z = 2000;
+                        } else {
+                            // stack detrás
+                            const rr = clamp(0, 3.6, r);
+                            const slot = Math.min(3, rr);
+                            const k = Math.floor(slot);
+                            const f = slot - k;
+
+                            const y0 = yForSlot(k);
+                            const y1 = yForSlot(k + 1);
+                            y = lerp(y0, y1, f);
+
+                            const s0 = scaleForSlot(k);
+                            const s1 = scaleForSlot(k + 1);
+                            sc = lerp(s0, s1, f);
+
+                            const fadeBack = clamp(0, 1, (r - 3.15) / 0.45);
+                            a = lerp(1, 0, fadeBack);
+
+                            z = 1500 - Math.round(r * 100);
                         }
+
+                        setY[i](y);
+                        setS[i](sc);
+                        setA[i](a);
+                        setZ[i](z);
+
+                        slides[i].style.pointerEvents = i === idx ? "auto" : "none";
                     }
-                    return getViewportH();
                 };
 
-                const getTravelPx = () => Math.round(getStepPx() * (slides.length - 1));
-                const getEndPx = () => Math.round(getStepPx() * slides.length);
+                slides.forEach((s) => gsap.set(s, { willChange: "transform, opacity" }));
+                render(0);
 
+                const getEndPx = () => {
+                    const vh = viewportEl.getBoundingClientRect().height || window.innerHeight;
+                    const perCard = Math.max(900, vh * 1.2); // más recorrido = más fluido
+                    return Math.round(perCard * (slides.length - 1));
+                };
 
-                // Importante: el layout del deck NO debe usar slides absolute.
-                // Z-index para que la de arriba quede encima visualmente
-                slides.forEach((s, i) => {
-                    gsap.set(s, { position: "relative", zIndex: slides.length - i });
-                });
+                const proxy = { p: 0 };
 
-
-                gsap.set(trackEl, { y: 0, yPercent: 0 });
-
-
-                const tween = gsap.to(trackEl, {
-                    y: () => -getTravelPx(),
+                const tween = gsap.to(proxy, {
+                    p: slides.length - 1,
                     ease: "none",
+                    immediateRender: false,
+                    onUpdate: () => render(proxy.p),
                     scrollTrigger: {
                         trigger: sectionEl,
                         start: () => `top top+=${Math.round(getHeaderH())}`,
                         end: () => `+=${getEndPx()}`,
                         pin: pinEl,
                         pinSpacing: true,
-                        scrub: 1.1,
+                        scrub: 1.05,
                         anticipatePin: 2,
                         invalidateOnRefresh: true,
-
                         snap: {
                             snapTo: (value) => {
-                                const n = slides.length - 1;
-                                return Math.round(value * n) / n;
+                                const steps = slides.length - 1;
+                                return Math.round(value * steps) / steps;
                             },
-                            duration: { min: 0.15, max: 0.35 },
-                            ease: "power1.inOut",
+                            duration: { min: 0.28, max: 0.7 },
+                            ease: "power2.out",
                         },
                     },
                 });
 
-
-                // Refresh cuando el layout ya asentó
                 const refresh = () => ScrollTrigger.refresh();
                 const raf = requestAnimationFrame(refresh);
 
-
-                // Recalcular si cambia altura del viewport (media queries / responsive)
                 const ro = new ResizeObserver(refresh);
-                if (viewportEl) ro.observe(viewportEl);
+                ro.observe(viewportEl);
 
+                const onLoad = () => refresh();
+                window.addEventListener("load", onLoad, { passive: true });
 
-                // Si hay imágenes/fonts que cambian medidas, esto ayuda
-                window.addEventListener("load", refresh, { passive: true });
-
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (document as any).fonts?.ready?.then(refresh).catch(() => { });
 
                 return () => {
-                    window.removeEventListener("load", refresh);
+                    window.removeEventListener("load", onLoad);
                     cancelAnimationFrame(raf);
                     ro.disconnect();
                     tween.scrollTrigger?.kill();
@@ -158,9 +219,8 @@ export default function Branding() {
             });
         }, benefitsRef);
 
-
         return () => {
-            if (mm) mm.revert();
+            mm.revert();
             ctx.revert();
         };
     }, []);
@@ -178,7 +238,7 @@ export default function Branding() {
                         <div className="BrandingHero__top">
                             <div className="BrandingHero__titleWrap">
                                 <span className="BrandingHero__services" aria-hidden="true">
-                                    SERVICIOS
+                                    SERVICIO
                                 </span>
 
                                 <h1 className="BrandingHero__title">BRANDING</h1>
@@ -269,57 +329,63 @@ export default function Branding() {
 
                             <div className="BrandingBenefits__viewport">
                                 <div className="BrandingBenefits__track" ref={trackRef}>
+                                    {/* ====== SLIDE 1 ====== */}
                                     <div className="BrandingBenefits__slide">
                                         <article className="BrandingBenefits__card" aria-label="Beneficio 1: Marca Única">
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard01} alt="" aria-hidden="true" />
 
                                             <div className="BrandingBenefits__content">
                                                 <div className="BrandingBenefits__progress" aria-hidden="true">
-                                                    <span className="BrandingBenefits__progressFill" style={{ width: "24%" }} />
+                                                    <span className="BrandingBenefits__progressFill" style={{ width: "25%" }} />
                                                 </div>
 
                                                 <h3 className="BrandingBenefits__h3">MARCA ÚNICA</h3>
                                                 <p className="BrandingBenefits__p">
-                                                    Identidad original que te diferencia y evita verse genérico.
+                                                    Identidad original que te diferencia
+                                                    <br />
+                                                    y evita verse genérico
                                                 </p>
                                             </div>
                                         </article>
                                     </div>
 
+                                    {/* ====== SLIDE 2 ====== */}
                                     <div className="BrandingBenefits__slide">
                                         <article className="BrandingBenefits__card" aria-label="Beneficio 2: Claridad Estratégica">
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard02} alt="" aria-hidden="true" />
 
                                             <div className="BrandingBenefits__content">
                                                 <div className="BrandingBenefits__progress" aria-hidden="true">
-                                                    <span className="BrandingBenefits__progressFill" style={{ width: "58%" }} />
+                                                    <span className="BrandingBenefits__progressFill" style={{ width: "50%" }} />
                                                 </div>
 
                                                 <h3 className="BrandingBenefits__h3">CLARIDAD ESTRATÉGICA</h3>
                                                 <p className="BrandingBenefits__p">
-                                                    Concepto, personalidad y estilo bien definidos desde el inicio.
+                                                    Concepto, personalidad y estilo
+                                                    <br />
+                                                    bien definidos desde el inicio.
                                                 </p>
                                             </div>
                                         </article>
                                     </div>
 
+                                    {/* ====== SLIDE 3 ====== */}
                                     <div className="BrandingBenefits__slide">
                                         <article className="BrandingBenefits__card" aria-label="Beneficio 3: Gestión Sencilla">
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard03} alt="" aria-hidden="true" />
 
                                             <div className="BrandingBenefits__content">
                                                 <div className="BrandingBenefits__progress" aria-hidden="true">
-                                                    <span className="BrandingBenefits__progressFill" style={{ width: "78%" }} />
+                                                    <span className="BrandingBenefits__progressFill" style={{ width: "75%" }} />
                                                 </div>
 
                                                 <h3 className="BrandingBenefits__h3">GESTIÓN SENCILLA</h3>
-                                                <p className="BrandingBenefits__p">
-                                                    Edita y actualiza tu contenido sin complicaciones.
-                                                </p>
+                                                <p className="BrandingBenefits__p">Edita y actualiza tu contenido sin complicaciones</p>
                                             </div>
                                         </article>
                                     </div>
 
+                                    {/* ====== SLIDE 4 ====== */}
                                     <div className="BrandingBenefits__slide">
                                         <article className="BrandingBenefits__card" aria-label="Beneficio 4: Soporte Continuo">
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard04} alt="" aria-hidden="true" />
@@ -331,7 +397,7 @@ export default function Branding() {
 
                                                 <h3 className="BrandingBenefits__h3">SOPORTE CONTINUO</h3>
                                                 <p className="BrandingBenefits__p">
-                                                    Ajustes mensuales de contenido con un diseñador asignado.
+                                                    Ajustes mensuales de contenido con un diseñador asignado
                                                 </p>
                                             </div>
                                         </article>
@@ -343,7 +409,7 @@ export default function Branding() {
                 </section>
 
                 {/* =========================
-            PROYECTOS (MARQUEE infinito)
+            PROYECTOS (MARQUEE)
         ========================= */}
                 <section className="BrandingProjects" id="proyectos">
                     <div className="BrandingWrap BrandingVignette">
@@ -351,7 +417,6 @@ export default function Branding() {
 
                         <div className="BrandingProjects__pill" role="region" aria-label="Marcas con las que trabajamos">
                             <div className="BrandingMarquee" aria-hidden="false">
-                                {/* Duplicamos la lista para loop perfecto */}
                                 <div className="BrandingMarquee__inner">
                                     {[...BRAND_LOGOS, ...BRAND_LOGOS].map((logo, i) => (
                                         <div className="BrandingMarquee__item" key={`${logo.alt}-${i}`}>

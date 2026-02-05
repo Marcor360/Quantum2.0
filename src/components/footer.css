@@ -32,19 +32,7 @@
     fill-opacity: 0;
     stroke-dasharray: 2200;
     stroke-dashoffset: 2200;
-    animation: qFooterDraw 2.8s ease forwards;
-}
-
-.q-footer__lines path:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.q-footer__lines path:nth-child(2) {
-    animation-delay: 0.35s;
-}
-
-.q-footer__lines path:nth-child(3) {
-    animation-delay: 0.6s;
+    /* Animation controlled by GSAP ScrollTrigger */
 }
 
 .q-footer__content {
@@ -62,7 +50,7 @@
     gap: 32px;
     opacity: 0;
     transform: translateY(10px);
-    animation: qFooterFade 0.8s ease 2.2s forwards;
+    /* Animation controlled by GSAP ScrollTrigger */
 }
 
 .q-footer__cta h3 {
@@ -90,7 +78,7 @@
     margin: 0 auto;
     opacity: 0;
     transform: translateY(10px);
-    animation: qFooterFade 0.9s ease 2.5s forwards;
+    /* Animation controlled by GSAP ScrollTrigger */
 }
 
 .q-footer__wordmark img {
@@ -106,7 +94,7 @@
     gap: 16px;
     opacity: 0;
     transform: translateY(10px);
-    animation: qFooterFade 0.8s ease 2.7s forwards;
+    /* Animation controlled by GSAP ScrollTrigger */
     font-size: 1.4rem;
 }
 
@@ -139,32 +127,7 @@
     filter: brightness(0) invert(1);
 }
 
-@keyframes qFooterDraw {
-    0% {
-        stroke-dashoffset: 2200;
-        fill-opacity: 0;
-        stroke-opacity: 1;
-    }
-
-    70% {
-        stroke-dashoffset: 0;
-        fill-opacity: 0;
-        stroke-opacity: 1;
-    }
-
-    100% {
-        stroke-dashoffset: 0;
-        fill-opacity: 1;
-        stroke-opacity: 0;
-    }
-}
-
-@keyframes qFooterFade {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+/* Keyframes removed - animations controlled by GSAP ScrollTrigger */
 
 @media (max-width: 900px) {
     .q-footer__top {
