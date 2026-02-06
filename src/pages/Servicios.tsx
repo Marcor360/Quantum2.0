@@ -1,7 +1,7 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -78,18 +78,21 @@ export default function Servicios() {
                 if (!items.length) return;
 
                 // Estado inicial
-                gsap.set(items, { autoAlpha: 0, y: 60 });
+                // estado inicial más liviano
+                gsap.set(items, { autoAlpha: 0, y: 36 });
                 gsap.set(items[0], { autoAlpha: 1, y: 0 });
 
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: section,
                         start: () => `top top+=${getHeaderH()}`, // ✅ respeta header sticky
-                        end: () => `+=${window.innerHeight * (items.length + 1) * 1.2}`,
+                        // recorrido más corto para un scroll menos pesado
+                        end: () => `+=${window.innerHeight * (items.length + 1) * 0.9}`,
                         pin: pin,
                         pinSpacing: true,
                         pinReparent: true, // ✅ ayuda si hay parents raros (overflow/transform)
-                        scrub: 0.9,
+                        // scrub y snap más suaves
+                        scrub: 0.45,
                         anticipatePin: 1,
                         invalidateOnRefresh: true,
 
@@ -102,10 +105,10 @@ export default function Servicios() {
                 items.forEach((_, i) => {
                     if (i === 0) return;
 
-                    tl.to(items[i - 1], { autoAlpha: 0, y: -60, duration: 0.35 }, i - 1).fromTo(
+                    tl.to(items[i - 1], { autoAlpha: 0, y: -28, duration: 0.25, ease: "power1.out" }, i - 1).fromTo(
                         items[i],
-                        { autoAlpha: 0, y: 60 },
-                        { autoAlpha: 1, y: 0, duration: 0.35 },
+                        { autoAlpha: 0, y: 28 },
+                        { autoAlpha: 1, y: 0, duration: 0.25, ease: "power1.out" },
                         i - 1
                     );
                 });

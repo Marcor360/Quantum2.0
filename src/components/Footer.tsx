@@ -1,7 +1,7 @@
 import "./footer.css";
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 import LinesFooter from "../assets/svg/360/LineasFooter.svg?react";
 import LettersFooter from "../assets/svg/360/Letras Quantum Footer.svg";

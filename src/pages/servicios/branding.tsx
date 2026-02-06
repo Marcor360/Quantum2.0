@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 import Head from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -59,170 +59,137 @@ export default function Branding() {
     const trackRef = useRef<HTMLDivElement | null>(null);
 
     useLayoutEffect(() => {
-        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        if (reduce) return;
+        try {
+            if (typeof window === "undefined" || typeof document === "undefined") return;
 
-        const mm = gsap.matchMedia();
+            const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+            if (reduce) return;
 
-        const ctx = gsap.context(() => {
-            mm.add("(min-width: 769px)", () => {
-                const sectionEl = benefitsRef.current;
-                const pinEl = pinRef.current;
-                const trackEl = trackRef.current;
+            const mm = gsap.matchMedia();
 
-                if (!sectionEl || !pinEl || !trackEl) return;
+            const ctx = gsap.context(() => {
+                mm.add("(min-width: 769px)", () => {
+                    const sectionEl = benefitsRef.current;
+                    const pinEl = pinRef.current;
+                    const viewportEl = pinEl?.querySelector<HTMLElement>(".BrandingBenefits__viewport");
+                    const trackEl = trackRef.current;
 
-                const slides = gsap.utils.toArray<HTMLElement>(".BrandingBenefits__slide", trackEl);
-                if (slides.length < 2) return;
+                    if (!sectionEl || !pinEl || !viewportEl || !trackEl) return;
 
-                const viewportEl = pinEl.querySelector<HTMLElement>(".BrandingBenefits__viewport");
-                if (!viewportEl) return;
+                    const cards = gsap.utils.toArray<HTMLElement>(".BrandingBenefits__card", trackEl);
+                    if (cards.length < 2) return;
 
-                const clamp = (min: number, max: number, v: number) => Math.min(max, Math.max(min, v));
-                const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+                    sectionEl.classList.add("is-enhanced");
 
-                // ===== Deck tuning
-                // Más “premium”: transición continua + scroll más largo por tarjeta
-                const basePeek = 40; // asomo de la siguiente (baja para que asome más)
-                const gapPeek = 10;
+                    // Estado inicial
+                    gsap.set(cards, { autoAlpha: 0, yPercent: 24, pointerEvents: "none" });
+                    gsap.set(cards[0], { autoAlpha: 1, yPercent: 0, pointerEvents: "auto" });
 
-                const yForSlot = (slot: number) => (slot <= 0 ? 0 : basePeek + (slot - 1) * gapPeek);
-                const scaleForSlot = (slot: number) => Math.max(0.94, 1 - slot * 0.016);
+                    const tl = gsap.timeline({ paused: true });
 
-                const setY = slides.map((el) => gsap.quickSetter(el, "yPercent"));
-                const setS = slides.map((el) => gsap.quickSetter(el, "scale"));
-                const setA = slides.map((el) => gsap.quickSetter(el, "autoAlpha"));
-                const setZ = slides.map((el) => gsap.quickSetter(el, "zIndex"));
-
-                let activeIdx = 0;
-                const setActiveClass = (idx: number) => {
-                    if (idx === activeIdx) return;
-                    activeIdx = idx;
-                    slides.forEach((s, i) => s.classList.toggle("is-active", i === idx));
-                };
-                slides.forEach((s, i) => s.classList.toggle("is-active", i === 0));
-
-                const render = (p: number) => {
-                    const n = slides.length;
-                    const idx = clamp(0, n - 1, Math.round(p));
-                    setActiveClass(idx);
-
-                    for (let i = 0; i < n; i++) {
-                        const r = i - p; // relativo a la activa
-
-                        let y = 0;
-                        let sc = 1;
-                        let a = 1;
-                        let z = 0;
-
-                        if (r < -1.25) {
-                            // ya salió completamente
-                            y = -62;
-                            sc = 0.99;
-                            a = 0;
-                            z = 0;
-                        } else if (r < 0) {
-                            // activa saliendo: NO se apaga a mitad, fade al final
-                            const t = clamp(0, 1, -r); // 0..1
-                            y = lerp(0, -62, t);
-                            sc = lerp(1, 0.992, t);
-
-                            const fadeT = clamp(0, 1, (t - 0.82) / 0.18);
-                            a = lerp(1, 0, fadeT);
-
-                            z = 2000;
-                        } else {
-                            // stack detrás
-                            const rr = clamp(0, 3.6, r);
-                            const slot = Math.min(3, rr);
-                            const k = Math.floor(slot);
-                            const f = slot - k;
-
-                            const y0 = yForSlot(k);
-                            const y1 = yForSlot(k + 1);
-                            y = lerp(y0, y1, f);
-
-                            const s0 = scaleForSlot(k);
-                            const s1 = scaleForSlot(k + 1);
-                            sc = lerp(s0, s1, f);
-
-                            const fadeBack = clamp(0, 1, (r - 3.15) / 0.45);
-                            a = lerp(1, 0, fadeBack);
-
-                            z = 1500 - Math.round(r * 100);
+                    cards.forEach((card, i) => {
+                        const label = `s${i}`;
+                        tl.addLabel(label, i);
+                        if (i < cards.length - 1) {
+                            tl.to(
+                                card,
+                                { autoAlpha: 0, yPercent: -22, duration: 1, ease: "none" },
+                                label
+                            ).fromTo(
+                                cards[i + 1],
+                                { autoAlpha: 0, yPercent: 22 },
+                                { autoAlpha: 1, yPercent: 0, duration: 1, ease: "none" },
+                                label
+                            );
                         }
+                    });
 
-                        setY[i](y);
-                        setS[i](sc);
-                        setA[i](a);
-                        setZ[i](z);
+                    const labels = tl.labels;
+                    const labelKeys = Object.keys(labels).sort((a, b) => labels[a] - labels[b]);
+                    let activeIdx = 0;
 
-                        slides[i].style.pointerEvents = i === idx ? "auto" : "none";
-                    }
-                };
+                    const setActive = (idx: number) => {
+                        if (idx === activeIdx) return;
+                        activeIdx = idx;
+                        cards.forEach((c, i) => {
+                            c.classList.toggle("is-active", i === idx);
+                            c.style.pointerEvents = i === idx ? "auto" : "none";
+                        });
+                    };
+                    setActive(0);
 
-                slides.forEach((s) => gsap.set(s, { willChange: "transform, opacity" }));
-                render(0);
+                    const headerOffset = Math.round(getHeaderH());
+                    const getEnd = () =>
+                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, 1) *
+                        (cards.length - 1) *
+                        1.25;
 
-                const getEndPx = () => {
-                    const vh = viewportEl.getBoundingClientRect().height || window.innerHeight;
-                    const perCard = Math.max(900, vh * 1.2); // más recorrido = más fluido
-                    return Math.round(perCard * (slides.length - 1));
-                };
-
-                const proxy = { p: 0 };
-
-                const tween = gsap.to(proxy, {
-                    p: slides.length - 1,
-                    ease: "none",
-                    immediateRender: false,
-                    onUpdate: () => render(proxy.p),
-                    scrollTrigger: {
+                    const st = ScrollTrigger.create({
                         trigger: sectionEl,
-                        start: () => `top top+=${Math.round(getHeaderH())}`,
-                        end: () => `+=${getEndPx()}`,
+                        start: () => `top top+=${headerOffset}`,
+                        end: () => `+=${getEnd()}`,
                         pin: pinEl,
                         pinSpacing: true,
-                        scrub: 1.05,
-                        anticipatePin: 2,
+                        scrub: 1.3,
+                        anticipatePin: 1,
                         invalidateOnRefresh: true,
                         snap: {
-                            snapTo: (value) => {
-                                const steps = slides.length - 1;
-                                return Math.round(value * steps) / steps;
-                            },
-                            duration: { min: 0.28, max: 0.7 },
-                            ease: "power2.out",
+                            snapTo: "labelsDirectional",
+                            duration: { min: 0.12, max: 0.35 },
+                            delay: 0.05,
+                            ease: "power1.inOut",
                         },
-                    },
+                        onUpdate: (self) => {
+                            const t = tl.duration() * self.progress;
+                            tl.time(t);
+
+                            // step activo estable
+                            let closest = 0;
+                            let minDiff = Number.POSITIVE_INFINITY;
+                            labelKeys.forEach((k, i) => {
+                                const d = Math.abs(labels[k] - tl.time());
+                                if (d < minDiff) {
+                                    minDiff = d;
+                                    closest = i;
+                                }
+                            });
+                            setActive(closest);
+                        },
+                    });
+
+                    const refresh = () => ScrollTrigger.refresh();
+                    const raf = requestAnimationFrame(refresh);
+
+                    let ro: ResizeObserver | null = null;
+                    if (typeof ResizeObserver !== "undefined") {
+                        ro = new ResizeObserver(() => requestAnimationFrame(refresh));
+                        ro.observe(viewportEl);
+                        ro.observe(pinEl);
+                    }
+
+                    const onLoad = () => refresh();
+                    window.addEventListener("load", onLoad, { passive: true });
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (document as any).fonts?.ready?.then(refresh).catch(() => { });
+
+                    return () => {
+                        window.removeEventListener("load", onLoad);
+                        cancelAnimationFrame(raf);
+                        ro?.disconnect();
+                        st.kill();
+                        tl.kill();
+                        sectionEl.classList.remove("is-enhanced");
+                    };
                 });
+            }, benefitsRef);
 
-                const refresh = () => ScrollTrigger.refresh();
-                const raf = requestAnimationFrame(refresh);
-
-                const ro = new ResizeObserver(refresh);
-                ro.observe(viewportEl);
-
-                const onLoad = () => refresh();
-                window.addEventListener("load", onLoad, { passive: true });
-
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (document as any).fonts?.ready?.then(refresh).catch(() => { });
-
-                return () => {
-                    window.removeEventListener("load", onLoad);
-                    cancelAnimationFrame(raf);
-                    ro.disconnect();
-                    tween.scrollTrigger?.kill();
-                    tween.kill();
-                };
-            });
-        }, benefitsRef);
-
-        return () => {
-            mm.revert();
-            ctx.revert();
-        };
+            return () => {
+                mm.revert();
+                ctx.revert();
+            };
+        } catch (err) {
+            console.error("Branding ScrollTrigger init failed", err);
+        }
     }, []);
 
     return (
@@ -335,10 +302,6 @@ export default function Branding() {
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard01} alt="" aria-hidden="true" />
 
                                             <div className="BrandingBenefits__content">
-                                                <div className="BrandingBenefits__progress" aria-hidden="true">
-                                                    <span className="BrandingBenefits__progressFill" style={{ width: "25%" }} />
-                                                </div>
-
                                                 <h3 className="BrandingBenefits__h3">MARCA ÚNICA</h3>
                                                 <p className="BrandingBenefits__p">
                                                     Identidad original que te diferencia
@@ -355,10 +318,6 @@ export default function Branding() {
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard02} alt="" aria-hidden="true" />
 
                                             <div className="BrandingBenefits__content">
-                                                <div className="BrandingBenefits__progress" aria-hidden="true">
-                                                    <span className="BrandingBenefits__progressFill" style={{ width: "50%" }} />
-                                                </div>
-
                                                 <h3 className="BrandingBenefits__h3">CLARIDAD ESTRATÉGICA</h3>
                                                 <p className="BrandingBenefits__p">
                                                     Concepto, personalidad y estilo
@@ -375,10 +334,6 @@ export default function Branding() {
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard03} alt="" aria-hidden="true" />
 
                                             <div className="BrandingBenefits__content">
-                                                <div className="BrandingBenefits__progress" aria-hidden="true">
-                                                    <span className="BrandingBenefits__progressFill" style={{ width: "75%" }} />
-                                                </div>
-
                                                 <h3 className="BrandingBenefits__h3">GESTIÓN SENCILLA</h3>
                                                 <p className="BrandingBenefits__p">Edita y actualiza tu contenido sin complicaciones</p>
                                             </div>
@@ -391,14 +346,8 @@ export default function Branding() {
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard04} alt="" aria-hidden="true" />
 
                                             <div className="BrandingBenefits__content">
-                                                <div className="BrandingBenefits__progress" aria-hidden="true">
-                                                    <span className="BrandingBenefits__progressFill" style={{ width: "100%" }} />
-                                                </div>
-
                                                 <h3 className="BrandingBenefits__h3">SOPORTE CONTINUO</h3>
-                                                <p className="BrandingBenefits__p">
-                                                    Ajustes mensuales de contenido con un diseñador asignado
-                                                </p>
+                                                <p className="BrandingBenefits__p">Ajustes mensuales de contenido con un diseñador asignado</p>
                                             </div>
                                         </article>
                                     </div>

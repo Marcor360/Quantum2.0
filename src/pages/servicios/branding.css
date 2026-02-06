@@ -193,6 +193,12 @@
     filter: drop-shadow(0 22px 52px rgba(0, 0, 0, 0.65));
 }
 
+@keyframes SpinSlow {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .BrandingHero__asterisco {
         animation: none;
@@ -261,12 +267,6 @@
     width: min(520px, 100%);
     margin-left: auto;
     overflow: visible;
-}
-
-@keyframes SpinSlow {
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 .BrandingPrice__cardBg {
@@ -345,12 +345,29 @@
 
 .BrandingBenefits__pin {
     display: grid;
-    /* ⬇️ MÁS GRANDE la columna izquierda (BENEFICIOS) */
     grid-template-columns: clamp(220px, 22vw, 340px) 1fr;
     gap: clamp(14px, 2.6vw, 28px);
     align-items: center;
     min-height: calc(100vh - var(--header-h, 96px));
     align-content: center;
+}
+
+.BrandingBenefits__viewport {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: clamp(16px, 1.8vw, 22px);
+    isolation: isolate;
+}
+
+.BrandingBenefits__track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.BrandingBenefits__slide {
+    position: relative;
 }
 
 .BrandingBenefits__left {
@@ -365,7 +382,6 @@
     justify-content: flex-start;
 }
 
-/* ⬇️ Base del SVG “BENEFICIOS” (antes solo estaba en mobile) */
 .BrandingBenefits__titleSvg {
     width: 100%;
     max-width: clamp(240px, 24vw, 320px);
@@ -374,58 +390,128 @@
     filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.55));
 }
 
-/* =========================
-   BRANDING — BENEFICIOS (DECK)
-========================= */
-
-@media (min-width: 769px) {
-    .BrandingBenefits__viewport {
-        /* ⬇️ un poco más grande para que se perciba más “premium” */
-        --card-h: clamp(460px, 76vh, 820px);
-        --peek: clamp(110px, 20vh, 240px);
-        /* ⬇️ evita que se corten brillos/bordes */
-        --stage-pad: clamp(10px, 1.3vw, 18px);
-
-        height: calc(var(--card-h) + var(--peek));
-        padding-bottom: var(--peek);
-
-        overflow: hidden;
-        position: relative;
-        isolation: isolate;
-    }
-
-    .BrandingBenefits__track {
-        position: relative;
-        height: var(--card-h);
-        width: 100%;
-    }
-
-    /* Slides apiladas (stage con padding para NO recortar) */
-    .BrandingBenefits__slide {
-        position: absolute;
-        inset: var(--stage-pad);
-        will-change: transform, opacity;
-        transform: translateZ(0);
-    }
-}
-
-/* Profundidad (suave) */
+/* Base card (mobile / sin enhanced) */
 .BrandingBenefits__card {
+    position: relative;
     height: 100%;
+    min-height: clamp(260px, 44vh, 520px);
+    overflow: hidden;
+    border-radius: clamp(16px, 1.8vw, 22px);
     transform: translateZ(0);
-    transition: filter 220ms ease;
-    filter: brightness(0.92);
 }
 
-.BrandingBenefits__slide.is-active .BrandingBenefits__card {
-    filter: brightness(1);
-}
-
-/* Tu fondo es SVG: debe verse completo */
 .BrandingBenefits__cardBg {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    display: block;
+}
+
+.BrandingBenefits__content {
+    position: absolute;
+    inset: clamp(18px, 2.4vw, 28px) clamp(18px, 2.8vw, 34px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1.4vw, 16px);
+    color: rgba(255, 255, 255, 0.9);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.BrandingBenefits__h3 {
+    margin: clamp(14px, 2vw, 22px) 0 0;
+    font-family: var(--font-morganite);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    font-size: clamp(3.6rem, 4.2vw, 6.2rem);
+    line-height: 0.98;
+}
+
+.BrandingBenefits__p {
+    margin: 0;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.25rem, 1.6vw, 1.9rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 36ch;
+}
+
+/* Controls (steps + progress) */
+/* (controles de pasos eliminados a petición) */
+
+/* =========================
+   BENEFICIOS (SLIDER tipo video) ✅
+   - quita la línea extra: NO border aquí (el SVG ya trae su línea)
+========================= */
+@media (min-width: 769px) {
+    .BrandingBenefits.is-enhanced .BrandingBenefits__viewport {
+        --card-w: clamp(640px, 62vw, 980px);
+        --card-h: clamp(420px, 60vh, 640px);
+
+        width: var(--card-w);
+        height: var(--card-h);
+
+        justify-self: center;
+        margin-inline: auto;
+
+        border-radius: clamp(18px, 2vw, 26px);
+        overflow: hidden;
+
+        /* ❌ SIN border (evita línea duplicada) */
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+
+        position: relative;
+        isolation: isolate;
+        background: rgba(0, 0, 0, 0.12);
+    }
+
+    .BrandingBenefits.is-enhanced .BrandingBenefits__track {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: var(--card-h);
+        will-change: transform;
+    }
+
+    .BrandingBenefits.is-enhanced .BrandingBenefits__slide {
+        position: absolute;
+        inset: 0;
+        will-change: transform, opacity;
+    }
+
+    .BrandingBenefits.is-enhanced .BrandingBenefits__card {
+        height: 100%;
+        min-height: 0;
+        border-radius: 0;
+        /* clip lo hace el viewport */
+    }
+
+    .BrandingBenefits.is-enhanced .BrandingBenefits__cardBg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* ✅ compensación: como ya no hay progress HTML, bajamos el título */
+    .BrandingBenefits__h3 {
+        margin-top: clamp(44px, 3.8vw, 64px);
+    }
+
+    /* ✅ Hardware acceleration for smooth scrolling */
+    .BrandingBenefits.is-enhanced .BrandingBenefits__viewport {
+        transform: translateZ(0);
+    }
+
+    .BrandingBenefits.is-enhanced .BrandingBenefits__track {
+        transform: translateZ(0);
+    }
+
+    .BrandingBenefits.is-enhanced .BrandingBenefits__slide {
+        will-change: transform;
+    }
 }
 
 /* =========================
@@ -458,7 +544,6 @@
     min-height: clamp(90px, 12vw, 150px);
 }
 
-/* sutil fade en bordes (como máscara) */
 .BrandingProjects__pill::before {
     content: "";
     position: absolute;
@@ -509,7 +594,6 @@
     }
 }
 
-/* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
     .BrandingMarquee__inner {
         animation: none;
@@ -544,43 +628,6 @@
     }
 }
 
-@media (max-height: 900px) and (min-width: 1025px) {
-    .BrandingHero {
-        padding: clamp(40px, 5.5vw, 80px) 0 clamp(36px, 5vw, 80px);
-    }
-
-    .BrandingHero__bottom {
-        margin-top: clamp(22px, 3vw, 36px);
-    }
-
-    .BrandingHero__lead {
-        margin-bottom: 10px;
-        font-size: clamp(1.4rem, 1.3vw, 1.7rem);
-    }
-
-    .BrandingHero__text {
-        font-size: clamp(1.15rem, 1.05vw, 1.4rem);
-    }
-}
-
-@media (max-height: 900px) and (min-width: 769px) {
-    .BrandingBenefits__viewport {
-        height: clamp(360px, 64vh, 640px);
-    }
-
-    .BrandingBenefits__content {
-        padding: clamp(18px, 2.4vw, 30px);
-    }
-
-    .BrandingBenefits__h3 {
-        font-size: clamp(4.6rem, 4.8vw, 7.2rem);
-    }
-
-    .BrandingBenefits__progress {
-        width: min(420px, 72%);
-    }
-}
-
 @media (max-width: 1024px) {
     .BrandingHero__bottom {
         grid-template-columns: 1fr;
@@ -602,68 +649,29 @@
 }
 
 @media (max-width: 768px) {
-    .BrandingHero__services {
-        display: none;
-        /* en mobile estorba y el mock se mantiene limpio */
-    }
-
-    .BrandingHero__top {
-        text-align: center;
-    }
-
-    .BrandingHero__bottom {
-        gap: 18px;
-    }
-
     .BrandingBenefits__pin {
         grid-template-columns: 1fr;
-    }
-
-    .BrandingBenefits__left {
-        justify-content: center;
+        min-height: auto;
     }
 
     .BrandingBenefits__left--pinned {
         justify-content: center;
-        margin-bottom: 14px;
-    }
-
-    .BrandingBenefits__viewport {
-        height: auto;
-        overflow: visible;
-        border-radius: 0;
-        max-width: none;
-    }
-
-    .BrandingBenefits__track {
-        transform: none !important;
-        gap: clamp(22px, 3.6vw, 34px);
-    }
-
-    .BrandingBenefits__slide {
-        height: auto;
+        margin-bottom: 12px;
     }
 
     .BrandingBenefits__titleSvg {
-        max-width: 160px;
+        max-width: 260px;
     }
 
     .BrandingBenefits__content {
-        padding: 18px 18px 26px;
+        inset: 18px 18px;
     }
 
-    .BrandingBenefits__progress {
-        width: min(360px, 92%);
+    .BrandingBenefits__h3 {
+        font-size: clamp(3.4rem, 10vw, 5.2rem);
     }
 
-    .BrandingProjects__pill {
-        border-radius: 34px;
-        /* en mobile se siente mejor que pill gigante */
-        padding: clamp(22px, 6vw, 30px);
-        min-height: clamp(78px, 22vw, 120px);
-    }
-
-    .BrandingProjects__pill::before {
-        opacity: 0.35;
+    .BrandingBenefits__p {
+        font-size: clamp(1.15rem, 3.8vw, 1.55rem);
     }
 }
