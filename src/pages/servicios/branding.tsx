@@ -122,7 +122,7 @@ export default function Branding() {
                     const getEnd = () =>
                         Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, 1) *
                         (cards.length - 1) *
-                        1.25;
+                        1.6; // scroll más largo = transición más lenta
 
                     const st = ScrollTrigger.create({
                         trigger: sectionEl,
@@ -130,7 +130,7 @@ export default function Branding() {
                         end: () => `+=${getEnd()}`,
                         pin: pinEl,
                         pinSpacing: true,
-                        scrub: 1.3,
+                        scrub: 1.8, // más lento/suave
                         anticipatePin: 1,
                         invalidateOnRefresh: true,
                         snap: {
