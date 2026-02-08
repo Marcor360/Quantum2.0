@@ -348,10 +348,12 @@
     display: grid;
     grid-template-columns: clamp(220px, 22vw, 340px) 1fr;
     gap: clamp(14px, 2.6vw, 28px);
-    align-items: flex-start; /* pega el stack hacia arriba */
+    align-items: flex-start;
+    /* pega el stack hacia arriba */
     min-height: calc(100vh - var(--header-h, 96px));
     align-content: flex-start;
-    margin-top: 0; /* evita recorte superior */
+    margin-top: 0;
+    /* evita recorte superior */
 }
 
 .BrandingBenefits__viewport {
@@ -384,7 +386,8 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-left: clamp(-18px, -1.8vw, -8px); /* acerca el título a la esquina */
+    margin-left: clamp(-18px, -1.8vw, -8px);
+    /* acerca el título a la esquina */
 }
 
 .BrandingBenefits__titleSvg {
@@ -455,24 +458,27 @@
     .BrandingBenefits.is-enhanced .BrandingBenefits__viewport {
         /* tamaño más controlado para que la tarjeta se vea completa */
         --card-w: clamp(900px, 70vw, 1180px);
-        --card-h: clamp(460px, 58vh, 640px); /* más baja para que quepa completa */
+        --card-h: clamp(460px, 58vh, 640px);
+        /* más baja para que quepa completa */
 
         width: var(--card-w);
         height: var(--card-h);
 
         justify-self: center;
         margin-inline: auto;
-        margin-top: clamp(8px, 1.4vw, 24px); /* separa del header */
+        margin-top: clamp(8px, 1.4vw, 24px);
+        /* separa del header */
 
         border-radius: clamp(18px, 2vw, 26px);
-        overflow: visible; /* no recortes */
+        overflow: visible;
+        /* no recortes */
 
         /* ❌ SIN border (evita línea duplicada) */
-        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.55);
+
 
         position: relative;
         isolation: isolate;
-        background: rgba(0, 0, 0, 0.12);
+
     }
 
     .BrandingBenefits.is-enhanced .BrandingBenefits__track {
@@ -499,8 +505,23 @@
     .BrandingBenefits.is-enhanced .BrandingBenefits__cardBg {
         width: 100%;
         height: 100%;
-        object-fit: contain; /* muestra el SVG completo sin recortes */
+        object-fit: contain;
+        /* muestra el SVG completo sin recortes */
         display: block;
+    }
+
+    /* Centra verticalmente el bloque de texto dentro de la tarjeta
+       y le da un margen uniforme para que no quede pegado al borde superior. */
+    .BrandingBenefits.is-enhanced .BrandingBenefits__content {
+        /* Coloca el bloque de texto visualmente dentro del área central (marco rojo de la referencia) */
+        top: 50%;
+        left: 55%;
+        right: auto;
+        bottom: auto;
+        transform: translate(-50%, -50%);
+        width: min(60%, 540px);
+        max-width: none;
+        justify-content: center;
     }
 
     /* ✅ compensación: como ya no hay progress HTML, bajamos el título */
