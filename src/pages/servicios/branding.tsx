@@ -76,53 +76,55 @@ export default function Branding() {
 
                     if (!sectionEl || !pinEl || !viewportEl || !trackEl) return;
 
+                    const slides = gsap.utils.toArray<HTMLElement>(".BrandingBenefits__slide", trackEl);
                     const cards = gsap.utils.toArray<HTMLElement>(".BrandingBenefits__card", trackEl);
-                    if (cards.length < 2) return;
+                    if (slides.length < 2) return;
 
                     sectionEl.classList.add("is-enhanced");
 
-                    // Estado inicial
-                    gsap.set(cards, { autoAlpha: 0, yPercent: 24, pointerEvents: "none" });
-                    gsap.set(cards[0], { autoAlpha: 1, yPercent: 0, pointerEvents: "auto" });
+                    // Estado inicial: slides apilados; la primera visible centrada
+                    gsap.set(slides, { yPercent: 110, autoAlpha: 1, zIndex: (i) => i });
+                    gsap.set(slides[0], { yPercent: 0 });
 
-                    const tl = gsap.timeline({ paused: true });
+                    const tl = gsap.timeline();
 
-                    cards.forEach((card, i) => {
+                    slides.forEach((slide, i) => {
                         const label = `s${i}`;
                         tl.addLabel(label, i);
-                        if (i < cards.length - 1) {
+                        if (i < slides.length - 1) {
                             tl.to(
-                                card,
-                                { autoAlpha: 0, yPercent: -22, duration: 1, ease: "none" },
+                                slide,
+                                { yPercent: -110, duration: 1, ease: "none" },
                                 label
                             ).fromTo(
-                                cards[i + 1],
-                                { autoAlpha: 0, yPercent: 22 },
-                                { autoAlpha: 1, yPercent: 0, duration: 1, ease: "none" },
+                                slides[i + 1],
+                                { yPercent: 110 },
+                                { yPercent: 0, duration: 1, ease: "none" },
                                 label
                             );
                         }
                     });
 
-                    const labels = tl.labels;
-                    const labelKeys = Object.keys(labels).sort((a, b) => labels[a] - labels[b]);
                     let activeIdx = 0;
 
                     const setActive = (idx: number) => {
                         if (idx === activeIdx) return;
                         activeIdx = idx;
-                        cards.forEach((c, i) => {
-                            c.classList.toggle("is-active", i === idx);
-                            c.style.pointerEvents = i === idx ? "auto" : "none";
+                        slides.forEach((s, i) => {
+                            s.classList.toggle("is-active", i === idx);
+                            s.style.pointerEvents = i === idx ? "auto" : "none";
                         });
+                        cards.forEach((c, i) => c.classList.toggle("is-active", i === idx));
                     };
                     setActive(0);
 
                     const headerOffset = Math.round(getHeaderH());
+                    const STEP = () =>
+                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, 1) * 1.35;
+                    const EXTRA = () =>
+                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, 1);
                     const getEnd = () =>
-                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, 1) *
-                        (cards.length - 1) *
-                        1.6; // scroll más largo = transición más lenta
+                        STEP() * (slides.length - 1) + EXTRA() * 2; // más recorrido para ver la última tarjeta
 
                     const st = ScrollTrigger.create({
                         trigger: sectionEl,
@@ -130,9 +132,10 @@ export default function Branding() {
                         end: () => `+=${getEnd()}`,
                         pin: pinEl,
                         pinSpacing: true,
-                        scrub: 1.8, // más lento/suave
+                        scrub: 1.6, // más lento/suave
                         anticipatePin: 1,
                         invalidateOnRefresh: true,
+                        animation: tl,
                         snap: {
                             snapTo: "labelsDirectional",
                             duration: { min: 0.12, max: 0.35 },
@@ -140,20 +143,9 @@ export default function Branding() {
                             ease: "power1.inOut",
                         },
                         onUpdate: (self) => {
-                            const t = tl.duration() * self.progress;
-                            tl.time(t);
-
-                            // step activo estable
-                            let closest = 0;
-                            let minDiff = Number.POSITIVE_INFINITY;
-                            labelKeys.forEach((k, i) => {
-                                const d = Math.abs(labels[k] - tl.time());
-                                if (d < minDiff) {
-                                    minDiff = d;
-                                    closest = i;
-                                }
-                            });
-                            setActive(closest);
+                            const idx = Math.round(self.progress * (slides.length - 1));
+                            const clamped = Math.min(slides.length - 1, Math.max(0, idx));
+                            setActive(clamped);
                         },
                     });
 

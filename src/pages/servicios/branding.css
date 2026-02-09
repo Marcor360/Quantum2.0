@@ -292,7 +292,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-chicle);
-    font-size: clamp(2.6rem, 2.7vw, 3.6rem);
+    font-size: clamp(3rem, 3.2vw, 4.2rem);
 }
 
 .BrandingPrice__divider {
@@ -312,7 +312,7 @@
 .BrandingPrice__currency {
     font-family: var(--font-subjectivity);
     font-weight: 800;
-    font-size: clamp(2.2rem, 2vw, 2.8rem);
+    font-size: clamp(2.4rem, 2.6vw, 3.2rem);
     opacity: 0.95;
 }
 
@@ -320,7 +320,7 @@
     font-family: var(--font-morganite);
     font-weight: 900;
     letter-spacing: 0.03em;
-    font-size: clamp(6.8rem, 6.2vw, 9.4rem);
+    font-size: clamp(7.6rem, 7vw, 10.4rem);
     line-height: 0.9;
 }
 
@@ -328,7 +328,7 @@
     font-family: var(--font-subjectivity);
     font-weight: 800;
     letter-spacing: 0.12em;
-    font-size: clamp(1.2rem, 1.1vw, 1.4rem);
+    font-size: clamp(1.4rem, 1.35vw, 1.9rem);
     opacity: 0.95;
     margin-left: 2px;
 }
@@ -346,10 +346,9 @@
     display: grid;
     grid-template-columns: clamp(220px, 22vw, 340px) 1fr;
     gap: clamp(14px, 2.6vw, 28px);
-    align-items: flex-start;
-    /* pega el stack hacia arriba */
-    min-height: calc(100vh - var(--header-h, 96px));
-    align-content: flex-start;
+    align-items: center;
+    height: calc(100vh - var(--header-h, 96px));
+    align-content: center;
     margin-top: 0;
     /* evita recorte superior */
 }
@@ -468,11 +467,9 @@
         /* separa del header */
 
         border-radius: clamp(18px, 2vw, 26px);
-        overflow: visible;
-        /* no recortes */
-
-        /* ❌ SIN border (evita línea duplicada) */
-
+        overflow: hidden;
+        filter: drop-shadow(0 20px 44px rgba(0, 0, 0, 0.45));
+        /* clip y sombra desde el viewport */
 
         position: relative;
         isolation: isolate;
@@ -490,7 +487,7 @@
     .BrandingBenefits.is-enhanced .BrandingBenefits__slide {
         position: absolute;
         inset: 0;
-        will-change: transform, opacity;
+        will-change: transform;
     }
 
     .BrandingBenefits.is-enhanced .BrandingBenefits__card {

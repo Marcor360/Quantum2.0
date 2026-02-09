@@ -6,7 +6,7 @@ import Logo from "../assets/svg/Logo-Amarillo.svg";
 import MenuIcon from "../assets/svg/Menu.svg";
 import LenguajeIcon from "../assets/svg/Lenguaje.svg";
 
-type Lang = "es" | "en";
+import { useLang, type Lang } from "../i18n/lang";
 
 const copy: Record<
     Lang,
@@ -59,22 +59,15 @@ function useMediaQuery(query: string) {
 
 export default function Header() {
     const isDesktop = useMediaQuery("(min-width: 901px)");
-    const [lang, setLang] = useState<Lang>("es");
+    const [lang, setLang] = useLang(); // Hook que sincroniza con eventos globales
     const [open, setOpen] = useState(false);
 
     const pillRef = useRef<HTMLDivElement | null>(null);
 
     const t = useMemo(() => copy[lang], [lang]);
 
-    // Persistir idioma
+    // Actualizar el atributo lang del documento cuando cambia el idioma
     useEffect(() => {
-        const saved = (localStorage.getItem("lang") as Lang | null) ?? "es";
-        setLang(saved);
-        document.documentElement.lang = saved;
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem("lang", lang);
         document.documentElement.lang = lang;
     }, [lang]);
 
@@ -119,7 +112,7 @@ export default function Header() {
         return () => window.removeEventListener("mousedown", onDown);
     }, [open, isDesktop]);
 
-    const toggleLang = () => setLang((p) => (p === "es" ? "en" : "es"));
+    const toggleLang = () => setLang(lang === "es" ? "en" : "es");
     const toggleOpen = () => setOpen((p) => !p);
     const close = () => setOpen(false);
 

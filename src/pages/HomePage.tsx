@@ -31,6 +31,87 @@ import QuantumTextSvg from "../assets/svg/360/QUANTU TEXTO.svg";
 import "../index.css";
 
 const MOBILE_MQ = "(max-width: 768px)";
+type Lang = "es" | "en";
+const LANG_EVENT = "q:lang";
+
+function getStoredLang(): Lang {
+  if (typeof window === "undefined") return "es";
+  const v = localStorage.getItem("lang");
+  return v === "en" ? "en" : "es";
+}
+
+const HOME_COPY: Record<
+  Lang,
+  {
+    heroAria: string;
+
+    servicesAria: string;
+    isWord: string;
+    lead: string;
+    hint: string;
+    servicesLabel: string;
+
+    quoteAria: string;
+    quoteTitle: string;
+    quoteText: string;
+
+    resolveAria: string;
+    resolveTitle: string;
+
+    ctaAria: string;
+    ctaTitle1: string;
+    ctaTitle2: string;
+    ctaText: string;
+    ctaBtn: string;
+  }
+> = {
+  es: {
+    heroAria: "Banner principal",
+
+    servicesAria: "Servicios",
+    isWord: "es",
+    lead: "Estrategia y tecnología que impulsan tu negocio.",
+    hint: "¿Deseas un diagnóstico sin costo de tu modelo actual?",
+    servicesLabel: "SERVICIOS",
+
+    quoteAria: "Quantum statement",
+    quoteTitle: "¿QUÉ RESOLVEMOS?",
+    quoteText:
+      "“En Quantum impulsamos la visibilidad y el crecimiento de tu negocio integrando marketing digital, branding estratégico e inteligencia artificial aplicada”.",
+
+    resolveAria: "Cómo lo resolvemos",
+    resolveTitle: "¿CÓMO LO RESOLVEMOS?",
+
+    ctaAria: "Diagnóstico sin costo",
+    ctaTitle1: "Un camino más eficiente hacia",
+    ctaTitle2: "más ventas...",
+    ctaText: "¿Deseas un diagnóstico sin costo de tu modelo actual?",
+    ctaBtn: "Contáctanos",
+  },
+  en: {
+    heroAria: "Main banner",
+
+    servicesAria: "Services",
+    isWord: "is",
+    lead: "Strategy and technology that drive your business.",
+    hint: "Want a free diagnosis of your current model?",
+    servicesLabel: "SERVICES",
+
+    quoteAria: "Quantum statement",
+    quoteTitle: "WHAT DO WE SOLVE?",
+    quoteText:
+      "“At Quantum, we boost the visibility and growth of your business by integrating digital marketing, strategic branding, and applied artificial intelligence.”",
+
+    resolveAria: "How we solve it",
+    resolveTitle: "HOW DO WE SOLVE IT?",
+
+    ctaAria: "Free diagnosis",
+    ctaTitle1: "A more efficient path to",
+    ctaTitle2: "more sales...",
+    ctaText: "Want a free diagnosis of your current model?",
+    ctaBtn: "Contact us",
+  },
+};
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -153,12 +234,48 @@ const SERVICES: ServiceCard[] = [
   },
 ];
 
+const SERVICE_TITLES: Record<ServiceCard["key"], Record<Lang, string>> = {
+  branding: { es: "Branding", en: "Branding" },
+  ecomerce: { es: "E-commerce", en: "E-commerce" },
+  "app-ia": { es: "Apps & I.A", en: "Apps & A.I." },
+  campañas: { es: "Campañas", en: "Campaigns" },
+};
+
 export default function HomePage() {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const [dismissed, setDismissed] = useState(false);
   const hasSessionFlag = sessionStorage.getItem("homeSplashPlayed") === "1";
   const showSplash = isHome && !hasSessionFlag && !dismissed;
+
+  // ===== Idioma (sin libs): escucha evento del Header =====
+  const [lang, setLang] = useState<Lang>(() => getStoredLang());
+
+  useEffect(() => {
+    const onLangEvent = (e: Event) => {
+      const next = (e as CustomEvent<Lang>).detail;
+      if (next === "es" || next === "en") setLang(next);
+    };
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== "lang") return;
+      const v = e.newValue;
+      if (v === "es" || v === "en") setLang(v);
+    };
+
+    window.addEventListener(LANG_EVENT, onLangEvent as EventListener);
+    window.addEventListener("storage", onStorage);
+
+    // sync inicial por si cambió antes de montar
+    setLang(getStoredLang());
+
+    return () => {
+      window.removeEventListener(LANG_EVENT, onLangEvent as EventListener);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
+
+  const t = useMemo(() => HOME_COPY[lang], [lang]);
 
   // ===== Video responsive (carga 1 solo MP4) =====
   const [isMobile, setIsMobile] = useState(getIsMobile);
@@ -208,8 +325,8 @@ export default function HomePage() {
       fontsReady.then(refresh).catch(() => { });
     }
 
-    const t = window.setTimeout(refresh, 200);
-    return () => window.clearTimeout(t);
+    const tt = window.setTimeout(refresh, 200);
+    return () => window.clearTimeout(tt);
   }, [isMobile, requestSTRefresh]);
 
   useEffect(
@@ -305,13 +422,23 @@ export default function HomePage() {
     setDismissed(true);
   }, []);
 
-  // ===== Rotación de palabra: estrategia / potencial / contenido =====
-  const words = useMemo(() => ["estrategia", "potencial", "contenido"] as const, []);
+  // ===== Rotación de palabra =====
+  const words = useMemo<string[]>(
+    () => (lang === "es" ? ["estrategia", "potencial", "contenido"] : ["strategy", "potential", "content"]),
+    [lang]
+  );
+
   const [wordIndex, setWordIndex] = useState(0);
   const [wordSpin, setWordSpin] = useState(false);
 
   const t1 = useRef<number | null>(null);
   const t2 = useRef<number | null>(null);
+
+  // Reset al cambiar idioma (evita desfase)
+  useEffect(() => {
+    setWordIndex(0);
+    setWordSpin(false);
+  }, [lang]);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -358,16 +485,16 @@ export default function HomePage() {
 
         const tween = gsap.to(track, {
           x: () => {
-            const distance = track.scrollWidth - pin.clientWidth;
-            return distance > 0 ? -distance : 0;
+            const dist = track.scrollWidth - pin.clientWidth;
+            return dist > 0 ? -dist : 0;
           },
           ease: "none",
           scrollTrigger: {
             trigger: pin,
             start: () => `top top+=${getHeaderHeight()}`,
             end: () => {
-              const distance = track.scrollWidth - pin.clientWidth;
-              return `+=${distance > 0 ? distance : 0}`;
+              const dist = track.scrollWidth - pin.clientWidth;
+              return `+=${dist > 0 ? dist : 0}`;
             },
             pin: true,
             scrub: 0.25,
@@ -391,7 +518,7 @@ export default function HomePage() {
     };
   }, [showSplash]);
 
-  // ===== Quantum 360: cursor custom + “borrado” por mask =====
+  // ===== Quantum 360 =====
   const q360ArtRef = useRef<HTMLDivElement | null>(null);
   const q360FillRef = useRef<HTMLDivElement | null>(null);
   const q360CursorRef = useRef<HTMLDivElement | null>(null);
@@ -404,8 +531,8 @@ export default function HomePage() {
   const resolveStackItemsRef = useRef<HTMLDivElement[]>([]);
 
   const [q360CursorOk, setQ360CursorOk] = useState(false);
-  const [q360Active, setQ360Active] = useState(false); // cursor visible / cursor:none
-  const [q360Erasing, setQ360Erasing] = useState(false); // activa el mask
+  const [q360Active, setQ360Active] = useState(false);
+  const [q360Erasing, setQ360Erasing] = useState(false);
 
   const q360Target = useRef({ x: 0, y: 0 });
   const q360Current = useRef({ x: 0, y: 0 });
@@ -488,17 +615,12 @@ export default function HomePage() {
         onLeave: fadeOut,
         onLeaveBack: fadeOut,
         onRefresh: (self) => {
-          if (self.isActive) {
-            fadeIn();
-          } else {
-            fadeOut();
-          }
+          if (self.isActive) fadeIn();
+          else fadeOut();
         },
       });
 
-      if (st.isActive) {
-        fadeIn();
-      }
+      if (st.isActive) fadeIn();
 
       q360GlobeStRef.current = st;
 
@@ -547,7 +669,6 @@ export default function HomePage() {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            // pin removed; natural scroll
             start: "top 85%",
             end: "bottom 15%",
             scrub: true,
@@ -570,6 +691,7 @@ export default function HomePage() {
     };
   }, [showSplash]);
 
+  // Quote split/pin (re-ejecuta al cambiar idioma)
   useLayoutEffect(() => {
     if (showSplash) return;
     const quoteEl = quoteTextRef.current;
@@ -639,7 +761,7 @@ export default function HomePage() {
       mm.revert();
       doRestore();
     };
-  }, [showSplash]);
+  }, [showSplash, lang]);
 
   useLayoutEffect(() => {
     if (showSplash) return;
@@ -798,23 +920,21 @@ export default function HomePage() {
       const fillEl = q360FillRef.current;
       const artEl = q360ArtRef.current;
 
-      const t = q360Target.current;
-      const c = q360Current.current;
+      const tpos = q360Target.current;
+      const cpos = q360Current.current;
 
-      // smoothing
-      c.x += (t.x - c.x) * 0.22;
-      c.y += (t.y - c.y) * 0.22;
+      cpos.x += (tpos.x - cpos.x) * 0.22;
+      cpos.y += (tpos.y - cpos.y) * 0.22;
 
       if (cursorEl) {
-        cursorEl.style.setProperty("--x", `${c.x}px`);
-        cursorEl.style.setProperty("--y", `${c.y}px`);
+        cursorEl.style.setProperty("--x", `${cpos.x}px`);
+        cursorEl.style.setProperty("--y", `${cpos.y}px`);
       }
 
-      // coordenadas locales para la máscara
       if (fillEl && artEl) {
         const rect = artEl.getBoundingClientRect();
-        const lx = c.x - rect.left;
-        const ly = c.y - rect.top;
+        const lx = cpos.x - rect.left;
+        const ly = cpos.y - rect.top;
         fillEl.style.setProperty("--cx", `${lx}px`);
         fillEl.style.setProperty("--cy", `${ly}px`);
       }
@@ -876,7 +996,7 @@ export default function HomePage() {
 
       <main>
         {/* ===== HERO VIDEO ===== */}
-        <section className="home-hero" aria-label="Banner principal">
+        <section className="home-hero" aria-label={t.heroAria}>
           <div className="home-hero__media" aria-hidden="true">
             <video
               ref={videoRef}
@@ -896,14 +1016,14 @@ export default function HomePage() {
         </section>
 
         {/* ===== SECCIÓN SERVICIOS ===== */}
-        <section id="servicios" className="home-services" aria-label="Servicios">
+        <section id="servicios" className="home-services" aria-label={t.servicesAria}>
           <div className="Conteiner">
             <div className="home-services__intro">
               <div className="home-services__headline">
                 <img className="home-services__logo" src={LogoText} alt="Quantum" />
 
                 <h2 className="home-services__title">
-                  es{" "}
+                  {t.isWord}{" "}
                   <span className="q-rotateWord" aria-live="polite">
                     <span className={`q-rotateWord__inner ${wordSpin ? "is-animating" : ""}`}>
                       {words[wordIndex]}
@@ -914,13 +1034,13 @@ export default function HomePage() {
               </div>
 
               <div className="home-services__copy">
-                <p className="home-services__lead">Estrategia y tecnología que impulsan tu negocio.</p>
-                <p className="home-services__hint">¿Deseas un diagnóstico sin costo de tu modelo actual?</p>
+                <p className="home-services__lead">{t.lead}</p>
+                <p className="home-services__hint">{t.hint}</p>
               </div>
             </div>
 
             <div className="home-services__content">
-              <h3 className="home-services__sectionTitle">SERVICIOS</h3>
+              <h3 className="home-services__sectionTitle">{t.servicesLabel}</h3>
               <div className="home-services__grid">
                 {SERVICES.map((s) => (
                   <Link key={s.key} to={s.to} className={`q-svcCard q-svcCard--${s.key}`}>
@@ -933,7 +1053,7 @@ export default function HomePage() {
 
                     <div className="q-svcCard__overlay">
                       <div className="q-svcCard__content">
-                        <h3 className="q-svcCard__title">{s.title}</h3>
+                        <h3 className="q-svcCard__title">{SERVICE_TITLES[s.key][lang]}</h3>
                       </div>
                     </div>
                   </Link>
@@ -955,7 +1075,7 @@ export default function HomePage() {
 
                         <div className="q-svcCard__overlay">
                           <div className="q-svcCard__content">
-                            <h3 className="q-svcCard__title">{s.title}</h3>
+                            <h3 className="q-svcCard__title">{SERVICE_TITLES[s.key][lang]}</h3>
                           </div>
                         </div>
                       </Link>
@@ -985,7 +1105,13 @@ export default function HomePage() {
               className="q360__globe q360-world-anim"
               aria-hidden="true"
             >
-              <img className="Mundo" ref={q360GlobeImgRef} src={isMobile ? MundoQuantum : MundoMitad} alt="" draggable={false} />
+              <img
+                className="Mundo"
+                ref={q360GlobeImgRef}
+                src={isMobile ? MundoQuantum : MundoMitad}
+                alt=""
+                draggable={false}
+              />
             </div>
           </div>
 
@@ -1015,29 +1141,25 @@ export default function HomePage() {
 
           {/* Cursor custom (solo desktop fine pointer) */}
           {q360CursorOk && (
-            <div
-              ref={q360CursorRef}
-              className={`q360__cursor ${q360Active ? "is-on" : ""}`}
-              aria-hidden="true"
-            >
+            <div ref={q360CursorRef} className={`q360__cursor ${q360Active ? "is-on" : ""}`} aria-hidden="true">
               <img src={Cursor360Svg} alt="" draggable={false} />
             </div>
           )}
         </section>
 
-        <section className="quote-section" aria-label="Quantum statement">
+        <section className="quote-section" aria-label={t.quoteAria}>
           <div className="quote-section__content">
-            <h2 className="quote-section__title">¿QUÉ RESOLVEMOS?</h2>
-            <p ref={quoteTextRef}>
-              “En Quantum impulsamos la visibilidad y el crecimiento de tu negocio integrando marketing
-              digital, branding estratégico e inteligencia artificial aplicada”.
+            <h2 className="quote-section__title">{t.quoteTitle}</h2>
+            <p key={lang} ref={quoteTextRef}>
+              {t.quoteText}
             </p>
           </div>
         </section>
+
         {/* ===== RESOLVE STACK ===== */}
-        <section ref={resolveStackSectionRef} className="resolve-stack" aria-label="Cómo lo resolvemos">
+        <section ref={resolveStackSectionRef} className="resolve-stack" aria-label={t.resolveAria}>
           <div ref={resolveStackPinRef} className="resolve-stack__pin">
-            <h2 className="resolve-stack__title">¿CÓMO LO RESOLVEMOS?</h2>
+            <h2 className="resolve-stack__title">{t.resolveTitle}</h2>
             <div className="resolve-stack__items">
               {(() => {
                 resolveStackItemsRef.current = [];
@@ -1058,11 +1180,17 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="q-cta" aria-label="Diagnóstico sin costo">
+        <section className="q-cta" aria-label={t.ctaAria}>
           <div className="Conteiner q-cta__inner">
-            <h2>Un camino más eficiente hacia<br />más ventas...</h2>
-            <p>¿Deseas un diagnóstico sin costo de tu modelo actual?</p>
-            <a className="q-cta__btn" href="#contacto">Contáctanos</a>
+            <h2>
+              {t.ctaTitle1}
+              <br />
+              {t.ctaTitle2}
+            </h2>
+            <p>{t.ctaText}</p>
+            <a className="q-cta__btn" href="#contacto">
+              {t.ctaBtn}
+            </a>
           </div>
         </section>
 
