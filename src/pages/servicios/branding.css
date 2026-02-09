@@ -98,7 +98,7 @@
 
 .BrandingHero__titleWrap {
     display: inline-flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     gap: clamp(0px, 0.6vw, 6px);
     margin: 0 auto;
@@ -124,7 +124,7 @@
     text-transform: uppercase;
     color: var(--color-chicle);
     opacity: 0.9;
-    font-size: clamp(0.9rem, 1.1vw, 1.4rem);
+    font-size: clamp(1.2rem, 1.6vw, 2rem);
     line-height: 1;
     letter-spacing: 0.48em;
     margin-right: clamp(-10px, -0.6vw, -4px);
