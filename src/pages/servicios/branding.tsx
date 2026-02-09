@@ -205,7 +205,7 @@ export default function Branding() {
                         <div className="BrandingHero__top">
                             <div className="BrandingHero__titleWrap">
                                 <span className="BrandingHero__services" aria-hidden="true">
-                                    SERVICIO
+                                    SERVICIOS
                                 </span>
 
                                 <h1 className="BrandingHero__title">BRANDING</h1>

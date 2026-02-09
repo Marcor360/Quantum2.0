@@ -98,7 +98,7 @@
 
 .BrandingHero__titleWrap {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     gap: clamp(0px, 0.6vw, 6px);
     margin: 0 auto;
@@ -110,6 +110,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    align-self: center;
     left: auto;
     top: auto;
     transform: none;
@@ -125,11 +126,8 @@
     opacity: 0.9;
     font-size: clamp(0.9rem, 1.1vw, 1.4rem);
     line-height: 1;
+    letter-spacing: 0.48em;
     margin-right: clamp(-10px, -0.6vw, -4px);
-}
-
-.BrandingHero__titleWrap {
-    align-items: flex-start;
 }
 
 .BrandingHero__title {
@@ -704,3 +702,4 @@
         font-size: clamp(1.15rem, 3.8vw, 1.55rem);
     }
 }
+
