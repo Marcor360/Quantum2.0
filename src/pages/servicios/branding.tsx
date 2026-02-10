@@ -98,7 +98,7 @@ export default function Branding() {
                         height: "100%",
                         zIndex: (i) => i,
                         autoAlpha: 1, // Asegurar visibilidad
-                        yPercent: 110 // Estado inicial: abajo
+                        yPercent: 100, // Estado inicial: abajo
                     });
 
                     // El primero visible
@@ -109,17 +109,13 @@ export default function Branding() {
 
                     const tl = gsap.timeline();
 
-                    slides.forEach((slide, i) => {
+                    slides.forEach((_slide, i) => {
                         const label = `s${i}`;
                         tl.addLabel(label, i);
 
                         if (i < slides.length - 1) {
-                            tl.to(slide, { yPercent: -110, duration: 1, ease: "none" }, label).fromTo(
-                                slides[i + 1],
-                                { yPercent: 110 },
-                                { yPercent: 0, duration: 1, ease: "none" },
-                                label
-                            );
+                            // La siguiente tarjeta sube y se sobrepone sobre la actual (como en el video referencia)
+                            tl.fromTo(slides[i + 1], { yPercent: 100 }, { yPercent: 0, duration: 1, ease: "none" }, label);
                         }
                     });
 
@@ -136,9 +132,6 @@ export default function Branding() {
                             const isOn = i === idx;
                             s.classList.toggle("is-active", isOn);
                             s.style.pointerEvents = isOn ? "auto" : "none";
-
-                            // asegura que el activo quede arriba (por si algún stacking raro lo tapa)
-                            s.style.zIndex = isOn ? String(slides.length + 5) : String(i);
                         });
 
                         cards.forEach((c, i) => c.classList.toggle("is-active", i === idx));
@@ -367,15 +360,6 @@ export default function Branding() {
                                             </div>
                                         </article>
                                     </div>
-                                    <div className="BrandingBenefits__slide">
-                                        <article className="BrandingBenefits__card" aria-label="Beneficio 3: Gestión Sencilla">
-                                            <img className="BrandingBenefits__cardBg" src={BenefitsCard03} alt="" aria-hidden="true" />
-                                            <div className="BrandingBenefits__content">
-                                                <h3 className="BrandingBenefits__h3">GESTIÓN SENCILLA</h3>
-                                                <p className="BrandingBenefits__p">Edita y actualiza tu contenido sin complicaciones</p>
-                                            </div>
-                                        </article>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -387,7 +371,7 @@ export default function Branding() {
                     <div className="BrandingWrap BrandingVignette">
                         <h2 className="BrandingProjects__title">ALGUNOS DE NUESTROS PROYECTOS</h2>
 
-                        <div className="BrandingProjects__pill" role="region" aria-label="Marcas con las que_toggle">
+                        <div className="BrandingProjects__pill" role="region" aria-label="Marcas con las que trabajamos">
                             <div className="BrandingMarquee" aria-hidden="false">
                                 <div className="BrandingMarquee__inner">
                                     {[...BRAND_LOGOS, ...BRAND_LOGOS].map((logo, i) => (
