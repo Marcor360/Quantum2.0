@@ -1,10 +1,13 @@
-import { useLayoutEffect, useRef } from "react";
+﻿import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Head from "../../components/Header";
 import Footer from "../../components/Footer";
 import "./branding.css";
+
+import { useLang } from "../../i18n/lang";
+import { formatMoney } from "../../config/currency";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,6 +57,9 @@ function getHeaderH(): number {
 }
 
 export default function Branding() {
+    const [lang] = useLang();
+    const { amount, suffix } = formatMoney(3900, lang);
+
     const benefitsRef = useRef<HTMLElement | null>(null);
     const pinRef = useRef<HTMLDivElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
@@ -82,21 +88,33 @@ export default function Branding() {
 
                     sectionEl.classList.add("is-enhanced");
 
-                    // Estado inicial: slides apilados; la primera visible centrada
-                    gsap.set(slides, { yPercent: 110, autoAlpha: 1, zIndex: (i) => i });
+                    // FORZAR ESTILOS CRÍTICOS para producción
+                    // Esto asegura que aunque el CSS falle o tarde, el JS controle el layout
+                    gsap.set(slides, {
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        zIndex: (i) => i,
+                        autoAlpha: 1, // Asegurar visibilidad
+                        yPercent: 110 // Estado inicial: abajo
+                    });
+
+                    // El primero visible
                     gsap.set(slides[0], { yPercent: 0 });
+
+                    // Refrescar ScrollTrigger después de un tick para asegurar que el DOM esté listo
+                    requestAnimationFrame(() => ScrollTrigger.refresh());
 
                     const tl = gsap.timeline();
 
                     slides.forEach((slide, i) => {
                         const label = `s${i}`;
                         tl.addLabel(label, i);
+
                         if (i < slides.length - 1) {
-                            tl.to(
-                                slide,
-                                { yPercent: -110, duration: 1, ease: "none" },
-                                label
-                            ).fromTo(
+                            tl.to(slide, { yPercent: -110, duration: 1, ease: "none" }, label).fromTo(
                                 slides[i + 1],
                                 { yPercent: 110 },
                                 { yPercent: 0, duration: 1, ease: "none" },
@@ -105,26 +123,42 @@ export default function Branding() {
                         }
                     });
 
-                    let activeIdx = 0;
+                    // hold final para que el último permanezca visible
+
+
+                    let activeIdx = -1;
 
                     const setActive = (idx: number) => {
                         if (idx === activeIdx) return;
                         activeIdx = idx;
+
                         slides.forEach((s, i) => {
-                            s.classList.toggle("is-active", i === idx);
-                            s.style.pointerEvents = i === idx ? "auto" : "none";
+                            const isOn = i === idx;
+                            s.classList.toggle("is-active", isOn);
+                            s.style.pointerEvents = isOn ? "auto" : "none";
+
+                            // asegura que el activo quede arriba (por si algún stacking raro lo tapa)
+                            s.style.zIndex = isOn ? String(slides.length + 5) : String(i);
                         });
+
                         cards.forEach((c, i) => c.classList.toggle("is-active", i === idx));
                     };
+
                     setActive(0);
 
                     const headerOffset = Math.round(getHeaderH());
+
+                    // IMPORTANTE: no hagas el end exageradamente largo, dificulta cruzar al último con wheel.
                     const STEP = () =>
-                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, 1) * 1.35;
-                    const EXTRA = () =>
-                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, 1);
-                    const getEnd = () =>
-                        STEP() * (slides.length - 1) + EXTRA() * 2; // más recorrido para ver la última tarjeta
+                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, window.innerWidth * 0.5, 1) * 1.05;
+
+                    // Init z-index explicitly
+                    gsap.set(slides, { zIndex: (i) => i, position: "absolute", left: 0, top: 0, width: "100%", height: "100%" });
+
+                    const getEnd = () => STEP() * (slides.length + 1);
+
+                    // ===== SNAP DIRECCIONAL POR PASOS (sin romper el scrub/efecto)
+
 
                     const st = ScrollTrigger.create({
                         trigger: sectionEl,
@@ -132,20 +166,26 @@ export default function Branding() {
                         end: () => `+=${getEnd()}`,
                         pin: pinEl,
                         pinSpacing: true,
-                        scrub: 1.6, // más lento/suave
+                        scrub: 1.6,
                         anticipatePin: 1,
                         invalidateOnRefresh: true,
                         animation: tl,
+
                         snap: {
-                            snapTo: "labelsDirectional",
-                            duration: { min: 0.12, max: 0.35 },
-                            delay: 0.05,
+                            snapTo: "labels",
+                            duration: { min: 0.14, max: 0.32 },
+                            delay: 0.18, // más tiempo para acumular wheel antes de “asentar”
                             ease: "power1.inOut",
                         },
+
                         onUpdate: (self) => {
                             const idx = Math.round(self.progress * (slides.length - 1));
                             const clamped = Math.min(slides.length - 1, Math.max(0, idx));
                             setActive(clamped);
+                        },
+
+                        onRefresh: () => {
+                            // refresh cuando cambia el tamaño
                         },
                     });
 
@@ -189,9 +229,7 @@ export default function Branding() {
             <Head />
 
             <main className="BrandingPage">
-                {/* =========================
-            HERO
-        ========================= */}
+                {/* ========================= HERO ========================= */}
                 <section className="BrandingHero" id="branding">
                     <div className="BrandingWrap BrandingVignette">
                         <div className="BrandingHero__top">
@@ -199,7 +237,6 @@ export default function Branding() {
                                 <span className="BrandingHero__services" aria-hidden="true">
                                     SERVICIOS
                                 </span>
-
                                 <h1 className="BrandingHero__title">BRANDING</h1>
                             </div>
 
@@ -225,22 +262,20 @@ export default function Branding() {
                                 </p>
 
                                 <p className="BrandingHero__text">
-                                    Creamos sistemas de identidad que conectan estrategia, estética y significado, dando forma a marcas
-                                    sólidas, memorables y consistentes.
+                                    Creamos sistemas de identidad que conectan estrategia, estética y significado, dando forma a marcas sólidas,
+                                    memorables y consistentes.
                                 </p>
 
                                 <p className="BrandingHero__text">
-                                    Nuestro servicio de Branding incluye conceptualización, diseño visual, lineamientos claros y un brand
-                                    book profesional.
+                                    Nuestro servicio de Branding incluye conceptualización, diseño visual, lineamientos claros y un brand book
+                                    profesional.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* =========================
-            PRECIO
-        ========================= */}
+                {/* ========================= PRECIO ========================= */}
                 <section className="BrandingPrice" id="precio">
                     <div className="BrandingWrap BrandingVignette">
                         <div className="BrandingPrice__grid">
@@ -260,8 +295,8 @@ export default function Branding() {
 
                                         <div className="BrandingPrice__amount">
                                             <span className="BrandingPrice__currency">$</span>
-                                            <span className="BrandingPrice__number">3,900</span>
-                                            <span className="BrandingPrice__mxn">MXN</span>
+                                            <span className="BrandingPrice__number">{amount}</span>
+                                            <span className="BrandingPrice__mxn">{suffix}</span>
                                         </div>
 
                                         <div className="BrandingPrice__divider" aria-hidden="true" />
@@ -276,9 +311,7 @@ export default function Branding() {
                     </div>
                 </section>
 
-                {/* =========================
-            BENEFICIOS
-        ========================= */}
+                {/* ========================= BENEFICIOS ========================= */}
                 <section className="BrandingBenefits" id="beneficios" ref={benefitsRef}>
                     <div className="BrandingWrap BrandingVignette">
                         <div className="BrandingBenefits__pin" ref={pinRef}>
@@ -288,27 +321,22 @@ export default function Branding() {
 
                             <div className="BrandingBenefits__viewport">
                                 <div className="BrandingBenefits__track" ref={trackRef}>
-                                    {/* ====== SLIDE 1 ====== */}
                                     <div className="BrandingBenefits__slide">
                                         <article className="BrandingBenefits__card" aria-label="Beneficio 1: Marca Única">
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard01} alt="" aria-hidden="true" />
-
                                             <div className="BrandingBenefits__content">
                                                 <h3 className="BrandingBenefits__h3">MARCA ÚNICA</h3>
                                                 <p className="BrandingBenefits__p">
                                                     Identidad original que te diferencia
-                                                    <br />
-                                                    y evita verse genérico
+                                                    <br />y evita verse genérico
                                                 </p>
                                             </div>
                                         </article>
                                     </div>
 
-                                    {/* ====== SLIDE 2 ====== */}
                                     <div className="BrandingBenefits__slide">
                                         <article className="BrandingBenefits__card" aria-label="Beneficio 2: Claridad Estratégica">
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard02} alt="" aria-hidden="true" />
-
                                             <div className="BrandingBenefits__content">
                                                 <h3 className="BrandingBenefits__h3">CLARIDAD ESTRATÉGICA</h3>
                                                 <p className="BrandingBenefits__p">
@@ -320,11 +348,9 @@ export default function Branding() {
                                         </article>
                                     </div>
 
-                                    {/* ====== SLIDE 3 ====== */}
                                     <div className="BrandingBenefits__slide">
                                         <article className="BrandingBenefits__card" aria-label="Beneficio 3: Gestión Sencilla">
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard03} alt="" aria-hidden="true" />
-
                                             <div className="BrandingBenefits__content">
                                                 <h3 className="BrandingBenefits__h3">GESTIÓN SENCILLA</h3>
                                                 <p className="BrandingBenefits__p">Edita y actualiza tu contenido sin complicaciones</p>
@@ -332,14 +358,21 @@ export default function Branding() {
                                         </article>
                                     </div>
 
-                                    {/* ====== SLIDE 4 ====== */}
                                     <div className="BrandingBenefits__slide">
                                         <article className="BrandingBenefits__card" aria-label="Beneficio 4: Soporte Continuo">
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard04} alt="" aria-hidden="true" />
-
                                             <div className="BrandingBenefits__content">
                                                 <h3 className="BrandingBenefits__h3">SOPORTE CONTINUO</h3>
                                                 <p className="BrandingBenefits__p">Ajustes mensuales de contenido con un diseñador asignado</p>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div className="BrandingBenefits__slide">
+                                        <article className="BrandingBenefits__card" aria-label="Beneficio 3: Gestión Sencilla">
+                                            <img className="BrandingBenefits__cardBg" src={BenefitsCard03} alt="" aria-hidden="true" />
+                                            <div className="BrandingBenefits__content">
+                                                <h3 className="BrandingBenefits__h3">GESTIÓN SENCILLA</h3>
+                                                <p className="BrandingBenefits__p">Edita y actualiza tu contenido sin complicaciones</p>
                                             </div>
                                         </article>
                                     </div>
@@ -349,14 +382,12 @@ export default function Branding() {
                     </div>
                 </section>
 
-                {/* =========================
-            PROYECTOS (MARQUEE)
-        ========================= */}
+                {/* ========================= PROYECTOS ========================= */}
                 <section className="BrandingProjects" id="proyectos">
                     <div className="BrandingWrap BrandingVignette">
                         <h2 className="BrandingProjects__title">ALGUNOS DE NUESTROS PROYECTOS</h2>
 
-                        <div className="BrandingProjects__pill" role="region" aria-label="Marcas con las que trabajamos">
+                        <div className="BrandingProjects__pill" role="region" aria-label="Marcas con las que_toggle">
                             <div className="BrandingMarquee" aria-hidden="false">
                                 <div className="BrandingMarquee__inner">
                                     {[...BRAND_LOGOS, ...BRAND_LOGOS].map((logo, i) => (
