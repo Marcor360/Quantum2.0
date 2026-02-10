@@ -1,0 +1,411 @@
+.EcomercePage {
+    background: var(--color-mate);
+    color: var(--color-blanco);
+    overflow-x: clip;
+}
+
+.EcomWrap {
+    width: min(95%, 125rem);
+    margin: 0 auto;
+}
+
+.EcomTextYellow {
+    color: var(--color-electrico);
+}
+
+/* =========================
+   BOTÓN (mock pill)
+========================= */
+.EcomBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: clamp(44px, 5.2vw, 54px);
+    padding: 0 clamp(18px, 2.6vw, 30px);
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: var(--color-electrico);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    outline: none;
+}
+
+.EcomBtn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+}
+
+.EcomBtn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
+}
+
+/* =========================
+   HERO (igual al mockup: top centrado + row abajo)
+========================= */
+.EcomHero {
+    position: relative;
+    padding: calc(var(--header-h, 0px) + clamp(46px, 7vw, 92px)) 0 clamp(70px, 9vw, 126px);
+    background: var(--color-mate);
+}
+
+.EcomHero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+}
+
+.EcomHero>.EcomWrap {
+    position: relative;
+    z-index: 1;
+}
+
+/* top centered */
+.EcomHeroTop {
+    text-align: center;
+    margin: 0 auto clamp(38px, 6vw, 64px);
+    width: min(100%, 1100px);
+}
+
+.EcomHeroTitleRow {
+    position: relative;
+    display: inline-block;
+    padding-left: clamp(24px, 3vw, 44px);
+    /* espacio para "SERVICIOS" vertical */
+}
+
+.EcomHeroServicios {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    color: var(--color-chicle);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 800;
+    opacity: 0.95;
+}
+
+.EcomHeroTitle {
+    margin: 0;
+    font-family: var(--font-morganite);
+    font-size: clamp(7.2rem, 10vw, 14rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-electrico);
+    line-height: 0.85;
+}
+
+.EcomHeroLead {
+    margin: 14px auto 22px;
+    width: min(100%, 70ch);
+    font-size: clamp(1.35rem, 1.35vw, 1.95rem);
+    opacity: 0.92;
+}
+
+/* bottom row */
+.EcomHeroBottom {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(20px, 4vw, 56px);
+    align-items: center;
+}
+
+.EcomHeroVisual {
+    position: relative;
+    min-height: clamp(260px, 28vw, 420px);
+}
+
+.EcomHeroAster {
+    position: absolute;
+    left: -8%;
+    top: 52%;
+    transform: translateY(-50%);
+    width: min(86%, 520px);
+    opacity: 0.85;
+    filter: drop-shadow(0 18px 46px rgba(0, 0, 0, 0.55));
+}
+
+.EcomHeroWorld {
+    position: absolute;
+    left: 0;
+    top: 54%;
+    transform: translateY(-50%);
+    width: min(78%, 520px);
+    height: auto;
+    filter: drop-shadow(0 18px 54px rgba(0, 0, 0, 0.65));
+}
+
+.EcomHeroCopy {
+    max-width: 68ch;
+    font-size: clamp(1.28rem, 1.15vw, 1.6rem);
+    line-height: 1.55;
+    opacity: 0.95;
+}
+
+.EcomHeroCopyLead {
+    margin: 0 0 14px;
+    font-size: clamp(1.45rem, 1.25vw, 1.85rem);
+}
+
+/* =========================
+   MEDIA WRAPPER (soluciona “SVG gigante vacío”)
+   -> recorta por altura y usa object-fit para que se vea como mockup
+========================= */
+.EcomMedia {
+    width: min(100%, 1180px);
+    margin: 0 auto;
+    border-radius: 54px;
+    overflow: hidden;
+    position: relative;
+    /* leve profundidad */
+    filter: drop-shadow(0 18px 44px rgba(0, 0, 0, 0.45));
+}
+
+.EcomMediaImg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    /* clave: recorta el “lienzo vacío” */
+    object-position: center;
+    /* ajustamos por variante abajo */
+}
+
+/* Bottom pricing (personalizado) */
+.EcomMedia--pricingBottom {
+    margin-top: clamp(18px, 3vw, 30px);
+    height: clamp(280px, 26vw, 420px);
+}
+
+.EcomMedia--pricingBottom .EcomMediaImg {
+    object-position: center 60%;
+}
+
+/* =========================
+   PRICING SECTION
+========================= */
+.EcomPricing {
+    padding: clamp(28px, 5vw, 70px) 0 clamp(56px, 8vw, 110px);
+}
+
+.EcomPricing__head {
+    text-align: center;
+    margin: 0 auto clamp(18px, 3vw, 30px);
+}
+
+.EcomPricing__title {
+    margin: 0 0 8px;
+    font-family: var(--font-morganite);
+    font-size: clamp(3.8rem, 5.8vw, 7rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+}
+
+.EcomPricing__subtitle {
+    margin: 0;
+    font-size: clamp(1.22rem, 1.2vw, 1.6rem);
+    color: var(--color-blanco);
+    opacity: 0.9;
+}
+
+.EcomPricing__subtitle span {
+    color: var(--color-electrico);
+    font-weight: 700;
+}
+
+/* Fila superior pricing */
+.EcomMedia--pricingTop {
+    height: clamp(520px, 48vw, 760px);
+    margin-bottom: clamp(22px, 3vw, 32px);
+}
+
+.EcomMedia--pricingTop .EcomMediaImg {
+    object-position: center 52%;
+}
+
+/* =========================
+   BENEFICIOS con ScrollTrigger
+========================= */
+.EcomBenefits {
+    padding: clamp(18px, 3vw, 32px) 0 clamp(80px, 9vw, 140px);
+}
+
+.EcomBenefits__pin {
+    width: min(100%, 1180px);
+    margin: 0 auto;
+    border-radius: 48px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: radial-gradient(120% 120% at 10% 15%, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.35));
+    display: grid;
+    grid-template-columns: clamp(120px, 14vw, 210px) 1fr;
+    gap: clamp(14px, 2vw, 26px);
+    padding: clamp(16px, 2vw, 26px);
+    overflow: hidden;
+}
+
+.EcomBenefits__left {
+    display: grid;
+    place-items: center;
+    position: relative;
+}
+
+.EcomBenefits__titleSvg {
+    width: min(100%, 260px);
+    height: auto;
+    filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.45));
+}
+
+.EcomBenefits__viewport {
+    position: relative;
+    min-height: clamp(320px, 32vw, 480px);
+    border-radius: 42px;
+    overflow: hidden;
+    background: radial-gradient(110% 120% at 50% 0%, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.45));
+}
+
+.EcomBenefits__track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.EcomBenefits__slide {
+    width: 100%;
+    height: 100%;
+}
+
+.EcomBenefits__card {
+    width: 100%;
+    height: 100%;
+}
+
+.EcomBenefits__bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 42px;
+    display: block;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+}
+
+.EcomBenefits:not(.is-enhanced) .EcomBenefits__slide+.EcomBenefits__slide {
+    margin-top: 18px;
+}
+
+/* =========================
+   PROYECTOS (placeholder)
+========================= */
+.EcomProjects {
+    padding: clamp(40px, 7vw, 90px) 0 clamp(70px, 10vw, 140px);
+}
+
+.EcomProjectsTitle {
+    margin: 0 0 clamp(18px, 2.8vw, 30px);
+    font-family: var(--font-morganite);
+    font-size: clamp(5rem, 7.6vw, 10rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-electrico);
+    text-align: center;
+}
+
+.EcomProjectsStack {
+    width: min(100%, 980px);
+    margin: 0 auto;
+    display: grid;
+    gap: clamp(14px, 2vw, 22px);
+}
+
+.EcomProjectPh {
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: radial-gradient(100% 120% at 40% 10%, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.35));
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+    aspect-ratio: 16 / 9;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    .EcomHeroTitleRow {
+        padding-left: 0;
+    }
+
+    .EcomHeroServicios {
+        position: static;
+        transform: none;
+        writing-mode: initial;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    .EcomHeroBottom {
+        grid-template-columns: 1fr;
+    }
+
+    .EcomHeroVisual {
+        order: 2;
+        min-height: 260px;
+    }
+
+    .EcomHeroAster {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: min(92%, 420px);
+    }
+
+    .EcomHeroWorld {
+        left: 50%;
+        top: 52%;
+        transform: translate(-50%, -50%);
+        width: min(82%, 420px);
+    }
+
+    .EcomMedia {
+        border-radius: 44px;
+    }
+
+    .EcomMedia--pricingTop {
+        height: clamp(440px, 96vw, 620px);
+    }
+
+    .EcomMedia--pricingTop .EcomMediaImg {
+        object-position: center 60%;
+    }
+
+    .EcomMedia--pricingBottom {
+        height: clamp(260px, 72vw, 360px);
+    }
+
+    .EcomBenefits__pin {
+        grid-template-columns: 1fr;
+        padding: clamp(14px, 4vw, 22px);
+    }
+
+    .EcomBenefits__viewport {
+        min-height: clamp(260px, 82vw, 420px);
+    }
+
+    .EcomBenefits__left {
+        order: -1;
+    }
+
+    .EcomBenefits__titleSvg {
+        width: min(70%, 220px);
+    }
+
+    .EcomBenefits__bg {
+        border-radius: 32px;
+    }
+}
