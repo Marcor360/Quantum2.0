@@ -14,13 +14,60 @@ import BenefitsTitleSvg from "../../assets/svg/Branding/Beneficios y degradado.s
 import BenefitCard01 from "../../assets/svg/Branding/Tarjeta Beneficio/1.svg";
 import BenefitCard02 from "../../assets/svg/Branding/Tarjeta Beneficio/2.svg";
 
-import PreciosDesktop from "../../assets/svg/Ecomerce/Desktop/Precios.svg";
-import PreciosMobileEcom from "../../assets/svg/Ecomerce/Mobile/tarjeta precio ecommerce mobile.svg";
-import PreciosMobileYellow from "../../assets/svg/Ecomerce/Mobile/tarjeta precio amarillo_mobile.svg";
-
 // ===== Assets (public) =====
-const PRICING_TOP = "/img/Ecommerce/Desktop/tarjeta%20precios%20ecommerce.svg";
 const WORLD_WEB = "/img/Ecommerce/web.webp";
+
+// ===== Assets (SVG Components) =====
+import PricingBg from "../../assets/svg/Ecomerce/Desktop/Primera tabla ecommerce_1.svg";
+import PricingCardBg from "../../assets/svg/Ecomerce/Desktop/tarjeta precios ecommerce.svg";
+import PricingCardYellow from "../../assets/svg/Ecomerce/Desktop/Precios.svg";
+
+// ===== Data =====
+const pricingPlans = [
+    {
+        title: "LANDING PAGE",
+        price: "$ 5,980",
+        renewal: "*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)"
+    },
+    {
+        title: "SITIO INFORMATIVO",
+        price: "$ 7,980",
+        renewal: "*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)"
+    },
+    {
+        title: "ECOMMERCE A WHATSAPP",
+        price: "$ 9,600",
+        renewal: "*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)"
+    },
+    {
+        title: "E-COMMERCE CON PASARELA DE PAGO",
+        price: "$ 11,600",
+        renewal: "*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)"
+    }
+];
+
+const pricingPlansSecondary = [
+    {
+        title: "LANDING PAGE",
+        price: "$ 7,980",
+        renewal: "*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)"
+    },
+    {
+        title: "SITIO INFORMATIVO",
+        price: "$ 9,980",
+        renewal: "*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)"
+    },
+    {
+        title: "ECOMMERCE A WHATSAPP",
+        price: "$ 11,600",
+        renewal: "*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)"
+    },
+    {
+        title: "E-COMMERCE CON PASARELA DE PAGO",
+        price: "$ 13,600",
+        renewal: "*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)"
+    }
+];
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -160,7 +207,7 @@ export default function Ecomerce() {
 
                     const onLoad = () => refresh();
                     window.addEventListener("load", onLoad, { passive: true });
-                    (document as any).fonts?.ready?.then(refresh).catch(() => {});
+                    (document as any).fonts?.ready?.then(refresh).catch(() => { });
 
                     return () => {
                         window.removeEventListener("load", onLoad);
@@ -245,20 +292,64 @@ export default function Ecomerce() {
                             </p>
                         </header>
 
-                        {/* Fila superior */}
-                        <div className="EcomMedia EcomMedia--pricingTop">
-                            <picture>
-                                <source media="(max-width: 768px)" srcSet={PreciosMobileEcom} />
-                                <img className="EcomMediaImg" src={PRICING_TOP} alt="Planes Ecommerce fila 1" />
-                            </picture>
+                        {/* Pricing Grid */}
+                        <div className="EcomPricing__wrapper">
+                            {/* Marco decorativo "detrás" */}
+                            <img src={PricingBg} alt="" className="EcomPricing__BgFrame" aria-hidden="true" />
+
+                            <div className="EcomPricing__grid">
+                                {pricingPlans.map((plan, i) => (
+                                    <article key={i} className="PricingCard" style={{ backgroundImage: `url('${PricingCardBg}')` }}>
+                                        <div className="PricingCard__content">
+                                            <span className="PricingCard__label">Optimizado</span>
+                                            <h3 className="PricingCard__title">{plan.title}</h3>
+
+                                            <hr className="PricingCard__separator" />
+
+                                            <div className="PricingCard__price">
+                                                {plan.price} <small className="PricingCard__currency">MXN</small>
+                                            </div>
+
+                                            <p className="PricingCard__renewal">{plan.renewal}</p>
+                                        </div>
+                                        <div className="PricingCard__action">
+                                            <Link to="/contacto" className="EcomBtn PricingCard__btn">
+                                                CONTRATAR
+                                            </Link>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
                         </div>
 
-                        {/* Fila inferior */}
-                        <div className="EcomMedia EcomMedia--pricingBottom">
-                            <picture>
-                                <source media="(max-width: 768px)" srcSet={PreciosMobileYellow} />
-                                <img className="EcomMediaImg" src={PreciosDesktop} alt="Precios Personalizado" />
-                            </picture>
+                        {/* Secondary Pricing Grid (Yellow/Neon) */}
+                        <div className="EcomPricing__wrapper EcomPricingSecondary">
+                            <div className="EcomPricing__grid">
+                                {pricingPlansSecondary.map((plan, i) => (
+                                    <article key={i} className="PricingCardYellow">
+                                        {/* Imagen de fondo absoluta */}
+                                        <img src={PricingCardYellow} alt="" className="PricingCardYellow__bg" aria-hidden="true" />
+
+                                        <div className="PricingCardYellow__content">
+                                            <span className="PricingCard__label" style={{ color: 'white', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '0.1em', marginBottom: '12px', display: 'block' }}>Personalizado</span>
+                                            <h3 className="PricingCardYellow__title">{plan.title}</h3>
+
+                                            <hr className="PricingCard__separator" style={{ borderColor: 'rgba(255,255,0,0.3)' }} />
+
+                                            <div className="PricingCard__price">
+                                                {plan.price} <small className="PricingCard__currency">MXN</small>
+                                            </div>
+
+                                            <p className="PricingCard__renewal">{plan.renewal}</p>
+                                        </div>
+                                        <div className="PricingCard__action">
+                                            <Link to="/contacto" className="EcomBtn PricingCard__btn">
+                                                CONTRATAR
+                                            </Link>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </section>

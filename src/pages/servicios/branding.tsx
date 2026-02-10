@@ -1,4 +1,4 @@
-﻿import { useLayoutEffect, useRef } from "react";
+﻿import { useLayoutEffect, useMemo, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -6,7 +6,10 @@ import Head from "../../components/Header";
 import Footer from "../../components/Footer";
 import "./branding.css";
 
-import { useLang } from "../../i18n/lang";
+import { useLang, type Lang } from "../../i18n/lang";
+// Si no exportas Lang, usa esto y cambia el import a: import { useLang } from "../../i18n/lang";
+// type Lang = "es" | "en";
+
 import { formatMoney } from "../../config/currency";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -56,8 +59,135 @@ function getHeaderH(): number {
     return Number.isFinite(n) ? n : 96;
 }
 
+const BRANDING_COPY: Record<
+    Lang,
+    {
+        heroServices: string;
+        heroTitle: string;
+        heroSubtitle: string;
+        heroBtn: string;
+
+        leadA: string;
+        leadHighlight: string;
+
+        text1: string;
+        text2: string;
+
+        priceTitle: string;
+        priceKicker: string;
+        priceCardAria: string;
+        priceCardTitle: string;
+        priceBtn: string;
+
+        benefits: Array<{
+            aria: string;
+            h: string;
+            p: string;
+        }>;
+
+        projectsTitle: string;
+        marqueeAria: string;
+    }
+> = {
+    es: {
+        heroServices: "SERVICIOS",
+        heroTitle: "BRANDING",
+        heroSubtitle: "Creamos ADN estratégico para tu marca, elevamos reconocimiento y fidelizamos audiencias.",
+        heroBtn: "CONVERSEMOS",
+
+        leadA: "En Quantum no diseñamos logotipos,",
+        leadHighlight: "diseñamos marcas.",
+
+        text1:
+            "Creamos sistemas de identidad que conectan estrategia, estética y significado, dando forma a marcas sólidas, memorables y consistentes.",
+        text2:
+            "Nuestro servicio de Branding incluye conceptualización, diseño visual, lineamientos claros y un brand book profesional.",
+
+        priceTitle: "PRECIO",
+        priceKicker: "CONSULTA NUESTROS PLANES",
+        priceCardAria: "Precio de Diseño de Marca",
+        priceCardTitle: "DISEÑO DE MARCA",
+        priceBtn: "CONTRATAR",
+
+        benefits: [
+            {
+                aria: "Beneficio 1: Marca Única",
+                h: "MARCA ÚNICA",
+                p: "Identidad original que te diferencia\ny evita verse genérico",
+            },
+            {
+                aria: "Beneficio 2: Claridad Estratégica",
+                h: "CLARIDAD ESTRATÉGICA",
+                p: "Concepto, personalidad y estilo\nbien definidos desde el inicio.",
+            },
+            {
+                aria: "Beneficio 3: Gestión Sencilla",
+                h: "GESTIÓN SENCILLA",
+                p: "Edita y actualiza tu contenido sin complicaciones",
+            },
+            {
+                aria: "Beneficio 4: Soporte Continuo",
+                h: "SOPORTE CONTINUO",
+                p: "Ajustes mensuales de contenido con un diseñador asignado",
+            },
+        ],
+
+        projectsTitle: "ALGUNOS DE NUESTROS PROYECTOS",
+        marqueeAria: "Marcas con las que trabajamos",
+    },
+
+    en: {
+        heroServices: "SERVICES",
+        heroTitle: "BRANDING",
+        heroSubtitle: "We build strategic DNA for your brand, increase awareness, and build audience loyalty.",
+        heroBtn: "LET’S TALK",
+
+        leadA: "At Quantum, we don’t design logos,",
+        leadHighlight: "we design brands.",
+
+        text1:
+            "We create identity systems that connect strategy, aesthetics, and meaning—shaping strong, memorable, consistent brands.",
+        text2:
+            "Our Branding service includes concept development, visual design, clear guidelines, and a professional brand book.",
+
+        priceTitle: "PRICE",
+        priceKicker: "CHECK OUR PLANS",
+        priceCardAria: "Brand Design Price",
+        priceCardTitle: "BRAND DESIGN",
+        priceBtn: "GET STARTED",
+
+        benefits: [
+            {
+                aria: "Benefit 1: Unique Brand",
+                h: "UNIQUE BRAND",
+                p: "An original identity that sets you apart\nand avoids looking generic",
+            },
+            {
+                aria: "Benefit 2: Strategic Clarity",
+                h: "STRATEGIC CLARITY",
+                p: "Concept, personality, and style\nclearly defined from the start.",
+            },
+            {
+                aria: "Benefit 3: Easy Management",
+                h: "EASY MANAGEMENT",
+                p: "Edit and update your content without complications",
+            },
+            {
+                aria: "Benefit 4: Ongoing Support",
+                h: "ONGOING SUPPORT",
+                p: "Monthly content adjustments with an assigned designer",
+            },
+        ],
+
+        projectsTitle: "SOME OF OUR PROJECTS",
+        marqueeAria: "Brands we’ve worked with",
+    },
+};
+
 export default function Branding() {
     const [lang] = useLang();
+    const t = useMemo(() => BRANDING_COPY[lang], [lang]);
+
     const { amount, suffix } = formatMoney(3900, lang);
 
     const benefitsRef = useRef<HTMLElement | null>(null);
@@ -88,8 +218,6 @@ export default function Branding() {
 
                     sectionEl.classList.add("is-enhanced");
 
-                    // FORZAR ESTILOS CRÍTICOS para producción
-                    // Esto asegura que aunque el CSS falle o tarde, el JS controle el layout
                     gsap.set(slides, {
                         position: "absolute",
                         top: 0,
@@ -97,14 +225,12 @@ export default function Branding() {
                         width: "100%",
                         height: "100%",
                         zIndex: (i) => i,
-                        autoAlpha: 1, // Asegurar visibilidad
-                        yPercent: 100, // Estado inicial: abajo
+                        autoAlpha: 1,
+                        yPercent: 100,
                     });
 
-                    // El primero visible
                     gsap.set(slides[0], { yPercent: 0 });
 
-                    // Refrescar ScrollTrigger después de un tick para asegurar que el DOM esté listo
                     requestAnimationFrame(() => ScrollTrigger.refresh());
 
                     const tl = gsap.timeline();
@@ -114,13 +240,9 @@ export default function Branding() {
                         tl.addLabel(label, i);
 
                         if (i < slides.length - 1) {
-                            // La siguiente tarjeta sube y se sobrepone sobre la actual (como en el video referencia)
                             tl.fromTo(slides[i + 1], { yPercent: 100 }, { yPercent: 0, duration: 1, ease: "none" }, label);
                         }
                     });
-
-                    // hold final para que el último permanezca visible
-
 
                     let activeIdx = -1;
 
@@ -141,17 +263,16 @@ export default function Branding() {
 
                     const headerOffset = Math.round(getHeaderH());
 
-                    // IMPORTANTE: no hagas el end exageradamente largo, dificulta cruzar al último con wheel.
                     const STEP = () =>
-                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, window.innerWidth * 0.5, 1) * 1.05;
+                        Math.max(
+                            viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7,
+                            window.innerWidth * 0.5,
+                            1
+                        ) * 1.05;
 
-                    // Init z-index explicitly
                     gsap.set(slides, { zIndex: (i) => i, position: "absolute", left: 0, top: 0, width: "100%", height: "100%" });
 
                     const getEnd = () => STEP() * (slides.length + 1);
-
-                    // ===== SNAP DIRECCIONAL POR PASOS (sin romper el scrub/efecto)
-
 
                     const st = ScrollTrigger.create({
                         trigger: sectionEl,
@@ -167,7 +288,7 @@ export default function Branding() {
                         snap: {
                             snapTo: "labels",
                             duration: { min: 0.14, max: 0.32 },
-                            delay: 0.18, // más tiempo para acumular wheel antes de “asentar”
+                            delay: 0.18,
                             ease: "power1.inOut",
                         },
 
@@ -175,10 +296,6 @@ export default function Branding() {
                             const idx = Math.round(self.progress * (slides.length - 1));
                             const clamped = Math.min(slides.length - 1, Math.max(0, idx));
                             setActive(clamped);
-                        },
-
-                        onRefresh: () => {
-                            // refresh cuando cambia el tamaño
                         },
                     });
 
@@ -228,17 +345,15 @@ export default function Branding() {
                         <div className="BrandingHero__top">
                             <div className="BrandingHero__titleWrap">
                                 <span className="BrandingHero__services" aria-hidden="true">
-                                    SERVICIOS
+                                    {t.heroServices}
                                 </span>
-                                <h1 className="BrandingHero__title">BRANDING</h1>
+                                <h1 className="BrandingHero__title">{t.heroTitle}</h1>
                             </div>
 
-                            <p className="BrandingHero__subtitle">
-                                Creamos ADN estratégico para tu marca, elevamos reconocimiento y fidelizamos audiencias.
-                            </p>
+                            <p className="BrandingHero__subtitle">{t.heroSubtitle}</p>
 
                             <a className="BrandingBtn BrandingBtn--outline" href="/contacto">
-                                CONVERSEMOS
+                                {t.heroBtn}
                             </a>
                         </div>
 
@@ -250,19 +365,12 @@ export default function Branding() {
 
                             <div className="BrandingHero__copy">
                                 <p className="BrandingHero__lead">
-                                    En Quantum no diseñamos logotipos,{" "}
-                                    <span className="BrandingText--yellow">diseñamos marcas.</span>
+                                    {t.leadA} <span className="BrandingText--yellow">{t.leadHighlight}</span>
                                 </p>
 
-                                <p className="BrandingHero__text">
-                                    Creamos sistemas de identidad que conectan estrategia, estética y significado, dando forma a marcas sólidas,
-                                    memorables y consistentes.
-                                </p>
+                                <p className="BrandingHero__text">{t.text1}</p>
 
-                                <p className="BrandingHero__text">
-                                    Nuestro servicio de Branding incluye conceptualización, diseño visual, lineamientos claros y un brand book
-                                    profesional.
-                                </p>
+                                <p className="BrandingHero__text">{t.text2}</p>
                             </div>
                         </div>
                     </div>
@@ -273,16 +381,16 @@ export default function Branding() {
                     <div className="BrandingWrap BrandingVignette">
                         <div className="BrandingPrice__grid">
                             <div className="BrandingPrice__left">
-                                <h2 className="BrandingPrice__title">PRECIO</h2>
-                                <p className="BrandingPrice__kicker">CONSULTA NUESTROS PLANES</p>
+                                <h2 className="BrandingPrice__title">{t.priceTitle}</h2>
+                                <p className="BrandingPrice__kicker">{t.priceKicker}</p>
                             </div>
 
                             <div className="BrandingPrice__right">
-                                <div className="BrandingPrice__card" role="group" aria-label="Precio de Diseño de Marca">
+                                <div className="BrandingPrice__card" role="group" aria-label={t.priceCardAria}>
                                     <img className="BrandingPrice__cardBg" src={PriceCardBg} alt="" aria-hidden="true" />
 
                                     <div className="BrandingPrice__cardContent">
-                                        <p className="BrandingPrice__cardTitle">DISEÑO DE MARCA</p>
+                                        <p className="BrandingPrice__cardTitle">{t.priceCardTitle}</p>
 
                                         <div className="BrandingPrice__divider" aria-hidden="true" />
 
@@ -295,7 +403,7 @@ export default function Branding() {
                                         <div className="BrandingPrice__divider" aria-hidden="true" />
 
                                         <a className="BrandingBtn BrandingBtn--solid" href="/contacto">
-                                            CONTRATAR
+                                            {t.priceBtn}
                                         </a>
                                     </div>
                                 </div>
@@ -315,48 +423,55 @@ export default function Branding() {
                             <div className="BrandingBenefits__viewport">
                                 <div className="BrandingBenefits__track" ref={trackRef}>
                                     <div className="BrandingBenefits__slide">
-                                        <article className="BrandingBenefits__card" aria-label="Beneficio 1: Marca Única">
+                                        <article className="BrandingBenefits__card" aria-label={t.benefits[0].aria}>
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard01} alt="" aria-hidden="true" />
                                             <div className="BrandingBenefits__content">
-                                                <h3 className="BrandingBenefits__h3">MARCA ÚNICA</h3>
+                                                <h3 className="BrandingBenefits__h3">{t.benefits[0].h}</h3>
                                                 <p className="BrandingBenefits__p">
-                                                    Identidad original que te diferencia
-                                                    <br />y evita verse genérico
+                                                    {t.benefits[0].p.split("\n").map((line, idx) => (
+                                                        <span key={idx}>
+                                                            {line}
+                                                            <br />
+                                                        </span>
+                                                    ))}
                                                 </p>
                                             </div>
                                         </article>
                                     </div>
 
                                     <div className="BrandingBenefits__slide">
-                                        <article className="BrandingBenefits__card" aria-label="Beneficio 2: Claridad Estratégica">
+                                        <article className="BrandingBenefits__card" aria-label={t.benefits[1].aria}>
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard02} alt="" aria-hidden="true" />
                                             <div className="BrandingBenefits__content">
-                                                <h3 className="BrandingBenefits__h3">CLARIDAD ESTRATÉGICA</h3>
+                                                <h3 className="BrandingBenefits__h3">{t.benefits[1].h}</h3>
                                                 <p className="BrandingBenefits__p">
-                                                    Concepto, personalidad y estilo
-                                                    <br />
-                                                    bien definidos desde el inicio.
+                                                    {t.benefits[1].p.split("\n").map((line, idx) => (
+                                                        <span key={idx}>
+                                                            {line}
+                                                            <br />
+                                                        </span>
+                                                    ))}
                                                 </p>
                                             </div>
                                         </article>
                                     </div>
 
                                     <div className="BrandingBenefits__slide">
-                                        <article className="BrandingBenefits__card" aria-label="Beneficio 3: Gestión Sencilla">
+                                        <article className="BrandingBenefits__card" aria-label={t.benefits[2].aria}>
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard03} alt="" aria-hidden="true" />
                                             <div className="BrandingBenefits__content">
-                                                <h3 className="BrandingBenefits__h3">GESTIÓN SENCILLA</h3>
-                                                <p className="BrandingBenefits__p">Edita y actualiza tu contenido sin complicaciones</p>
+                                                <h3 className="BrandingBenefits__h3">{t.benefits[2].h}</h3>
+                                                <p className="BrandingBenefits__p">{t.benefits[2].p}</p>
                                             </div>
                                         </article>
                                     </div>
 
                                     <div className="BrandingBenefits__slide">
-                                        <article className="BrandingBenefits__card" aria-label="Beneficio 4: Soporte Continuo">
+                                        <article className="BrandingBenefits__card" aria-label={t.benefits[3].aria}>
                                             <img className="BrandingBenefits__cardBg" src={BenefitsCard04} alt="" aria-hidden="true" />
                                             <div className="BrandingBenefits__content">
-                                                <h3 className="BrandingBenefits__h3">SOPORTE CONTINUO</h3>
-                                                <p className="BrandingBenefits__p">Ajustes mensuales de contenido con un diseñador asignado</p>
+                                                <h3 className="BrandingBenefits__h3">{t.benefits[3].h}</h3>
+                                                <p className="BrandingBenefits__p">{t.benefits[3].p}</p>
                                             </div>
                                         </article>
                                     </div>
@@ -369,9 +484,9 @@ export default function Branding() {
                 {/* ========================= PROYECTOS ========================= */}
                 <section className="BrandingProjects" id="proyectos">
                     <div className="BrandingWrap BrandingVignette">
-                        <h2 className="BrandingProjects__title">ALGUNOS DE NUESTROS PROYECTOS</h2>
+                        <h2 className="BrandingProjects__title">{t.projectsTitle}</h2>
 
-                        <div className="BrandingProjects__pill" role="region" aria-label="Marcas con las que trabajamos">
+                        <div className="BrandingProjects__pill" role="region" aria-label={t.marqueeAria}>
                             <div className="BrandingMarquee" aria-hidden="false">
                                 <div className="BrandingMarquee__inner">
                                     {[...BRAND_LOGOS, ...BRAND_LOGOS].map((logo, i) => (
