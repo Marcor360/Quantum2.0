@@ -216,7 +216,7 @@
 .EcomPricing__wrapper {
     position: relative;
     padding: 100px 40px;
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
 }
 
@@ -225,19 +225,33 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    transform: scale(1.08);
+    object-fit: fill;
+    transform: scale(1.05, 1.03);
     transform-origin: center;
     z-index: 0;
     pointer-events: none;
     user-select: none;
 }
 
+@media (min-width: 1800px) {
+    .EcomPricing__BgFrame {
+        transform: scale(1.12, 1.06);
+    }
+}
+
+@media (min-width: 1900px) {
+    .EcomPricing__BgFrame {
+        transform: scale(1.16, 1.08);
+    }
+}
+
 .EcomPricing__grid {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* Evita que en pantallas grandes se estiren demasiado y se peguen al marco */
+    grid-template-columns: repeat(4, minmax(0, 340px));
+    justify-content: center;
     gap: 20px;
     align-items: stretch;
 }
@@ -399,6 +413,10 @@
     padding-bottom: 80px;
 }
 
+.EcomPricingSecondary .EcomPricing__grid {
+    gap: 56px;
+}
+
 .PricingCardYellow {
     position: relative;
     display: flex;
@@ -412,6 +430,7 @@
     transition: transform 0.3s ease;
     z-index: 1;
     /* Ensure content is above absolute bg */
+    overflow: hidden;
 }
 
 .PricingCardYellow:hover {
@@ -443,7 +462,7 @@
 
 .PricingCardYellow__title {
     font-family: var(--font-morganite);
-    font-size: clamp(2.0rem, 2.8vw, 3.6rem);
+    font-size: clamp(2.4rem, 3.1vw, 4.2rem);
     line-height: 0.95;
     letter-spacing: 0.01em;
     text-transform: uppercase;
@@ -462,7 +481,7 @@
 }
 
 .PricingCardYellow__price {
-    font-size: clamp(3.2rem, 4.5vw, 4.5rem);
+    font-size: clamp(3.6rem, 4.8vw, 5.2rem);
     font-family: var(--font-morganite);
     line-height: 1;
     color: var(--color-blanco);
@@ -482,11 +501,11 @@
 }
 
 .PricingCardYellow__renewal {
-    font-size: clamp(9px, 1.2vw, 11px);
+    font-size: clamp(11px, 1.2vw, 13px);
     color: rgba(255, 255, 255, 0.7);
-    line-height: 1.3;
+    line-height: 1.35;
     margin: 10px auto 0;
-    max-width: 22ch;
+    max-width: 26ch;
     padding: 0 10px;
 }
 

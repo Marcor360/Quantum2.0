@@ -331,7 +331,7 @@ export default function Ecomerce() {
                                         <img src={PricingCardYellow} alt="" className="PricingCardYellow__bg" aria-hidden="true" />
 
                                         <div className="PricingCardYellow__content">
-                                            <span className="PricingCard__label" style={{ color: 'white', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '0.1em', marginBottom: '12px', display: 'block' }}>Personalizado</span>
+                                            <span className="PricingCard__label" style={{ color: 'white', textTransform: 'uppercase', fontSize: 'clamp(12px, 0.95vw, 14px)', letterSpacing: '0.1em', marginBottom: '12px', display: 'block' }}>Personalizado</span>
                                             <h3 className="PricingCardYellow__title">{plan.title}</h3>
 
                                             <hr className="PricingCard__separator" style={{ borderColor: 'rgba(255,255,0,0.3)' }} />
