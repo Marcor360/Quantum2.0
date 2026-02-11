@@ -195,6 +195,11 @@ export default function Branding() {
     const pinRef = useRef<HTMLDivElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
 
+    // Siempre iniciar arriba al cargar la página
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }, []);
+
     useLayoutEffect(() => {
         try {
             if (typeof window === "undefined" || typeof document === "undefined") return;
@@ -494,3 +499,4 @@ export default function Branding() {
         </>
     );
 }
+import { useEffect } from "react";

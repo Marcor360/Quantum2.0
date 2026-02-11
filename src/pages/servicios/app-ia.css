@@ -1,0 +1,707 @@
+/* =========================
+   APP + IA (Mockup)
+========================= */
+
+.AppIAPage {
+    background: var(--color-mate);
+    color: var(--color-blanco);
+    overflow-x: clip;
+}
+
+.AppIAWrap {
+    width: min(95%, 125rem);
+    margin: 0 auto;
+    position: relative;
+}
+
+.AppIATextYellow {
+    color: var(--color-electrico);
+}
+
+/* =========================
+   BOTÓN pill (igual estilo Ecomerce)
+========================= */
+.AppIABtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: clamp(44px, 5.2vw, 54px);
+    padding: 0 clamp(18px, 2.6vw, 30px);
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: var(--color-electrico);
+    text-decoration: none;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    outline: none;
+}
+
+.AppIABtn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+}
+
+.AppIABtn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
+}
+
+/* =========================
+   HERO
+========================= */
+.AppIAHero {
+    position: relative;
+    padding: calc(var(--header-h, 0px) + clamp(46px, 7vw, 92px)) 0 clamp(70px, 9vw, 126px);
+    background: var(--color-mate);
+}
+
+.AppIAHeroTop {
+    text-align: center;
+    margin: 0 auto clamp(38px, 6vw, 64px);
+    width: min(100%, 1100px);
+    position: relative;
+}
+
+.AppIAHeroServicios {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    letter-spacing: 0.55em;
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--color-chicle);
+    opacity: 0.9;
+}
+
+.AppIAHeroTitle {
+    margin: 0;
+    font-family: var(--font-morganite);
+    font-size: clamp(5.2rem, 10vw, 12.8rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 0.82;
+}
+
+.AppIAHeroTitleImg {
+    display: block;
+    margin: 0 auto;
+    width: min(100%, clamp(560px, 62vw, 980px));
+    height: auto;
+}
+
+.AppIAHeroPlus {
+    color: var(--color-blanco);
+    opacity: 0.9;
+    margin: 0 0.12em;
+}
+
+.AppIAHeroLead {
+    margin: 14px auto 22px;
+    width: min(100%, 70ch);
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.35rem, 1.35vw, 1.95rem);
+    opacity: 0.92;
+}
+
+/* bottom row */
+.AppIAHeroBottom {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: clamp(20px, 4vw, 56px);
+    align-items: center;
+}
+
+.AppIAHeroVisual {
+    position: relative;
+    min-height: clamp(260px, 28vw, 420px);
+}
+
+.AppIAHeroAster {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, -50%);
+    width: min(92%, 560px);
+    opacity: 0.85;
+    filter: drop-shadow(0 18px 46px rgba(0, 0, 0, 0.55));
+}
+
+.AppIAHeroImg {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, -50%);
+    width: min(78%, 540px);
+    height: auto;
+    filter: drop-shadow(0 18px 54px rgba(0, 0, 0, 0.65));
+}
+
+.AppIAHeroCopy {
+    max-width: 70ch;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.18rem, 1.1vw, 1.55rem);
+    line-height: 1.55;
+    opacity: 0.95;
+}
+
+.AppIAHeroCopyLead {
+    margin: 0 0 14px;
+    font-size: clamp(1.35rem, 1.2vw, 1.8rem);
+}
+
+/* =========================
+   PRICING
+========================= */
+.AppIAPricing {
+    position: relative;
+    padding: clamp(100px, 11vw, 160px) 0 clamp(44px, 8vw, 110px);
+}
+
+.AppIAPricing__wrapper {
+    position: relative;
+    padding: 100px 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.AppIAPricing__BgFrame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    transform: scale(1.05, 1.03);
+    transform-origin: center;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+@media (min-width: 1800px) {
+    .AppIAPricing__BgFrame {
+        transform: scale(1.12, 1.06);
+    }
+}
+
+@media (min-width: 1900px) {
+    .AppIAPricing__BgFrame {
+        transform: scale(1.16, 1.08);
+    }
+}
+
+.AppIAPricing__title {
+    margin: clamp(18px, 3vw, 42px) auto 10px;
+    text-align: center;
+    font-family: var(--font-morganite);
+    font-size: clamp(3.8rem, 6.2vw, 8.2rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    line-height: 0.9;
+}
+
+.AppIAPricing__subtitle {
+    margin: clamp(8px, 2vw, 22px) auto clamp(32px, 5vw, 60px);
+    text-align: center;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.2rem, 1.6vw, 2.1rem);
+    opacity: 0.95;
+    max-width: 900px;
+}
+
+.AppIAPricing__subtitle span {
+    color: var(--color-electrico);
+    font-weight: 800;
+}
+
+.AppIAPricing__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 340px));
+    justify-content: center;
+    gap: 20px;
+    align-items: stretch;
+}
+
+/* card */
+.AppIAPricingCard {
+    position: relative;
+    border-radius: 26px;
+    overflow: hidden;
+    border: none;
+    isolation: isolate;
+    min-height: 560px;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.AppIAPricingCard__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.AppIAPricingCard__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+.AppIAPricingCard__content {
+    width: 100%;
+    padding: 78px 26px 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.AppIAPricingCard__head {
+    display: grid;
+    gap: 10px;
+    justify-items: center;
+}
+
+.AppIAPricingCard__title {
+    margin: 0;
+    font-family: var(--font-morganite);
+    font-size: clamp(3rem, 3.6vw, 4.4rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    line-height: 0.9;
+}
+
+.AppIAPricingCard--custom .AppIAPricingCard__title {
+    color: var(--color-electrico);
+}
+
+.AppIAPricingCard__badge {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.AppIAPricingCard__mid {
+    margin: 18px 0 14px;
+    width: 100%;
+}
+
+.AppIAPricingCard__price {
+    font-family: var(--font-morganite);
+    font-size: clamp(4.2rem, 5vw, 6.2rem);
+    line-height: 1;
+    color: var(--color-blanco);
+    display: inline-flex;
+    gap: 8px;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.AppIAPricingCard__price small {
+    font-size: 0.3em;
+    opacity: 0.9;
+    letter-spacing: 0.08em;
+}
+
+.AppIAPricingCard__price--custom {
+    font-size: clamp(1.35rem, 1.6vw, 1.9rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.95;
+}
+
+.AppIAPricingCard__bullets {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    display: grid;
+    gap: 12px;
+    width: min(100%, 34ch);
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.05rem, 1.05vw, 1.25rem);
+    opacity: 0.95;
+}
+
+.AppIAPricingCard__bullets li {
+    position: relative;
+    padding-left: 18px;
+    text-align: left;
+}
+
+.AppIAPricingCard__bullets li::before {
+    content: "✱";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--color-chicle);
+    opacity: 0.95;
+}
+
+.AppIAPricingCard--custom .AppIAPricingCard__bullets li::before {
+    color: var(--color-electrico);
+}
+
+.AppIAPricingCard__action {
+    margin-top: auto;
+    padding-top: 22px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.AppIAPricingCard__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    border-radius: 999px;
+    background: var(--color-blanco);
+    color: var(--color-negro);
+    border: none;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    padding: 14px 28px;
+    font-size: 1.6rem;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.AppIAPricingCard__btn:hover {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
+    transform: translateY(-1px);
+}
+
+.AppIAPricingCard__btn:focus-visible {
+    outline: 2px solid var(--color-electrico);
+    outline-offset: 4px;
+}
+
+/* =========================
+   BENEFICIOS (pin + slider desktop)
+========================= */
+.AppIABenefits {
+    padding: clamp(10px, 3vw, 36px) 0 clamp(36px, 6vw, 90px);
+}
+
+.AppIABenefits__pin {
+    display: grid;
+    grid-template-columns: clamp(220px, 22vw, 320px) 1fr;
+    gap: clamp(20px, 4vw, 60px);
+    align-items: center;
+    min-height: clamp(420px, 68vw, 760px);
+}
+
+.AppIABenefits__left {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.AppIABenefits__label {
+    display: none;
+}
+
+.AppIABenefits__titleSvg {
+    width: 100%;
+    max-width: clamp(240px, 24vw, 320px);
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.55));
+}
+
+.AppIABenefits__viewport {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: clamp(16px, 1.8vw, 22px);
+    isolation: isolate;
+    transform: translateZ(0);
+}
+
+.AppIABenefits__track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.AppIABenefits__slide {
+    position: relative;
+}
+
+.AppIABenefits__card {
+    position: relative;
+    height: 100%;
+    min-height: clamp(240px, 42vh, 520px);
+    overflow: hidden;
+    border-radius: clamp(16px, 1.8vw, 22px);
+}
+
+.AppIABenefits__bg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.AppIABenefits__copy {
+    position: absolute;
+    top: 50%;
+    left: 56%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    gap: 14px;
+    color: rgba(255, 255, 255, 0.96);
+    z-index: 2;
+    width: min(62%, 600px);
+    text-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+
+.AppIABenefits__copy.is-primary {
+    gap: 10px;
+}
+
+.AppIABenefits__title {
+    margin: 0;
+    font-family: var(--font-morganite);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    font-size: clamp(4.2rem, 5vw, 7.4rem);
+    line-height: 0.92;
+}
+
+.AppIABenefits__desc {
+    margin: 0;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.2rem, 1.6vw, 2.1rem);
+    line-height: 1.5;
+    max-width: 44ch;
+}
+
+.AppIABenefits__list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    display: grid;
+    gap: 10px;
+    font-family: var(--font-subjectivity);
+    font-size: clamp(1.05rem, 1.05vw, 1.25rem);
+    opacity: 0.95;
+}
+
+.AppIABenefits__list li {
+    position: relative;
+    padding-left: 18px;
+}
+
+.AppIABenefits__list li::before {
+    content: "✱";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--color-electrico);
+}
+
+.AppIABenefits__cta {
+    margin-top: 8px;
+}
+
+.AppIABenefits__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    border-radius: 999px;
+    background: var(--color-blanco);
+    color: var(--color-negro);
+    border: none;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    padding: 14px 28px;
+    font-size: 1.6rem;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.AppIABenefits__btn:hover {
+    box-shadow: 0 0 20px rgba(250, 255, 0, 0.25);
+    transform: translateY(-1px);
+}
+
+/* Enhanced (desktop pin sizing similar to Ecomerce) */
+@media (min-width: 769px) {
+    .AppIABenefits.is-enhanced .AppIABenefits__viewport {
+        --card-w: clamp(980px, 74vw, 1260px);
+        --card-h: clamp(520px, 62vh, 720px);
+
+        width: var(--card-w);
+        height: var(--card-h);
+        justify-self: center;
+        margin-inline: auto;
+        border-radius: clamp(18px, 2vw, 26px);
+        overflow: hidden;
+        filter: drop-shadow(0 20px 44px rgba(0, 0, 0, 0.45));
+    }
+
+    .AppIABenefits.is-enhanced .AppIABenefits__track {
+        width: 100%;
+        height: var(--card-h);
+        will-change: transform;
+    }
+
+    .AppIABenefits.is-enhanced .AppIABenefits__slide {
+        position: absolute;
+        inset: 0;
+        will-change: transform;
+    }
+
+    .AppIABenefits.is-enhanced .AppIABenefits__card {
+        height: 100%;
+        min-height: 0;
+        border-radius: 0;
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1200px) {
+    .AppIAPricing__grid {
+        grid-template-columns: repeat(2, minmax(0, 420px));
+    }
+}
+
+@media (max-width: 768px) {
+    .AppIAHeroServicios {
+        position: static;
+        writing-mode: initial;
+        transform: none;
+        display: inline-block;
+        margin-bottom: 10px;
+        letter-spacing: 0.35em;
+    }
+
+    .AppIAHeroBottom {
+        grid-template-columns: 1fr;
+    }
+
+    .AppIAHeroVisual {
+        order: 2;
+        min-height: 260px;
+    }
+
+    .AppIAHeroAster {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: min(92%, 420px);
+    }
+
+    .AppIAHeroImg {
+        left: 50%;
+        top: 52%;
+        transform: translate(-50%, -50%);
+        width: min(86%, 460px);
+    }
+
+    .AppIAPricing__grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .AppIAPricingCard {
+        min-height: 520px;
+    }
+
+    .AppIAPricingCard__content {
+        padding: 64px 22px 22px;
+    }
+
+    /* Beneficios: sin pin “real”, se vuelve lista */
+    .AppIABenefits__pin {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 28px;
+        padding-top: 34px;
+    }
+
+    .AppIABenefits__left {
+        align-items: center;
+    }
+
+    .AppIABenefits__label {
+        writing-mode: initial;
+        transform: none;
+        letter-spacing: 0.25em;
+    }
+
+    .AppIABenefits__titleSvg {
+        max-width: 280px;
+    }
+
+    .AppIABenefits__viewport {
+        overflow: visible;
+    }
+
+    .AppIABenefits__track {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        position: static !important;
+    }
+
+    .AppIABenefits__slide {
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .AppIABenefits__card {
+        height: auto;
+        min-height: 280px;
+    }
+
+    .AppIABenefits__copy {
+        inset: 18px 18px;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: auto;
+    }
+
+    .AppIABenefits__title {
+        font-size: clamp(3.4rem, 10vw, 5.2rem);
+    }
+
+    .AppIABenefits__desc {
+        font-size: clamp(1.1rem, 3.8vw, 1.5rem);
+    }
+}
+
+@media (max-width: 480px) {
+
+    .AppIAPricingCard__btn,
+    .AppIABenefits__btn {
+        padding: 12px 24px;
+        font-size: 1.2rem;
+        min-width: 150px;
+    }
+}

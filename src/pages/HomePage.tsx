@@ -25,6 +25,10 @@ import ResolveCenter from "../assets/svg/360/centrado en el cliente.svg";
 import ResolveData from "../assets/svg/360/data driven.svg";
 import ResolveChannels from "../assets/svg/360/nuevas canales comerciales.svg";
 import ResolveOps from "../assets/svg/360/transformación operativa_1.svg";
+import ResolveCenterEn from "../assets/svg/360/Inglish/customer.svg";
+import ResolveDataEn from "../assets/svg/360/Inglish/data driven.svg";
+import ResolveChannelsEn from "../assets/svg/360/Inglish/new commercial.svg";
+import ResolveOpsEn from "../assets/svg/360/Inglish/operation.svg";
 import MundoQuantum from "../assets/svg/360/mundo-quantum.svg";
 import QuantumTextSvg from "../assets/svg/360/QUANTU TEXTO.svg";
 
@@ -1165,7 +1169,10 @@ export default function HomePage() {
                 resolveStackItemsRef.current = [];
                 return null;
               })()}
-              {[ResolveData, ResolveCenter, ResolveChannels, ResolveOps].map((img, idx) => (
+              {(lang === "en"
+                ? [ResolveDataEn, ResolveCenterEn, ResolveChannelsEn, ResolveOpsEn]
+                : [ResolveData, ResolveCenter, ResolveChannels, ResolveOps]
+              ).map((img, idx) => (
                 <div
                   key={`resolve-${idx}`}
                   className={`resolve-stack__item resolve-stack__item--${idx + 1}`}

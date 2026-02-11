@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -121,7 +121,13 @@ export default function Ecomerce() {
     const pinRef = useRef<HTMLDivElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
 
+    // Scroll al inicio cuando se carga esta página
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }, []);
+
     useLayoutEffect(() => {
+        console.log("Quantum 2.0 - Ecomerce Page Updated v6 (Edge-to-Edge Forced)");
         const el = asterRef.current;
         if (!el) return;
 
@@ -315,15 +321,15 @@ export default function Ecomerce() {
 
                 {/* PRICING (2 filas como el mockup) */}
                 <section className="EcomPricing">
+                    {/* Marco decorativo "detrás" - Movido fuera de EcomWrap para alcance total */}
+                    <img src={PricingBg} alt="" className="EcomPricing__BgFrame" aria-hidden="true" />
+
                     <div className="EcomWrap">
                         <header className="EcomPricing__head">
                         </header>
 
                         {/* Pricing Grid */}
                         <div className="EcomPricing__wrapper">
-                            {/* Marco decorativo "detrás" */}
-                            <img src={PricingBg} alt="" className="EcomPricing__BgFrame" aria-hidden="true" />
-
                             <h2 className="EcomPricing__title">LLEVA TU NEGOCIO AL SIGUIENTE NIVEL</h2>
 
                             <p className="EcomPricing__subtitle">
