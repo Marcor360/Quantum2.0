@@ -22,6 +22,7 @@ import BenefitsCard01 from "../../assets/svg/Branding/Tarjeta Beneficio/1.svg";
 import BenefitsCard02 from "../../assets/svg/Branding/Tarjeta Beneficio/2.svg";
 import BenefitsCard03 from "../../assets/svg/Branding/Tarjeta Beneficio/3.svg";
 import BenefitsCard04 from "../../assets/svg/Branding/Tarjeta Beneficio/4.svg";
+import BrandingTitleSvg from "../../assets/svg/Titulos/serv/BRANDING.svg";
 
 // ===== Imagen principal (public) =====
 const HERO_IMG = "/img/Branding/IMG_branding_principal_calidad.webp";
@@ -263,12 +264,8 @@ export default function Branding() {
 
                     const headerOffset = Math.round(getHeaderH());
 
-                    const STEP = () =>
-                        Math.max(
-                            viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7,
-                            window.innerWidth * 0.5,
-                            1
-                        ) * 1.05;
+                    // Scroll distance por slide; menos multiplicador para dar más control al usuario
+                    const STEP = () => Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.75, 1);
 
                     gsap.set(slides, { zIndex: (i) => i, position: "absolute", left: 0, top: 0, width: "100%", height: "100%" });
 
@@ -280,17 +277,10 @@ export default function Branding() {
                         end: () => `+=${getEnd()}`,
                         pin: pinEl,
                         pinSpacing: true,
-                        scrub: 1.6,
+                        scrub: 1,
                         anticipatePin: 1,
                         invalidateOnRefresh: true,
                         animation: tl,
-
-                        snap: {
-                            snapTo: "labels",
-                            duration: { min: 0.14, max: 0.32 },
-                            delay: 0.18,
-                            ease: "power1.inOut",
-                        },
 
                         onUpdate: (self) => {
                             const idx = Math.round(self.progress * (slides.length - 1));
@@ -344,10 +334,9 @@ export default function Branding() {
                     <div className="BrandingWrap BrandingVignette">
                         <div className="BrandingHero__top">
                             <div className="BrandingHero__titleWrap">
-                                <span className="BrandingHero__services" aria-hidden="true">
-                                    {t.heroServices}
-                                </span>
-                                <h1 className="BrandingHero__title">{t.heroTitle}</h1>
+                                <h1 className="BrandingHero__title">
+                                    <img src={BrandingTitleSvg} alt="BRANDING" />
+                                </h1>
                             </div>
 
                             <p className="BrandingHero__subtitle">{t.heroSubtitle}</p>
@@ -377,7 +366,7 @@ export default function Branding() {
                 </section>
 
                 {/* ========================= PRECIO ========================= */}
-                <section className="BrandingPrice" id="precio">
+                < section className="BrandingPrice" id="precio" >
                     <div className="BrandingWrap BrandingVignette">
                         <div className="BrandingPrice__grid">
                             <div className="BrandingPrice__left">
@@ -410,10 +399,10 @@ export default function Branding() {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section >
 
                 {/* ========================= BENEFICIOS ========================= */}
-                <section className="BrandingBenefits" id="beneficios" ref={benefitsRef}>
+                < section className="BrandingBenefits" id="beneficios" ref={benefitsRef} >
                     <div className="BrandingWrap BrandingVignette">
                         <div className="BrandingBenefits__pin" ref={pinRef}>
                             <div className="BrandingBenefits__left BrandingBenefits__left--pinned" aria-hidden="true">
@@ -479,10 +468,10 @@ export default function Branding() {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section >
 
                 {/* ========================= PROYECTOS ========================= */}
-                <section className="BrandingProjects" id="proyectos">
+                < section className="BrandingProjects" id="proyectos" >
                     <div className="BrandingWrap BrandingVignette">
                         <h2 className="BrandingProjects__title">{t.projectsTitle}</h2>
 
@@ -498,8 +487,8 @@ export default function Branding() {
                             </div>
                         </div>
                     </div>
-                </section>
-            </main>
+                </section >
+            </main >
 
             <Footer />
         </>

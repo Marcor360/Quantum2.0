@@ -100,45 +100,20 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(0px, 0.6vw, 6px);
     margin: 0 auto;
     position: relative;
 }
 
-.BrandingHero__services {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-    left: auto;
-    top: auto;
-    transform: none;
-    writing-mode: vertical-rl;
-    transform-origin: center;
-    rotate: 180deg;
-
-    font-family: var(--font-subjectivity);
-    font-weight: 700;
-    letter-spacing: 0.42em;
-    text-transform: uppercase;
-    color: var(--color-chicle);
-    opacity: 0.9;
-    font-size: clamp(1.2rem, 1.6vw, 2rem);
-    line-height: 1;
-    letter-spacing: 0.48em;
-    margin-right: clamp(-10px, -0.6vw, -4px);
-}
-
 .BrandingHero__title {
     margin: 0;
-    font-family: var(--font-morganite);
-    font-weight: 900;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-electrico);
-    font-size: clamp(12.5rem, 19vw, 28rem);
     line-height: 0.82;
+}
+
+.BrandingHero__title img {
+    display: block;
+    width: clamp(280px, 80vw, 1100px);
+    height: auto;
+    margin: 0 auto;
 }
 
 .BrandingHero__subtitle {
@@ -156,15 +131,15 @@
 
 .BrandingHero__bottom {
     margin-top: clamp(34px, 5vw, 56px);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column-reverse;
     gap: clamp(22px, 4vw, 58px);
     align-items: center;
 }
 
 .BrandingHero__art {
     position: relative;
-    width: min(520px, 100%);
+    width: min(320px, 90%);
     margin-inline: auto;
     aspect-ratio: 1 / 1;
 }
@@ -344,8 +319,8 @@
 
 .BrandingBenefits__pin {
     display: grid;
-    grid-template-columns: clamp(220px, 22vw, 340px) 1fr;
-    gap: clamp(14px, 2.6vw, 28px);
+    grid-template-columns: clamp(200px, 20vw, 300px) 1fr;
+    gap: clamp(20px, 4vw, 60px);
     align-items: center;
     height: calc(100vh - var(--header-h, 96px));
     align-content: center;
@@ -424,24 +399,79 @@
     max-width: min(72%, 620px);
 }
 
-.BrandingBenefits__h3 {
-    margin: clamp(14px, 2vw, 22px) 0 0;
-    font-family: var(--font-morganite);
-    font-weight: 900;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    color: var(--color-chicle);
-    font-size: clamp(3.6rem, 4.2vw, 6.2rem);
-    line-height: 0.98;
+@media (max-width: 768px) {
+    .BrandingBenefits__pin {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 32px;
+        padding-top: 40px;
+    }
+
+    .BrandingBenefits__left {
+        display: flex;
+        justify-content: center;
+        position: static !important;
+    }
+
+    .BrandingBenefits__titleSvg {
+        max-width: 280px;
+        height: auto;
+    }
+
+    .BrandingBenefits__viewport {
+        overflow: visible;
+        width: 100%;
+    }
+
+    .BrandingBenefits__track {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        position: static !important;
+    }
+
+    .BrandingBenefits__slide {
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .BrandingBenefits__card {
+        position: relative;
+        height: auto;
+        min-height: 280px;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .BrandingBenefits__content {
+        position: relative;
+        inset: auto;
+        padding: 40px 25px;
+        width: 100%;
+        max-width: none;
+        transform: none;
+        top: auto;
+        left: auto;
+        text-align: center;
+        align-items: center;
+    }
+
+    .BrandingBenefits__h3 {
+        font-size: 4.8rem;
+    }
 }
 
 .BrandingBenefits__p {
     margin: 0;
     font-family: var(--font-subjectivity);
-    font-size: clamp(1.25rem, 1.6vw, 1.9rem);
-    line-height: 1.55;
-    color: rgba(255, 255, 255, 0.9);
-    max-width: 36ch;
+    font-size: clamp(1.4rem, 1.8vw, 2.2rem);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 38ch;
 }
 
 /* Controls (steps + progress) */
@@ -453,10 +483,8 @@
 ========================= */
 @media (min-width: 769px) {
     .BrandingBenefits.is-enhanced .BrandingBenefits__viewport {
-        /* tamaño más controlado para que la tarjeta se vea completa */
-        --card-w: clamp(900px, 70vw, 1180px);
-        --card-h: clamp(460px, 58vh, 640px);
-        /* más baja para que quepa completa */
+        --card-w: clamp(1000px, 75vw, 1280px);
+        --card-h: clamp(520px, 62vh, 720px);
 
         width: var(--card-w);
         height: var(--card-h);
@@ -508,15 +536,18 @@
     /* Centra verticalmente el bloque de texto dentro de la tarjeta
        y le da un margen uniforme para que no quede pegado al borde superior. */
     .BrandingBenefits.is-enhanced .BrandingBenefits__content {
-        /* Coloca el bloque de texto visualmente dentro del área central (marco rojo de la referencia) */
         top: 50%;
         left: 55%;
         right: auto;
         bottom: auto;
         transform: translate(-50%, -50%);
-        width: min(60%, 540px);
+        width: min(65%, 600px);
         max-width: none;
+        display: flex;
+        flex-direction: column;
+        gap: clamp(16px, 2vw, 24px);
         justify-content: center;
+        text-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
     }
 
     /* ✅ compensación: como ya no hay progress HTML, bajamos el título */
@@ -699,4 +730,3 @@
         font-size: clamp(1.15rem, 3.8vw, 1.55rem);
     }
 }
-

@@ -13,6 +13,8 @@ import BenefitsTitleSvg from "../../assets/svg/Branding/Beneficios y degradado.s
 
 import BenefitCard01 from "../../assets/svg/Branding/Tarjeta Beneficio/1.svg";
 import BenefitCard02 from "../../assets/svg/Branding/Tarjeta Beneficio/2.svg";
+import BenefitCard03 from "../../assets/svg/Branding/Tarjeta Beneficio/3.svg";
+import BenefitCard04 from "../../assets/svg/Branding/Tarjeta Beneficio/4.svg";
 
 // ===== Assets (public) =====
 const WORLD_WEB = "/img/Ecommerce/web.webp";
@@ -21,6 +23,7 @@ const WORLD_WEB = "/img/Ecommerce/web.webp";
 import PricingBg from "../../assets/svg/Ecomerce/Desktop/Primera tabla ecommerce_1.svg";
 import PricingCardBg from "../../assets/svg/Ecomerce/Desktop/tarjeta precios ecommerce.svg";
 import PricingCardYellow from "../../assets/svg/Ecomerce/Desktop/Precios.svg";
+import EcommerceTitleSvg from "../../assets/svg/Titulos/serv/ECOMMERCE.svg";
 
 // ===== Data =====
 const pricingPlans = [
@@ -67,6 +70,39 @@ const pricingPlansSecondary = [
         price: "$ 13,600",
         renewal: "*Único pago (posteriormente pagarás la renovación del hosting y mantenimiento de tu sitio: $200 USD AL AÑO)"
     }
+];
+
+const benefits = [
+    {
+        id: 1,
+        image: BenefitCard01,
+        title: "DISEÑO ADAPTABLE",
+        copy: "Tu sitio se ve y funciona perfecto en cualquier dispositivo."
+    },
+    {
+        id: 2,
+        image: BenefitCard02,
+        title: "PLATAFORMA ESCALABLE",
+        copy: "Flexible, adaptable y lista para escalar cuando lo necesites."
+    },
+    {
+        id: 3,
+        image: BenefitCard03,
+        title: "GESTIÓN SENCILLA",
+        copy: "Edita y actualiza tu contenido sin complicaciones."
+    },
+    {
+        id: 4,
+        image: BenefitCard04,
+        title: "SOPORTE CONTINUO",
+        copy: "Ajustes mensuales de contenido con un diseñador asignado."
+    }
+];
+
+const projectShots = [
+    { src: "/img/ecomerce/Staumodu_Sitio Web.webp", label: "Proyecto Staumodu - sitio web" },
+    { src: "/img/ecomerce/Landing Beneficios_editable.webp", label: "Landing Beneficios" },
+    { src: "/img/ecomerce/Home_Hotel_quantum.webp", label: "Home Hotel Quantum" }
 ];
 
 gsap.registerPlugin(ScrollTrigger);
@@ -165,8 +201,8 @@ export default function Ecomerce() {
 
                     const headerOffset = Math.round(getHeaderH());
 
-                    const STEP = () =>
-                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.7, window.innerWidth * 0.5, 1) * 1.05;
+                    // Distancia por slide con menor multiplicador para un scroll más controlable
+                    const STEP = () => Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.75, 1);
 
                     gsap.set(slides, { zIndex: (i) => i, position: "absolute", left: 0, top: 0, width: "100%", height: "100%" });
 
@@ -178,16 +214,10 @@ export default function Ecomerce() {
                         end: () => `+=${getEnd()}`,
                         pin: pinEl,
                         pinSpacing: true,
-                        scrub: 1.6,
+                        scrub: 1,
                         anticipatePin: 1,
                         invalidateOnRefresh: true,
                         animation: tl,
-                        snap: {
-                            snapTo: "labels",
-                            duration: { min: 0.14, max: 0.32 },
-                            delay: 0.18,
-                            ease: "power1.inOut",
-                        },
                         onUpdate: (self) => {
                             const idx = Math.round(self.progress * (slides.length - 1));
                             const clamped = Math.min(slides.length - 1, Math.max(0, idx));
@@ -240,8 +270,9 @@ export default function Ecomerce() {
                         {/* top centered */}
                         <header className="EcomHeroTop">
                             <div className="EcomHeroTitleRow">
-                                <span className="EcomHeroServicios">SERVICIOS</span>
-                                <h1 className="EcomHeroTitle">ECOMMERCE</h1>
+                                <h1 className="EcomHeroTitle">
+                                    <img src={EcommerceTitleSvg} alt="ECOMMERCE" />
+                                </h1>
                             </div>
 
                             <p className="EcomHeroLead">
@@ -286,10 +317,6 @@ export default function Ecomerce() {
                 <section className="EcomPricing">
                     <div className="EcomWrap">
                         <header className="EcomPricing__head">
-                            <h2 className="EcomPricing__title">LLEVA TU NEGOCIO AL SIGUIENTE NIVEL</h2>
-                            <p className="EcomPricing__subtitle">
-                                <span>Paga de forma sencilla.</span> de contado o en pagos parciales, tú decides.
-                            </p>
                         </header>
 
                         {/* Pricing Grid */}
@@ -297,9 +324,18 @@ export default function Ecomerce() {
                             {/* Marco decorativo "detrás" */}
                             <img src={PricingBg} alt="" className="EcomPricing__BgFrame" aria-hidden="true" />
 
+                            <h2 className="EcomPricing__title">LLEVA TU NEGOCIO AL SIGUIENTE NIVEL</h2>
+
+                            <p className="EcomPricing__subtitle">
+                                <span>Paga de forma sencilla.</span> de contado o en pagos parciales, tú decides.
+                            </p>
+
                             <div className="EcomPricing__grid">
                                 {pricingPlans.map((plan, i) => (
-                                    <article key={i} className="PricingCard" style={{ backgroundImage: `url('${PricingCardBg}')` }}>
+                                    <article key={i} className="PricingCard">
+                                        {/* Imagen de fondo absoluta para mejor escalado */}
+                                        <img src={PricingCardBg} alt="" className="PricingCard__bg" aria-hidden="true" />
+
                                         <div className="PricingCard__content">
                                             <span className="PricingCard__label">Optimizado</span>
                                             <h3 className="PricingCard__title">{plan.title}</h3>
@@ -331,19 +367,19 @@ export default function Ecomerce() {
                                         <img src={PricingCardYellow} alt="" className="PricingCardYellow__bg" aria-hidden="true" />
 
                                         <div className="PricingCardYellow__content">
-                                            <span className="PricingCard__label" style={{ color: 'white', textTransform: 'uppercase', fontSize: 'clamp(12px, 0.95vw, 14px)', letterSpacing: '0.1em', marginBottom: '12px', display: 'block' }}>Personalizado</span>
+                                            <span className="PricingCardYellow__label">Personalizado</span>
                                             <h3 className="PricingCardYellow__title">{plan.title}</h3>
 
-                                            <hr className="PricingCard__separator" style={{ borderColor: 'rgba(255,255,0,0.3)' }} />
+                                            <hr className="PricingCardYellow__separator" />
 
-                                            <div className="PricingCard__price">
-                                                {plan.price} <small className="PricingCard__currency">MXN</small>
+                                            <div className="PricingCardYellow__price">
+                                                {plan.price} <small className="PricingCardYellow__currency">MXN</small>
                                             </div>
 
-                                            <p className="PricingCard__renewal">{plan.renewal}</p>
+                                            <p className="PricingCardYellow__renewal">{plan.renewal}</p>
                                         </div>
-                                        <div className="PricingCard__action">
-                                            <Link to="/contacto" className="EcomBtn PricingCard__btn">
+                                        <div className="PricingCardYellow__action">
+                                            <Link to="/contacto" className="PricingCardYellow__btn">
                                                 CONTRATAR
                                             </Link>
                                         </div>
@@ -358,38 +394,44 @@ export default function Ecomerce() {
                 <section className="EcomBenefits" ref={benefitsRef}>
                     <div className="EcomWrap">
                         <div className="EcomBenefits__pin" ref={pinRef}>
-                            <div className="EcomBenefits__left" aria-hidden="true">
+                            <div className="EcomBenefits__left EcomBenefits__left--pinned" aria-hidden="true">
                                 <img className="EcomBenefits__titleSvg" src={BenefitsTitleSvg} alt="" />
                             </div>
 
                             <div className="EcomBenefits__viewport">
                                 <div className="EcomBenefits__track" ref={trackRef}>
-                                    <div className="EcomBenefits__slide">
-                                        <article className="EcomBenefits__card" aria-label="Beneficio 1">
-                                            <img className="EcomBenefits__bg" src={BenefitCard01} alt="" />
-                                        </article>
-                                    </div>
+                                    {benefits.map((benefit) => (
+                                        <div className="EcomBenefits__slide" key={benefit.id}>
+                                            <article className="EcomBenefits__card" aria-label={`Beneficio ${benefit.id}`}>
+                                                <img className="EcomBenefits__bg" src={benefit.image} alt="" />
 
-                                    <div className="EcomBenefits__slide">
-                                        <article className="EcomBenefits__card" aria-label="Beneficio 2">
-                                            <img className="EcomBenefits__bg" src={BenefitCard02} alt="" />
-                                        </article>
-                                    </div>
+                                                <div className="EcomBenefits__copy">
+                                                    <h3 className="EcomBenefits__title">{benefit.title}</h3>
+                                                    <p className="EcomBenefits__desc">{benefit.copy}</p>
+                                                </div>
+                                            </article>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* PROYECTOS (solo placeholder como pediste) */}
+                {/* PROYECTOS */}
                 <section className="EcomProjects">
                     <div className="EcomWrap">
                         <h2 className="EcomProjectsTitle">NUESTROS PROYECTOS</h2>
 
-                        <div className="EcomProjectsStack" aria-label="Proyectos (placeholder)">
-                            <div className="EcomProjectPh" />
-                            <div className="EcomProjectPh" />
-                            <div className="EcomProjectPh" />
+                        <div className="EcomProjectsStack" aria-label="Proyectos recientes">
+                            {projectShots.map((shot) => (
+                                <div
+                                    key={shot.src}
+                                    className="EcomProjectCard"
+                                    style={{ backgroundImage: `url('${shot.src}')` }}
+                                    aria-label={shot.label}
+                                />
+                            ))}
                         </div>
                     </div>
                 </section>
