@@ -217,6 +217,44 @@
 }
 
 /* =========================
+   TOGGLE MENSUAL/ANUAL
+========================= */
+.EcomPricing__toggle {
+    display: flex;
+    gap: 0;
+    justify-content: center;
+    margin: 0 auto clamp(24px, 3vw, 36px);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 4px;
+    width: fit-content;
+}
+
+.EcomPricing__toggleBtn {
+    padding: clamp(8px, 1.2vw, 12px) clamp(20px, 2.5vw, 32px);
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    font-size: clamp(1.2rem, 1.4vw, 1.6rem);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.EcomPricing__toggleBtn:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.EcomPricing__toggleBtn.active {
+    background: var(--color-chicle);
+    color: var(--color-blanco);
+    box-shadow: 0 4px 12px rgba(236, 62, 249, 0.3);
+}
+
+/* =========================
    PRICING GRID & CARDS (Final Polish - Centered)
 ========================= */
 .EcomPricing__wrapper {
@@ -248,9 +286,9 @@
     z-index: 1;
     display: grid;
     /* Mayor ancho para las tarjetas para usar el espacio lateral */
-    grid-template-columns: repeat(4, minmax(0, 250px));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     justify-content: center;
-    gap: 18px;
+    gap: 12px;
     align-items: stretch;
 }
 
@@ -288,7 +326,8 @@
     overflow: visible;
 
     /* Padding equilibrado para centrar contenido, dando margen para el diseño del SVG */
-    padding: 72px 32px 90px;
+    /* Padding equilibrado para centrar contenido, dando margen para el diseño del SVG */
+    padding: 72px 18px 90px;
 
     display: flex;
     flex-direction: column;
@@ -440,8 +479,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* Padding ajustado para dar más aire interno y no cortar efectos */
-    padding: 70px 28px 90px;
+    /* Padding equilibrado para centrar contenido, igual que la tarjeta principal */
+    padding: 72px 18px 90px;
     min-height: 520px;
     text-align: center;
     transition: transform 0.3s ease;
@@ -579,7 +618,7 @@
     }
 
     .PricingCardYellow {
-        padding: 60px 18px 110px;
+        padding: 62px 24px 82px;
         min-height: 520px;
     }
 

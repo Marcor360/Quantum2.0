@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef, useEffect } from "react";
+import { useLayoutEffect, useMemo, useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -26,7 +26,6 @@ const WORLD_WEB = "/img/Ecommerce/web.webp";
 // ===== Assets (SVG Components) =====
 import PricingBg from "../../assets/svg/Ecomerce/Desktop/Primera tabla ecommerce_1.svg";
 import PricingCardBg from "../../assets/svg/Ecomerce/Desktop/tarjeta precios ecommerce.svg";
-import PricingCardYellow from "../../assets/svg/Ecomerce/Desktop/Precios.svg";
 import EcommerceTitleSvg from "../../assets/svg/Titulos/serv/ECOMMERCE.svg";
 
 // ===== Data =====
@@ -51,17 +50,33 @@ const ECOM_COPY: Record<Lang, any> = {
         projectsTitle: "NUESTROS PROYECTOS",
         projectsAria: "Proyectos recientes",
 
+        plansMonthly: [
+            { title: "ESENCIAL / MES", price: 3000 },
+            { title: "INDISPENSABLE / MES", price: 3500 },
+            { title: "TODO EN UNO / MES", price: 4000 },
+            { title: "PROFESIONAL / MES", price: 4500 },
+            { title: "OMNIPRESENTE / MES", price: 5000 }
+        ],
+        plansSecondaryMonthly: [
+            { title: "ESENCIAL / MES", price: "1,500" },
+            { title: "INDISPENSABLE / MES", price: "2,000" },
+            { title: "TODO EN UNO / MES", price: "2,500" },
+            { title: "PROFESIONAL / MES", price: "3,000" },
+            { title: "OMNIPRESENTE / MES", price: "3,500" }
+        ],
         plans: [
-            { title: "LANDING PAGE", price: 5980 },
-            { title: "SITIO INFORMATIVO", price: 7980 },
-            { title: "ECOMMERCE A WHATSAPP", price: 9600 },
-            { title: "E-COMMERCE CON PASARELA DE PAGO", price: 11600 }
+            { title: "ESENCIAL | ANUAL", price: 30000 },
+            { title: "INDISPENSABLE | ANUAL", price: 35000 },
+            { title: "TODO EN UNO | ANUAL", price: 40000 },
+            { title: "PROFESIONAL | ANUAL", price: 45000 },
+            { title: "OMNIPRESENTE | ANUAL", price: 50000 }
         ],
         plansSecondary: [
-            { title: "LANDING PAGE", price: 7980 },
-            { title: "SITIO INFORMATIVO", price: 9980 },
-            { title: "ECOMMERCE A WHATSAPP", price: 11600 },
-            { title: "E-COMMERCE CON PASARELA DE PAGO", price: 13600 }
+            { title: "ESENCIAL | ANUAL", price: "11,250 - 15,000" },
+            { title: "INDISPENSABLE | ANUAL", price: "15,000 - 20,000" },
+            { title: "TODO EN UNO | ANUAL", price: "18,750 - 25,000" },
+            { title: "PROFESIONAL | ANUAL", price: "22,500 - 30,000" },
+            { title: "OMNIPRESENTE | ANUAL", price: "26,250 - 35,000" }
         ],
         benefits: [
             { title: "DISEÑO ADAPTABLE", copy: "Tu sitio se ve y funciona perfecto en cualquier dispositivo." },
@@ -90,17 +105,33 @@ const ECOM_COPY: Record<Lang, any> = {
         projectsTitle: "OUR PROJECTS",
         projectsAria: "Recent projects",
 
+        plansMonthly: [
+            { title: "ESENCIAL / MES", price: 3000 },
+            { title: "INDISPENSABLE / MES", price: 3500 },
+            { title: "TODO EN UNO / MES", price: 4000 },
+            { title: "PROFESIONAL / MES", price: 4500 },
+            { title: "OMNIPRESENTE / MES", price: 5000 }
+        ],
+        plansSecondaryMonthly: [
+            { title: "ESENCIAL / MES", price: "1,500" },
+            { title: "INDISPENSABLE / MES", price: "2,000" },
+            { title: "TODO EN UNO / MES", price: "2,500" },
+            { title: "PROFESIONAL / MES", price: "3,000" },
+            { title: "OMNIPRESENTE / MES", price: "3,500" }
+        ],
         plans: [
-            { title: "LANDING PAGE", price: 5980 },
-            { title: "INFORMATIVE SITE", price: 7980 },
-            { title: "ECOMMERCE TO WHATSAPP", price: 9600 },
-            { title: "E-COMMERCE WITH PAYMENT GATEWAY", price: 11600 }
+            { title: "ESENCIAL | ANUAL", price: 30000 },
+            { title: "INDISPENSABLE | ANUAL", price: 35000 },
+            { title: "TODO EN UNO | ANUAL", price: 40000 },
+            { title: "PROFESIONAL | ANUAL", price: 45000 },
+            { title: "OMNIPRESENTE | ANUAL", price: 50000 }
         ],
         plansSecondary: [
-            { title: "LANDING PAGE", price: 7980 },
-            { title: "INFORMATIVE SITE", price: 9980 },
-            { title: "ECOMMERCE TO WHATSAPP", price: 11600 },
-            { title: "E-COMMERCE WITH PAYMENT GATEWAY", price: 13600 }
+            { title: "ESENCIAL | ANUAL", price: "11,250 - 15,000" },
+            { title: "INDISPENSABLE | ANUAL", price: "15,000 - 20,000" },
+            { title: "TODO EN UNO | ANUAL", price: "18,750 - 25,000" },
+            { title: "PROFESIONAL | ANUAL", price: "22,500 - 30,000" },
+            { title: "OMNIPRESENTE | ANUAL", price: "26,250 - 35,000" }
         ],
         benefits: [
             { title: "DISEÑO ADAPTABLE", copy: "Tu sitio se ve y funciona perfecto en cualquier dispositivo." },
@@ -131,6 +162,9 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Ecomerce() {
     const [lang] = useLang();
     const t = useMemo(() => ECOM_COPY[lang], [lang]);
+
+    // Estado para controlar si se muestran precios mensuales o anuales
+    const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly");
 
     const asterRef = useRef<HTMLImageElement | null>(null);
 
@@ -367,8 +401,24 @@ export default function Ecomerce() {
                                 <span>{t.pricingSubtitle}</span>{t.pricingSubtitleRow}
                             </p>
 
+                            {/* Toggle Mensual/Anual */}
+                            <div className="EcomPricing__toggle">
+                                <button
+                                    className={`EcomPricing__toggleBtn ${billingPeriod === "monthly" ? "active" : ""}`}
+                                    onClick={() => setBillingPeriod("monthly")}
+                                >
+                                    Mensual
+                                </button>
+                                <button
+                                    className={`EcomPricing__toggleBtn ${billingPeriod === "annual" ? "active" : ""}`}
+                                    onClick={() => setBillingPeriod("annual")}
+                                >
+                                    Anual
+                                </button>
+                            </div>
+
                             <div className="EcomPricing__grid">
-                                {t.plans.map((plan: any, i: number) => {
+                                {(billingPeriod === "monthly" ? t.plansMonthly : t.plans).map((plan: any, i: number) => {
                                     const { amount, suffix } = formatMoney(plan.price, lang);
                                     return (
                                         <article key={i} className="PricingCard">
@@ -400,13 +450,39 @@ export default function Ecomerce() {
 
                         {/* Secondary Pricing Grid (Yellow/Neon) */}
                         <div className="EcomPricing__wrapper EcomPricingSecondary">
+                            {/* Toggle Mensual/Anual */}
+                            <div className="EcomPricing__toggle">
+                                <button
+                                    className={`EcomPricing__toggleBtn ${billingPeriod === "monthly" ? "active" : ""}`}
+                                    onClick={() => setBillingPeriod("monthly")}
+                                >
+                                    Mensual
+                                </button>
+                                <button
+                                    className={`EcomPricing__toggleBtn ${billingPeriod === "annual" ? "active" : ""}`}
+                                    onClick={() => setBillingPeriod("annual")}
+                                >
+                                    Anual
+                                </button>
+                            </div>
+
                             <div className="EcomPricing__grid">
-                                {t.plansSecondary.map((plan: any, i: number) => {
-                                    const { amount, suffix } = formatMoney(plan.price, lang);
+                                {(billingPeriod === "monthly" ? t.plansSecondaryMonthly : t.plansSecondary).map((plan: any, i: number) => {
+                                    let amount;
+                                    let suffix = "MX";
+
+                                    if (typeof plan.price === 'number') {
+                                        const res = formatMoney(plan.price, lang);
+                                        amount = res.amount;
+                                        suffix = res.suffix;
+                                    } else {
+                                        amount = plan.price;
+                                    }
+
                                     return (
                                         <article key={i} className="PricingCardYellow">
                                             {/* Imagen de fondo absoluta */}
-                                            <img src={PricingCardYellow} alt="" className="PricingCardYellow__bg" aria-hidden="true" />
+                                            <img src={PricingCardBg} alt="" className="PricingCardYellow__bg" aria-hidden="true" />
 
                                             <div className="PricingCardYellow__content">
                                                 <span className="PricingCardYellow__label">{t.pricingLabelCustom}</span>
@@ -414,7 +490,7 @@ export default function Ecomerce() {
 
                                                 <hr className="PricingCardYellow__separator" />
 
-                                                <div className="PricingCardYellow__price">
+                                                <div className="PricingCardYellow__price" style={{ fontSize: "clamp(2.5rem, 4vw, 4rem)" }}>
                                                     $ {amount} <small className="PricingCardYellow__currency">{suffix}</small>
                                                 </div>
 

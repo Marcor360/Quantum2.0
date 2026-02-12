@@ -1,4 +1,6 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Head from "../../components/Header";
 import Footer from "../../components/Footer";
 import "./campanas.css";
@@ -11,6 +13,14 @@ import AsteriscoSvg from "../../assets/svg/Branding/ASTERISCO.svg";
 import SocialMediaMainImg from "/img/Socialmedia/imgprin.webp";
 import SocialMediaTitle from "../../assets/svg/Titulos/serv/SOCIAL_MEDIA.svg";
 import RedesCardFrame from "../../assets/svg/Ecomerce/Desktop/Primera tabla ecommerce_1.svg";
+import RedesInfoCardFrame from "../../assets/svg/socialmedia/Tarjeta redes sociales para tu marca.svg";
+import BenefitsTitleSvg from "../../assets/svg/Branding/Beneficios y degradado.svg";
+import BenefitCard01 from "../../assets/svg/Branding/Tarjeta Beneficio/1.svg";
+import BenefitCard02 from "../../assets/svg/Branding/Tarjeta Beneficio/2.svg";
+import BenefitCard03 from "../../assets/svg/Branding/Tarjeta Beneficio/3.svg";
+import BenefitCard04 from "../../assets/svg/Branding/Tarjeta Beneficio/4.svg";
+import PricingCardBg from "../../assets/svg/Ecomerce/Desktop/tarjeta precios ecommerce.svg";
+
 
 
 
@@ -36,6 +46,16 @@ const PROJECTS = [
 ];
 
 type NetworkKey = "facebook" | "instagram" | "tiktok" | "x" | "linkedin" | "pinterest";
+
+gsap.registerPlugin(ScrollTrigger);
+
+function getHeaderH(): number {
+    if (typeof document === "undefined") return 96;
+    const root = document.documentElement;
+    const val = getComputedStyle(root).getPropertyValue("--header-h").trim();
+    const n = parseFloat(val);
+    return Number.isFinite(n) ? n : 96;
+}
 
 const CAMPAIGN_COPY: Record<Lang, any> = {
     es: {
@@ -133,8 +153,8 @@ const CAMPAIGN_COPY: Record<Lang, any> = {
                     "Respuesta a mensajes y comentarios de the publicación, de lunes a viernes de 9:00 a 17:00 hrs (Hora centro de CDMX).",
                     "2 Propuestas para campañas pagadas.",
                     "Reporte mensual de crecimiento.",
-                    "Un community manager asignado a tu negocio.",
-                    "Un especialista en campañas asignado a tu negocio.",
+                    "Un community manager assigned to your business.",
+                    "Un especialista en campañas assigned to your business.",
                 ],
             },
             {
@@ -157,12 +177,26 @@ const CAMPAIGN_COPY: Record<Lang, any> = {
             { name: "PROFESIONAL / MES", price: 4500, desc: "Cuatro redes sociales" },
             { name: "OMNIPRESENTE / MES", price: 5000, desc: "Seis redes sociales" },
         ],
+        plansAnual: [
+            { name: "ESENCIAL | ANUAL", price: 30000, desc: "Una red social" },
+            { name: "INDISPENSABLE | ANUAL", price: 35000, desc: "Dos redes sociales" },
+            { name: "TODO EN UNO | ANUAL", price: 40000, desc: "Tres redes sociales" },
+            { name: "PROFESIONAL | ANUAL", price: 45000, desc: "Cuatro redes sociales" },
+            { name: "OMNIPRESENTE | ANUAL", price: 50000, desc: "Seis redes sociales" },
+        ],
         agencyPlans: [
             { name: "ESENCIAL / MES", price: 1500, desc: "Una red social" },
             { name: "INDISPENSABLE / MES", price: 2000, desc: "Dos redes sociales" },
             { name: "TODO EN UNO / MES", price: 2500, desc: "Tres redes sociales" },
             { name: "PROFESIONAL / MES", price: 3000, desc: "Cuatro redes sociales" },
             { name: "OMNIPRESENTE / MES", price: 3500, desc: "Seis redes sociales" },
+        ],
+        agencyPlansAnual: [
+            { name: "ESENCIAL | ANUAL", price: "11,250 - 15,000", desc: "Una red social" },
+            { name: "INDISPENSABLE | ANUAL", price: "15,000 - 20,000", desc: "Dos redes sociales" },
+            { name: "TODO EN UNO | ANUAL", price: "18,750 - 25,000", desc: "Tres redes sociales" },
+            { name: "PROFESIONAL | ANUAL", price: "22,500 - 30,000", desc: "Cuatro redes sociales" },
+            { name: "OMNIPRESENTE | ANUAL", price: "26,250 - 35,000", desc: "Seis redes sociales" },
         ],
         benefits: [
             {
@@ -306,12 +340,26 @@ const CAMPAIGN_COPY: Record<Lang, any> = {
             { name: "PROFESSIONAL / MONTH", price: 4500, desc: "Four social networks" },
             { name: "OMNIPRESENT / MONTH", price: 5000, desc: "Six social networks" },
         ],
+        plansAnual: [
+            { name: "ESSENTIAL | YEARLY", price: 30000, desc: "One social network" },
+            { name: "INDISPENSABLE | YEARLY", price: 35000, desc: "Two social networks" },
+            { name: "ALL IN ONE | YEARLY", price: 40000, desc: "Three social networks" },
+            { name: "PROFESSIONAL | YEARLY", price: 45000, desc: "Four social networks" },
+            { name: "OMNIPRESENTE | YEARLY", price: 50000, desc: "Six social networks" },
+        ],
         agencyPlans: [
             { name: "ESSENTIAL / MONTH", price: 1500, desc: "One social network" },
             { name: "INDISPENSABLE / MONTH", price: 2000, desc: "Two social networks" },
             { name: "ALL IN ONE / MONTH", price: 2500, desc: "Three social networks" },
             { name: "PROFESSIONAL / MONTH", price: 3000, desc: "Four social networks" },
             { name: "OMNIPRESENT / MONTH", price: 3500, desc: "Six social networks" },
+        ],
+        agencyPlansAnual: [
+            { name: "ESSENTIAL | YEARLY", price: "11,250 - 15,000", desc: "One social network" },
+            { name: "INDISPENSABLE | YEARLY", price: "15,000 - 20,000", desc: "Two social networks" },
+            { name: "ALL IN ONE | YEARLY", price: "18,750 - 25,000", desc: "Three social networks" },
+            { name: "PROFESSIONAL | YEARLY", price: "22,500 - 30,000", desc: "Four social networks" },
+            { name: "OMNIPRESENTE | YEARLY", price: "26,250 - 35,000", desc: "Six social networks" },
         ],
         benefits: [
             {
@@ -345,6 +393,10 @@ export default function Campañas() {
     const [activeNetwork, setActiveNetwork] = useState<NetworkKey>("facebook");
     const [billing, setBilling] = useState<"mensual" | "anual">("mensual");
     const [activeProject, setActiveProject] = useState<number>(2);
+    const benefitsRef = useRef<HTMLElement | null>(null);
+    const benefitsPinRef = useRef<HTMLDivElement | null>(null);
+    const benefitsTrackRef = useRef<HTMLDivElement | null>(null);
+    const benefitsSpacerRef = useRef<HTMLDivElement | null>(null);
 
     // Touch logic
     const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -382,6 +434,158 @@ export default function Campañas() {
 
     const goPrev = () => setActiveProject((i) => (i - 1 + PROJECTS.length) % PROJECTS.length);
     const goNext = () => setActiveProject((i) => (i + 1) % PROJECTS.length);
+
+    useLayoutEffect(() => {
+        try {
+            if (typeof window === "undefined" || typeof document === "undefined") return;
+
+            const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+            if (reduce) return;
+
+            const mm = gsap.matchMedia();
+
+            const ctx = gsap.context(() => {
+                mm.add("(min-width: 769px)", () => {
+                    const sectionEl = benefitsRef.current;
+                    const pinEl = benefitsPinRef.current;
+                    const viewportEl = pinEl?.querySelector<HTMLElement>(".SMBenefits__viewport");
+                    const trackEl = benefitsTrackRef.current;
+
+                    if (!sectionEl || !pinEl || !viewportEl || !trackEl) return;
+
+                    let spacer = benefitsSpacerRef.current;
+                    if (!spacer) {
+                        spacer = document.createElement("div");
+                        spacer.className = "SMBenefits__spacer";
+                        benefitsSpacerRef.current = spacer;
+                        sectionEl.appendChild(spacer);
+                    }
+
+                    const slides = gsap.utils.toArray<HTMLElement>(".SMBenefits__slide", trackEl);
+                    const cards = gsap.utils.toArray<HTMLElement>(".SMBenefits__card", trackEl);
+                    if (slides.length < 2) return;
+
+                    sectionEl.classList.add("is-enhanced");
+
+                    gsap.set(slides, {
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        zIndex: (i) => i,
+                        autoAlpha: 1,
+                        yPercent: 100,
+                    });
+
+                    gsap.set(slides[0], { yPercent: 0 });
+                    requestAnimationFrame(() => ScrollTrigger.refresh());
+
+                    const tl = gsap.timeline();
+
+                    slides.forEach((_slide, i) => {
+                        const label = `s${i}`;
+                        tl.addLabel(label, i);
+
+                        if (i < slides.length - 1) {
+                            tl.fromTo(slides[i + 1], { yPercent: 100 }, { yPercent: 0, duration: 1, ease: "none" }, label);
+                        }
+                    });
+
+                    let activeIdx = -1;
+
+                    const setActive = (idx: number) => {
+                        if (idx === activeIdx) return;
+                        activeIdx = idx;
+
+                        slides.forEach((s, i) => {
+                            const isOn = i === idx;
+                            const card = cards[i];
+                            s.classList.toggle("is-active", isOn);
+                            s.style.pointerEvents = isOn ? "auto" : "none";
+                            if (card) card.classList.toggle("is-active", isOn);
+                        });
+                    };
+
+                    setActive(0);
+
+                    const headerOffset = Math.round(getHeaderH());
+                    const STEP = () => Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.75, 1);
+
+                    gsap.set(slides, {
+                        zIndex: (i) => i,
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        width: "100%",
+                        height: "100%",
+                    });
+
+                    const getEnd = () => STEP() * (slides.length + 1);
+
+                    const updateSpacer = () => {
+                        if (!spacer) return;
+                        spacer.style.height = `${getEnd()}px`;
+                    };
+                    updateSpacer();
+
+                    const st = ScrollTrigger.create({
+                        trigger: sectionEl,
+                        start: () => `top top+=${headerOffset - 10}`,
+                        end: () => `+=${getEnd()}`,
+                        pin: pinEl,
+                        pinSpacing: false,
+                        scrub: 0.45,
+                        anticipatePin: 0,
+                        invalidateOnRefresh: true,
+                        animation: tl,
+                        onUpdate: (self) => {
+                            const idx = Math.round(self.progress * (slides.length - 1));
+                            const clamped = Math.min(slides.length - 1, Math.max(0, idx));
+                            setActive(clamped);
+                        },
+                    });
+
+                    const refresh = () => {
+                        updateSpacer();
+                        ScrollTrigger.refresh();
+                    };
+                    const raf = requestAnimationFrame(refresh);
+
+                    let ro: ResizeObserver | null = null;
+                    if (typeof ResizeObserver !== "undefined") {
+                        ro = new ResizeObserver(() => requestAnimationFrame(refresh));
+                        ro.observe(viewportEl);
+                        ro.observe(pinEl);
+                    }
+
+                    const onLoad = () => refresh();
+                    window.addEventListener("load", onLoad, { passive: true });
+                    (document as any).fonts?.ready?.then(refresh).catch(() => { });
+
+                    return () => {
+                        window.removeEventListener("load", onLoad);
+                        cancelAnimationFrame(raf);
+                        ro?.disconnect();
+                        st.kill();
+                        tl.kill();
+                        sectionEl.classList.remove("is-enhanced");
+                        if (spacer && spacer.parentElement === sectionEl) {
+                            sectionEl.removeChild(spacer);
+                            benefitsSpacerRef.current = null;
+                        }
+                    };
+                });
+            }, benefitsRef);
+
+            return () => {
+                mm.revert();
+                ctx.revert();
+            };
+        } catch (err) {
+            console.error("SMBenefits ScrollTrigger init failed", err);
+        }
+    }, []);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -458,18 +662,20 @@ export default function Campañas() {
                                     </div>
 
                                     <div className="SMNetworksInfo">
-                                        <h3 className="SMH3">{t.networksIncludes}</h3>
-                                        <div className="SMHr" />
-                                        <ul className="SMList">
-                                            {active.includes.map((incl: string, idx: number) => (
-                                                <li key={`${active.key}-${idx}`}>{incl}</li>
-                                            ))}
-                                        </ul>
+                                        <img className="SMNetworksInfoFrame" src={RedesInfoCardFrame} alt="" aria-hidden="true" />
+                                        <div className="SMNetworksInfoContent">
+                                            <h3 className="SMH3">{t.networksIncludes}</h3>
+                                            <div className="SMHr" />
+                                            <ul className="SMList">
+                                                {active.includes.map((incl: string, idx: number) => (
+                                                    <li key={`${active.key}-${idx}`}>{incl}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <img className="SMAsterisco SMAsterisco--net" src={AsteriscoSvg} alt="" aria-hidden="true" />
                         </div>
                     </div>
                 </section>
@@ -478,14 +684,14 @@ export default function Campañas() {
                 <section className="SMSection">
                     <div className="SMWrap">
                         <div className="SMPanel">
-                            <h2 className="SMH2">
+                            <h2 className="SMH2 SMH2--center">
                                 <span className="SMH2--pink">{t.commercialTitle}</span>{" "}
                                 <span className="SMH2--yellow">{t.commercialTitleYellow}</span>
                             </h2>
 
-                            <p className="SMSub">{t.commercialSub}</p>
+                            <p className="SMSub SMSub--center">{t.commercialSub}</p>
 
-                            <div className="SMBilling">
+                            <div className="SMBilling SMBilling--center">
                                 <button
                                     type="button"
                                     className={`SMBillingBtn ${billing === "mensual" ? "is-active" : ""}`}
@@ -503,26 +709,29 @@ export default function Campañas() {
                             </div>
 
                             <div className="SMPriceGrid">
-                                {t.plans.map((p: any) => {
+                                {(billing === "mensual" ? t.plans : t.plansAnual).map((p: any) => {
                                     const { amount, suffix } = formatMoney(p.price, lang);
                                     return (
                                         <article className="SMPriceCard" key={p.name}>
-                                            <div className="SMPriceName">{p.name}</div>
-                                            <div className="SMPriceValue">
-                                                <span className="SMPriceDollar">$</span>
-                                                <span className="SMPriceNum">{amount}</span>
-                                                <span className="SMPriceCcy">{suffix}</span>
+                                            {/* Fondo SVG */}
+                                            <img src={PricingCardBg} alt="" className="PricingCard__bg" aria-hidden="true" />
+
+                                            <div className="SMPriceContent">
+                                                <div className="SMPriceName">{p.name}</div>
+                                                <div className="SMPriceValue">
+                                                    <span className="SMPriceDollar">$</span>
+                                                    <span className="SMPriceNum">{amount}</span>
+                                                    <span className="SMPriceCcy">{suffix}</span>
+                                                </div>
+                                                <div className="SMPriceDesc">{p.desc}</div>
+                                                <a className="SMPriceBtn" href="#contacto">
+                                                    {t.btnContract}
+                                                </a>
                                             </div>
-                                            <div className="SMPriceDesc">{p.desc}</div>
-                                            <a className="SMPriceBtn" href="#contacto">
-                                                {t.btnContract}
-                                            </a>
                                         </article>
                                     );
                                 })}
                             </div>
-
-                            <img className="SMAsterisco SMAsterisco--prices1" src={AsteriscoSvg} alt="" aria-hidden="true" />
                         </div>
                     </div>
                 </section>
@@ -531,15 +740,15 @@ export default function Campañas() {
                 <section className="SMSection">
                     <div className="SMWrap">
                         <div className="SMPanel">
-                            <h2 className="SMH2">
+                            <h2 className="SMH2 SMH2--center">
                                 <span className="SMH2--pink">{t.agencyTitle}</span>{" "}
                                 <span className="SMH2--white">{t.agencyTitleWhite}</span>{" "}
                                 <span className="SMH2--yellow">{t.agencyTitleYellow}</span>
                             </h2>
 
-                            <p className="SMSub">{t.agencySub}</p>
+                            <p className="SMSub SMSub--center">{t.agencySub}</p>
 
-                            <div className="SMBilling">
+                            <div className="SMBilling SMBilling--center">
                                 <button
                                     type="button"
                                     className={`SMBillingBtn ${billing === "mensual" ? "is-active" : ""}`}
@@ -557,20 +766,35 @@ export default function Campañas() {
                             </div>
 
                             <div className="SMPriceGrid">
-                                {t.agencyPlans.map((p: any) => {
-                                    const { amount, suffix } = formatMoney(p.price, lang);
+                                {(billing === "mensual" ? t.agencyPlans : t.agencyPlansAnual).map((p: any) => {
+                                    let amount;
+                                    let suffix = "MX";
+
+                                    if (typeof p.price === 'number') {
+                                        const res = formatMoney(p.price, lang);
+                                        amount = res.amount;
+                                        suffix = res.suffix;
+                                    } else {
+                                        amount = p.price;
+                                    }
+
                                     return (
                                         <article className="SMPriceCard" key={p.name}>
-                                            <div className="SMPriceName">{p.name}</div>
-                                            <div className="SMPriceValue">
-                                                <span className="SMPriceDollar">$</span>
-                                                <span className="SMPriceNum">{amount}</span>
-                                                <span className="SMPriceCcy">{suffix}</span>
+                                            {/* Fondo SVG */}
+                                            <img src={PricingCardBg} alt="" className="PricingCard__bg" aria-hidden="true" />
+
+                                            <div className="SMPriceContent">
+                                                <div className="SMPriceName">{p.name}</div>
+                                                <div className="SMPriceValue" style={{ fontSize: typeof p.price === 'string' ? "clamp(1.2rem, 1.8vw, 2rem)" : "" }}>
+                                                    <span className="SMPriceDollar">$</span>
+                                                    <span className="SMPriceNum">{amount}</span>
+                                                    <span className="SMPriceCcy">{suffix}</span>
+                                                </div>
+                                                <div className="SMPriceDesc">{p.desc}</div>
+                                                <a className="SMPriceBtn" href="#contacto">
+                                                    {t.btnContract}
+                                                </a>
                                             </div>
-                                            <div className="SMPriceDesc">{p.desc}</div>
-                                            <a className="SMPriceBtn" href="#contacto">
-                                                {t.btnContract}
-                                            </a>
                                         </article>
                                     );
                                 })}
@@ -581,8 +805,37 @@ export default function Campañas() {
                                     {t.agencyCTA}
                                 </a>
                             </div>
+                        </div>
+                    </div>
+                </section>
 
-                            <img className="SMAsterisco SMAsterisco--prices2" src={AsteriscoSvg} alt="" aria-hidden="true" />
+                {/* BENEFICIOS */}
+                <section className="SMSection SMBenefits" ref={benefitsRef}>
+                    <div className="SMWrap">
+                        <div className="SMBenefits__pin" ref={benefitsPinRef}>
+                            <aside className="SMBenefits__left" aria-hidden="true">
+                                <img className="SMBenefits__titleSvg" src={BenefitsTitleSvg} alt="" />
+                            </aside>
+
+                            <div className="SMBenefits__viewport">
+                                <div className="SMBenefits__track" ref={benefitsTrackRef}>
+                                    {t.benefits.map((benefit: any, idx: number) => {
+                                        const benefitImages = [BenefitCard01, BenefitCard02, BenefitCard03, BenefitCard04];
+                                        return (
+                                            <div className="SMBenefits__slide" key={benefit.title}>
+                                                <article className="SMBenefits__card" aria-label={benefit.alt}>
+                                                    <img className="SMBenefits__bg" src={benefitImages[idx]} alt="" aria-hidden="true" />
+
+                                                    <div className={`SMBenefits__copy ${idx === 0 ? "is-primary" : ""}`}>
+                                                        <h3 className="SMBenefits__title">{benefit.title}</h3>
+                                                        <p className="SMBenefits__desc">{benefit.desc}</p>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>

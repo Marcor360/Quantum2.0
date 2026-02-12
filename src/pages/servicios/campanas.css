@@ -30,28 +30,6 @@
     padding: clamp(34px, 4.6vw, 66px) 0;
 }
 
-/* Panel contenedor tipo mockup (bordes redondeados + borde suave) */
-.SMPanel {
-    position: relative;
-    border-radius: 26px;
-    padding: clamp(22px, 3vw, 40px);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
-    overflow: hidden;
-}
-
-.SMPanel::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-        radial-gradient(800px 300px at 20% 100%, rgba(255, 0, 200, 0.20), transparent 60%),
-        radial-gradient(900px 380px at 110% 10%, rgba(255, 255, 0, 0.10), transparent 60%);
-    opacity: 0.9;
-}
-
 /* ====== Títulos ====== */
 .SMHeroTitle,
 .SMH2,
@@ -100,6 +78,7 @@
 
 .SMH2--center {
     text-align: center;
+    width: 100%;
 }
 
 .SMProjects .SMH2 {
@@ -130,11 +109,22 @@
     line-height: 1.5;
 }
 
+.SMHero .SMBtn {
+    display: flex;
+    width: fit-content;
+    margin-inline: auto;
+}
+
 .SMSub {
     margin: 10px 0 18px;
     opacity: 0.85;
     font-size: 14px;
     line-height: 1.6;
+}
+
+.SMSub--center {
+    text-align: center;
+    margin-inline: auto;
 }
 
 /* ====== Botones ====== */
@@ -192,22 +182,6 @@
     transform: rotate(-14deg);
 }
 
-.SMAsterisco--prices1 {
-    position: absolute;
-    left: 18px;
-    bottom: 10px;
-    transform: rotate(10deg);
-    opacity: 0.8;
-}
-
-.SMAsterisco--prices2 {
-    position: absolute;
-    left: 18px;
-    bottom: 10px;
-    transform: rotate(-6deg);
-    opacity: 0.8;
-}
-
 /* ====== HERO ====== */
 .SMHero {
     padding: clamp(28px, 4.6vw, 60px) 0 clamp(18px, 3vw, 42px);
@@ -260,7 +234,6 @@
     height: 72%;
     object-fit: cover;
     border-radius: 20px;
-
     pointer-events: none;
 }
 
@@ -318,6 +291,13 @@
 .SMNetworks .SMH2 {
     color: var(--color-chicle);
     font-size: clamp(48px, 8vw, 96px);
+    text-align: center;
+}
+
+.SMNetworks .SMSub {
+    text-align: center;
+    margin-inline: auto;
+    max-width: 72ch;
 }
 
 .SMNetworks .SMH3 {
@@ -328,6 +308,7 @@
 .SMTabs {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
     margin: 10px 0 18px;
 }
@@ -335,7 +316,6 @@
 .SMTab {
     appearance: none;
     border: 1px solid rgba(255, 255, 255, 0.18);
-
     color: var(--color-blanco);
     border-radius: 999px;
     padding: 9px 14px;
@@ -347,7 +327,6 @@
 .SMTab:hover {
     transform: translateY(-1px);
     border-color: rgba(255, 255, 255, 0.28);
-
 }
 
 .SMTab.is-active {
@@ -356,36 +335,47 @@
 }
 
 .SMNetworksCard {
+    --sm-networks-outer-width: 122%;
+    --sm-networks-outer-height: 126%;
     position: relative;
     border-radius: 24px;
-    overflow: hidden;
+    overflow: visible;
     border: 0;
-    min-height: 250px;
+    background: transparent;
+    min-height: clamp(460px, 47vw, 700px);
 }
 
 .SMNetworksFrame {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.92;
+    top: 50%;
+    left: 50%;
+    width: var(--sm-networks-outer-width);
+    height: var(--sm-networks-outer-height);
+    object-fit: contain;
+    object-position: center;
+    transform: translate(-50%, -50%);
+    transform-origin: center;
+    opacity: 1;
     pointer-events: none;
+    user-select: none;
 }
 
 .SMNetworksInner {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 22px;
+    grid-template-columns: minmax(280px, 430px) minmax(360px, 560px);
+    gap: clamp(14px, 2.4vw, 26px);
     align-items: center;
-    padding: clamp(18px, 2.4vw, 26px);
+    justify-content: center;
+    max-width: min(100%, 1140px);
+    margin-inline: auto;
+    padding: clamp(18px, 2.4vw, 30px);
 }
 
 .SMNetworksIcon {
-    width: 200px;
-    height: 200px;
+    width: clamp(280px, 34vw, 430px);
+    height: clamp(280px, 34vw, 430px);
     border-radius: 22px;
     display: grid;
     place-items: center;
@@ -393,14 +383,46 @@
 }
 
 .SMNetworksIcon img {
-    width: 150px;
-    height: 150px;
+    width: clamp(220px, 30vw, 350px);
+    height: clamp(220px, 30vw, 350px);
     object-fit: contain;
     filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6));
 }
 
 .SMNetworksInfo {
-    max-width: 70ch;
+    --sm-networks-inner-scale: 1.45;
+    position: relative;
+    width: 100%;
+    max-width: min(100%, 490px);
+    height: clamp(320px, 33vw, 520px);
+    justify-self: center;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.SMNetworksInfoFrame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(var(--sm-networks-inner-scale));
+    transform-origin: center;
+    pointer-events: none;
+    user-select: none;
+}
+
+.SMNetworksInfoContent {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(14px, 1.7vw, 20px) clamp(16px, 1.9vw, 26px);
 }
 
 .SMHr {
@@ -418,6 +440,8 @@
     font-size: 14px;
     line-height: 1.7;
     opacity: 0.92;
+    overflow-y: auto;
+    padding-right: 8px;
 }
 
 .SMList li {
@@ -438,9 +462,14 @@
     display: inline-flex;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.16);
-
     overflow: hidden;
     margin: 10px 0 18px;
+}
+
+.SMBilling--center {
+    display: flex;
+    width: fit-content;
+    margin-inline: auto;
 }
 
 .SMBillingBtn {
@@ -467,95 +496,115 @@
 }
 
 .SMPriceCard {
-    border-radius: 18px;
-    padding: 14px 14px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-
+    position: relative;
+    border-radius: 26px;
+    padding: clamp(60px, 6vw, 82px) 24px clamp(70px, 7vw, 96px);
+    border: none;
+    min-height: clamp(480px, 50vw, 540px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     box-shadow: 0 18px 46px rgba(0, 0, 0, 0.55);
-    position: relative;
-    overflow: hidden;
+    overflow: visible;
+    isolation: isolate;
+    transition: transform 0.3s ease;
 }
 
-.SMPriceCard::before {
-    content: "";
+.SMPriceCard:hover {
+    transform: translateY(-5px);
+}
+
+.PricingCard__bg {
     position: absolute;
-    inset: -1px;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: -1;
     pointer-events: none;
-    border-radius: inherit;
-    background: radial-gradient(280px 120px at 10% 10%, rgba(255, 0, 200, 0.18), transparent 55%),
-        radial-gradient(260px 120px at 90% 80%, rgba(255, 255, 0, 0.10), transparent 55%);
-    opacity: 0.95;
 }
 
-.SMPriceName,
-.SMPriceDesc,
-.SMPriceValue,
-.SMPriceBtn {
+.SMPriceContent {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 1.2vw, 14px);
 }
 
 .SMPriceName {
     font-family: var(--font-subjectivity, "Subjectivity", system-ui, sans-serif);
     font-weight: 900;
-    font-size: 11px;
+    font-size: clamp(10px, 1.1vw, 12px);
     letter-spacing: 0.16em;
     opacity: 0.9;
+    text-transform: uppercase;
 }
 
 .SMPriceValue {
     display: flex;
     align-items: baseline;
+    justify-content: center;
     gap: 6px;
-    margin: 10px 0 6px;
+    margin: 8px 0;
     font-family: var(--font-morganite, "Morganite", system-ui, sans-serif);
     text-transform: uppercase;
 }
 
 .SMPriceDollar {
-    font-size: 22px;
+    font-size: clamp(18px, 2.4vw, 26px);
     color: var(--color-blanco);
     opacity: 0.9;
 }
 
 .SMPriceNum {
-    font-size: 56px;
-    line-height: 0.9;
+    font-size: clamp(52px, 6vw, 72px);
+    line-height: 0.85;
     color: var(--color-blanco);
 }
 
 .SMPriceCcy {
-    font-size: 16px;
+    font-size: clamp(12px, 1.5vw, 18px);
     letter-spacing: 0.12em;
     opacity: 0.9;
 }
 
 .SMPriceDesc {
-    font-size: 12px;
+    font-size: clamp(12px, 1.3vw, 14px);
     opacity: 0.85;
-    margin-bottom: 12px;
+    margin-bottom: clamp(12px, 1.8vw, 20px);
+    max-width: 22ch;
 }
 
 .SMPriceBtn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 38px;
+    width: auto;
+    min-width: 140px;
+    height: clamp(38px, 4.2vw, 44px);
+    padding: 0 24px;
     border-radius: 999px;
     text-decoration: none;
     font-weight: 900;
     font-size: 12px;
     letter-spacing: 0.12em;
-    color: var(--color-blanco);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-
-    transition: transform 160ms ease, border-color 160ms ease;
+    color: var(--color-negro);
+    background: var(--color-blanco);
+    border: none;
+    transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .SMPriceBtn:hover {
     transform: translateY(-1px);
-    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 0 20px var(--color-chicle);
+    background: var(--color-blanco);
 }
 
 .SMAgencyCTA {
@@ -564,107 +613,142 @@
     justify-content: center;
 }
 
-/* ====== BENEFICIOS ====== */
-.SMBenefits .SMWrap {
-    padding-top: 0;
+/* ====== BENEFICIOS (con scroll/pin) ====== */
+.SMBenefits {
+    padding: clamp(0px, 1.5vw, 18px) 0 clamp(32px, 5vw, 80px);
+    scroll-margin-top: calc(var(--header-h, 96px) + 12px);
 }
 
-.SMBenefitsRow {
+.SMBenefits__pin {
     display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 22px;
-    align-items: center;
+    grid-template-columns: clamp(190px, 20vw, 300px) 1fr;
+    gap: clamp(16px, 3vw, 42px);
+    align-items: flex-start;
+    height: calc(92vh - var(--header-h, 96px));
+    align-content: flex-start;
+    margin-top: clamp(6px, 1vw, 12px);
 }
 
-.SMBenefitsSide {
-    position: relative;
-    min-height: 220px;
-    display: grid;
-    place-items: center;
-}
-
-.SMBenefitsTitleImg {
-    width: 100%;
-    max-width: 260px;
-    height: auto;
-    opacity: 0.9;
-    filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.6));
-}
-
-.SMBenefitsWord {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%) rotate(180deg);
-    writing-mode: vertical-rl;
-    font-family: var(--font-morganite, "Morganite", system-ui, sans-serif);
-    font-weight: 900;
-    font-size: clamp(72px, 8vw, 110px);
-    color: var(--color-electrico);
-    letter-spacing: 0.08em;
-    opacity: 0.95;
-}
-
-.SMBenefitsTrack {
+.SMBenefits__left {
     display: flex;
-    gap: 24px;
-    overflow-x: auto;
-    padding: 18px 6px 22px;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+    align-items: flex-start;
+    justify-content: center;
 }
 
-.SMBenefitsTrack::-webkit-scrollbar {
-    height: 10px;
+.SMBenefits__titleSvg {
+    width: 100%;
+    max-width: clamp(260px, 30vw, 380px);
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.55));
 }
 
-.SMBenefitsTrack::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 999px;
-}
-
-.SMBenefitsCard {
-    flex: 0 0 min(760px, 92%);
-    scroll-snap-align: center;
-    border-radius: 26px;
-    border: 0;
-    overflow: hidden;
-    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.58);
-    min-height: 520px;
+.SMBenefits__viewport {
+    width: 100%;
     position: relative;
+    overflow: hidden;
+    border-radius: clamp(16px, 1.8vw, 22px);
+    isolation: isolate;
+    transform: translateZ(0);
 }
 
-.SMBenefitsCardBg {
+.SMBenefits__track {
+    position: relative;
     width: 100%;
     height: 100%;
+}
+
+.SMBenefits__slide {
+    position: relative;
+}
+
+.SMBenefits__card {
+    position: relative;
+    height: 100%;
+    min-height: clamp(240px, 42vh, 520px);
+    overflow: hidden;
+    border-radius: clamp(16px, 1.8vw, 22px);
+}
+
+.SMBenefits__bg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     display: block;
-    object-fit: cover;
 }
 
-.SMBenefitsCardCopy {
+.SMBenefits__copy {
     position: absolute;
-    inset: 18% 12% auto 12%;
+    top: 50%;
+    left: 56%;
+    transform: translate(-50%, -50%);
     display: grid;
-    gap: 10px;
-    color: var(--color-blanco);
-    max-width: 70%;
+    gap: 14px;
+    color: rgba(255, 255, 255, 0.96);
+    z-index: 2;
+    width: min(62%, 600px);
+    text-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
 }
 
-.SMBenefitsCardTitle {
+.SMBenefits__copy.is-primary {
+    gap: 10px;
+}
+
+.SMBenefits__title {
     margin: 0;
     font-family: var(--font-morganite, "Morganite", system-ui, sans-serif);
     font-weight: 900;
-    font-size: clamp(28px, 4vw, 46px);
-    color: var(--color-chicle);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
+    color: var(--color-chicle);
+    font-size: clamp(42px, 5vw, 74px);
+    line-height: 0.92;
 }
 
-.SMBenefitsCardDesc {
+.SMBenefits__desc {
     margin: 0;
-    font-size: clamp(15px, 2vw, 18px);
-    line-height: 1.6;
-    max-width: 38ch;
+    font-size: clamp(15px, 1.6vw, 21px);
+    line-height: 1.5;
+    max-width: 44ch;
+}
+
+@media (min-width: 769px) {
+    .SMBenefits.is-enhanced .SMBenefits__viewport {
+        --card-w: clamp(980px, 74vw, 1260px);
+        --card-h: clamp(520px, 62vh, 720px);
+
+        width: var(--card-w);
+        height: var(--card-h);
+        justify-self: center;
+        margin-inline: auto;
+        border-radius: clamp(18px, 2vw, 26px);
+        overflow: hidden;
+        filter: drop-shadow(0 20px 44px rgba(0, 0, 0, 0.45));
+    }
+
+    .SMBenefits.is-enhanced .SMBenefits__track {
+        width: 100%;
+        height: var(--card-h);
+        will-change: transform;
+    }
+
+    .SMBenefits.is-enhanced .SMBenefits__slide {
+        position: absolute;
+        inset: 0;
+        will-change: transform;
+    }
+
+    .SMBenefits.is-enhanced .SMBenefits__card {
+        height: 100%;
+        min-height: 0;
+        border-radius: 0;
+    }
+}
+
+.SMBenefits__spacer {
+    width: 100%;
+    height: 0;
+    pointer-events: none;
 }
 
 /* ====== PROYECTOS (coverflow) ====== */
@@ -673,23 +757,195 @@
 }
 
 .SMCarousel {
+    margin-top: clamp(16px, 2.4vw, 30px);
     display: grid;
-    grid-template-columns: 52px 1fr 52px;
+    grid-template-columns: 54px minmax(0, 1fr) 54px;
+    align-items: center;
+    gap: clamp(8px, 1.3vw, 14px);
+}
 
-    .SMCarouselItem.pos1 {
-        transform: translate(calc(-50% + 240px), -50%) scale(0.94);
+.SMCarouselNav {
+    appearance: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(0, 0, 0, 0.45);
+    color: var(--color-blanco);
+    display: grid;
+    place-items: center;
+    font-size: 34px;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    z-index: 5;
+}
+
+.SMCarouselNav:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.34);
+    background: rgba(0, 0, 0, 0.62);
+}
+
+.SMCarouselNav:focus-visible {
+    outline: 2px solid rgba(255, 0, 200, 0.65);
+    outline-offset: 2px;
+}
+
+.SMCarouselStage {
+    position: relative;
+    height: clamp(240px, 34vw, 420px);
+    overflow: hidden;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.SMCarouselItem {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(56vw, 620px);
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.72);
+    transition: transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 240ms ease,
+        filter 240ms ease;
+}
+
+.SMCarouselItem img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.SMCarouselItem.pos0 {
+    opacity: 1;
+    z-index: 4;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+    filter: drop-shadow(0 20px 46px rgba(0, 0, 0, 0.62));
+}
+
+.SMCarouselItem.pos1,
+.SMCarouselItem.neg1 {
+    opacity: 0.88;
+    z-index: 3;
+    pointer-events: auto;
+    filter: brightness(0.8);
+}
+
+.SMCarouselItem.pos2,
+.SMCarouselItem.neg2 {
+    opacity: 0.5;
+    z-index: 2;
+    pointer-events: auto;
+    filter: brightness(0.64);
+}
+
+.SMCarouselItem.pos1 {
+    transform: translate(calc(-50% + clamp(170px, 18vw, 250px)), -50%) scale(0.9);
+}
+
+.SMCarouselItem.neg1 {
+    transform: translate(calc(-50% - clamp(170px, 18vw, 250px)), -50%) scale(0.9);
+}
+
+.SMCarouselItem.pos2 {
+    transform: translate(calc(-50% + clamp(300px, 28vw, 390px)), -50%) scale(0.8);
+}
+
+.SMCarouselItem.neg2 {
+    transform: translate(calc(-50% - clamp(300px, 28vw, 390px)), -50%) scale(0.8);
+}
+
+.SMCarouselItem.off {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.64);
+}
+
+@media (max-width: 1024px) {
+    .SMCarousel {
+        grid-template-columns: 42px minmax(0, 1fr) 42px;
+        gap: 8px;
     }
 
-    .SMCarouselItem.pos2 {
-        transform: translate(calc(-50% + 380px), -50%) scale(0.86);
+    .SMCarouselNav {
+        width: 40px;
+        height: 40px;
+        font-size: 28px;
+    }
+
+    .SMCarouselStage {
+        height: clamp(220px, 48vw, 340px);
+    }
+
+    .SMCarouselItem {
+        width: min(72vw, 520px);
+    }
+
+    .SMCarouselItem.pos1 {
+        transform: translate(calc(-50% + clamp(110px, 20vw, 170px)), -50%) scale(0.86);
     }
 
     .SMCarouselItem.neg1 {
-        transform: translate(calc(-50% - 240px), -50%) scale(0.94);
+        transform: translate(calc(-50% - clamp(110px, 20vw, 170px)), -50%) scale(0.86);
+    }
+
+    .SMCarouselItem.pos2 {
+        transform: translate(calc(-50% + clamp(220px, 30vw, 280px)), -50%) scale(0.72);
     }
 
     .SMCarouselItem.neg2 {
-        transform: translate(calc(-50% - 380px), -50%) scale(0.86);
+        transform: translate(calc(-50% - clamp(220px, 30vw, 280px)), -50%) scale(0.72);
+    }
+}
+
+@media (max-width: 768px) {
+    .SMCarousel {
+        grid-template-columns: 36px minmax(0, 1fr) 36px;
+        gap: 4px;
+    }
+
+    .SMCarouselNav {
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
+    }
+
+    .SMCarouselStage {
+        height: clamp(200px, 62vw, 280px);
+    }
+
+    .SMCarouselItem {
+        width: min(84vw, 410px);
+        border-radius: 14px;
+    }
+
+    .SMCarouselItem.pos1 {
+        opacity: 0.65;
+        transform: translate(calc(-50% + clamp(70px, 19vw, 104px)), -50%) scale(0.82);
+    }
+
+    .SMCarouselItem.neg1 {
+        opacity: 0.65;
+        transform: translate(calc(-50% - clamp(70px, 19vw, 104px)), -50%) scale(0.82);
+    }
+
+    .SMCarouselItem.pos2,
+    .SMCarouselItem.neg2 {
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, -50%) scale(0.64);
     }
 }
 
@@ -702,3 +958,4 @@
         display: none;
     }
 }
+

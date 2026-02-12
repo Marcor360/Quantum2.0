@@ -32,27 +32,74 @@
     }
 
     /* Benefits Slider Enhancement */
-    .SMBenefitsTrack {
-        padding: 1rem 5vw 2rem !important;
-        width: 100vw !important;
-        margin-left: -5vw !important;
-        gap: 1.2rem !important;
-        display: flex !important;
+    .SMBenefits {
+        padding: 20px 0 40px !important;
     }
 
-    .SMBenefitsCard {
-        flex: 0 0 88% !important;
-        min-height: auto !important;
+    .SMBenefits__pin {
+        grid-template-columns: 1fr !important;
+        height: auto !important;
+        padding-top: 20px;
+        gap: 15px !important;
+    }
+
+    .SMBenefits__left {
+        justify-content: flex-start !important;
+    }
+
+    .SMBenefits__titleSvg {
+        max-width: 220px !important;
+    }
+
+    .SMBenefits__viewport {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        width: 100vw !important;
+        margin-left: calc(-50vw + 50%) !important;
+        scrollbar-width: none;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .SMBenefits__viewport::-webkit-scrollbar {
+        display: none;
+    }
+
+    .SMBenefits__track {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 15px !important;
+        padding: 0 5vw 1.4rem !important;
+        width: max-content !important;
+        height: auto !important;
+    }
+
+    .SMBenefits__slide {
+        flex: 0 0 85vw !important;
+        scroll-snap-align: center;
+    }
+
+    .SMBenefits__card {
+        min-height: 380px !important;
+        height: 100% !important;
+    }
+
+    .SMBenefits__copy {
+        width: 85% !important;
+        left: 50% !important;
+        text-align: center;
+    }
+
+    .SMBenefits__title {
+        font-size: 3.8rem !important;
     }
 
     /* Hide scrollbars for a cleaner look while keeping functionality */
-    .SMPriceGrid::-webkit-scrollbar,
-    .SMBenefitsTrack::-webkit-scrollbar {
+    .SMPriceGrid::-webkit-scrollbar {
         height: 6px;
     }
 
-    .SMPriceGrid::-webkit-scrollbar-thumb,
-    .SMBenefitsTrack::-webkit-scrollbar-thumb {
+    .SMPriceGrid::-webkit-scrollbar-thumb {
         background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
     }
@@ -76,22 +123,50 @@
     }
 
     .SMNetworksInner {
-        grid-template-columns: 1fr !important;
-        justify-items: center;
-        text-align: center;
+        grid-template-columns: minmax(200px, 240px) minmax(220px, 1fr) !important;
+        align-items: center !important;
+        justify-items: stretch !important;
+        justify-content: center !important;
+        max-width: 680px !important;
+        margin-inline: auto !important;
+        text-align: left !important;
+        gap: 14px !important;
+    }
+
+    .SMNetworksCard {
+        --sm-networks-outer-width: 110% !important;
+        --sm-networks-outer-height: 118% !important;
+        min-height: 340px !important;
     }
 
     .SMNetworksIcon {
-        width: 140px !important;
-        height: 140px !important;
+        width: 230px !important;
+        height: 230px !important;
     }
 
     .SMNetworksIcon img {
-        width: 90px !important;
-        height: 90px !important;
+        width: 185px !important;
+        height: 185px !important;
+    }
+
+    .SMNetworksInfo {
+        border-radius: 16px !important;
+        height: 300px !important;
+        justify-self: center !important;
+    }
+
+    .SMNetworksInfoContent {
+        padding: 12px 14px !important;
+    }
+
+    .SMNetworksInfo .SMH3 {
+        font-size: 2.4rem !important;
     }
 
     .SMList {
         text-align: left;
+        font-size: 12px !important;
+        line-height: 1.45 !important;
+        gap: 6px !important;
     }
 }
