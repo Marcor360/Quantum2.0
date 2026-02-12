@@ -1,14 +1,13 @@
-﻿import { useLayoutEffect, useMemo, useRef } from "react";
+﻿import { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Head from "../../components/Header";
 import Footer from "../../components/Footer";
 import "./branding.css";
+import "../../branding-mobile.css";
 
 import { useLang, type Lang } from "../../i18n/lang";
-// Si no exportas Lang, usa esto y cambia el import a: import { useLang } from "../../i18n/lang";
-// type Lang = "es" | "en";
 
 import { formatMoney } from "../../config/currency";
 
@@ -522,4 +521,3 @@ export default function Branding() {
         </>
     );
 }
-import { useEffect } from "react";

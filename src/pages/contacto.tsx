@@ -38,16 +38,16 @@ export default function Contacto() {
                             <div className="ContactoInfo__cards">
                                 <article className="ContactoCard">
                                     <span className="ContactoCard__kicker">Escríbenos</span>
-                                    <a className="ContactoCard__link" href="mailto:hola@quantum.com">
-                                        hola@quantum.com
+                                    <a className="ContactoCard__link" href="mailto:jffonseca@quantumsales.mx">
+                                        jffonseca@quantumsales.mx
                                     </a>
                                     <p>Envíanos contexto, enlaces y objetivos.</p>
                                 </article>
 
                                 <article className="ContactoCard">
                                     <span className="ContactoCard__kicker">Llámanos</span>
-                                    <a className="ContactoCard__link" href="tel:+525500000000">
-                                        +52 (55) 0000 0000
+                                    <a className="ContactoCard__link" href="tel:+525538278103">
+                                        +52 55 3827 8103
                                     </a>
                                     <p>De 9:00 a 18:00 (CDMX), lunes a viernes.</p>
                                 </article>
@@ -77,7 +77,7 @@ export default function Contacto() {
                             <div className="ContactoForm__row">
                                 <label>
                                     Teléfono
-                                    <input name="telefono" type="tel" placeholder="+52 55 0000 0000" />
+                                    <input name="telefono" type="tel" placeholder="+52 55 3827 8103" />
                                 </label>
                                 <label>
                                     Servicio de interés
@@ -93,19 +93,6 @@ export default function Contacto() {
                                     </select>
                                 </label>
                             </div>
-
-                            <label className="ContactoForm__full">
-                                Presupuesto estimado
-                                <select name="presupuesto" defaultValue="">
-                                    <option value="" disabled>
-                                        Selecciona un rango
-                                    </option>
-                                    <option value="menor-5k">Hasta $5,000 USD</option>
-                                    <option value="5k-15k">$5,000 - $15,000 USD</option>
-                                    <option value="15k-30k">$15,000 - $30,000 USD</option>
-                                    <option value="30k-plus">$30,000 USD o más</option>
-                                </select>
-                            </label>
 
                             <label className="ContactoForm__full">
                                 Cuéntanos del reto

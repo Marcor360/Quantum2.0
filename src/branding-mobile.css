@@ -1,0 +1,143 @@
+/* =========================
+   BRANDING MOBILE OPTIMIZATION
+========================= */
+
+@media (max-width: 768px) {
+
+    /* --- HERO --- */
+    .BrandingHero {
+        padding: 80px 0 40px;
+        /* Reduced padding */
+    }
+
+    .BrandingHero__title img {
+        width: 95% !important;
+        /* Title smaller */
+    }
+
+    .BrandingHero__subtitle {
+        font-size: 1.4rem;
+        margin-top: 10px;
+        padding: 0 15px;
+    }
+
+    .BrandingHero__bottom {
+        margin-top: 20px;
+        gap: 20px;
+    }
+
+    .BrandingHero__art {
+        width: 80vw;
+    }
+
+    .BrandingHero__copy {
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    .BrandingHero__lead {
+        font-size: 1.6rem;
+    }
+
+    .BrandingHero__text {
+        font-size: 1.25rem;
+    }
+
+    /* --- PRICE --- */
+    .BrandingPrice {
+        padding: 40px 0;
+    }
+
+    .BrandingPrice__title {
+        font-size: 12rem;
+        /* Was 30rem/20vw */
+        text-align: center;
+    }
+
+    .BrandingPrice__kicker {
+        font-size: 1.8rem;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .BrandingPrice__card {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .BrandingPrice__amount {
+        gap: 5px;
+    }
+
+    .BrandingPrice__number {
+        font-size: 8rem;
+    }
+
+    /* --- BENEFITS SLIDER --- */
+    .BrandingBenefits {
+        padding: 20px 0 40px;
+    }
+
+    .BrandingBenefits__pin {
+        padding-top: 20px;
+        gap: 15px;
+    }
+
+    .BrandingBenefits__titleSvg {
+        max-width: 220px;
+    }
+
+    .BrandingBenefits__viewport {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        /* Center and break container */
+        scrollbar-width: none;
+    }
+
+    .BrandingBenefits__viewport::-webkit-scrollbar {
+        display: none;
+    }
+
+    .BrandingBenefits__track {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 15px !important;
+        padding: 0 5vw !important;
+        width: max-content !important;
+    }
+
+    .BrandingBenefits__slide {
+        flex: 0 0 85vw !important;
+        scroll-snap-align: center;
+    }
+
+    .BrandingBenefits__card {
+        min-height: 380px !important;
+        height: 100%;
+    }
+
+    .BrandingBenefits__content {
+        padding: 40px 20px !important;
+    }
+
+    .BrandingBenefits__h3 {
+        font-size: 3.8rem !important;
+    }
+
+    .BrandingBenefits__p {
+        font-size: 1.3rem !important;
+    }
+
+    /* --- PROJECTS --- */
+    .BrandingProjects {
+        padding: 40px 0 60px;
+    }
+
+    .BrandingProjects__pill {
+        padding: 20px;
+        min-height: 80px;
+    }
+}

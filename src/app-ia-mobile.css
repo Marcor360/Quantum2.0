@@ -1,0 +1,160 @@
+/* =========================
+   CHATBOT + IA MOBILE OPTIMIZATION
+========================= */
+
+@media (max-width: 768px) {
+
+    /* --- HERO --- */
+    .AppIAHero {
+        padding: 80px 0 40px;
+    }
+
+    .AppIAHeroTop {
+        margin-bottom: 20px;
+    }
+
+    .AppIAHeroTitleImg {
+        width: 90% !important;
+    }
+
+    .AppIAHeroLead {
+        font-size: 1.4rem;
+        padding: 0 15px;
+        line-height: 1.4;
+    }
+
+    .AppIAHeroBottom {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .AppIAHeroVisual {
+        min-height: 220px;
+        order: 2;
+    }
+
+    .AppIAHeroAster {
+        width: 65%;
+    }
+
+    .AppIAHeroImg {
+        width: 60%;
+    }
+
+    .AppIAHeroCopy {
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    .AppIAHeroCopyLead {
+        font-size: 1.5rem;
+    }
+
+    /* --- PRICING SLIDER --- */
+    .AppIAPricing {
+        padding: 40px 0;
+    }
+
+    .AppIAPricing__title {
+        font-size: 3.2rem;
+        margin-bottom: 5px;
+    }
+
+    .AppIAPricing__subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        padding: 0 15px;
+    }
+
+    .AppIAPricing__wrapper {
+        padding: 20px 0;
+    }
+
+    .AppIAPricing__BgFrame {
+        display: none;
+        /* Marco no queda bien en mobile slider */
+    }
+
+    .AppIAPricing__grid {
+        display: flex !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory;
+        gap: 15px !important;
+        padding: 10px 5vw 40px !important;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        scrollbar-width: none;
+    }
+
+    .AppIAPricing__grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .AppIAPricingCard {
+        flex: 0 0 82vw !important;
+        scroll-snap-align: center;
+        min-height: 520px !important;
+    }
+
+    .AppIAPricingCard__title {
+        font-size: 3.2rem !important;
+    }
+
+    .AppIAPricingCard__price {
+        font-size: 4.8rem !important;
+    }
+
+    /* --- BENEFITS SLIDER --- */
+    .AppIABenefits {
+        padding: 20px 0 40px;
+    }
+
+    .AppIABenefits__pin {
+        padding-top: 20px;
+        gap: 15px;
+    }
+
+    .AppIABenefits__titleSvg {
+        max-width: 220px;
+    }
+
+    .AppIABenefits__viewport {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        scrollbar-width: none;
+    }
+
+    .AppIABenefits__viewport::-webkit-scrollbar {
+        display: none;
+    }
+
+    .AppIABenefits__track {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 15px !important;
+        padding: 0 5vw !important;
+        width: max-content !important;
+    }
+
+    .AppIABenefits__slide {
+        flex: 0 0 85vw !important;
+        scroll-snap-align: center;
+    }
+
+    .AppIABenefits__card {
+        min-height: 380px !important;
+        height: 100%;
+    }
+
+    .AppIABenefits__copy {
+        width: 85% !important;
+        left: 50% !important;
+        text-align: center;
+    }
+
+    .AppIABenefits__title {
+        font-size: 3.8rem !important;
+    }
+}

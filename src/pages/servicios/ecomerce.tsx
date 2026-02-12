@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Head from "../../components/Header";
 import Footer from "../../components/Footer";
 import "./ecomerce.css";
+import "../../ecomerce-mobile.css";
 
 // ===== Assets (src) =====
 import AsteriscoSvg from "../../assets/svg/Branding/ASTERISCO.svg";
