@@ -194,6 +194,7 @@ export default function Branding() {
     const benefitsRef = useRef<HTMLElement | null>(null);
     const pinRef = useRef<HTMLDivElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
+    const spacerRef = useRef<HTMLDivElement | null>(null);
 
     // Siempre iniciar arriba al cargar la página
     useEffect(() => {
@@ -217,6 +218,15 @@ export default function Branding() {
                     const trackEl = trackRef.current;
 
                     if (!sectionEl || !pinEl || !viewportEl || !trackEl) return;
+
+                    // Spacer manual para evitar rebote de pinSpacing
+                    let spacer = spacerRef.current;
+                    if (!spacer) {
+                        spacer = document.createElement("div");
+                        spacer.className = "BrandingBenefits__spacer";
+                        spacerRef.current = spacer;
+                        sectionEl.appendChild(spacer);
+                    }
 
                     const slides = gsap.utils.toArray<HTMLElement>(".BrandingBenefits__slide", trackEl);
                     const cards = gsap.utils.toArray<HTMLElement>(".BrandingBenefits__card", trackEl);
@@ -276,14 +286,20 @@ export default function Branding() {
 
                     const getEnd = () => STEP() * (slides.length + 1);
 
+                    const updateSpacer = () => {
+                        if (!spacer) return;
+                        spacer.style.height = `${getEnd()}px`;
+                    };
+                    updateSpacer();
+
                     const st = ScrollTrigger.create({
                         trigger: sectionEl,
-                        start: () => `top top+=${headerOffset}`,
+                        start: () => `top top+=${headerOffset - 10}`,
                         end: () => `+=${getEnd()}`,
                         pin: pinEl,
-                        pinSpacing: true,
-                        scrub: 1,
-                        anticipatePin: 1,
+                        pinSpacing: false,
+                        scrub: 0.45,
+                        anticipatePin: 0,
                         invalidateOnRefresh: true,
                         animation: tl,
 
@@ -294,7 +310,10 @@ export default function Branding() {
                         },
                     });
 
-                    const refresh = () => ScrollTrigger.refresh();
+                    const refresh = () => {
+                        updateSpacer();
+                        ScrollTrigger.refresh();
+                    };
                     const raf = requestAnimationFrame(refresh);
 
                     let ro: ResizeObserver | null = null;
@@ -316,6 +335,10 @@ export default function Branding() {
                         st.kill();
                         tl.kill();
                         sectionEl.classList.remove("is-enhanced");
+                        if (spacer && spacer.parentElement === sectionEl) {
+                            sectionEl.removeChild(spacer);
+                            spacerRef.current = null;
+                        }
                     };
                 });
             }, benefitsRef);

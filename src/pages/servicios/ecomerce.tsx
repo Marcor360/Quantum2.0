@@ -120,6 +120,7 @@ export default function Ecomerce() {
     const benefitsRef = useRef<HTMLElement | null>(null);
     const pinRef = useRef<HTMLDivElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
+    const spacerRef = useRef<HTMLDivElement | null>(null);
 
     // Scroll al inicio cuando se carga esta página
     useEffect(() => {
@@ -156,6 +157,15 @@ export default function Ecomerce() {
                     const trackEl = trackRef.current;
 
                     if (!sectionEl || !pinEl || !viewportEl || !trackEl) return;
+
+                    // Spacer para eliminar rebote al anclar
+                    let spacer = spacerRef.current;
+                    if (!spacer) {
+                        spacer = document.createElement("div");
+                        spacer.className = "EcomBenefits__spacer";
+                        spacerRef.current = spacer;
+                        sectionEl.appendChild(spacer);
+                    }
 
                     const slides = gsap.utils.toArray<HTMLElement>(".EcomBenefits__slide", trackEl);
                     const cards = gsap.utils.toArray<HTMLElement>(".EcomBenefits__card", trackEl);
@@ -214,14 +224,20 @@ export default function Ecomerce() {
 
                     const getEnd = () => STEP() * (slides.length + 1);
 
+                    const updateSpacer = () => {
+                        if (!spacer) return;
+                        spacer.style.height = `${getEnd()}px`;
+                    };
+                    updateSpacer();
+
                     const st = ScrollTrigger.create({
                         trigger: sectionEl,
-                        start: () => `top top+=${headerOffset}`,
+                        start: () => `top top+=${headerOffset - 10}`,
                         end: () => `+=${getEnd()}`,
                         pin: pinEl,
-                        pinSpacing: true,
-                        scrub: 1,
-                        anticipatePin: 1,
+                        pinSpacing: false,
+                        scrub: 0.45,
+                        anticipatePin: 0,
                         invalidateOnRefresh: true,
                         animation: tl,
                         onUpdate: (self) => {
@@ -231,7 +247,10 @@ export default function Ecomerce() {
                         },
                     });
 
-                    const refresh = () => ScrollTrigger.refresh();
+                    const refresh = () => {
+                        updateSpacer();
+                        ScrollTrigger.refresh();
+                    };
                     const raf = requestAnimationFrame(refresh);
 
                     let ro: ResizeObserver | null = null;
@@ -252,6 +271,10 @@ export default function Ecomerce() {
                         st.kill();
                         tl.kill();
                         sectionEl.classList.remove("is-enhanced");
+                        if (spacer && spacer.parentElement === sectionEl) {
+                            sectionEl.removeChild(spacer);
+                            spacerRef.current = null;
+                        }
                     };
                 });
             }, benefitsRef);
@@ -321,15 +344,15 @@ export default function Ecomerce() {
 
                 {/* PRICING (2 filas como el mockup) */}
                 <section className="EcomPricing">
-                    {/* Marco decorativo "detrás" - Movido fuera de EcomWrap para alcance total */}
-                    <img src={PricingBg} alt="" className="EcomPricing__BgFrame" aria-hidden="true" />
-
                     <div className="EcomWrap">
                         <header className="EcomPricing__head">
                         </header>
 
                         {/* Pricing Grid */}
                         <div className="EcomPricing__wrapper">
+                            {/* Marco decorativo solo para la primera fila */}
+                            <img src={PricingBg} alt="" className="EcomPricing__BgFrame" aria-hidden="true" />
+
                             <h2 className="EcomPricing__title">LLEVA TU NEGOCIO AL SIGUIENTE NIVEL</h2>
 
                             <p className="EcomPricing__subtitle">

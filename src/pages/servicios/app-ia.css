@@ -392,15 +392,18 @@
    BENEFICIOS (pin + slider desktop)
 ========================= */
 .AppIABenefits {
-    padding: clamp(10px, 3vw, 36px) 0 clamp(36px, 6vw, 90px);
+    padding: clamp(0px, 1.5vw, 18px) 0 clamp(32px, 5vw, 80px);
+    scroll-margin-top: calc(var(--header-h, 96px) + 12px);
 }
 
 .AppIABenefits__pin {
     display: grid;
     grid-template-columns: clamp(220px, 22vw, 320px) 1fr;
     gap: clamp(20px, 4vw, 60px);
-    align-items: center;
-    min-height: clamp(420px, 68vw, 760px);
+    align-items: flex-start;
+    height: calc(92vh - var(--header-h, 96px));
+    align-content: flex-start;
+    margin-top: clamp(6px, 1vw, 12px);
 }
 
 .AppIABenefits__left {
@@ -417,7 +420,7 @@
 
 .AppIABenefits__titleSvg {
     width: 100%;
-    max-width: clamp(240px, 24vw, 320px);
+    max-width: clamp(280px, 30vw, 380px);
     height: auto;
     display: block;
     filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.55));
@@ -448,6 +451,12 @@
     min-height: clamp(240px, 42vh, 520px);
     overflow: hidden;
     border-radius: clamp(16px, 1.8vw, 22px);
+}
+
+.AppIABenefits__spacer {
+    width: 1px;
+    height: 0;
+    pointer-events: none;
 }
 
 .AppIABenefits__bg {

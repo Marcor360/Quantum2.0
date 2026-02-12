@@ -140,7 +140,7 @@
 
 .BrandingHero__art {
     position: relative;
-    width: min(520px, 46vw);
+    width: min(620px, 54vw);
     margin-inline: auto;
     aspect-ratio: 1 / 1;
 }
@@ -160,9 +160,9 @@
 
 .BrandingHero__img {
     position: absolute;
-    inset: -4%;
-    width: 108%;
-    height: 108%;
+    inset: -8%;
+    width: 118%;
+    height: 118%;
     object-fit: contain;
     filter: drop-shadow(0 22px 52px rgba(0, 0, 0, 0.65));
 }
@@ -223,18 +223,18 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-chicle);
-    font-size: clamp(12.5rem, 18vw, 26rem);
+    font-size: clamp(16rem, 20vw, 30rem);
     line-height: 0.82;
 }
 
 .BrandingPrice__kicker {
-    margin: 10px 0 0;
+    margin: 16px 0 0;
     font-family: var(--font-subjectivity);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-electrico);
-    font-size: clamp(1.7rem, 1.9vw, 2.2rem);
+    font-size: clamp(2rem, 2.2vw, 2.6rem);
 }
 
 .BrandingPrice__card {
@@ -316,17 +316,18 @@
 
 .BrandingBenefits {
     /* sube el bloque: menos padding arriba */
-    padding: clamp(8px, 3vw, 36px) 0 clamp(36px, 6vw, 90px);
+    padding: clamp(0px, 1.5vw, 18px) 0 clamp(32px, 5vw, 80px);
+    scroll-margin-top: calc(var(--header-h, 96px) + 12px);
 }
 
 .BrandingBenefits__pin {
     display: grid;
     grid-template-columns: clamp(200px, 20vw, 300px) 1fr;
     gap: clamp(20px, 4vw, 60px);
-    align-items: center;
-    height: calc(100vh - var(--header-h, 96px));
-    align-content: center;
-    margin-top: 0;
+    align-items: flex-start;
+    height: calc(92vh - var(--header-h, 96px));
+    align-content: flex-start;
+    margin-top: clamp(6px, 1vw, 12px);
     /* evita recorte superior */
 }
 
@@ -366,10 +367,16 @@
 
 .BrandingBenefits__titleSvg {
     width: 100%;
-    max-width: clamp(240px, 24vw, 320px);
+    max-width: clamp(280px, 30vw, 380px);
     height: auto;
     display: block;
     filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.55));
+}
+
+.BrandingBenefits__spacer {
+    width: 1px;
+    height: 0;
+    pointer-events: none;
 }
 
 /* Base card (mobile / sin enhanced) */
@@ -702,6 +709,23 @@
 
     .BrandingPrice__card {
         margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .BrandingHero__bottom {
+        justify-items: center;
+        text-align: center;
+        gap: 28px;
+    }
+
+    .BrandingHero__art {
+        width: min(360px, 90vw);
+        margin-inline: auto;
+    }
+
+    .BrandingHero__copy {
+        justify-self: center;
     }
 }
 

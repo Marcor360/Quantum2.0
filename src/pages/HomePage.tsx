@@ -15,6 +15,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import HomeLogoSplash from "../components/HomeLogoSplash/HomeLogoSplash";
 import LogoText from "../assets/svg/Logo-text.svg";
+import ArrowDown from "../assets/svg/Arrow-down.svg";
 
 // ===== Quantum 360 SVGs =====
 import Quantum360Fill from "../assets/svg/360/360 solo fill.svg";
@@ -33,6 +34,7 @@ import MundoQuantum from "../assets/svg/360/mundo-quantum.svg";
 import QuantumTextSvg from "../assets/svg/360/QUANTU TEXTO.svg";
 
 import "../index.css";
+import "../home-mobile.css";
 
 const MOBILE_MQ = "(max-width: 768px)";
 type Lang = "es" | "en";
@@ -220,12 +222,12 @@ const SERVICES: ServiceCard[] = [
   },
   {
     key: "app-ia",
-    title: "Apps & I.A",
+    title: "CHATBOT + I.A.",
     desc: "Automatización, agentes y sistemas a medida para mejorar procesos, foco y productividad.",
     to: "/servicios/app-e-ia",
     imgDesktop: "/img/appsIA.webp",
     imgMobile: "/img/appsIA-mobile.webp",
-    badge: "APPS & I.A",
+    badge: "CHATBOT + I.A.",
   },
   {
     key: "campañas",
@@ -241,7 +243,7 @@ const SERVICES: ServiceCard[] = [
 const SERVICE_TITLES: Record<ServiceCard["key"], Record<Lang, string>> = {
   branding: { es: "Branding", en: "Branding" },
   ecomerce: { es: "E-commerce", en: "E-commerce" },
-  "app-ia": { es: "Apps & I.A", en: "Apps & A.I." },
+  "app-ia": { es: "CHATBOT + I.A.", en: "Chatbot + A.I." },
   campañas: { es: "Campañas", en: "Campaigns" },
 };
 
@@ -1016,6 +1018,10 @@ export default function HomePage() {
               <source src={heroVideoSrc} type="video/mp4" />
             </video>
             <div className="home-hero__overlay" />
+          </div>
+
+          <div className="home-hero__scrollHint" aria-hidden="true">
+            <img src={ArrowDown} alt="" />
           </div>
         </section>
 

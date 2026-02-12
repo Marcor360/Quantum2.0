@@ -65,6 +65,23 @@ export default function Header() {
     const pillRef = useRef<HTMLDivElement | null>(null);
 
     const t = useMemo(() => copy[lang], [lang]);
+    const services = useMemo(
+        () =>
+            lang === "en"
+                ? [
+                      { label: "Chatbot + A.I.", to: "/servicios/app-e-ia" },
+                      { label: "Branding", to: "/servicios/branding" },
+                      { label: "Campaigns", to: "/servicios/campañas" },
+                      { label: "E-commerce", to: "/servicios/ecomerce" },
+                  ]
+                : [
+                      { label: "CHATBOT + I.A.", to: "/servicios/app-e-ia" },
+                      { label: "Branding", to: "/servicios/branding" },
+                      { label: "Campañas", to: "/servicios/campañas" },
+                      { label: "Ecommerce", to: "/servicios/ecomerce" },
+                  ],
+        [lang],
+    );
 
     // Actualizar el atributo lang del documento cuando cambia el idioma
     useEffect(() => {
@@ -128,7 +145,23 @@ export default function Header() {
                 <div className="q-header__pill" ref={pillRef}>
                     {/* Desktop: el nav se despliega aquí (inline) */}
                     <nav className="q-header__navDesktop" aria-label="Primary">
-                        <Link className="q-header__link" to="/servicios" onClick={close}>{t.services}</Link>
+                        <div className="q-header__dropdown">
+                            <Link className="q-header__link" to="/servicios" onClick={close}>
+                                {t.services}
+                            </Link>
+                            <div className="q-header__dropdownMenu" aria-label={t.services}>
+                                {services.map((item) => (
+                                    <Link
+                                        key={item.to}
+                                        className="q-header__submenuLink"
+                                        to={item.to}
+                                        onClick={close}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
                         <a className="q-header__link" href="#quantum" onClick={close}>{t.quantum}</a>
                         <a className="q-header__link" href="#proyectos" onClick={close}>{t.projects}</a>
                         <Link className="q-header__link" to="/contacto" onClick={close}>{t.contact}</Link>
@@ -179,7 +212,21 @@ export default function Header() {
                 </div>
 
                 <nav className="q-drawer__nav" aria-label="Mobile Menu">
-                    <Link className="q-drawer__link" to="/servicios" onClick={close}>{t.services}</Link>
+                    <div className="q-drawer__group">
+                        <Link className="q-drawer__link" to="/servicios" onClick={close}>{t.services}</Link>
+                        <div className="q-drawer__subLinks" aria-label={t.services}>
+                            {services.map((item) => (
+                                <Link
+                                    key={item.to}
+                                    className="q-drawer__subLink"
+                                    to={item.to}
+                                    onClick={close}
+                                >
+                                    {item.label}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
                     <a className="q-drawer__link" href="#quantum" onClick={close}>{t.quantum}</a>
                     <a className="q-drawer__link" href="#proyectos" onClick={close}>{t.projects}</a>
                     <Link className="q-drawer__link" to="/contacto" onClick={close}>{t.contact}</Link>

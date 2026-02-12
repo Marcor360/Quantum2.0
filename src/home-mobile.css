@@ -1,0 +1,110 @@
+/* src/home-mobile.css */
+
+@media (max-width: 768px) {
+
+    /* 1. Reduce Dead Spaces */
+    .quote-section,
+    .question-section {
+        min-height: auto !important;
+        padding: clamp(60px, 12vw, 100px) 20px !important;
+    }
+
+    .quote-section__content {
+        min-height: auto !important;
+        padding: 0 !important;
+        gap: 24px !important;
+    }
+
+    .q360 {
+        padding: 40px 0 !important;
+    }
+
+    .q-cta {
+        padding: 60px 20px !important;
+    }
+
+    /* 2. Resolve Stack (Circles) to Slider */
+    .resolve-stack {
+        padding: 40px 0 !important;
+        overflow: hidden !important;
+    }
+
+    .resolve-stack__pin {
+        height: auto !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        position: relative !important;
+    }
+
+    .resolve-stack__title {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        margin-bottom: 30px !important;
+        font-size: clamp(3.2rem, 8vw, 4.8rem) !important;
+        display: block !important;
+        pointer-events: auto !important;
+    }
+
+    .resolve-stack__items {
+        position: relative !important;
+        inset: auto !important;
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        width: 100vw !important;
+        gap: 16px !important;
+        padding: 20px !important;
+        /* Scroll Snap for slider feel */
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        /* Firefox */
+    }
+
+    .resolve-stack__items::-webkit-scrollbar {
+        display: none !important;
+        /* Chrome, Safari, Opera */
+    }
+
+    .resolve-stack__item {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        flex: 0 0 calc(80vw - 40px) !important;
+        max-width: 300px !important;
+        height: auto !important;
+        aspect-ratio: 1/1 !important;
+        scroll-snap-align: center !important;
+        margin: 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* 3. Hero Video and Headline Adjustments */
+    .home-hero {
+        min-height: 80vh !important;
+        /* Avoid 100vh if content is short */
+    }
+
+    .home-services__title {
+        font-size: clamp(4.8rem, 12vw, 8rem) !important;
+    }
+
+    .home-services__intro {
+        padding-top: 40px !important;
+        padding-bottom: 20px !important;
+    }
+
+    /* Fix potential overflows */
+    body,
+    html {
+        overflow-x: hidden !important;
+        position: relative;
+    }
+}

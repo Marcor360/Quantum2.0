@@ -87,7 +87,7 @@ const COPY: Record<
         cardTitles: {
             branding: "BRANDING",
             marketing: "MARKETING DIGITAL",
-            appia: "APP E IA",
+            appia: "CHATBOT + I.A.",
             ecommerce: "E-COMMERCE",
         },
 
@@ -139,7 +139,7 @@ const COPY: Record<
         cardTitles: {
             branding: "BRANDING",
             marketing: "DIGITAL MARKETING",
-            appia: "APPS & A.I.",
+            appia: "CHATBOT + A.I.",
             ecommerce: "E-COMMERCE",
         },
 
