@@ -1,0 +1,97 @@
+@media screen and (max-width: 768px) {
+
+    /* Main container should allow negative margins if used for full-width look */
+    .CampanasPage {
+        overflow-x: hidden;
+    }
+
+    /* Layout adjustments */
+    .SMWrap {
+        width: 90% !important;
+    }
+
+    /* Price Section Slider */
+    .SMPriceGrid {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        gap: 1.2rem !important;
+        padding: 1.5rem 5vw 2.5rem !important;
+        width: 100vw !important;
+        margin-left: -5vw !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+    }
+
+    .SMPriceCard {
+        flex: 0 0 82% !important;
+        scroll-snap-align: center !important;
+        min-width: 260px !important;
+    }
+
+    /* Benefits Slider Enhancement */
+    .SMBenefitsTrack {
+        padding: 1rem 5vw 2rem !important;
+        width: 100vw !important;
+        margin-left: -5vw !important;
+        gap: 1.2rem !important;
+        display: flex !important;
+    }
+
+    .SMBenefitsCard {
+        flex: 0 0 88% !important;
+        min-height: auto !important;
+    }
+
+    /* Hide scrollbars for a cleaner look while keeping functionality */
+    .SMPriceGrid::-webkit-scrollbar,
+    .SMBenefitsTrack::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .SMPriceGrid::-webkit-scrollbar-thumb,
+    .SMBenefitsTrack::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+    }
+
+    /* Hero adjustments */
+    .SMHeroLogo {
+        margin: 0 auto;
+    }
+
+    .SMHeroGrid {
+        gap: 24px;
+    }
+
+    .SMHeroArt {
+        min-height: 220px !important;
+    }
+
+    /* Networks adjustments */
+    .SMTabs {
+        justify-content: center;
+    }
+
+    .SMNetworksInner {
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .SMNetworksIcon {
+        width: 140px !important;
+        height: 140px !important;
+    }
+
+    .SMNetworksIcon img {
+        width: 90px !important;
+        height: 90px !important;
+    }
+
+    .SMList {
+        text-align: left;
+    }
+}

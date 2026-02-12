@@ -24,7 +24,7 @@ import BenefitsCard04 from "../../assets/svg/Branding/Tarjeta Beneficio/4.svg";
 import BrandingTitleSvg from "../../assets/svg/Titulos/serv/BRANDING.svg";
 
 // ===== Imagen principal (public) =====
-const HERO_IMG = "/img/Branding/IMG_branding_principal_calidad.webp";
+const BRANDING_HERO_IMG = "/img/Branding/IMG_branding_principal_calidad.webp";
 
 // ===== Logos Marcas =====
 import CasaFlor from "../../assets/svg/Marcas/Casa Flor de Café.svg";
@@ -376,7 +376,7 @@ export default function Branding() {
                         <div className="BrandingHero__bottom">
                             <div className="BrandingHero__art" aria-hidden="true">
                                 <img className="BrandingHero__asterisco" src={AsteriscoBg} alt="" />
-                                <img className="BrandingHero__img" src={HERO_IMG} alt="" loading="eager" />
+                                <img className="BrandingHero__img" src={BRANDING_HERO_IMG} alt="" loading="eager" />
                             </div>
 
                             <div className="BrandingHero__copy">

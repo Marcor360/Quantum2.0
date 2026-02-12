@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useEffect } from "react";
+import { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -7,6 +7,9 @@ import Head from "../../components/Header";
 import Footer from "../../components/Footer";
 import "./app-ia.css";
 import "../../app-ia-mobile.css";
+
+import { useLang, type Lang } from "../../i18n/lang";
+import { formatMoney } from "../../config/currency";
 
 
 // ===== Assets (src) =====
@@ -22,14 +25,163 @@ import PricingBg from "../../assets/svg/Ecomerce/Desktop/Primera tabla ecommerce
 
 // Pricing card backgrounds
 import PricingCardBgDesktop from "../../assets/svg/Ecomerce/Desktop/tarjeta precios ecommerce.svg";
-import PricingCardGreenDesktop from "../../assets/svg/Ecomerce/Desktop/Precios.svg";
+import PricingGreenDesktop from "../../assets/svg/Ecomerce/Desktop/Precios.svg";
 import PricingCardYellowMobile from "../../assets/svg/Ecomerce/Mobile/tarjeta precio amarillo_mobile.svg";
 import PricingCardMobile from "../../assets/svg/Ecomerce/Mobile/tarjeta precio ecommerce mobile.svg";
 
 // ===== Assets (public) =====
-const HERO_IMG = "/img/Chat_IA/Principal.webp";
+const CHATBOT_IA_HERO_IMAGE_UNIQUE = "/img/Chat_IA/Principal.webp";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const APP_IA_COPY: Record<Lang, any> = {
+    es: {
+        heroLead: <>Diseñamos sistemas inteligentes de conversación<br />que venden y atienden por ti.</>,
+        heroBtn: "CONVERSEMOS",
+        heroCopyLead: "En Quantum desarrollamos ",
+        heroCopyHighlight: "sistemas inteligentes de conversación.",
+        heroText: "que automatizan la atención y convierten mensajes en oportunidades reales. No usamos bots genéricos; diseñamos experiencias alineadas con tu marca mediante estrategia, diseño de flujos, entrenamiento de IA e implementación personalizada para una comunicación eficiente y escalable.",
+
+        pricingTitle: "AUTOMATIZA Y CRECE SIN LÍMITES",
+        pricingSubtitle: "Implementación estratégica y personalizada",
+        pricingSubtitleRow: " para que tu negocio automatice sin fricciones",
+        pricingBtn: "CONTRATAR",
+        pricingBadgeAgencies: "Para Agencias",
+        pricingCustomSubtitle: "COTIZACIÓN PERSONALIZADA",
+
+        plans: [
+            {
+                variant: "starter",
+                title: "STARTER I.A.",
+                price: 4900,
+                bullets: [
+                    "Configuración inicial Chatbot.",
+                    "Respuestas automatizadas inteligentes.",
+                    "Integración básica (WhatsApp / Web).",
+                ],
+            },
+            {
+                variant: "growth",
+                title: "GROWTH I.A.",
+                price: 8900,
+                bullets: [
+                    "Diseño estratégico conversacional.",
+                    "Flujos de ventas automatizados.",
+                    "Integraciones CRM / Ecommerce.",
+                    "Optimización continua.",
+                ],
+            },
+            {
+                variant: "custom",
+                title: "CUSTOM I.A.",
+                bullets: [
+                    "Automatización avanzada",
+                    "Multi-canal",
+                    "IA entrenada con procesos internos",
+                    "Sistemas híbridos humano + IA",
+                ],
+            },
+        ],
+        benefits: [
+            {
+                title: "ATENCIÓN 24/7",
+                copy: "Responde automáticamente y evita perder clientes fuera de horario",
+                extraList: [
+                    "Automatización avanzada.",
+                    "Multi-canal",
+                    "IA entrenada con procesos internos",
+                    "Sistemas híbridos humano + IA",
+                ],
+                cta: "CONTRATAR",
+            },
+            {
+                title: "CONVERSIÓN AUTOMATIZADA",
+                copy: "Guía al usuario hacia acciones claras que generan resultados reales.",
+            },
+            {
+                title: "I.A. PERSONALIZADA",
+                copy: "Respuestas alineadas con un tono, estilo y objetivos comerciales.",
+            },
+            {
+                title: "AUTOMATIZACIÓN FLUIDA",
+                copy: "Optimiza procesos sin cambiar la forma en que ya trabajas.",
+            },
+        ]
+    },
+    en: {
+        heroLead: <>We design intelligent conversation systems<br />that sell and serve for you.</>,
+        heroBtn: "LET'S TALK",
+        heroCopyLead: "At Quantum, we develop ",
+        heroCopyHighlight: "intelligent conversation systems.",
+        heroText: "that automate service and convert messages into real opportunities. We don't use generic bots; we design experiences aligned with your brand through strategy, flow design, AI training, and custom implementation for efficient and scalable communication.",
+
+        pricingTitle: "AUTOMATE AND GROW WITHOUT LIMITS",
+        pricingSubtitle: "Strategic and personalized implementation",
+        pricingSubtitleRow: " so your business automates without friction",
+        pricingBtn: "GET STARTED",
+        pricingBadgeAgencies: "For Agencies",
+        pricingCustomSubtitle: "PERSONALIZED QUOTE",
+
+        plans: [
+            {
+                variant: "starter",
+                title: "STARTER A.I.",
+                price: 4900,
+                bullets: [
+                    "Initial Chatbot configuration.",
+                    "Intelligent automated responses.",
+                    "Basic integration (WhatsApp / Web).",
+                ],
+            },
+            {
+                variant: "growth",
+                title: "GROWTH A.I.",
+                price: 8900,
+                bullets: [
+                    "Strategic conversational design.",
+                    "Automated sales flows.",
+                    "CRM / Ecommerce integrations.",
+                    "Continuous optimization.",
+                ],
+            },
+            {
+                variant: "custom",
+                title: "CUSTOM A.I.",
+                bullets: [
+                    "Advanced automation",
+                    "Multi-channel",
+                    "AI trained with internal processes",
+                    "Hybrid human + AI systems",
+                ],
+            },
+        ],
+        benefits: [
+            {
+                title: "24/7 ATTENTION",
+                copy: "Respond automatically and avoid losing customers after hours",
+                extraList: [
+                    "Advanced automation.",
+                    "Multi-channel",
+                    "AI trained with internal processes",
+                    "Hybrid human + AI systems",
+                ],
+                cta: "GET STARTED",
+            },
+            {
+                title: "AUTOMATED CONVERSION",
+                copy: "Guide the user towards clear actions that generate real results.",
+            },
+            {
+                title: "PERSONALIZED A.I.",
+                copy: "Responses aligned with a tone, style, and commercial objectives.",
+            },
+            {
+                title: "FLUID AUTOMATION",
+                copy: "Optimize processes without changing the way you already work.",
+            },
+        ]
+    }
+};
 
 function getHeaderH(): number {
     if (typeof document === "undefined") return 96;
@@ -39,95 +191,11 @@ function getHeaderH(): number {
     return Number.isFinite(n) ? n : 96;
 }
 
-type PricingPlan = {
-    variant: "starter" | "growth" | "custom";
-    title: string;
-    price?: string;
-    badge?: string;
-    subtitle?: string;
-    bullets: string[];
-};
-
-const pricingPlans: PricingPlan[] = [
-    {
-        variant: "starter",
-        title: "STARTER I.A.",
-        price: "$ 4,900",
-        bullets: [
-            "Configuración inicial Chatbot.",
-            "Respuestas automatizadas inteligentes.",
-            "Integración básica (WhatsApp / Web).",
-        ],
-    },
-    {
-        variant: "growth",
-        title: "GROWTH I.A.",
-        price: "$ 8,900",
-        bullets: [
-            "Diseño estratégico conversacional.",
-            "Flujos de ventas automatizados.",
-            "Integraciones CRM / Ecommerce.",
-            "Optimización continua.",
-        ],
-    },
-    {
-        variant: "custom",
-        title: "CUSTOM I.A.",
-        badge: "Para Agencias",
-        subtitle: "COTIZACIÓN PERSONALIZADA",
-        bullets: [
-            "Automatización avanzada",
-            "Multi-canal",
-            "IA entrenada con procesos internos",
-            "Sistemas híbridos humano + IA",
-        ],
-    },
-];
-
-type Benefit = {
-    id: number;
-    image: string;
-    title: string;
-    copy: string;
-    extraList?: string[];
-    cta?: string;
-};
-
-const benefits: Benefit[] = [
-    {
-        id: 1,
-        image: BenefitCard01,
-        title: "ATENCIÓN 24/7",
-        copy: "Responde automáticamente y evita perder clientes fuera de horario",
-        extraList: [
-            "Automatización avanzada.",
-            "Multi-canal",
-            "IA entrenada con procesos internos",
-            "Sistemas híbridos humano + IA",
-        ],
-        cta: "CONTRATAR",
-    },
-    {
-        id: 2,
-        image: BenefitCard02,
-        title: "CONVERSIÓN AUTOMATIZADA",
-        copy: "Guía al usuario hacia acciones claras que generan resultados reales.",
-    },
-    {
-        id: 3,
-        image: BenefitCard03,
-        title: "I.A. PERSONALIZADA",
-        copy: "Respuestas alineadas con un tono, estilo y objetivos comerciales.",
-    },
-    {
-        id: 4,
-        image: BenefitCard04,
-        title: "AUTOMATIZACIÓN FLUIDA",
-        copy: "Optimiza procesos sin cambiar la forma en que ya trabajas.",
-    },
-];
 
 export default function App() {
+    const [lang] = useLang();
+    const t = useMemo(() => APP_IA_COPY[lang], [lang]);
+
     const asterRef = useRef<HTMLImageElement | null>(null);
 
     const benefitsRef = useRef<HTMLElement | null>(null);
@@ -156,7 +224,6 @@ export default function App() {
         return () => ctx.revert();
     }, []);
 
-    // Beneficios con pin/slide en desktop
     useLayoutEffect(() => {
         try {
             if (typeof window === "undefined" || typeof document === "undefined") return;
@@ -175,7 +242,7 @@ export default function App() {
 
                     if (!sectionEl || !pinEl || !viewportEl || !trackEl) return;
 
-                    // Spacer para eliminar rebote
+                    // Spacer manual para evitar rebote de pinSpacing
                     let spacer = spacerRef.current;
                     if (!spacer) {
                         spacer = document.createElement("div");
@@ -185,6 +252,7 @@ export default function App() {
                     }
 
                     const slides = gsap.utils.toArray<HTMLElement>(".AppIABenefits__slide", trackEl);
+                    const cards = gsap.utils.toArray<HTMLElement>(".AppIABenefits__card", trackEl);
                     if (slides.length < 2) return;
 
                     sectionEl.classList.add("is-enhanced");
@@ -199,27 +267,46 @@ export default function App() {
                         autoAlpha: 1,
                         yPercent: 100,
                     });
+
                     gsap.set(slides[0], { yPercent: 0 });
 
                     requestAnimationFrame(() => ScrollTrigger.refresh());
 
                     const tl = gsap.timeline();
+
                     slides.forEach((_slide, i) => {
                         const label = `s${i}`;
                         tl.addLabel(label, i);
+
                         if (i < slides.length - 1) {
-                            tl.fromTo(
-                                slides[i + 1],
-                                { yPercent: 100 },
-                                { yPercent: 0, duration: 1, ease: "none" },
-                                label
-                            );
+                            tl.fromTo(slides[i + 1], { yPercent: 100 }, { yPercent: 0, duration: 1, ease: "none" }, label);
                         }
                     });
 
+                    let activeIdx = -1;
+
+                    const setActive = (idx: number) => {
+                        if (idx === activeIdx) return;
+                        activeIdx = idx;
+
+                        slides.forEach((s, i) => {
+                            const isOn = i === idx;
+                            const card = cards[i];
+                            s.classList.toggle("is-active", isOn);
+                            s.style.pointerEvents = isOn ? "auto" : "none";
+                            if (card) card.classList.toggle("is-active", isOn);
+                        });
+                    };
+
+                    setActive(0);
+
                     const headerOffset = Math.round(getHeaderH());
-                    const STEP = () =>
-                        Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.75, 1);
+
+                    // Scroll distance por slide
+                    const STEP = () => Math.max(viewportEl.getBoundingClientRect().height || window.innerHeight * 0.75, 1);
+
+                    gsap.set(slides, { zIndex: (i) => i, position: "absolute", left: 0, top: 0, width: "100%", height: "100%" });
+
                     const getEnd = () => STEP() * (slides.length + 1);
 
                     const updateSpacer = () => {
@@ -238,6 +325,12 @@ export default function App() {
                         anticipatePin: 0,
                         invalidateOnRefresh: true,
                         animation: tl,
+
+                        onUpdate: (self) => {
+                            const idx = Math.round(self.progress * (slides.length - 1));
+                            const clamped = Math.min(slides.length - 1, Math.max(0, idx));
+                            setActive(clamped);
+                        },
                     });
 
                     const refresh = () => {
@@ -277,7 +370,7 @@ export default function App() {
                 ctx.revert();
             };
         } catch (err) {
-            console.error("AppIA Benefits ScrollTrigger init failed", err);
+            console.error("AppIABenefits ScrollTrigger init failed", err);
         }
     }, []);
 
@@ -292,34 +385,26 @@ export default function App() {
                         <header className="AppIAHeroTop">
                             <img className="AppIAHeroTitleImg" src={ChatbotTitleSvg} alt="CHATBOT + I.A." />
 
-                            <p className="AppIAHeroLead">
-                                Diseñamos sistemas inteligentes de conversación
-                                <br />
-                                que venden y atienden por ti.
-                            </p>
+                            <p className="AppIAHeroLead">{t.heroLead}</p>
 
                             <Link className="AppIABtn" to="/contacto">
-                                CONVERSEMOS
+                                {t.heroBtn}
                             </Link>
                         </header>
 
                         <div className="AppIAHeroBottom">
                             <div className="AppIAHeroVisual" aria-hidden="true">
                                 <img ref={asterRef} className="AppIAHeroAster" src={AsteriscoSvg} alt="" />
-                                <img className="AppIAHeroImg" src={HERO_IMG} alt="" />
+                                <img className="AppIAHeroImg" src={CHATBOT_IA_HERO_IMAGE_UNIQUE} alt="" />
                             </div>
 
                             <div className="AppIAHeroCopy">
                                 <p className="AppIAHeroCopyLead">
-                                    En Quantum desarrollamos{" "}
-                                    <span className="AppIATextYellow">sistemas inteligentes de conversación.</span>
+                                    {t.heroCopyLead}
+                                    <span className="AppIATextYellow">{t.heroCopyHighlight}</span>
                                 </p>
 
-                                <p>
-                                    que automatizan la atención y convierten mensajes en oportunidades reales. No usamos bots genéricos;
-                                    diseñamos experiencias alineadas con tu marca mediante estrategia, diseño de flujos, entrenamiento de
-                                    IA e implementación personalizada para una comunicación eficiente y escalable.
-                                </p>
+                                <p>{t.heroText}</p>
                             </div>
                         </div>
                     </div>
@@ -328,62 +413,65 @@ export default function App() {
                 {/* PRICING */}
                 <section className="AppIAPricing">
                     <div className="AppIAWrap">
-                        <h2 className="AppIAPricing__title">AUTOMATIZA Y CRECE SIN LÍMITES</h2>
+                        <h2 className="AppIAPricing__title">{t.pricingTitle}</h2>
                         <p className="AppIAPricing__subtitle">
-                            <span>Implementación estratégica y personalizada</span> para que tu negocio automatice sin fricciones
+                            <span>{t.pricingSubtitle}</span>{t.pricingSubtitleRow}
                         </p>
 
                         <div className="AppIAPricing__wrapper">
                             <img src={PricingBg} alt="" className="AppIAPricing__BgFrame" aria-hidden="true" />
 
                             <div className="AppIAPricing__grid">
-                                {pricingPlans.map((plan) => (
-                                    <article key={plan.variant} className={`AppIAPricingCard AppIAPricingCard--${plan.variant}`}>
-                                        {/* Background responsive por plan */}
-                                        <picture className="AppIAPricingCard__bg">
-                                            <source
-                                                media="(max-width: 768px)"
-                                                srcSet={plan.variant === "custom" ? PricingCardYellowMobile : PricingCardMobile}
-                                            />
-                                            <img
-                                                src={plan.variant === "custom" ? PricingCardGreenDesktop : PricingCardBgDesktop}
-                                                alt=""
-                                                aria-hidden="true"
-                                            />
-                                        </picture>
+                                {t.plans.map((plan: any) => {
+                                    const { amount, suffix } = plan.price ? formatMoney(plan.price, lang) : { amount: "", suffix: "" };
+                                    return (
+                                        <article key={plan.variant} className={`AppIAPricingCard AppIAPricingCard--${plan.variant}`}>
+                                            {/* Background responsive por plan */}
+                                            <picture className="AppIAPricingCard__bg">
+                                                <source
+                                                    media="(max-width: 768px)"
+                                                    srcSet={plan.variant === "custom" ? PricingCardYellowMobile : PricingCardMobile}
+                                                />
+                                                <img
+                                                    src={plan.variant === "custom" ? PricingGreenDesktop : PricingCardBgDesktop}
+                                                    alt=""
+                                                    aria-hidden="true"
+                                                />
+                                            </picture>
 
-                                        <div className="AppIAPricingCard__content">
-                                            <div className="AppIAPricingCard__head">
-                                                <h3 className="AppIAPricingCard__title">{plan.title}</h3>
-                                                {plan.badge ? <span className="AppIAPricingCard__badge">{plan.badge}</span> : null}
+                                            <div className="AppIAPricingCard__content">
+                                                <div className="AppIAPricingCard__head">
+                                                    <h3 className="AppIAPricingCard__title">{plan.title}</h3>
+                                                    {plan.variant === "custom" ? <span className="AppIAPricingCard__badge">{t.pricingBadgeAgencies}</span> : null}
+                                                </div>
+
+                                                <div className="AppIAPricingCard__mid">
+                                                    {plan.price ? (
+                                                        <div className="AppIAPricingCard__price">
+                                                            $ {amount} <small>{suffix}</small>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="AppIAPricingCard__price AppIAPricingCard__price--custom">
+                                                            {t.pricingCustomSubtitle}
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                <ul className="AppIAPricingCard__bullets">
+                                                    {plan.bullets.map((b: string) => (
+                                                        <li key={b}>{b}</li>
+                                                    ))}
+                                                </ul>
+
+                                                <div className="AppIAPricingCard__action">
+                                                    <Link to="/contacto" className="AppIAPricingCard__btn">
+                                                        {t.pricingBtn}
+                                                    </Link>
+                                                </div>
                                             </div>
-
-                                            <div className="AppIAPricingCard__mid">
-                                                {plan.price ? (
-                                                    <div className="AppIAPricingCard__price">
-                                                        {plan.price} <small>MXN</small>
-                                                    </div>
-                                                ) : (
-                                                    <div className="AppIAPricingCard__price AppIAPricingCard__price--custom">
-                                                        {plan.subtitle}
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            <ul className="AppIAPricingCard__bullets">
-                                                {plan.bullets.map((b) => (
-                                                    <li key={b}>{b}</li>
-                                                ))}
-                                            </ul>
-
-                                            <div className="AppIAPricingCard__action">
-                                                <Link to="/contacto" className="AppIAPricingCard__btn">
-                                                    CONTRATAR
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </article>
-                                ))}
+                                        </article>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
@@ -399,34 +487,29 @@ export default function App() {
 
                             <div className="AppIABenefits__viewport">
                                 <div className="AppIABenefits__track" ref={trackRef}>
-                                    {benefits.map((b) => (
-                                        <div className="AppIABenefits__slide" key={b.id}>
-                                            <article className="AppIABenefits__card" aria-label={`Beneficio ${b.id}`}>
-                                                <img className="AppIABenefits__bg" src={b.image} alt="" />
+                                    {t.benefits.map((benefit: any, idx: number) => {
+                                        const benefitImages = [BenefitCard01, BenefitCard02, BenefitCard03, BenefitCard04];
+                                        return (
+                                            <div className="AppIABenefits__slide" key={idx}>
+                                                <article className="AppIABenefits__card" aria-label={`Beneficio ${idx + 1}`}>
+                                                    <img className="AppIABenefits__bg" src={benefitImages[idx]} alt="" aria-hidden="true" />
 
-                                                <div className={`AppIABenefits__copy ${b.id === 1 ? "is-primary" : ""}`}>
-                                                    <h3 className="AppIABenefits__title">{b.title}</h3>
-                                                    <p className="AppIABenefits__desc">{b.copy}</p>
+                                                    <div className={`AppIABenefits__copy ${idx === 0 ? "is-primary" : ""}`}>
+                                                        <h3 className="AppIABenefits__title">{benefit.title}</h3>
+                                                        <p className="AppIABenefits__desc">{benefit.copy}</p>
 
-                                                    {b.extraList ? (
-                                                        <ul className="AppIABenefits__list">
-                                                            {b.extraList.map((x) => (
-                                                                <li key={x}>{x}</li>
-                                                            ))}
-                                                        </ul>
-                                                    ) : null}
-
-                                                    {b.cta ? (
-                                                        <div className="AppIABenefits__cta">
-                                                            <Link to="/contacto" className="AppIABenefits__btn">
-                                                                {b.cta}
-                                                            </Link>
-                                                        </div>
-                                                    ) : null}
-                                                </div>
-                                            </article>
-                                        </div>
-                                    ))}
+                                                        {benefit.extraList && (
+                                                            <ul className="AppIAPricingCard__bullets" style={{ marginTop: "10px", opacity: 0.9 }}>
+                                                                {benefit.extraList.map((item: string) => (
+                                                                    <li key={item}>{item}</li>
+                                                                ))}
+                                                            </ul>
+                                                        )}
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>

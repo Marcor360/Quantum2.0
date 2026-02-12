@@ -69,17 +69,17 @@ export default function Header() {
         () =>
             lang === "en"
                 ? [
-                      { label: "Chatbot + A.I.", to: "/servicios/app-e-ia" },
-                      { label: "Branding", to: "/servicios/branding" },
-                      { label: "Campaigns", to: "/servicios/campañas" },
-                      { label: "E-commerce", to: "/servicios/ecomerce" },
-                  ]
+                    { label: "Chatbot + A.I.", to: "/servicios/app-e-ia" },
+                    { label: "Branding", to: "/servicios/branding" },
+                    { label: "Social Media", to: "/servicios/campanas" },
+                    { label: "E-commerce", to: "/servicios/ecomerce" },
+                ]
                 : [
-                      { label: "CHATBOT + I.A.", to: "/servicios/app-e-ia" },
-                      { label: "Branding", to: "/servicios/branding" },
-                      { label: "Campañas", to: "/servicios/campañas" },
-                      { label: "Ecommerce", to: "/servicios/ecomerce" },
-                  ],
+                    { label: "CHATBOT + I.A.", to: "/servicios/app-e-ia" },
+                    { label: "Branding", to: "/servicios/branding" },
+                    { label: "Campañas", to: "/servicios/campanas" },
+                    { label: "Ecommerce", to: "/servicios/ecomerce" },
+                ],
         [lang],
     );
 

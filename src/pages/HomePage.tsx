@@ -69,6 +69,7 @@ const HOME_COPY: Record<
     ctaTitle2: string;
     ctaText: string;
     ctaBtn: string;
+    methodology: string;
   }
 > = {
   es: {
@@ -93,6 +94,7 @@ const HOME_COPY: Record<
     ctaTitle2: "más ventas...",
     ctaText: "¿Deseas un diagnóstico sin costo de tu modelo actual?",
     ctaBtn: "Contáctanos",
+    methodology: "METODOLOGÍA",
   },
   en: {
     heroAria: "Main banner",
@@ -116,6 +118,7 @@ const HOME_COPY: Record<
     ctaTitle2: "more sales...",
     ctaText: "Want a free diagnosis of your current model?",
     ctaBtn: "Contact us",
+    methodology: "METHODOLOGY",
   },
 };
 
@@ -192,7 +195,7 @@ function splitQuoteIntoWords(el: HTMLParagraphElement): SplitResult {
 }
 
 type ServiceCard = {
-  key: "branding" | "ecomerce" | "app-ia" | "campañas";
+  key: "branding" | "ecomerce" | "app-ia" | "campanas";
   title: string;
   desc: string;
   to: string;
@@ -230,10 +233,10 @@ const SERVICES: ServiceCard[] = [
     badge: "CHATBOT + I.A.",
   },
   {
-    key: "campañas",
+    key: "campanas",
     title: "Campañas",
     desc: "Estrategia creativa + pauta para generar demanda, leads y ventas con medición real.",
-    to: "/servicios/campañas",
+    to: "/servicios/campanas",
     imgDesktop: "/img/campañas.webp",
     imgMobile: "/img/campañas-mobiles.webp",
     badge: "CAMPAÑAS",
@@ -244,7 +247,7 @@ const SERVICE_TITLES: Record<ServiceCard["key"], Record<Lang, string>> = {
   branding: { es: "Branding", en: "Branding" },
   ecomerce: { es: "E-commerce", en: "E-commerce" },
   "app-ia": { es: "CHATBOT + I.A.", en: "Chatbot + A.I." },
-  campañas: { es: "Campañas", en: "Campaigns" },
+  campanas: { es: "Campañas", en: "Campaigns" },
 };
 
 export default function HomePage() {
@@ -1127,7 +1130,7 @@ export default function HomePage() {
 
           <div className="Conteiner q360__inner q360-foreground">
             <div className="q360__labels">
-              <span className="q360__meta">METODOLOGÍA</span>
+              <span className="q360__meta">{t.methodology}</span>
               <img className="q360__brand" src={QuantumTextSvg} alt="Quantum" />
             </div>
 

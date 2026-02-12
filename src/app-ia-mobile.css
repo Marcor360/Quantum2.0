@@ -1,6 +1,6 @@
 /* =========================
    CHATBOT + IA MOBILE OPTIMIZATION
-========================= */
+ ========================= */
 
 @media (max-width: 768px) {
 
@@ -114,20 +114,12 @@
         gap: 15px;
     }
 
-    .AppIABenefits__titleSvg {
-        max-width: 220px;
-    }
-
     .AppIABenefits__viewport {
         overflow-x: auto !important;
         overflow-y: hidden !important;
         width: 100vw;
         margin-left: calc(-50vw + 50%);
         scrollbar-width: none;
-    }
-
-    .AppIABenefits__viewport::-webkit-scrollbar {
-        display: none;
     }
 
     .AppIABenefits__track {
@@ -139,22 +131,23 @@
     }
 
     .AppIABenefits__slide {
-        flex: 0 0 85vw !important;
+        width: 82vw !important;
+        flex: 0 0 82vw !important;
         scroll-snap-align: center;
     }
 
     .AppIABenefits__card {
-        min-height: 380px !important;
-        height: 100%;
+        min-height: 480px !important;
+        border-radius: 24px !important;
+    }
+
+    .AppIABenefits__bg {
+        object-fit: cover !important;
     }
 
     .AppIABenefits__copy {
-        width: 85% !important;
+        width: 88% !important;
         left: 50% !important;
-        text-align: center;
-    }
-
-    .AppIABenefits__title {
-        font-size: 3.8rem !important;
+        padding: 0;
     }
 }

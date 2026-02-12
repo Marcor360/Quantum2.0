@@ -41,7 +41,7 @@ const CARD_ASSETS: Record<
     marketing: {
         desktopSrc: "/img/campañas.webp",
         mobileSrc: "/img/campañas-mobiles.webp",
-        path: "/servicios/campañas",
+        path: "/servicios/campanas",
     },
     appia: {
         desktopSrc: "/img/appsIA.webp",
@@ -86,7 +86,7 @@ const COPY: Record<
 
         cardTitles: {
             branding: "BRANDING",
-            marketing: "MARKETING DIGITAL",
+            marketing: "SOCIAL MEDIA",
             appia: "CHATBOT + I.A.",
             ecommerce: "E-COMMERCE",
         },
@@ -138,7 +138,7 @@ const COPY: Record<
 
         cardTitles: {
             branding: "BRANDING",
-            marketing: "DIGITAL MARKETING",
+            marketing: "SOCIAL MEDIA",
             appia: "CHATBOT + A.I.",
             ecommerce: "E-COMMERCE",
         },

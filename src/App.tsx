@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage';
 import Serv from './pages/Servicios';
 import APP_IA from './pages/servicios/app-e-ia';
 import Branding from './pages/servicios/branding';
-import Campañas from './pages/servicios/campañas';
+import Campanas from './pages/servicios/campanas';
 import Ecomerce from './pages/servicios/ecomerce';
 {/*Contacto*/ }
 import Contacto from './pages/contacto';
@@ -18,7 +18,7 @@ function App() {
       {/*Servicios*/}
       <Route path="/servicios/app-e-ia" element={<APP_IA />} />
       <Route path="/servicios/branding" element={<Branding />} />
-      <Route path="/servicios/campañas" element={<Campañas />} />
+      <Route path="/servicios/campanas" element={<Campanas />} />
       <Route path="/servicios/ecomerce" element={<Ecomerce />} />
       {/*Contacto*/}
       <Route path="/contacto" element={<Contacto />} />
