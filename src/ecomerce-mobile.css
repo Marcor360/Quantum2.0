@@ -86,6 +86,7 @@
     .PricingCardYellow {
         flex: 0 0 80vw !important;
         scroll-snap-align: center;
+        height: auto !important;
         min-height: 480px !important;
     }
 

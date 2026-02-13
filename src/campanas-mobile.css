@@ -10,6 +10,11 @@
         width: 90% !important;
     }
 
+    .SMPricingTitle {
+        font-size: clamp(58px, 15vw, 94px) !important;
+        line-height: 0.88 !important;
+    }
+
     /* Price Section Slider */
     .SMPriceGrid {
         display: flex !important;
@@ -125,8 +130,26 @@
     }
 
     .SMNetworks .SMPanel {
-        padding-top: 16px !important;
+        padding-top: 34px !important;
         padding-bottom: 28px !important;
+    }
+
+    .SMNetworksFrame {
+        top: 10px !important;
+        border-radius: 24px !important;
+    }
+
+    .SMNetworks .SMH2 {
+        font-size: clamp(44px, 11vw, 72px) !important;
+        line-height: 0.9 !important;
+        max-width: 92% !important;
+    }
+
+    .SMNetworksScribble {
+        right: 2px !important;
+        top: 28px !important;
+        width: 28px !important;
+        height: 46px !important;
     }
 
     .SMNetworksInner {

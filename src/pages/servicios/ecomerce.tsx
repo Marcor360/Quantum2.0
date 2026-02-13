@@ -25,7 +25,6 @@ const WORLD_WEB = "/img/Ecommerce/web.webp";
 
 // ===== Assets (SVG Components) =====
 import PricingBg from "../../assets/svg/Ecomerce/Desktop/Primera tabla ecommerce_1.svg";
-import PricingCardBg from "../../assets/svg/Ecomerce/Desktop/tarjeta precios ecommerce.svg";
 import EcommerceTitleSvg from "../../assets/svg/Titulos/serv/ECOMMERCE.svg";
 
 // ===== Data =====
@@ -72,11 +71,11 @@ const ECOM_COPY: Record<Lang, any> = {
             { title: "OMNIPRESENTE | ANUAL", price: 50000 }
         ],
         plansSecondary: [
-            { title: "ESENCIAL | ANUAL", price: "11,250 - 15,000" },
-            { title: "INDISPENSABLE | ANUAL", price: "15,000 - 20,000" },
-            { title: "TODO EN UNO | ANUAL", price: "18,750 - 25,000" },
-            { title: "PROFESIONAL | ANUAL", price: "22,500 - 30,000" },
-            { title: "OMNIPRESENTE | ANUAL", price: "26,250 - 35,000" }
+            { title: "ESENCIAL | ANUAL", price: "15,000" },
+            { title: "INDISPENSABLE | ANUAL", price: "20,000" },
+            { title: "TODO EN UNO | ANUAL", price: "25,000" },
+            { title: "PROFESIONAL | ANUAL", price: "30,000" },
+            { title: "OMNIPRESENTE | ANUAL", price: "35,000" }
         ],
         benefits: [
             { title: "DISEÑO ADAPTABLE", copy: "Tu sitio se ve y funciona perfecto en cualquier dispositivo." },
@@ -127,11 +126,11 @@ const ECOM_COPY: Record<Lang, any> = {
             { title: "OMNIPRESENTE | ANUAL", price: 50000 }
         ],
         plansSecondary: [
-            { title: "ESENCIAL | ANUAL", price: "11,250 - 15,000" },
-            { title: "INDISPENSABLE | ANUAL", price: "15,000 - 20,000" },
-            { title: "TODO EN UNO | ANUAL", price: "18,750 - 25,000" },
-            { title: "PROFESIONAL | ANUAL", price: "22,500 - 30,000" },
-            { title: "OMNIPRESENTE | ANUAL", price: "26,250 - 35,000" }
+            { title: "ESENCIAL | ANUAL", price: "15,000" },
+            { title: "INDISPENSABLE | ANUAL", price: "20,000" },
+            { title: "TODO EN UNO | ANUAL", price: "25,000" },
+            { title: "PROFESIONAL | ANUAL", price: "30,000" },
+            { title: "OMNIPRESENTE | ANUAL", price: "35,000" }
         ],
         benefits: [
             { title: "DISEÑO ADAPTABLE", copy: "Tu sitio se ve y funciona perfecto en cualquier dispositivo." },
@@ -403,9 +402,6 @@ export default function Ecomerce() {
                                     const { amount, suffix } = formatMoney(plan.price, lang);
                                     return (
                                         <article key={i} className="PricingCard">
-                                            {/* Imagen de fondo absoluta para mejor escalado */}
-                                            <img src={PricingCardBg} alt="" className="PricingCard__bg" aria-hidden="true" />
-
                                             <div className="PricingCard__content">
                                                 <span className="PricingCard__label">{t.pricingLabelOptimized}</span>
                                                 <h3 className="PricingCard__title">{plan.title}</h3>
@@ -417,11 +413,12 @@ export default function Ecomerce() {
                                                 </div>
 
                                                 <p className="PricingCard__renewal">{t.pricingRenewal("200")}</p>
-                                            </div>
-                                            <div className="PricingCard__action">
-                                                <Link to="/contacto" className="EcomBtn PricingCard__btn">
-                                                    {t.pricingBtn}
-                                                </Link>
+
+                                                <div className="PricingCard__action">
+                                                    <Link to="/contacto" className="EcomBtn PricingCard__btn">
+                                                        {t.pricingBtn}
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </article>
                                     );
@@ -446,9 +443,6 @@ export default function Ecomerce() {
 
                                     return (
                                         <article key={i} className="PricingCardYellow">
-                                            {/* Imagen de fondo absoluta */}
-                                            <img src={PricingCardBg} alt="" className="PricingCardYellow__bg" aria-hidden="true" />
-
                                             <div className="PricingCardYellow__content">
                                                 <span className="PricingCardYellow__label">{t.pricingLabelCustom}</span>
                                                 <h3 className="PricingCardYellow__title">{plan.title}</h3>
@@ -460,11 +454,12 @@ export default function Ecomerce() {
                                                 </div>
 
                                                 <p className="PricingCardYellow__renewal">{t.pricingRenewal("200")}</p>
-                                            </div>
-                                            <div className="PricingCardYellow__action">
-                                                <Link to="/contacto" className="PricingCardYellow__btn">
-                                                    {t.pricingBtn}
-                                                </Link>
+
+                                                <div className="PricingCardYellow__action">
+                                                    <Link to="/contacto" className="PricingCardYellow__btn">
+                                                        {t.pricingBtn}
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </article>
                                     );

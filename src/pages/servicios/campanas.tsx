@@ -12,8 +12,6 @@ import { formatMoney } from "../../config/currency";
 import AsteriscoSvg from "../../assets/svg/Branding/ASTERISCO.svg";
 import SocialMediaMainImg from "/img/Socialmedia/imgprin.webp";
 import SocialMediaTitle from "../../assets/svg/Titulos/serv/SOCIAL_MEDIA.svg";
-import RedesCardFrame from "../../assets/svg/Ecomerce/Desktop/Primera tabla ecommerce_1.svg";
-import RedesInfoCardFrame from "../../assets/svg/socialmedia/Tarjeta redes sociales para tu marca.svg";
 import BenefitsTitleSvg from "../../assets/svg/Branding/Beneficios y degradado.svg";
 import BenefitCard01 from "../../assets/svg/Branding/Tarjeta Beneficio/1.svg";
 import BenefitCard02 from "../../assets/svg/Branding/Tarjeta Beneficio/2.svg";
@@ -192,11 +190,11 @@ const CAMPAIGN_COPY: Record<Lang, any> = {
             { name: "OMNIPRESENTE / MES", price: 3500, desc: "Seis redes sociales" },
         ],
         agencyPlansAnual: [
-            { name: "ESENCIAL | ANUAL", price: "11,250 - 15,000", desc: "Una red social" },
-            { name: "INDISPENSABLE | ANUAL", price: "15,000 - 20,000", desc: "Dos redes sociales" },
-            { name: "TODO EN UNO | ANUAL", price: "18,750 - 25,000", desc: "Tres redes sociales" },
-            { name: "PROFESIONAL | ANUAL", price: "22,500 - 30,000", desc: "Cuatro redes sociales" },
-            { name: "OMNIPRESENTE | ANUAL", price: "26,250 - 35,000", desc: "Seis redes sociales" },
+            { name: "ESENCIAL | ANUAL", price: "15,000", desc: "Una red social" },
+            { name: "INDISPENSABLE | ANUAL", price: "20,000", desc: "Dos redes sociales" },
+            { name: "TODO EN UNO | ANUAL", price: "25,000", desc: "Tres redes sociales" },
+            { name: "PROFESIONAL | ANUAL", price: "30,000", desc: "Cuatro redes sociales" },
+            { name: "OMNIPRESENTE | ANUAL", price: "35,000", desc: "Seis redes sociales" },
         ],
         benefits: [
             {
@@ -355,11 +353,11 @@ const CAMPAIGN_COPY: Record<Lang, any> = {
             { name: "OMNIPRESENT / MONTH", price: 3500, desc: "Six social networks" },
         ],
         agencyPlansAnual: [
-            { name: "ESSENTIAL | YEARLY", price: "11,250 - 15,000", desc: "One social network" },
-            { name: "INDISPENSABLE | YEARLY", price: "15,000 - 20,000", desc: "Two social networks" },
-            { name: "ALL IN ONE | YEARLY", price: "18,750 - 25,000", desc: "Three social networks" },
-            { name: "PROFESSIONAL | YEARLY", price: "22,500 - 30,000", desc: "Four social networks" },
-            { name: "OMNIPRESENTE | YEARLY", price: "26,250 - 35,000", desc: "Six social networks" },
+            { name: "ESSENTIAL | YEARLY", price: "15,000", desc: "One social network" },
+            { name: "INDISPENSABLE | YEARLY", price: "20,000", desc: "Two social networks" },
+            { name: "ALL IN ONE | YEARLY", price: "25,000", desc: "Three social networks" },
+            { name: "PROFESSIONAL | YEARLY", price: "30,000", desc: "Four social networks" },
+            { name: "OMNIPRESENTE | YEARLY", price: "35,000", desc: "Six social networks" },
         ],
         benefits: [
             {
@@ -635,6 +633,7 @@ export default function Campañas() {
                 <section className="SMSection SMNetworks">
                     <div className="SMWrap">
                         <div className="SMPanel">
+                            <div className="SMNetworksFrame" aria-hidden="true" />
                             <h2 className="SMH2 SMH2--pink">{t.networksTitle}</h2>
                             <p className="SMSub">{t.networksSub}</p>
 
@@ -654,15 +653,13 @@ export default function Campañas() {
                             </div>
 
                             <div className="SMNetworksCard">
-                                <img className="SMNetworksFrame" src={RedesCardFrame} alt="" aria-hidden="true" />
-
                                 <div className="SMNetworksInner">
                                     <div className="SMNetworksIcon">
                                         <img src={active.icon} alt={active.label} />
                                     </div>
 
                                     <div className="SMNetworksInfo">
-                                        <img className="SMNetworksInfoFrame" src={RedesInfoCardFrame} alt="" aria-hidden="true" />
+                                        <div className="SMNetworksInfoFrame" aria-hidden="true" />
                                         <div className="SMNetworksInfoContent">
                                             <h3 className="SMH3">{t.networksIncludes}</h3>
                                             <div className="SMHr" />
@@ -684,7 +681,7 @@ export default function Campañas() {
                 <section className="SMSection">
                     <div className="SMWrap">
                         <div className="SMPanel">
-                            <h2 className="SMH2 SMH2--center">
+                            <h2 className="SMH2 SMH2--center SMPricingTitle">
                                 <span className="SMH2--pink">{t.commercialTitle}</span>{" "}
                                 <span className="SMH2--yellow">{t.commercialTitleYellow}</span>
                             </h2>
@@ -740,9 +737,9 @@ export default function Campañas() {
                 <section className="SMSection">
                     <div className="SMWrap">
                         <div className="SMPanel">
-                            <h2 className="SMH2 SMH2--center">
+                            <h2 className="SMH2 SMH2--center SMPricingTitle">
                                 <span className="SMH2--pink">{t.agencyTitle}</span>{" "}
-                                <span className="SMH2--white">{t.agencyTitleWhite}</span>{" "}
+                                <span className="SMH2--pink">{t.agencyTitleWhite}</span>{" "}
                                 <span className="SMH2--yellow">{t.agencyTitleYellow}</span>
                             </h2>
 
