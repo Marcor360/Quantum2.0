@@ -320,7 +320,7 @@
 
 .PricingCard {
     position: relative;
-    background-color: transparent;
+    background: transparent !important;
     border: none;
     border-radius: 26px;
     overflow: visible;
@@ -475,6 +475,7 @@
 
 .PricingCardYellow {
     position: relative;
+    background: transparent !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -700,14 +701,14 @@
 
 .EcomBenefits__copy {
     position: absolute;
-    top: 50%;
-    left: 56%;
-    transform: translate(-50%, -50%);
+    top: clamp(162px, 29%, 238px);
+    left: clamp(170px, 22%, 282px);
+    transform: none;
     display: grid;
     gap: 14px;
     color: rgba(255, 255, 255, 0.96);
     z-index: 2;
-    width: min(62%, 600px);
+    width: min(46%, 520px);
     text-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
 }
 

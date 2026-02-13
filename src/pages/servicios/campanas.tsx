@@ -801,7 +801,7 @@ export default function Campañas() {
                             </div>
 
                             <div className="SMAgencyCTA">
-                                <a className="SMBtn SMBtn--ghost" href="#contacto">
+                                <a className="SMBtnAgency" href="#contacto">
                                     {t.agencyCTA}
                                 </a>
                             </div>

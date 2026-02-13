@@ -144,9 +144,11 @@
     }
 
     .EcomBenefits__copy {
-        width: 85% !important;
-        left: 50% !important;
-        text-align: center;
+        top: 118px !important;
+        left: 14% !important;
+        transform: none !important;
+        width: 72% !important;
+        text-align: left !important;
     }
 
     .EcomBenefits__title {

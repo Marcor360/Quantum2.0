@@ -120,7 +120,17 @@
     }
 
     .BrandingBenefits__content {
-        padding: 40px 20px !important;
+        position: absolute !important;
+        top: 118px !important;
+        left: 14% !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        width: 72% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        text-align: left !important;
+        align-items: flex-start !important;
     }
 
     .BrandingBenefits__h3 {

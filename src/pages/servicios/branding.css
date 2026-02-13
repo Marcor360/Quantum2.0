@@ -474,13 +474,24 @@
     }
 }
 
+.BrandingBenefits__h3 {
+    margin: 0;
+    font-family: var(--font-morganite);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-chicle);
+    font-size: clamp(4.2rem, 5vw, 7.4rem);
+    line-height: 0.92;
+}
+
 .BrandingBenefits__p {
     margin: 0;
     font-family: var(--font-subjectivity);
-    font-size: clamp(1.4rem, 1.8vw, 2.2rem);
+    font-size: clamp(1.2rem, 1.6vw, 2.1rem);
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.95);
-    max-width: 38ch;
+    max-width: 44ch;
 }
 
 /* Controls (steps + progress) */
@@ -542,26 +553,24 @@
         display: block;
     }
 
-    /* Centra verticalmente el bloque de texto dentro de la tarjeta
-       y le da un margen uniforme para que no quede pegado al borde superior. */
     .BrandingBenefits.is-enhanced .BrandingBenefits__content {
-        top: 50%;
-        left: 55%;
+        top: clamp(162px, 29%, 238px);
+        left: clamp(170px, 22%, 282px);
         right: auto;
         bottom: auto;
-        transform: translate(-50%, -50%);
-        width: min(65%, 600px);
+        transform: none;
+        width: min(46%, 520px);
         max-width: none;
         display: flex;
         flex-direction: column;
         gap: clamp(16px, 2vw, 24px);
-        justify-content: center;
+        justify-content: flex-start;
+        align-items: flex-start;
         text-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
     }
 
-    /* ✅ compensación: como ya no hay progress HTML, bajamos el título */
-    .BrandingBenefits__h3 {
-        margin-top: clamp(44px, 3.8vw, 64px);
+    .BrandingBenefits.is-enhanced .BrandingBenefits__h3 {
+        margin-top: 0;
     }
 
     /* ✅ Hardware acceleration for smooth scrolling */

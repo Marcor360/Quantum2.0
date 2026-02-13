@@ -146,8 +146,11 @@
     }
 
     .AppIABenefits__copy {
-        width: 88% !important;
-        left: 50% !important;
+        top: 118px !important;
+        left: 14% !important;
+        transform: none !important;
+        width: 72% !important;
         padding: 0;
+        text-align: left !important;
     }
 }

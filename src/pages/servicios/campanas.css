@@ -285,6 +285,7 @@
 
 /* ====== REDES ====== */
 .SMNetworks .SMPanel {
+    padding-top: clamp(34px, 4vw, 56px);
     padding-bottom: clamp(30px, 3.4vw, 46px);
 }
 
@@ -343,6 +344,7 @@
     border: 0;
     background: transparent;
     min-height: clamp(460px, 47vw, 700px);
+    margin-top: clamp(14px, 1.8vw, 26px);
 }
 
 .SMNetworksFrame {
@@ -497,16 +499,17 @@
 
 .SMPriceCard {
     position: relative;
+    background: transparent !important;
     border-radius: 26px;
-    padding: clamp(60px, 6vw, 82px) 24px clamp(70px, 7vw, 96px);
+    padding: clamp(65px, 6.5vw, 90px) 28px clamp(75px, 7.5vw, 105px);
     border: none;
-    min-height: clamp(480px, 50vw, 540px);
+    min-height: clamp(520px, 54vw, 600px);
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.55);
     overflow: visible;
     isolation: isolate;
     transition: transform 0.3s ease;
@@ -575,6 +578,10 @@
     opacity: 0.9;
 }
 
+.SMPriceNum.custom {
+    font-size: clamp(34px, 4vw, 42px);
+}
+
 .SMPriceDesc {
     font-size: clamp(12px, 1.3vw, 14px);
     opacity: 0.85;
@@ -608,9 +615,36 @@
 }
 
 .SMAgencyCTA {
-    margin-top: 16px;
+    margin-top: -60px;
     display: flex;
     justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+.SMAgencyCTA .SMBtnAgency {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding: 0 36px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-family: var(--font-subjectivity, "Subjectivity", system-ui, sans-serif);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--color-blanco);
+    background: linear-gradient(90deg, #0e0a1b 0%, #7c26a8 50%, #e054e0 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.SMAgencyCTA .SMBtnAgency:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(224, 84, 224, 0.35);
+    opacity: 0.95;
 }
 
 /* ====== BENEFICIOS (con scroll/pin) ====== */
@@ -679,14 +713,14 @@
 
 .SMBenefits__copy {
     position: absolute;
-    top: 50%;
-    left: 56%;
-    transform: translate(-50%, -50%);
+    top: clamp(162px, 29%, 238px);
+    left: clamp(170px, 22%, 282px);
+    transform: none;
     display: grid;
     gap: 14px;
     color: rgba(255, 255, 255, 0.96);
     z-index: 2;
-    width: min(62%, 600px);
+    width: min(46%, 520px);
     text-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
 }
 
@@ -794,7 +828,7 @@
 
 .SMCarouselStage {
     position: relative;
-    height: clamp(240px, 34vw, 420px);
+    height: clamp(400px, 45vw, 620px);
     overflow: hidden;
     touch-action: pan-y;
     user-select: none;
@@ -808,8 +842,8 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    width: min(56vw, 620px);
-    aspect-ratio: 4 / 3;
+    width: min(54vw, 540px);
+    aspect-ratio: 4 / 5;
     border-radius: 18px;
     overflow: hidden;
     opacity: 0;
@@ -825,6 +859,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top;
 }
 
 .SMCarouselItem.pos0 {
@@ -886,11 +921,11 @@
     }
 
     .SMCarouselStage {
-        height: clamp(220px, 48vw, 340px);
+        height: clamp(300px, 55vw, 480px);
     }
 
     .SMCarouselItem {
-        width: min(72vw, 520px);
+        width: min(72vw, 460px);
     }
 
     .SMCarouselItem.pos1 {
@@ -923,11 +958,11 @@
     }
 
     .SMCarouselStage {
-        height: clamp(200px, 62vw, 280px);
+        height: clamp(250px, 68vw, 380px);
     }
 
     .SMCarouselItem {
-        width: min(84vw, 410px);
+        width: min(84vw, 360px);
         border-radius: 14px;
     }
 
@@ -958,4 +993,3 @@
         display: none;
     }
 }
-

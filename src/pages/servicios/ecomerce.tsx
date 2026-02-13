@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef, useEffect, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -162,9 +162,6 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Ecomerce() {
     const [lang] = useLang();
     const t = useMemo(() => ECOM_COPY[lang], [lang]);
-
-    // Estado para controlar si se muestran precios mensuales o anuales
-    const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly");
 
     const asterRef = useRef<HTMLImageElement | null>(null);
 
@@ -401,24 +398,8 @@ export default function Ecomerce() {
                                 <span>{t.pricingSubtitle}</span>{t.pricingSubtitleRow}
                             </p>
 
-                            {/* Toggle Mensual/Anual */}
-                            <div className="EcomPricing__toggle">
-                                <button
-                                    className={`EcomPricing__toggleBtn ${billingPeriod === "monthly" ? "active" : ""}`}
-                                    onClick={() => setBillingPeriod("monthly")}
-                                >
-                                    Mensual
-                                </button>
-                                <button
-                                    className={`EcomPricing__toggleBtn ${billingPeriod === "annual" ? "active" : ""}`}
-                                    onClick={() => setBillingPeriod("annual")}
-                                >
-                                    Anual
-                                </button>
-                            </div>
-
                             <div className="EcomPricing__grid">
-                                {(billingPeriod === "monthly" ? t.plansMonthly : t.plans).map((plan: any, i: number) => {
+                                {t.plansMonthly.map((plan: any, i: number) => {
                                     const { amount, suffix } = formatMoney(plan.price, lang);
                                     return (
                                         <article key={i} className="PricingCard">
@@ -450,24 +431,8 @@ export default function Ecomerce() {
 
                         {/* Secondary Pricing Grid (Yellow/Neon) */}
                         <div className="EcomPricing__wrapper EcomPricingSecondary">
-                            {/* Toggle Mensual/Anual */}
-                            <div className="EcomPricing__toggle">
-                                <button
-                                    className={`EcomPricing__toggleBtn ${billingPeriod === "monthly" ? "active" : ""}`}
-                                    onClick={() => setBillingPeriod("monthly")}
-                                >
-                                    Mensual
-                                </button>
-                                <button
-                                    className={`EcomPricing__toggleBtn ${billingPeriod === "annual" ? "active" : ""}`}
-                                    onClick={() => setBillingPeriod("annual")}
-                                >
-                                    Anual
-                                </button>
-                            </div>
-
                             <div className="EcomPricing__grid">
-                                {(billingPeriod === "monthly" ? t.plansSecondaryMonthly : t.plansSecondary).map((plan: any, i: number) => {
+                                {t.plansSecondaryMonthly.map((plan: any, i: number) => {
                                     let amount;
                                     let suffix = "MX";
 

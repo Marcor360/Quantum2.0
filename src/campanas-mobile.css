@@ -85,9 +85,11 @@
     }
 
     .SMBenefits__copy {
-        width: 85% !important;
-        left: 50% !important;
-        text-align: center;
+        top: 118px !important;
+        left: 14% !important;
+        transform: none !important;
+        width: 72% !important;
+        text-align: left !important;
     }
 
     .SMBenefits__title {
@@ -122,6 +124,11 @@
         justify-content: center;
     }
 
+    .SMNetworks .SMPanel {
+        padding-top: 16px !important;
+        padding-bottom: 28px !important;
+    }
+
     .SMNetworksInner {
         grid-template-columns: minmax(200px, 240px) minmax(220px, 1fr) !important;
         align-items: center !important;
@@ -137,6 +144,7 @@
         --sm-networks-outer-width: 110% !important;
         --sm-networks-outer-height: 118% !important;
         min-height: 340px !important;
+        margin-top: 12px !important;
     }
 
     .SMNetworksIcon {
